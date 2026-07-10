@@ -1,0 +1,303 @@
+# =============================================================
+# 금융회사 디지털·AI 뉴스 수집 시스템 — config.yaml (v2.2)
+# 원칙: 수집은 넓게, 제외·분류·요약은 본문 확보 후 로컬 판단
+# =============================================================
+
+# -------------------------------------------------------------
+# 1. 검색 시간 조건
+# -------------------------------------------------------------
+time:
+  overlap_minutes: 60            # 검색 시작 = last_successful_run_at - 60분
+  first_run_hours: 24            # 첫 실행 fallback
+  monday_fallback: "FRI 13:00"   # 월요일 오전 + 실행기록 없음/실패 시
+  max_window_hours: 72           # 자동 수집 상한 (초과분은 잘린 구간 명시)
+
+# -------------------------------------------------------------
+# 2. 네이버 API
+# -------------------------------------------------------------
+naver_api:
+  display: 100
+  max_start: 1000
+  sort: date
+  stop_rule: full_page_old       # 페이지 전체가 기간 이전일 때만 중단
+  extra_page_after_old: 1        # 기간 외 기사 첫 발견 후 1페이지 추가 확인
+  daily_call_limit: 25000
+
+# -------------------------------------------------------------
+# 3. 검색용 서비스 키워드
+# -------------------------------------------------------------
+search_service_keywords:         # Tier 1 회사명 조합용 (8개)
+  - 앱
+  - 디지털
+  - AI
+  - 인공지능
+  - 생성형AI
+  - 플랫폼
+  - 비대면
+  - MTS
+
+search_service_keywords_lite:    # Tier 2 회사명 조합용 (4개)
+  - 앱
+  - 디지털
+  - AI
+  - 플랫폼
+
+group_service_keywords:          # 지주·그룹명 조합용
+  - AI
+  - 인공지능
+  - 디지털
+  - 플랫폼
+  - 데이터
+  - 생성형AI
+
+# 본문 관련성 판단용 (검색어 아님 — 로컬 매칭 전용)
+local_relevance_keywords:
+  - 리뉴얼
+  - 개편
+  - 고도화
+  - 출시
+  - 도입
+  - 확대
+  - 개선
+  - 탑재
+  - 적용
+  - 오픈
+  - 챗봇
+  - 마이데이터
+  - 간편결제
+  - 간편인증
+  - 슈퍼앱
+  - 개인화
+  - 자산관리
+  - UX
+  - UI
+
+# -------------------------------------------------------------
+# 4. Tier 1 — 5대 지주 + 인터넷은행·핀테크 (최대 커버리지)
+#    검색: 브랜드 단독 + 회사명×search_service_keywords + 그룹명×group_service_keywords
+# -------------------------------------------------------------
+tier1:
+
+  하나금융:
+    menu_id: hana
+    group_keywords: [하나금융그룹, 하나금융지주, 하나금융]
+    companies:
+      은행:      [하나은행]
+      증권:      [하나증권]
+      카드:      [하나카드]
+      캐피탈:    [하나캐피탈]
+      보험:      [하나생명, 하나손해보험]
+      저축은행:  [하나저축은행]
+      기타:      [하나자산운용, 하나벤처스, 하나에프앤아이, 하나자산신탁, 핀크]
+    brands_standalone: [하나원큐, 하나페이, 원큐페이, "하나증권 MTS", 아이부자]
+    brands_body_only:  [원큐]   # 노이즈로 단독 검색 제외, 본문 매칭만
+
+  신한금융:
+    menu_id: shinhan
+    group_keywords: [신한금융그룹, 신한금융지주, 신한금융]
+    companies:
+      은행:      [신한은행]
+      증권:      [신한투자증권]
+      카드:      [신한카드]
+      캐피탈:    [신한캐피탈]
+      보험:      [신한라이프, 신한EZ손해보험]
+      저축은행:  [신한저축은행]
+      기타:      [신한자산운용, 신한벤처투자, 제주은행]
+    brands_standalone: ["신한 슈퍼SOL", 신한슈퍼SOL, 슈퍼쏠, 슈퍼SOL, "신한 SOL", 신한SOL, 신한쏠, "신한 쏠", SOL페이, 쏠페이]
+    brands_body_only:  [쏠, SOL]
+
+  KB금융:
+    menu_id: kb
+    group_keywords: [KB금융그룹, KB금융지주, KB금융]
+    companies:
+      은행:      [KB국민은행, 국민은행]
+      증권:      [KB증권]
+      카드:      [KB국민카드, 국민카드]
+      캐피탈:    [KB캐피탈]
+      보험:      [KB손해보험, KB라이프, KB라이프생명]
+      저축은행:  [KB저축은행]
+      기타:      [KB자산운용, KB인베스트먼트, KB부동산신탁, KB데이타시스템]
+    brands_standalone: [KB스타뱅킹, 스타뱅킹, "KB Pay", KB페이, 리브넥스트, "리브 넥스트", "KB증권 MTS", 마블미니]
+    brands_body_only:  [리브]
+
+  우리금융:
+    menu_id: woori
+    group_keywords: [우리금융그룹, 우리금융지주, 우리금융]
+    companies:
+      은행:      [우리은행]
+      증권:      [우리투자증권]
+      카드:      [우리카드]
+      캐피탈:    [우리금융캐피탈]
+      보험:      [동양생명, ABL생명]
+      저축은행:  [우리금융저축은행]
+      기타:      [우리자산운용, 우리에프아이에스, 우리펀드서비스]
+    brands_standalone: [우리WON뱅킹, 우리WON, 원뱅킹, 우리페이, 위비]
+    brands_body_only:  [WON]
+
+  NH농협금융:
+    menu_id: nh
+    group_keywords: [NH농협금융지주, 농협금융지주, NH농협금융]
+    companies:
+      은행:      [NH농협은행, 농협은행]
+      증권:      [NH투자증권]
+      카드:      [NH농협카드, 농협카드]
+      캐피탈:    [NH농협캐피탈]
+      보험:      [NH농협생명, NH농협손해보험]
+      저축은행:  [NH저축은행]
+      기타:      [NH아문디자산운용, NH벤처투자]
+    brands_standalone: [NH올원뱅크, 올원뱅크, NH콕뱅크, 콕뱅크, "나무증권", NAMUH, 올원페이]
+    brands_body_only:  [올원]
+
+  인터넷은행핀테크:
+    menu_id: internet
+    group_keywords: []
+    companies:
+      카카오:    [카카오뱅크, 카카오페이, 카카오페이증권]
+      토스:      [토스, 토스뱅크, 토스증권, 토스페이, 비바리퍼블리카]
+      케이뱅크:  [케이뱅크, K뱅크, Kbank]
+      네이버:    [네이버페이, 네이버파이낸셜]
+    brands_standalone: []       # 회사명 자체가 브랜드 — 단독 검색으로 처리
+    brands_body_only:  []
+    standalone_mode: true        # 이 그룹은 회사명 자체를 단독 검색 (조합 불필요)
+
+# -------------------------------------------------------------
+# 5. Tier 2 — 지방·국책·비지주 (회사명×lite 4개 + 주요 앱 단독)
+# -------------------------------------------------------------
+tier2:
+
+  지방금융:
+    menu_id: regional
+    subgroups:
+      BNK금융: [BNK금융그룹, 부산은행, 경남은행, BNK투자증권, BNK캐피탈, BNK저축은행]
+      iM금융:  [iM금융그룹, iM뱅크, DGB대구은행, iM증권, iM캐피탈, iM라이프]
+      JB금융:  [JB금융그룹, 전북은행, 광주은행, JB우리캐피탈]
+    brands_standalone: [iM뱅크앱, 썸뱅크]
+
+  국책특수:
+    menu_id: policy
+    subgroups:
+      IBK: [IBK기업은행, 기업은행, IBK투자증권, IBK캐피탈]
+      KDB: [KDB산업은행, 산업은행]
+      수출입: [수출입은행]
+      수협: [Sh수협은행, 수협은행]
+    brands_standalone: [아이원뱅크, "i-ONE뱅크", "i-ONE Bank"]
+
+  비지주증권:
+    menu_id: securities
+    subgroups:
+      미래에셋: [미래에셋증권]
+      한국투자: [한국투자증권, 한국투자금융지주]
+      삼성증권: [삼성증권]
+      키움:     [키움증권]
+      대신:     [대신증권]
+      메리츠:   [메리츠증권, 메리츠금융지주]
+      기타증권: [유안타증권, 신영증권, 교보증권, 하이투자증권, 카카오페이증권]
+    brands_standalone: [영웅문, "M-able", 엠에이블, mPOP, "미래에셋 M-STOCK"]
+
+  비지주카드보험:
+    menu_id: cardins
+    subgroups:
+      삼성금융: [삼성카드, 삼성생명, 삼성화재, 삼성금융네트웍스]
+      현대:     [현대카드, 현대캐피탈, 현대해상]
+      롯데:     [롯데카드]
+      BC:       [BC카드, 비씨카드]
+      한화:     [한화생명, 한화손해보험]
+      교보:     [교보생명]
+      DB:       [DB손해보험, DB생명]
+      기타보험: [흥국생명, 미래에셋생명, 라이나생명, 캐롯손해보험]
+    brands_standalone: [모니모, 현대카드앱, 다이렉트원]
+
+# -------------------------------------------------------------
+# 6. 해외 금융회사 (네이버 API 기준 국내 보도만 — Tier 2 강도)
+# -------------------------------------------------------------
+overseas:
+  menu_id: overseas
+  subgroups:
+    JPMorgan:      [JP모건, 제이피모건, JPMorgan]
+    GoldmanSachs:  [골드만삭스, "Goldman Sachs"]
+    MorganStanley: [모건스탠리, "Morgan Stanley"]
+    BankOfAmerica: [뱅크오브아메리카, BoA]
+    Citi:          [씨티은행, 씨티그룹, Citigroup]
+    HSBC:          [HSBC]
+    DBS:           [DBS은행, DBS뱅크]
+    Revolut:       [레볼루트, Revolut]
+    Monzo:         [몬조, Monzo]
+    기타해외:      [스탠다드차타드, SC제일은행, 웰스파고, 누뱅크, Nubank]
+  search_keywords_combined: [AI, 디지털, 앱, 뱅킹]   # 해외사는 반드시 조합 검색 (노이즈 방지)
+
+# -------------------------------------------------------------
+# 7. 필터링
+# -------------------------------------------------------------
+filters:
+  sports_exclude: [축구, 야구, 농구, 배구, 골프, 감독, 선수, 월드컵, K리그, 프로야구, 올림픽, 구단, 홈런]
+  crime_exclude: [살인, 폭행, 성폭행, 마약, 강도, 절도, 구속, 입건, 피의자, 범행, 횡령, 배임]
+  # 아래 키워드 포함 시 범죄 필터에 걸려도 보류 → 디지털 관련성 재판단
+  security_override: [보이스피싱, 이상거래탐지, FDS, 이상금융거래, 해킹 대응, 인증 강화, 개인정보 보호, 금융사기 예방, 스미싱, 딥페이크 탐지]
+  promo_exclude_hint: [경품, 추첨, 이벤트 당첨, 할인 프로모션]   # 단순 홍보성 판단 보조 (제외 아닌 감점)
+
+# -------------------------------------------------------------
+# 8. 분류
+# -------------------------------------------------------------
+classification:
+  ai_keywords: [AI, 인공지능, 생성형AI, "생성형 AI", LLM, 대규모언어모델, "대규모 언어 모델", 에이전틱, "AI 에이전트", 머신러닝, 딥러닝]
+  sectors: [은행, 증권, 카드, 캐피탈, 보험, 저축은행, 기타]
+
+# -------------------------------------------------------------
+# 9. 중복 제거
+# -------------------------------------------------------------
+dedup:
+  batch_internal: [url_hash, norm_title_hash, body_hash, title_similarity, body_fingerprint]
+  title_similarity_threshold: 0.62     # 정규화 제목 자카드/시퀀스 유사도
+  body_fingerprint: simhash            # 해밍거리 3 이하 중복 판정
+  delivered_exclude: [url_hash_exact, norm_title_hash_exact]   # 과거분은 완전 일치만
+
+title_normalize:
+  remove_brackets: ["[단독]", "[속보]", "[인사]", "[게시판]", "[포토]", "[그래픽]", "[영상]", "[르포]", "[종합]"]
+  strip_quotes: true
+  collapse_spaces: true
+  lowercase_ascii: true
+  remove_press_prefix: true
+
+# -------------------------------------------------------------
+# 10. 요약 (기사 1건 = LLM 1회, 배치 금지)
+# -------------------------------------------------------------
+summarizer:
+  provider: groq                # groq | anthropic | openai
+  model: llama-3.1-8b-instant
+  batch: false                  # 절대 변경 금지
+  max_retries: 3
+  backoff_base_seconds: 2
+  style: "-함/-임/-할 계획 임원 보고용 간결체"
+  lines: 3
+  line_prefix: "*"
+  rules:
+    - 각 줄은 한 문장
+    - 주체·서비스·변화·영향 또는 계획 포함
+    - 본문에 없는 내용 추정 금지
+    - 약어는 처음 등장 시 괄호로 풀어씀
+  validation:
+    exact_lines: 3
+    each_starts_with: "*"
+    min_line_chars: 20
+
+# -------------------------------------------------------------
+# 11. HTML 아카이브
+# -------------------------------------------------------------
+html:
+  output_file: output/financial_news_archive.html
+  view: archive                 # DB 60일치 전체를 매 실행 재생성
+  menu_order: [all, hana, shinhan, kb, woori, nh, regional, policy, securities, cardins, internet, overseas]
+  group_articles_by: run_datetime      # 회차(요청 일시)별 타임라인
+  ledger: compact               # 수지 검증은 한 줄 요약바
+  show_failed_articles: inline  # 요약/추출 실패도 해당 카테고리에 카드로 수록
+  excluded_section: collapsible
+
+# -------------------------------------------------------------
+# 12. DB
+# -------------------------------------------------------------
+db:
+  path: news.db
+  retention_days: 60              # 반영 기사 보관
+  excluded_retention_days: 14     # 제외 기사 보관 (DB 비대화 방지)
+  store_full_body: false
+  delivered_after_html_success: true   # HTML rename 성공 후 트랜잭션으로만 처리
