@@ -7,10 +7,7 @@
 # 1. 검색 시간 조건
 # -------------------------------------------------------------
 time:
-  overlap_minutes: 60            # 검색 시작 = last_successful_run_at - 60분
-  first_run_hours: 24            # 첫 실행 fallback
-  monday_fallback: "FRI 13:00"   # 월요일 오전 + 실행기록 없음/실패 시
-  max_window_hours: 72           # 자동 수집 상한 (초과분은 잘린 구간 명시)
+  window_hours: 24               # 요청 시각 기준 최근 24시간 고정
 
 # -------------------------------------------------------------
 # 2. 네이버 API
@@ -263,7 +260,7 @@ title_normalize:
 # -------------------------------------------------------------
 summarizer:
   provider: groq                # groq | anthropic | openai
-  model: llama-3.1-8b-instant
+  model: llama-3.3-70b-versatile
   batch: false                  # 절대 변경 금지
   max_retries: 3
   backoff_base_seconds: 2

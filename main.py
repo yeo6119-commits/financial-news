@@ -22,23 +22,12 @@ load_dotenv()
 
 
 def calc_window(conn, cfg):
+    """요청 시각 기준 최근 24시간 고정.
+    (직전 실행 시각과 무관 — 기열람 제외로 중복 수록은 방지됨)"""
     now = dbm.now_kst()
-    t = cfg["time"]
-    last = dbm.get_last_successful_run(conn)
-    truncated_from = None
-
-    if last:
-        start = last - timedelta(minutes=t["overlap_minutes"])
-    elif now.weekday() == 0 and now.hour < 12:      # 월요일 오전 첫 실행
-        fri = now - timedelta(days=3)
-        start = fri.replace(hour=13, minute=0, second=0, microsecond=0)
-    else:
-        start = now - timedelta(hours=t["first_run_hours"])
-
-    if now - start > timedelta(hours=t["max_window_hours"]):
-        truncated_from = start
-        start = now - timedelta(hours=t["max_window_hours"])
-    return start, now, truncated_from
+    hours = cfg["time"].get("window_hours", 24)
+    start = now - timedelta(hours=hours)
+    return start, now, None    # truncated_from 없음
 
 
 def main():
@@ -172,7 +161,8 @@ def main():
         rows = dbm.get_archive_articles(conn, cfg["db"]["retention_days"])
         conn.rollback()  # 임시 마킹 취소 — 실제 delivered는 HTML 성공 후 커밋
         excluded_rows = dbm.get_run_excluded(conn, run_id)
-        out = htm.render(rows, stats, excluded_rows, cfg["html"]["output_file"])
+        history = dbm.get_run_history(conn, cfg["db"]["retention_days"])
+        out = htm.render(rows, stats, excluded_rows, cfg["html"]["output_file"], history)
         print(f"HTML 생성: {out}")
 
         # 10) delivered 트랜잭션 (HTML rename 성공 후에만)

@@ -172,6 +172,22 @@ def get_archive_articles(conn, days: int = 60):
     ).fetchall()
 
 
+def get_run_history(conn, days: int = 60):
+    """회차별 요청 시각·반영 건수·요약 성공/실패 집계 (HTML 이력 패널용)"""
+    cutoff = (now_kst() - timedelta(days=days)).isoformat()
+    return conn.execute(
+        """SELECT r.id, r.requested_at, r.search_start, r.search_end,
+                  r.raw_collected, r.api_calls, r.status,
+                  COUNT(CASE WHEN a.delivered=1 THEN 1 END) AS delivered_cnt,
+                  COUNT(CASE WHEN a.delivered=1 AND a.summary_ok=1 THEN 1 END) AS summary_ok_cnt,
+                  COUNT(CASE WHEN a.delivered=1 AND a.summary_ok=0 THEN 1 END) AS summary_fail_cnt
+           FROM runs r LEFT JOIN articles a ON a.run_id = r.id
+           WHERE r.requested_at >= ? AND r.status='success'
+           GROUP BY r.id ORDER BY r.id DESC""",
+        (cutoff,),
+    ).fetchall()
+
+
 def get_run_excluded(conn, run_id: int):
     return conn.execute(
         "SELECT * FROM articles WHERE run_id=? AND excluded=1", (run_id,)
@@ -210,6 +226,6 @@ def cleanup(conn, retention_days: int = 60, excluded_days: int = 14):
     conn.execute("DELETE FROM articles WHERE excluded=1 AND collected_at < ?", (ex_cutoff,))
     conn.execute("DELETE FROM runs WHERE requested_at < ?", (cutoff,))
     conn.commit()
-    conn.isolation_level = None      # autocommit — VACUUM 전제조건
+    conn.isolation_level = None
     conn.execute("VACUUM")
-    conn.isolation_level = ""        # 기본 모드 복귀
+    conn.isolation_level = ""

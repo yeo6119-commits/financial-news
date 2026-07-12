@@ -97,7 +97,7 @@ def summarize(article: dict, cfg: dict) -> dict:
     s = cfg["summarizer"]
     assert s["batch"] is False, "배치 요약은 금지됨 (v2.3 스펙)"
 
-    body = article["body"][:6000]           # 1건 기준 충분·안전한 길이
+    body = article["body"][:3000]           # 1건 기준 충분·안전한 길이
     payload = {
         "model": s["model"],
         "max_tokens": 500,

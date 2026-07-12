@@ -8,6 +8,7 @@
 import html as H
 import os
 from collections import OrderedDict
+from datetime import datetime
 
 MENU_LABELS = OrderedDict([
     ("all", "전체"), ("hana", "하나"), ("shinhan", "신한"), ("kb", "KB"),
@@ -42,10 +43,49 @@ background:transparent;border:1px solid var(--line);border-radius:6px;padding:4p
 nav.sub-menu button.active{background:var(--ink);border-color:var(--ink);color:#fff}
 nav.sub-menu button .n{font-size:10.5px;opacity:.7;margin-left:3px}
 nav.sub-menu.hidden{display:none}
+.search-wrap{position:relative;padding:0 0 9px}
+.search-wrap input{width:100%;font-family:inherit;font-size:13.5px;color:var(--ink);
+background:var(--card);border:1px solid var(--line);border-radius:8px;
+padding:8px 34px 8px 32px;outline:none}
+.search-wrap input:focus{border-color:var(--teal)}
+.search-wrap input::placeholder{color:var(--muted)}
+.search-wrap .ico{position:absolute;left:10px;top:8px;width:15px;height:15px;
+stroke:var(--muted);fill:none;stroke-width:2}
+.search-wrap .clr{position:absolute;right:8px;top:6px;border:none;background:transparent;
+color:var(--muted);font-size:16px;cursor:pointer;padding:2px 6px;display:none}
+.search-wrap .clr.show{display:block}
+.search-hits{font-size:11.5px;color:var(--teal);font-weight:600;padding:0 0 8px;display:none}
+.search-hits.show{display:block}
+mark{background:#fff3b0;color:inherit;border-radius:2px;padding:0 1px}
+
+/* 회차 이력 패널 */
+details.runlog{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:0 0 14px}
+details.runlog summary{cursor:pointer;list-style:none;padding:9px 13px;font-size:12.5px;
+font-weight:700;color:var(--teal)}
+details.runlog summary::-webkit-details-marker{display:none}
+details.runlog summary::after{content:"▾";float:right;color:var(--muted);font-weight:400}
+details.runlog[open] summary::after{content:"▴"}
+.rl-wrap{padding:0 13px 11px;max-height:300px;overflow-y:auto}
+.rl-row{display:flex;align-items:baseline;gap:8px;font-size:12.5px;padding:6px 0;
+border-bottom:1px dashed var(--line);font-variant-numeric:tabular-nums}
+.rl-row:last-child{border-bottom:none}
+.rl-when{font-weight:700;color:var(--ink);min-width:132px}
+.rl-ok{color:var(--teal);font-weight:700}
+.rl-sub{color:var(--muted);font-size:11.5px}
+.rl-fail{color:var(--warn);font-weight:600}
 .run-block{margin-top:18px}
+.run-block>summary{list-style:none;cursor:pointer}
+.run-block>summary::-webkit-details-marker{display:none}
 .run-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
-.run-head .dot{width:9px;height:9px;border-radius:50%;background:var(--teal)}
+.run-head .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);flex:0 0 auto}
 .run-head h2{font-size:14.5px;font-weight:800} .run-head .range{font-size:11.5px;color:var(--muted)}
+.run-head .cnt{font-size:11px;font-weight:700;color:var(--teal);background:var(--teal-soft);
+border-radius:20px;padding:1px 9px}
+.run-head .cnt.zero{color:var(--muted);background:#eef1f0}
+.run-head .caret{margin-left:auto;color:var(--muted);font-size:12px;transition:transform .15s}
+.run-block[open] .run-head .caret{transform:rotate(180deg)}
+.run-block:not([open]) .run-head .dot{background:var(--muted)}
+.run-block:not([open]) .run-head h2{font-weight:700;color:var(--muted)}
 .run-body{border-left:2px solid var(--line);margin-left:4px;padding-left:14px}
 .co-group{margin-bottom:2px}
 .article{border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:8px;
@@ -84,26 +124,53 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
 JS = """
 (function(){
 var coMenu=document.getElementById('menu'), subMenu=document.getElementById('submenu');
+var qBox=document.getElementById('q'), clr=document.getElementById('clr'), hits=document.getElementById('hits');
 if(!coMenu)return;
-var co='all', sub='all';
+var co='all', sub='all', q='';
 var SUBS = window.__SUBS__ || {};
+var arts = Array.prototype.slice.call(document.querySelectorAll('.article'));
 
+// 검색 대상 텍스트 캐시
+arts.forEach(function(a){ a.__txt = a.textContent.toLowerCase(); });
+
+function clearMarks(){
+  document.querySelectorAll('mark').forEach(function(m){
+    var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent), m); p.normalize();
+  });
+}
+function highlight(el, term){
+  if(!term) return;
+  var walker=document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false), nodes=[], n;
+  while(n=walker.nextNode()){ if(n.nodeValue.toLowerCase().indexOf(term)>-1) nodes.push(n); }
+  nodes.forEach(function(node){
+    var idx=node.nodeValue.toLowerCase().indexOf(term);
+    if(idx<0) return;
+    var after=node.splitText(idx), rest=after.splitText(term.length);
+    var mk=document.createElement('mark'); mk.textContent=after.nodeValue;
+    after.parentNode.replaceChild(mk, after);
+  });
+}
 function renderSub(){
   if(co==='all' || !SUBS[co] || SUBS[co].length<2){ subMenu.classList.add('hidden'); sub='all'; return; }
   subMenu.classList.remove('hidden');
-  var html = '<button data-sub="all" class="active">전체 <span class="n">'
-    + SUBS[co].reduce(function(s,x){return s+x[1];},0) + '</span></button>';
+  var total = SUBS[co].reduce(function(s,x){return s+x[1];},0);
+  var html = '<button data-sub="all" class="active">전체 <span class="n">'+total+'</span></button>';
   SUBS[co].forEach(function(x){
     html += '<button data-sub="'+x[0]+'">'+x[0]+' <span class="n">'+x[1]+'</span></button>';
   });
-  subMenu.innerHTML = html;
-  sub='all';
+  subMenu.innerHTML = html; sub='all';
 }
 function apply(){
-  document.querySelectorAll('.article').forEach(function(a){
-    var okCo = (co==='all' || a.dataset.co===co);
+  clearMarks();
+  var shown=0;
+  var filtering = !!q || co!=='all' || sub!=='all';
+  arts.forEach(function(a){
+    var okCo  = (co==='all'  || a.dataset.co===co);
     var okSub = (sub==='all' || a.dataset.sector===sub);
-    a.classList.toggle('hidden', !(okCo && okSub));
+    var okQ   = (!q || a.__txt.indexOf(q)>-1);
+    var vis = okCo && okSub && okQ;
+    a.classList.toggle('hidden', !vis);
+    if(vis){ shown++; if(q) highlight(a, q); }
   });
   document.querySelectorAll('.co-group').forEach(function(g){
     g.classList.toggle('hidden', g.querySelectorAll('.article:not(.hidden)').length===0);
@@ -111,11 +178,28 @@ function apply(){
   document.querySelectorAll('.run-block').forEach(function(r){
     var vis=r.querySelectorAll('.article:not(.hidden)').length;
     var em=r.querySelector('.empty-run');
-    if(vis===0){ if(!em){em=document.createElement('div');em.className='empty-run';
-      em.textContent='이 회차에는 해당 조건의 기사가 없습니다.';r.querySelector('.run-body').appendChild(em);}
+    if(vis===0){
+      if(!em){em=document.createElement('div');em.className='empty-run';
+        em.textContent='이 회차에는 해당 조건의 기사가 없습니다.';r.querySelector('.run-body').appendChild(em);}
       em.classList.remove('hidden');
-    } else if(em){em.classList.add('hidden');}
+    } else if(em){ em.classList.add('hidden'); }
+
+    // 자동 펼침 없음 — 사용자가 클릭할 때만 열림.
+    // 대신 헤더 배지에 현재 조건의 매칭 건수를 표시.
+    var cnt = r.querySelector('.cnt');
+    if(cnt){
+      if(filtering){
+        cnt.textContent = vis + '건';
+        cnt.classList.toggle('zero', vis===0);
+      } else {
+        cnt.textContent = (cnt.dataset.total || vis) + '건';
+        cnt.classList.remove('zero');
+      }
+    }
   });
+  if(q){ hits.textContent='"'+q+'" 검색 결과 '+shown+'건'; hits.classList.add('show'); }
+  else { hits.classList.remove('show'); }
+  clr.classList.toggle('show', !!q);
 }
 coMenu.addEventListener('click',function(e){
   var b=e.target.closest('button'); if(!b||b.disabled)return;
@@ -129,6 +213,12 @@ subMenu.addEventListener('click',function(e){
   subMenu.querySelectorAll('button').forEach(function(x){x.classList.toggle('active',x===b);});
   apply();
 });
+var t=null;
+qBox.addEventListener('input',function(){
+  clearTimeout(t);
+  t=setTimeout(function(){ q=qBox.value.trim().toLowerCase(); apply(); }, 180);
+});
+clr.addEventListener('click',function(){ qBox.value=''; q=''; apply(); qBox.focus(); });
 renderSub(); apply();
 })();
 """
@@ -169,7 +259,35 @@ def _sector_key(s):
     return SECTOR_ORDER.index(s) if s in SECTOR_ORDER else len(SECTOR_ORDER)
 
 
-def render(rows, run_stats: dict, excluded_rows, out_path: str):
+WEEK = "월화수목금토일"
+
+
+def _runlog(history) -> str:
+    """회차별 요청 이력 패널 — 요청 일시 / 반영 / 요약 성공"""
+    if not history:
+        return ""
+    items = ""
+    for r in history:
+        req = r["requested_at"] or ""
+        try:
+            dt = datetime.fromisoformat(req)
+            when = f"{dt:%Y-%m-%d} ({WEEK[dt.weekday()]}) {dt:%H:%M}"
+        except (ValueError, TypeError):
+            when = req[:16].replace("T", " ")
+        ok, fail = r["summary_ok_cnt"] or 0, r["summary_fail_cnt"] or 0
+        dl = r["delivered_cnt"] or 0
+        fail_html = f' <span class="rl-fail">요약실패 {fail}</span>' if fail else ""
+        items += (f'<div class="rl-row"><span class="rl-when">{H.escape(when)} 요청</span>'
+                  f'<span class="rl-ok">{dl}건 반영</span>'
+                  f'<span class="rl-sub">요약 성공 {ok}</span>{fail_html}'
+                  f'<span class="rl-sub">· 수집 {r["raw_collected"] or 0} · API {r["api_calls"] or 0}콜</span>'
+                  f'</div>')
+    total = sum((r["delivered_cnt"] or 0) for r in history)
+    return (f'<details class="runlog"><summary>요청 이력 {len(history)}회 · 누적 {total}건 반영</summary>'
+            f'<div class="rl-wrap">{items}</div></details>')
+
+
+def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None):
     runs = OrderedDict()
     counts = {k: 0 for k in MENU_LABELS}
     subs = {}          # menu_id -> {company: count}
@@ -198,22 +316,30 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str):
 
     import json
     subs_json = json.dumps(sub_js, ensure_ascii=False)
+    runlog = _runlog(history or [])
 
     run_html = ""
-    for rid, r in runs.items():
+    for i, (rid, r) in enumerate(runs.items()):
         m = r["meta"]
         req = (m["run_requested"] or "")[:16].replace("T", " ")
         rng = "검색 %s ~ %s" % ((m["run_start"] or "")[5:16].replace("T", " "),
                                (m["run_end"] or "")[5:16].replace("T", " "))
-        # 탭 → 업권 → 회사 순 정렬 (소제목 없이 카드만)
+        # 발행일 최신순 정렬 (pub_date 내림차순)
         blocks = "".join(_card(a) for a in sorted(
-            r["arts"], key=lambda x: (x["fin_group"], _sector_key(x["sector"]),
-                                      x["company"] or "")))
+            r["arts"], key=lambda x: (x["pub_date"] or ""), reverse=True))
+        # 최신 회차만 펼침, 과거 요청분은 접어둠
+        is_latest = (i == 0)
+        opened = " open" if is_latest else ""
+        label = f"{req} 요청분" + ("" if is_latest else " (과거)")
         run_html += f"""
-<section class="run-block">
- <div class="run-head"><span class="dot"></span><h2>{req} 요청분</h2><span class="range">{rng}</span></div>
+<details class="run-block"{opened}>
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>{label}</h2>
+   <span class="cnt" data-total="{len(r['arts'])}">{len(r['arts'])}건</span>
+   <span class="range">{rng}</span><span class="caret">▾</span></div>
+ </summary>
  <div class="run-body">{blocks}</div>
-</section>"""
+</details>"""
 
     ex_html = ""
     if excluded_rows:
@@ -252,9 +378,16 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str):
 <h1>금융회사 디지털·AI 뉴스 아카이브</h1>
 <div class="gen-meta">최종 갱신 {s.get("generated_at","")} · 보관 60일 · 뉴스(네이버 API) + 보도자료(9개 그룹)</div></header>
 <div class="ledger-line">{ledger}</div>
+{runlog}
 <div class="sticky">
   <nav class="company-menu" id="menu">{menu}</nav>
   <nav class="sub-menu hidden" id="submenu"></nav>
+  <div class="search-wrap">
+    <svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input type="search" id="q" placeholder="제목·요약·회사명 검색" autocomplete="off">
+    <button class="clr" id="clr" aria-label="지우기">×</button>
+  </div>
+  <div class="search-hits" id="hits"></div>
 </div>
 {run_html}
 {ex_html}
