@@ -5,3 +5,4 @@ __pycache__/
 test_groq.py
 *.tmp
 .DS_Store
+news.db
