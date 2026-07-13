@@ -143,6 +143,17 @@ def find_delivered_by_fingerprint(conn, fingerprint: str, days: int = 30):
     ).fetchall()
 
 
+def find_delivered_for_dedup(conn, days: int = 3):
+    """최근 delivered 기사 (제목+지문) — 회차 간 재탕/동일사건 제외용.
+    days를 짧게(3일) 잡아 오래된 기사와의 오인식을 방지."""
+    cutoff = (now_kst() - timedelta(days=days)).isoformat()
+    return conn.execute(
+        """SELECT title, body_fingerprint FROM articles
+           WHERE delivered=1 AND collected_at >= ?""",
+        (cutoff,),
+    ).fetchall()
+
+
 def get_cached_summary(conn, url_hash: str):
     """C안: 이미 요약된 동일 URL 기사가 있으면 요약문 재사용 (Groq 호출 0회)"""
     row = conn.execute(
@@ -225,7 +236,5 @@ def cleanup(conn, retention_days: int = 60, excluded_days: int = 14):
     conn.execute("DELETE FROM articles WHERE collected_at < ?", (cutoff,))
     conn.execute("DELETE FROM articles WHERE excluded=1 AND collected_at < ?", (ex_cutoff,))
     conn.execute("DELETE FROM runs WHERE requested_at < ?", (cutoff,))
-    conn.commit()
-    conn.isolation_level = None
     conn.execute("VACUUM")
-    conn.isolation_level = ""
+    conn.commit()

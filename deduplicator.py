@@ -129,29 +129,40 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
             a["excluded"] = 1
             a["exclude_reason"] = "기열람(delivered 완전 일치)"
 
-    # 1-b) 과거 delivered 본문 지문 거의 동일 → 재탕 기사 제외 (A안)
-    #      해밍거리 <=3 : 같은 보도자료 받아쓰기 수준만 걸림.
-    #      후속 보도(내용 추가)는 거리가 벌어져 살아남음.
-    past = dbm.find_delivered_by_fingerprint(conn, None, days=30)
+    # 1-b) 과거 delivered 재탕 제외 — 두 방식 병행
+    #      (i) 본문 simhash 거리 <=3 (완전 재탕)
+    #      (ii) 제목 핵심 토큰 겹침 >=0.5 (같은 사건 다른 제목)
+    #           같은 보도자료를 매체가 다시 쓴 경우 본문 지문은 벌어져도
+    #           제목의 회사·브랜드·핵심어는 공유됨
+    past = dbm.find_delivered_for_dedup(conn, days=3)
     if past:
-        past_fp = [(p["body_fingerprint"], p["title"]) for p in past]
+        past_info = []
+        for p in past:
+            past_info.append((p["body_fingerprint"], p["title"],
+                              title_tokens(normalize_title(p["title"], cfg))))
         for a in articles:
-            if a.get("excluded") or not a.get("body"):
+            if a.get("excluded"):
                 continue
+            atok = a["_tokens"]
             try:
-                afp = int(a["body_fingerprint"], 16)
+                afp = int(a["body_fingerprint"], 16) if a.get("body") else 0
             except (ValueError, TypeError):
-                continue
-            if afp == 0:
-                continue
-            for fp, ptitle in past_fp:
-                try:
-                    if hamming(afp, int(fp, 16)) <= 3:
-                        a["excluded"] = 1
-                        a["exclude_reason"] = f"기열람(본문 재탕: {ptitle[:24]})"
-                        break
-                except (ValueError, TypeError):
-                    continue
+                afp = 0
+            for fp, ptitle, ptok in past_info:
+                # (i) 본문 완전 재탕
+                if afp:
+                    try:
+                        if hamming(afp, int(fp, 16)) <= 3:
+                            a["excluded"] = 1
+                            a["exclude_reason"] = f"기열람(본문 재탕: {ptitle[:24]})"
+                            break
+                    except (ValueError, TypeError):
+                        pass
+                # (ii) 제목 핵심 토큰 겹침 (같은 사건)
+                if token_overlap(atok, ptok) >= 0.5:
+                    a["excluded"] = 1
+                    a["exclude_reason"] = f"기열람(동일 사건: {ptitle[:24]})"
+                    break
 
     # 2) 배치 내 중복 클러스터링
     live = [a for a in articles if not a.get("excluded")]
@@ -167,10 +178,11 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
             similar_title = title_sim(a["norm_title"], rep["norm_title"]) >= thr
             similar_body = (a.get("body") and rep.get("body") and
                             hamming(int(a["body_fingerprint"], 16),
-                                    int(rep["body_fingerprint"], 16)) <= 10)
+                                    int(rep["body_fingerprint"], 16)) <= 6)
             # 한국어 보완: 같은 날짜 + 제목 핵심 토큰 60% 이상 겹침 → 동일 사건
             overlap = token_overlap(a["_tokens"], rep["_tokens"])
-            same_event = same_day(a, rep) and overlap >= 0.42
+            # 같은 사건 판정: 같은 날+겹침0.35, 또는 날짜 무관+겹침0.5(강한 겹침)
+            same_event = (same_day(a, rep) and overlap >= 0.35) or overlap >= 0.5
             if same_hash or similar_title or similar_body or same_event:
                 cl.append(a)
                 placed = True
