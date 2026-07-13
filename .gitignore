@@ -6,3 +6,4 @@ test_groq.py
 *.tmp
 .DS_Store
 news.db
+news.db
