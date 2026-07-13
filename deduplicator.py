@@ -167,7 +167,7 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
             similar_title = title_sim(a["norm_title"], rep["norm_title"]) >= thr
             similar_body = (a.get("body") and rep.get("body") and
                             hamming(int(a["body_fingerprint"], 16),
-                                    int(rep["body_fingerprint"], 16)) <= 6)
+                                    int(rep["body_fingerprint"], 16)) <= 10)
             # 한국어 보완: 같은 날짜 + 제목 핵심 토큰 60% 이상 겹침 → 동일 사건
             overlap = token_overlap(a["_tokens"], rep["_tokens"])
             same_event = same_day(a, rep) and overlap >= 0.42
