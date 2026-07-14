@@ -236,5 +236,8 @@ def cleanup(conn, retention_days: int = 60, excluded_days: int = 14):
     conn.execute("DELETE FROM articles WHERE collected_at < ?", (cutoff,))
     conn.execute("DELETE FROM articles WHERE excluded=1 AND collected_at < ?", (ex_cutoff,))
     conn.execute("DELETE FROM runs WHERE requested_at < ?", (cutoff,))
+    conn.commit()
+    conn.isolation_level = None
     conn.execute("VACUUM")
+    conn.isolation_level = ""
     conn.commit()
