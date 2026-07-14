@@ -13,8 +13,8 @@ from datetime import datetime
 MENU_LABELS = OrderedDict([
     ("all", "전체"), ("hana", "하나"), ("shinhan", "신한"), ("kb", "KB"),
     ("woori", "우리"), ("nh", "NH"), ("regional", "지방금융"),
-    ("policy", "국책·특수"), ("nonholding", "비지주 금융사"),
-    ("internet", "인터넷·핀테크"), ("overseas", "해외"), ("etc", "기타"),
+    ("policy", "국책"), ("nonholding", "비지주"),
+    ("internet", "핀테크"), ("overseas", "해외"), ("etc", "기타"),
 ])
 SECTOR_ORDER = ["그룹", "은행", "증권", "카드", "캐피탈", "보험", "저축은행", "해외", "기타"]
 
@@ -32,9 +32,9 @@ h1{font-size:21px;font-weight:800;margin-top:2px}
 border-radius:8px;padding:7px 12px;margin:10px 0 12px;font-variant-numeric:tabular-nums}
 .ledger-line b{color:var(--teal)} .ledger-line .warn{color:var(--warn);font-weight:600}
 .sticky{position:sticky;top:0;z-index:5;background:var(--paper);padding-top:6px;border-bottom:2px solid var(--teal)}
-nav.company-menu{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px}
+nav.company-menu{display:flex;flex-wrap:wrap;gap:6px;padding-bottom:8px}
 nav.company-menu button{flex:0 0 auto;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);
-background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 14px;cursor:pointer}
+background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 13px;cursor:pointer}
 nav.company-menu button.active{background:var(--teal);border-color:var(--teal);color:#fff}
 nav.company-menu button .n{font-size:11px;opacity:.75;margin-left:3px}
 nav.sub-menu{display:flex;gap:5px;overflow-x:auto;padding:0 0 8px}
