@@ -10,6 +10,6 @@ history = dbm.get_run_history(conn, cfg["db"]["retention_days"])
 stats = {"generated_at": f"{dbm.now_kst():%Y-%m-%d %H:%M} (재렌더링)",
          "raw": 0, "final": len(rows), "excluded": 0, "api_calls": 0,
          "extract_fail": 0, "summary_fail": 0, "press_health": {}}
-out = htm.render(rows, stats, [], cfg["html"]["output_file"], history)
+out = htm.render(rows, stats, [], cfg["html"]["output_file"], history, cfg.get("github"))
 print(f"HTML 재생성 완료: {out}")
 print(f"  기사 {len(rows)}건 / 회차 {len(history)}회")

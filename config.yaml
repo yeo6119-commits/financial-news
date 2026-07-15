@@ -280,6 +280,12 @@ summarizer:
 # -------------------------------------------------------------
 # 11. HTML 아카이브
 # -------------------------------------------------------------
+github:
+  owner: yeo6119-commits          # GitHub 사용자명
+  repo: financial-news            # 저장소명
+  workflow: run.yml               # 워크플로 파일명
+  branch: main
+
 html:
   output_file: output/financial_news_archive.html
   view: archive                 # DB 60일치 전체를 매 실행 재생성

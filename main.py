@@ -162,7 +162,8 @@ def main():
         conn.rollback()  # 임시 마킹 취소 — 실제 delivered는 HTML 성공 후 커밋
         excluded_rows = dbm.get_run_excluded(conn, run_id)
         history = dbm.get_run_history(conn, cfg["db"]["retention_days"])
-        out = htm.render(rows, stats, excluded_rows, cfg["html"]["output_file"], history)
+        out = htm.render(rows, stats, excluded_rows, cfg["html"]["output_file"], history,
+                         cfg.get("github"))
         print(f"HTML 생성: {out}")
 
         # 10) delivered 트랜잭션 (HTML rename 성공 후에만)

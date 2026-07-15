@@ -28,6 +28,37 @@ header{padding-bottom:8px}
 .eyebrow{font-size:11px;letter-spacing:.14em;color:var(--teal);font-weight:700;text-transform:uppercase}
 h1{font-size:21px;font-weight:800;margin-top:2px}
 .gen-meta{font-size:12px;color:var(--muted);margin-top:4px}
+/* 실행 버튼 */
+.run-bar{display:flex;align-items:center;gap:9px;margin:10px 0 0}
+.btn-run{font-family:inherit;font-size:13.5px;font-weight:800;color:#fff;background:var(--teal);
+border:none;border-radius:8px;padding:9px 20px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn-run:hover{background:#005c65}
+.btn-run:disabled{background:var(--muted);cursor:default}
+.btn-run .spin{width:12px;height:12px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;
+border-radius:50%;animation:sp .7s linear infinite;display:none}
+.btn-run.busy .spin{display:block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.run-status{font-size:12px;color:var(--muted);font-weight:600}
+.run-status.ok{color:var(--teal)} .run-status.err{color:#b3403a}
+.btn-key{font-family:inherit;font-size:11.5px;color:var(--muted);background:transparent;
+border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer;margin-left:auto}
+
+/* 토큰 입력 모달 */
+.modal{position:fixed;inset:0;background:rgba(18,43,43,.5);display:none;align-items:center;
+justify-content:center;z-index:50;padding:20px}
+.modal.show{display:flex}
+.modal-box{background:var(--card);border-radius:12px;padding:20px;max-width:400px;width:100%}
+.modal-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
+.modal-box p{font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.55}
+.modal-box p a{color:var(--teal);font-weight:600}
+.modal-box input{width:100%;font-family:ui-monospace,monospace;font-size:12.5px;
+border:1px solid var(--line);border-radius:7px;padding:9px 11px;outline:none;margin-bottom:12px}
+.modal-box input:focus{border-color:var(--teal)}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.modal-btns button{font-family:inherit;font-size:13px;font-weight:700;border-radius:7px;
+padding:8px 16px;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+.modal-btns button.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+
 .ledger-line{font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line);
 border-radius:8px;padding:7px 12px;margin:10px 0 12px;font-variant-numeric:tabular-nums}
 .ledger-line b{color:var(--teal)} .ledger-line .warn{color:var(--warn);font-weight:600}
@@ -120,6 +151,99 @@ details.excluded summary{cursor:pointer;list-style:none;padding:10px 14px;font-s
 footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
 .hidden{display:none} .empty-run{font-size:12.5px;color:var(--muted);padding:6px 0 2px}
 """
+
+RUN_JS = """
+(function(){
+var GH = window.__GH__ || {};
+var KEY = 'fnews_gh_token';
+var btn = document.getElementById('btnRun'), btnTxt = document.getElementById('btnRunTxt');
+var stat = document.getElementById('runStatus'), keyBtn = document.getElementById('btnKey');
+var modal = document.getElementById('tokenModal'), input = document.getElementById('tokenInput');
+if(!btn) return;
+
+function token(){ try { return localStorage.getItem(KEY); } catch(e){ return null; } }
+function setToken(v){ try { localStorage.setItem(KEY, v); } catch(e){} }
+function say(msg, cls){ stat.textContent = msg || ''; stat.className = 'run-status' + (cls ? ' '+cls : ''); }
+function busy(on, label){
+  btn.classList.toggle('busy', on); btn.disabled = on;
+  btnTxt.textContent = label || (on ? '실행 중' : '실행');
+}
+function openModal(){ modal.classList.add('show'); input.value = token() || ''; input.focus(); }
+function closeModal(){ modal.classList.remove('show'); }
+
+document.getElementById('tokenCancel').onclick = closeModal;
+document.getElementById('tokenSave').onclick = function(){
+  var v = input.value.trim();
+  if(!v){ return; }
+  setToken(v); closeModal(); say('토큰이 저장되었습니다', 'ok');
+};
+keyBtn.onclick = openModal;
+input.addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('tokenSave').click(); });
+
+function headers(t){
+  return { 'Authorization': 'Bearer ' + t, 'Accept': 'application/vnd.github+json',
+           'X-GitHub-Api-Version': '2022-11-28', 'Content-Type': 'application/json' };
+}
+
+async function poll(t, startedAt){
+  var url = 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/actions/runs?per_page=5';
+  for(var i=0; i<120; i++){
+    await new Promise(function(r){ setTimeout(r, 6000); });
+    try {
+      var res = await fetch(url, { headers: headers(t) });
+      if(!res.ok) continue;
+      var data = await res.json();
+      var run = (data.workflow_runs || []).find(function(r){
+        return new Date(r.created_at).getTime() >= startedAt - 60000;
+      });
+      if(!run){ say('실행 대기 중…'); continue; }
+      var mins = Math.floor((Date.now()-startedAt)/60000), secs = Math.floor(((Date.now()-startedAt)%60000)/1000);
+      var el = mins + '분 ' + secs + '초';
+      if(run.status === 'completed'){
+        if(run.conclusion === 'success'){
+          busy(false); say('완료 (' + el + ') · 새로고침합니다', 'ok');
+          setTimeout(function(){ location.reload(true); }, 2000);
+        } else {
+          busy(false); say('실패: ' + (run.conclusion||'error') + ' — GitHub Actions에서 로그 확인', 'err');
+        }
+        return;
+      }
+      say((run.status === 'queued' ? '대기 중' : '수집 중') + '… ' + el);
+    } catch(e){ /* 네트워크 일시 오류는 무시하고 계속 */ }
+  }
+  busy(false); say('시간 초과 — GitHub Actions에서 상태를 확인하세요', 'err');
+}
+
+btn.onclick = async function(){
+  var t = token();
+  if(!t){ openModal(); return; }
+  busy(true, '요청 중'); say('워크플로 실행 요청…');
+  var url = 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/actions/workflows/'+GH.workflow+'/dispatches';
+  try {
+    var res = await fetch(url, { method:'POST', headers: headers(t),
+                                 body: JSON.stringify({ ref: GH.branch || 'main' }) });
+    if(res.status === 204){
+      var startedAt = Date.now();
+      busy(true, '실행 중'); say('실행 시작됨…');
+      poll(t, startedAt);
+    } else if(res.status === 401 || res.status === 403){
+      busy(false); say('토큰이 유효하지 않습니다. 토큰 변경을 눌러 다시 입력하세요', 'err'); openModal();
+    } else if(res.status === 404){
+      busy(false); say('워크플로를 찾을 수 없습니다 (' + GH.workflow + ')', 'err');
+    } else {
+      var msg = '';
+      try { msg = (await res.json()).message || ''; } catch(e){}
+      busy(false); say('요청 실패 (' + res.status + ') ' + msg, 'err');
+    }
+  } catch(e){
+    busy(false); say('네트워크 오류: ' + e.message, 'err');
+  }
+};
+
+if(!token()){ say('처음이면 실행을 눌러 토큰을 입력하세요'); }
+})();
+"""
+
 
 JS = """
 (function(){
@@ -287,7 +411,12 @@ def _runlog(history) -> str:
             f'<div class="rl-wrap">{items}</div></details>')
 
 
-def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None):
+GH_CONF = {}
+
+
+def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh=None):
+    global GH_CONF
+    GH_CONF = gh or {}
     runs = OrderedDict()
     counts = {k: 0 for k in MENU_LABELS}
     subs = {}          # menu_id -> {company: count}
@@ -317,6 +446,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None):
     import json
     subs_json = json.dumps(sub_js, ensure_ascii=False)
     runlog = _runlog(history or [])
+    gh_json = json.dumps(GH_CONF, ensure_ascii=False)
 
     run_html = ""
     for i, (rid, r) in enumerate(runs.items()):
@@ -377,7 +507,25 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None):
 <header><div class="eyebrow">Financial Digital · AI News Archive</div>
 <h1>금융회사 디지털·AI 뉴스 아카이브</h1>
 <div class="gen-meta">최종 갱신 {s.get("generated_at","")} · 보관 60일 · 뉴스(네이버 API) + 보도자료(9개 그룹)</div></header>
+<div class="run-bar">
+  <button class="btn-run" id="btnRun"><span class="spin"></span><span id="btnRunTxt">실행</span></button>
+  <span class="run-status" id="runStatus"></span>
+  <button class="btn-key" id="btnKey">토큰 변경</button>
+</div>
 <div class="ledger-line">{ledger}</div>
+
+<div class="modal" id="tokenModal">
+  <div class="modal-box">
+    <h3>GitHub 토큰 입력</h3>
+    <p>실행 권한 확인을 위해 개인 토큰이 필요합니다. 입력한 토큰은 이 브라우저에만 저장되며 서버로 전송되지 않습니다.<br><br>
+    발급: GitHub → Settings → Developer settings → Personal access tokens (classic) → Generate new token → <b>repo</b>, <b>workflow</b> 체크</p>
+    <input type="password" id="tokenInput" placeholder="ghp_..." autocomplete="off">
+    <div class="modal-btns">
+      <button id="tokenCancel">취소</button>
+      <button class="primary" id="tokenSave">저장</button>
+    </div>
+  </div>
+</div>
 {runlog}
 <div class="sticky">
   <nav class="company-menu" id="menu">{menu}</nav>
@@ -392,7 +540,8 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None):
 {run_html}
 {ex_html}
 <footer>금융 디지털·AI 뉴스 수집 시스템 v2.5 — 수집은 넓게, 판단은 본문 확보 후 로컬에서</footer>
-<script>window.__SUBS__ = {subs_json};</script>
+<script>window.__SUBS__ = {subs_json}; window.__GH__ = {gh_json};</script>
+<script>{RUN_JS}</script>
 <script>{JS}</script></body></html>"""
 
     tmp = out_path + ".tmp"
