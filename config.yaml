@@ -300,7 +300,6 @@ html:
 # -------------------------------------------------------------
 db:
   path: news.db
-  retention_days: 60              # 반영 기사 보관
-  excluded_retention_days: 14     # 제외 기사 보관 (DB 비대화 방지)
+  retention_days: 60              # 반영 기사 보관 (제외 기사는 저장하지 않음)
   store_full_body: false
   delivered_after_html_success: true   # HTML rename 성공 후 트랜잭션으로만 처리

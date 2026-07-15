@@ -229,15 +229,12 @@ def commit_delivered(conn, run_id: int, article_ids: list[int]):
 # ----------------------------------------------------------
 # 60일 정리
 # ----------------------------------------------------------
-def cleanup(conn, retention_days: int = 60, excluded_days: int = 14):
-    """D안: 반영 기사는 60일, 제외 기사는 14일만 보관 (DB 비대화 방지)"""
+def cleanup(conn, retention_days: int = 60, excluded_days: int = 0):
+    """반영 기사만 60일 보관. 제외 기사는 애초에 저장하지 않으므로
+    과거에 쌓인 것이 있으면 전량 삭제(legacy 정리)."""
     cutoff = (now_kst() - timedelta(days=retention_days)).isoformat()
-    ex_cutoff = (now_kst() - timedelta(days=excluded_days)).isoformat()
     conn.execute("DELETE FROM articles WHERE collected_at < ?", (cutoff,))
-    conn.execute("DELETE FROM articles WHERE excluded=1 AND collected_at < ?", (ex_cutoff,))
+    conn.execute("DELETE FROM articles WHERE excluded=1")      # 제외분 전량 정리
     conn.execute("DELETE FROM runs WHERE requested_at < ?", (cutoff,))
-    conn.commit()
-    conn.isolation_level = None
     conn.execute("VACUUM")
-    conn.isolation_level = ""
     conn.commit()

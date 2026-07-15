@@ -121,9 +121,13 @@ def main():
         if cached:
             print(f"  → 캐시 재사용 {cached}건 (Groq 호출 절약)")
 
-        # 8) DB 저장
+        # 8) DB 저장 — 반영 기사만. 제외 기사는 저장하지 않음(DB 비대화 방지).
+        #    제외 목록은 이번 회차분을 메모리에서 HTML로 바로 전달하므로
+        #    "조용히 사라지지 않는다"는 원칙은 그대로 유지됨.
         ids = []
         for it in items:
+            if it.get("excluded"):
+                continue
             row = {k: it.get(k) for k in (
                 "title", "norm_title", "press", "pub_date", "original_url", "naver_url",
                 "url_hash", "norm_title_hash", "body_hash", "body_fingerprint",
@@ -132,9 +136,7 @@ def main():
                 "extract_fail_reason", "summary_fail_reason", "excluded", "exclude_reason")}
             row["run_id"] = run_id
             row["collected_at"] = dbm.now_kst().isoformat()
-            aid = dbm.insert_article(conn, row)
-            if not it.get("excluded"):
-                ids.append(aid)
+            ids.append(dbm.insert_article(conn, row))
 
         dbm.update_run_stats(
             conn, run_id,
@@ -160,7 +162,12 @@ def main():
                      ",".join("?" * len(ids)), ids) if ids else None
         rows = dbm.get_archive_articles(conn, cfg["db"]["retention_days"])
         conn.rollback()  # 임시 마킹 취소 — 실제 delivered는 HTML 성공 후 커밋
-        excluded_rows = dbm.get_run_excluded(conn, run_id)
+        # 제외 목록: 메모리에서 직접 구성 (DB 저장 안 함)
+        excluded_rows = [
+            {"title": it.get("title"), "press": it.get("press"),
+             "pub_date": it.get("pub_date"), "exclude_reason": it.get("exclude_reason")}
+            for it in items if it.get("excluded")
+        ]
         history = dbm.get_run_history(conn, cfg["db"]["retention_days"])
         out = htm.render(rows, stats, excluded_rows, cfg["html"]["output_file"], history,
                          cfg.get("github"))
