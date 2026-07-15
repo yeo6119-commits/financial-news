@@ -236,5 +236,8 @@ def cleanup(conn, retention_days: int = 60, excluded_days: int = 0):
     conn.execute("DELETE FROM articles WHERE collected_at < ?", (cutoff,))
     conn.execute("DELETE FROM articles WHERE excluded=1")      # 제외분 전량 정리
     conn.execute("DELETE FROM runs WHERE requested_at < ?", (cutoff,))
-    conn.execute("VACUUM")
     conn.commit()
+    # VACUUM은 트랜잭션 밖에서만 실행 가능 → autocommit 전환 후 실행
+    conn.isolation_level = None
+    conn.execute("VACUUM")
+    conn.isolation_level = ""

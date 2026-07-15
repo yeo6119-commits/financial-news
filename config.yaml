@@ -260,7 +260,8 @@ title_normalize:
 # -------------------------------------------------------------
 summarizer:
   provider: groq                # groq | anthropic | openai
-  model: llama-3.3-70b-versatile
+  model: llama-3.3-70b-versatile      # 주 모델
+  fallback_model: llama-3.1-8b-instant  # 70b 일일한도 소진 시 자동 전환 (쿼터 별개)
   batch: false                  # 절대 변경 금지
   max_retries: 3
   backoff_base_seconds: 2
