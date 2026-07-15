@@ -46,6 +46,16 @@ def _hit(text: str, keywords: list) -> list:
     return [k for k in keywords if k in text]
 
 
+def _dedup_companies(hits: list) -> list:
+    """부분문자열 관계인 회사명을 하나로 취급.
+    예: ['KB금융', 'KB국민은행'] 중 짧은 쪽이 긴 쪽에 포함되면 1개로 셈."""
+    out = []
+    for h in sorted(hits, key=len, reverse=True):
+        if not any(h in o for o in out):
+            out.append(h)
+    return out
+
+
 def company_keywords(cfg: dict) -> list:
     """config의 모든 회사·브랜드명 (제목 매칭용)"""
     out = []
@@ -100,14 +110,35 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     title = article.get("title", "")
     f = cfg["filters"]
 
-    # (1) 묶음 기사 — 단, 제목에 특정 회사명이 있으면 단일 주제일 수 있으므로 통과
-    #     예: [뉴스워커_하나카드] 판다 디자인 트래블로그... → 하나카드 단일 기사
-    #     제외 대상: [금융권 이모저모], [오늘의 홈쇼핑] 처럼 주체가 없는 것
+    # (1) 묶음/종합 기사
+    #  - 회사명이 하나도 없으면: 주체 불명 → 제외
+    #  - 회사명이 3곳 이상 나열되면: 여러 소식 종합 기사 → 제외
+    #    예: [오늘의 은행] KB국민은행·신한은행·하나은행·IBK기업은행·BNK경남은행
+    #        [금융레이더] 농협생명/KB국민카드/현대카드/IBK저축은행
+    #  - 회사명이 1~2곳이면: 단일 주제일 수 있으므로 통과
+    #    예: [뉴스워커_하나카드] 판다 디자인 트래블로그 → 하나카드 단일 기사
+    comp_in_title = _hit(title, companies)
     for pat in BUNDLE_PATTERNS:
-        if re.search(pat, title) and not _hit(title, companies):
-            article["excluded"] = 1
-            article["exclude_reason"] = "묶음기사(단일 주체 없음)"
-            return article
+        if re.search(pat, title):
+            if not comp_in_title:
+                article["excluded"] = 1
+                article["exclude_reason"] = "묶음기사(단일 주체 없음)"
+                return article
+            # 태그가 붙은 기사에서 회사가 2곳 이상 언급되면 종합/나열 기사
+            # ([뉴스워커_하나카드] 처럼 단일 회사 코너물은 1곳이므로 통과)
+            if len(_dedup_companies(comp_in_title)) >= 2:
+                article["excluded"] = 1
+                article["exclude_reason"] = (
+                    "종합기사(%d개사 나열)" % len(_dedup_companies(comp_in_title)))
+                return article
+            break
+
+    # 제목 태그가 없어도 회사명이 4곳 이상이면 종합 기사로 판단
+    if len(_dedup_companies(comp_in_title)) >= 4:
+        article["excluded"] = 1
+        article["exclude_reason"] = (
+            "종합기사(%d개사 나열)" % len(_dedup_companies(comp_in_title)))
+        return article
 
     # (2) 업종 무관 노이즈
     noise = _hit(title, TITLE_NOISE)
@@ -143,15 +174,14 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
         article["exclude_reason"] = "무관(제목에 대상 금융사 없음)"
         return article
 
-    # (6) 제목에 서비스·AI·관련성 키워드가 있어야 함
+    # (6) 제목에 서비스·AI·관련성 키워드가 있으면 즉시 통과.
+    #     없으면 제외하지 않고 '본문 확인 대기'로 넘긴다.
+    #     → 본문 추출 후 apply_filters()가 본문 앞부분을 읽어 최종 판정.
+    #       (제목만으로는 디지털·AI 기사인지 알 수 없는 경우가 많기 때문)
     rel_hits = _hit(title, relevance)
-    if not rel_hits:
-        article["excluded"] = 1
-        article["exclude_reason"] = "무관(제목에 디지털·AI 키워드 없음: %s)" % comp_hits[0]
-        return article
-
     article["excluded"] = 0
     article["exclude_reason"] = None
+    article["_needs_body_check"] = not rel_hits
     return article
 
 
@@ -167,6 +197,20 @@ def apply_filters(article: dict, cfg: dict) -> dict:
     body = article.get("body") or ""
     head = body[:800]                  # 본문 앞부분만 — 푸터·관련기사 오염 차단
     text = "%s %s" % (title, head)
+
+    # 제목에 디지털·AI 키워드가 없던 건 → 본문으로 최종 판정
+    if article.get("_needs_body_check"):
+        if not body:
+            article["excluded"] = 1
+            article["exclude_reason"] = "무관(제목·본문에서 디지털·AI 근거 없음)"
+            return article
+        rel = relevance_keywords(cfg)
+        body_hits = _hit(head, rel)
+        if not body_hits:
+            article["excluded"] = 1
+            article["exclude_reason"] = "무관(본문 확인: 디지털·AI 내용 아님)"
+            return article
+        article["_body_relevance"] = body_hits[0]   # 본문 근거 기록
 
     security = _hit(text, f["security_override"])
 

@@ -9,45 +9,59 @@ import requests
 
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 
-PROMPT = """아래 기사를 읽고 핵심 내용을 3줄로 요약하라.
+PROMPT = """아래 기사를 읽고 핵심을 2~3줄로 요약하라. 실무 보고용 개조식으로 쓴다.
 
-규칙:
-1. 각 줄은 * 로 시작하는 한 문장. 정확히 3줄. 다른 텍스트는 출력 금지.
-2. 모든 문장은 종결어미 없이 명사형(-함/-임/-됨)으로 끝낸다.
-   "도입했다"→"도입함"  "출시한다"→"출시함"  "계획입니다"→"계획임"
-   "확대할 것이다"→"확대할 방침임"  "구조입니다"→"구조임"  "분석된다"→"분석됨"
-   ※ 어미 자체를 바꿔 쓰는 것이지, 문장 뒤에 "-함" 같은 표시를 덧붙이는 게 아니다.
-3. 본문에 있는 사실만 쓴다. 해석·평가·전망을 지어내지 말 것.
-4. 3줄에 기사의 핵심 사실을 고르게 담는다. 줄마다 역할을 정하지 말 것.
-5. 약어는 처음 나올 때 괄호로 풀어쓴다. 예: AI(인공지능)
+[형식]
+- 각 줄은 "- " 로 시작. 2줄 또는 3줄. 그 외 텍스트는 출력 금지.
+- 첫 줄은 "회사명, 핵심 내용" 형태로 무슨 일인지 한눈에 보이게 쓴다.
+- 협력사·제휴사가 있으면 첫 줄 끝에 (w/회사명) 으로 표기한다.
+
+[문체 — 개조식 명사형 종결]
+모든 줄은 서술어 없이 명사(구)로 끝낸다.
+  "출범했다" → "출범"          "도입한다" → "도입"
+  "제공할 계획이다" → "제공 예정"   "구성돼 있다" → "구성"
+  "추진하고 있다" → "추진 중"      "지원한다" → "지원"
+  "~하는 프로그램이다" → "~하는 프로그램"
+금지: -입니다, -습니다, -한다, -했다, -이다, -됨, -함, -임
+
+[내용]
+- 본문에 있는 사실만 쓴다. 해석·평가·전망을 지어내지 말 것.
+- 수치·기간·기능명 등 구체적 사실을 우선 담는다.
+- 줄마다 역할을 정하지 말고, 핵심 사실을 고르게 나눠 담는다.
+- 약어는 처음 나올 때 괄호로 풀어쓴다. 예: AI(인공지능)
+
+[예시]
+- KB금융, 실전형 AI(인공지능) 인재 양성 프로그램 'KB AI Lab' 출범
+- 그룹 AI 교육체계인 KB AI 아카데미 최고 과정 수료 직원 대상의 프로젝트형 인재 육성 프로그램
+- 현업 과제 발굴 및 AI 서비스 직접 구현, 2주간 심화 교육과 10주간 실전 프로젝트로 구성
 
 기사 제목: {title}
 기사 본문:
 {body}"""
 
 
-# 문장 끝에 라벨처럼 붙는 오출력 (8b 모델 흔한 실수)
-BAD_TAILS = ("-함", "-임", "-할 계획", "- 함", "- 임", "(-함)", "(-임)")
-# 서술형 어미 (보고체 위반)
+# 개조식 위반 — 서술형 어미로 끝나면 거부
 BAD_ENDINGS = ("입니다", "습니다", "됩니다", "합니다", "이다", "한다", "했다",
-               "된다", "있다", "예정이다", "것이다", "말했다", "밝혔다")
+               "된다", "있다", "예정이다", "것이다", "말했다", "밝혔다",
+               "-함", "-임", "하였다", "된 바 있다")
 
 
 def _validate(text: str, cfg: dict) -> str | None:
     v = cfg["summarizer"]["validation"]
+    bullet = v.get("each_starts_with", "-")
+    lo = v.get("min_lines", 2)
+    hi = v.get("max_lines", 3)
     lines = [l.strip() for l in text.strip().splitlines() if l.strip()]
-    if len(lines) != v["exact_lines"]:
+    # 모델이 * 로 시작하는 습관이 남아 있으면 - 로 정규화
+    lines = [("- " + l.lstrip("*-• ").strip()) if l[:1] in "*-•" else l for l in lines]
+    if not (lo <= len(lines) <= hi):
         return None
     for l in lines:
-        if not l.startswith(v["each_starts_with"]):
+        if not l.startswith(bullet):
             return None
         if len(l) < v["min_line_chars"]:
             return None
-        body = l.lstrip("* ").strip().rstrip(".")
-        # 라벨 오출력 거부
-        if any(body.endswith(t) for t in BAD_TAILS):
-            return None
-        # 서술형 어미 거부
+        body = l.lstrip("- ").strip().rstrip(".")
         if any(body.endswith(e) for e in BAD_ENDINGS):
             return None
     return "\n".join(lines)

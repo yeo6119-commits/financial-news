@@ -19,8 +19,6 @@ TIER2_MENU = {
 # 앱·브랜드명 → 소속 회사로 정규화
 # (하나원큐 기사가 '하나원큐' 소제목이 아니라 '하나은행'으로 묶이도록)
 BRAND_TO_COMPANY = {
-    # 그룹 약칭 → 지주사
-    "KB": "KB금융",
     # 하나
     "하나원큐": "하나은행", "원큐": "하나은행", "아이부자": "하나은행",
     "하나페이": "하나카드", "원큐페이": "하나카드", "트래블로그": "하나카드",
@@ -143,7 +141,7 @@ def classify(article: dict, cfg: dict, idx: list) -> dict:
         # 앱·브랜드명이면 소속 회사로 정규화 (하나원큐 → 하나은행)
         company = BRAND_TO_COMPANY.get(name, name)
         if company != name:
-            sector = "그룹" if company in ("신한금융", "KB금융", "삼성금융네트웍스") \
+            sector = "그룹" if company in ("신한금융", "삼성금융네트웍스") \
                      else _sector_from_name(company)
     else:
         # 3순위: 검색 키워드 fallback (수집 시 부여된 값)

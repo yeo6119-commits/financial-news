@@ -133,7 +133,7 @@ padding:11px 14px;margin-bottom:10px;background:var(--card)}
 .a-meta{font-size:11.5px;color:var(--muted);margin:2px 0 7px}
 .summary{list-style:none}
 .summary li{font-size:13.5px;padding-left:14px;position:relative;margin-bottom:3px}
-.summary li::before{content:"*";position:absolute;left:0;color:var(--teal);font-weight:800}
+.summary li::before{content:"–";position:absolute;left:0;color:var(--teal);font-weight:800}
 .article.is-ai .summary li::before{color:var(--ai)}
 .kw{font-size:11px;color:var(--muted);margin-top:7px} .kw b{color:var(--teal);font-weight:600}
 .src-link{display:inline-block;margin-top:8px;font-size:12.5px;font-weight:700;color:var(--teal);
@@ -358,7 +358,7 @@ def _card(a) -> str:
     elif not a["summary_ok"]:
         status = '<span class="tag fail">요약 실패</span>'
     if a["summary"]:
-        lis = "".join("<li>%s</li>" % H.escape(l.lstrip("* ").strip())
+        lis = "".join("<li>%s</li>" % H.escape(l.lstrip("*-• ").strip())
                       for l in a["summary"].splitlines() if l.strip())
         summary = '<ul class="summary">%s</ul>' % lis
     else:
