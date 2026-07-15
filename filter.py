@@ -78,12 +78,19 @@ EXTRA_RELEVANCE = [
 
 
 def relevance_keywords(cfg: dict) -> list:
+    """관련성 키워드 = 검색어 + 로컬 + AI + 보안 + 추가어 + 앱/서비스 브랜드명
+
+    앱·서비스 브랜드명(SOL LINK, 하나원큐, KB Pay...)이 제목에 있으면
+    그 자체로 디지털 서비스 기사이므로 관련성 키워드로 취급한다.
+    classifier의 BRAND_TO_COMPANY를 재사용해 매핑을 한 곳에서 관리."""
+    from classifier import BRAND_TO_COMPANY
     return list(dict.fromkeys(
         cfg["search_service_keywords"]
         + cfg["local_relevance_keywords"]
         + cfg["classification"]["ai_keywords"]
         + cfg["filters"]["security_override"]
-        + EXTRA_RELEVANCE))
+        + EXTRA_RELEVANCE
+        + list(BRAND_TO_COMPANY.keys())))
 
 
 # ----------------------------------------------------------
