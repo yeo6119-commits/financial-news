@@ -81,6 +81,8 @@ def main():
             flt.prescreen(it, cfg, companies, relevance)
         survivors = [it for it in items if not it.get("excluded")]
         print(f"1차 스크리닝: {len(items)}건 → {len(survivors)}건 통과")
+        if not survivors:
+            print("  ⚠ 통과 0건 — 필터가 과하게 걸러냈을 수 있음")
 
         # 4) 본문 추출 (통과분만, PR 중 본문 동봉 어댑터는 스킵) — 병렬
         need_extract = []
@@ -90,7 +92,7 @@ def main():
             else:
                 need_extract.append(it)
         if need_extract:
-            ext.extract_many(need_extract, workers=10)
+            ext.extract_many(need_extract, workers=16)
         for it in items:
             it.setdefault("extract_ok", 0)
             it.setdefault("extract_fail_reason", None)
@@ -100,6 +102,9 @@ def main():
             flt.apply_filters(it, cfg)
         ddp.dedup(conn, items, cfg)
         live = [it for it in items if not it.get("excluded")]
+        print(f"2차 필터·중복제거: {len(survivors)}건 → {len(live)}건 반영")
+        if survivors and not live:
+            print("  ⚠ 전부 중복/무관 — 직전 회차와 같은 기사만 잡혔을 수 있음")
         cls_idx = cls.build_index(cfg)
         for it in live:
             cls.classify(it, cfg, cls_idx)
@@ -148,13 +153,23 @@ def main():
             cutoff_keywords=", ".join(collector.cutoff_keywords) or None)
 
         # 9) HTML 생성 (성공해야만 다음 단계)
+        # 제외 사유별 집계 — 어느 단계에서 걸렀는지 한눈에 보이도록
+        from collections import Counter
+        reason_counts = Counter(
+            (it.get("exclude_reason") or "기타").split("(")[0]
+            for it in items if it.get("excluded"))
+
         stats = {
             "generated_at": f"{dbm.now_kst():%Y-%m-%d %H:%M}",
             "raw": len(items), "final": len(ids),
             "excluded": len(items) - len(ids),
             "api_calls": collector.api_calls,
-            "extract_fail": sum(1 for it in live if not it["extract_ok"]),
+            "screened": len(survivors),          # 1차 스크리닝 통과
+            "deduped": len(live),                # 중복 제거 후 남은 수
+            # 추출·요약 실패는 '추출을 시도한 모수' 기준이라야 의미가 있다
+            "extract_fail": sum(1 for it in survivors if not it["extract_ok"]),
             "summary_fail": sum(1 for it in live if not it["summary_ok"]),
+            "exclude_reasons": dict(reason_counts.most_common(6)),
             "cutoff_keywords": ", ".join(collector.cutoff_keywords),
             "truncated_from": truncated_from.isoformat() if truncated_from else None,
             "press_health": press_health,

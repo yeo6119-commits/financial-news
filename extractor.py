@@ -24,7 +24,7 @@ GENERIC_BODY_SELECTORS = [
 ]
 
 
-def _get(url: str, timeout: int = 6) -> str | None:
+def _get(url: str, timeout: int = 5) -> str | None:
     try:
         r = requests.get(url, headers=HEADERS, timeout=timeout)
         if r.status_code == 200:

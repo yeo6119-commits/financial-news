@@ -492,11 +492,24 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
         warn.append("PR 실패: %s" % ", ".join(pr_fail))
     warn_html = ' · <span class="warn">%s</span>' % " / ".join(warn) if warn else ""
 
+    # 단계별 흐름 — 어디서 걸러졌는지 한눈에
+    flow = ""
+    if s.get("screened") is not None:
+        flow = (' &nbsp;·&nbsp; 흐름: 수집 %d → 1차통과 %d → 중복제거후 %d → 반영 %d'
+                % (s.get("raw", 0), s.get("screened", 0),
+                   s.get("deduped", 0), s.get("final", 0)))
+    # 제외 사유 상위
+    reasons = s.get("exclude_reasons") or {}
+    rtxt = ""
+    if reasons:
+        rtxt = (' &nbsp;·&nbsp; 제외 사유: '
+                + ", ".join("%s %d" % (k, v) for k, v in reasons.items()))
+
     ledger = ('최근 회차 수지: 수집 <b>%d</b> = 반영 <b>%d</b> + 제외 %d &nbsp;·&nbsp; '
-              'API %d콜 · 추출실패 %d · 요약실패 %d%s'
+              'API %d콜 · 추출실패 %d · 요약실패 %d%s%s%s'
               % (s.get("raw", 0), s.get("final", 0), s.get("excluded", 0),
                  s.get("api_calls", 0), s.get("extract_fail", 0),
-                 s.get("summary_fail", 0), warn_html))
+                 s.get("summary_fail", 0), warn_html, flow, rtxt))
 
     doc = f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">

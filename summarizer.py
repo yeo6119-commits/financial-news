@@ -93,13 +93,28 @@ _BOILER = [
 
 
 def compact_body(text: str, limit: int) -> str:
-    """상용구·중복 공백을 걷어내고 limit자로 자른다.
-    같은 limit이라도 실질 내용이 더 많이 담기므로 토큰 대비 정보량이 오른다."""
+    """상용구를 걷어내고 '문장 단위'로 limit자까지만 담는다.
+
+    - 한국 기사는 역피라미드라 앞 문장에 5W1H가 다 있다.
+    - 문장 중간에서 자르면 모델이 끊긴 문장을 해석하느라 오히려 품질이 떨어지고
+      토큰도 낭비된다. 문장 경계로 자르면 같은 토큰에 완결된 정보가 담긴다.
+    """
     t = text or ""
     for rx in _BOILER:
         t = rx.sub(" ", t)
     t = re.sub(r"\s+", " ", t).strip()
-    return t[:limit]
+    if len(t) <= limit:
+        return t
+    # 문장 경계로 분할 후 limit 안에서 최대한 담기
+    sents = re.split(r"(?<=[.!?다])\s+", t)
+    out = []
+    total = 0
+    for sn in sents:
+        if total + len(sn) > limit:
+            break
+        out.append(sn)
+        total += len(sn) + 1
+    return " ".join(out) if out else t[:limit]
 
 
 def summarize(article: dict, cfg: dict) -> dict:
@@ -112,7 +127,13 @@ def summarize(article: dict, cfg: dict) -> dict:
     s = cfg["summarizer"]
     assert s["batch"] is False, "배치 요약은 금지됨 (v2.3 스펙)"
 
-    body = compact_body(article["body"], s.get("body_chars", 1500))
+    body = compact_body(article["body"], s.get("body_chars", 1100))
+    # 본문이 지나치게 짧으면 요약해도 환각이 나온다 (예시 복창의 원인).
+    # 호출 자체를 생략해 토큰을 아끼고, 실패 사유를 남긴다.
+    if len(body) < s.get("min_body_chars", 200):
+        article["summary_ok"] = 0
+        article["summary_fail_reason"] = "본문 부족(%d자)" % len(body)
+        return article
     headers = {"Authorization": f"Bearer {os.environ['GROQ_API_KEY']}",
                "Content-Type": "application/json"}
     prompt = PROMPT.format(title=article["title"], body=body)
@@ -126,9 +147,11 @@ def summarize(article: dict, cfg: dict) -> dict:
 
     last_err = None
     for mi, model in enumerate(models):
-        payload = {"model": model, "max_tokens": s.get("max_tokens", 200), "temperature": 0.2,
+        payload = {"model": model, "max_tokens": s.get("max_tokens", 180),
+                   "temperature": 0,          # 결정적 출력 → 형식 오류·재시도 감소
                    "messages": [{"role": "user", "content": prompt}]}
         quota_out = False
+        fmt_fail = 0
         for attempt in range(s["max_retries"]):
             try:
                 r = requests.post(GROQ_URL, json=payload, headers=headers, timeout=30)
@@ -166,7 +189,12 @@ def summarize(article: dict, cfg: dict) -> dict:
                     article["summary_model"] = model
                     time.sleep(0.5)
                     return article
-                last_err = "형식 검증 실패(3줄/별표/길이)"
+                # 형식 실패는 같은 프롬프트로 재호출해도 대개 같은 결과 → 1회만 재시도.
+                # (3회 재시도 시 1건에 정상 3건치 토큰을 태우게 됨)
+                last_err = "형식 검증 실패(2~3줄/불릿/어미)"
+                fmt_fail += 1
+                if fmt_fail >= 2:
+                    break
             except Exception as e:
                 last_err = str(e)[:100]
             time.sleep(s["backoff_base_seconds"] * (attempt + 1))

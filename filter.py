@@ -127,6 +127,25 @@ SEP_RE = re.compile(r"[·ㆍ／/]")
 # 본문 판정 전용 — 제목에 단서가 없을 때 '이 기사가 디지털·AI 사안인가'를 가름.
 # 관련성 목록 전체(앱 이름·브랜드 포함)를 쓰면 CSR 기사에 "하나원큐로 신청" 한 줄만
 # 스쳐도 통과되므로, 주제어급 키워드만 사용한다.
+# 제목에 디지털·AI 단서가 없고 아래 주제에 해당하면 본문을 읽지 않고 제외.
+# (본문 추출은 건당 1~6초가 들므로, 확인해봐야 소용없는 건 미리 걸러 시간을 아낀다)
+NON_DIGITAL_TOPICS = [
+    # 사회공헌·봉사
+    "나눔", "봉사", "기탁", "후원", "성금", "헌혈", "김장", "연탄", "장학",
+    "사회공헌", "기부", "삼계탕", "취약계층", "결연", "위문", "온기", "사랑의",
+    "무더위", "한파", "명절", "다문화", "복지관", "요양원", "보육원",
+    # 금리·상품
+    "금리", "예금", "적금", "특판", "청약", "환율 우대", "수수료 면제",
+    "대출 상품", "보험료", "연금 상품",
+    # 실적·재무
+    "순이익", "영업이익", "당기순", "실적 발표", "분기 실적", "결산",
+    "배당", "자사주", "유상증자", "회사채",
+    # 행사·조직
+    "개점", "지점 신설", "점포 이전", "채용", "공모전", "위촉", "임명",
+    "간담회", "협의회", "총회", "창립", "시무식", "종무식", "체육대회",
+    "골프대회", "마라톤", "음악회", "전시회", "후원 협약",
+]
+
 BODY_CORE = [
     "AI", "인공지능", "생성형", "LLM", "머신러닝", "딥러닝", "챗봇", "GPT",
     "에이전트", "디지털", "DT", "DX", "플랫폼", "빅데이터", "데이터 분석",
@@ -261,9 +280,22 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     #     → 본문 추출 후 apply_filters()가 본문 앞부분을 읽어 최종 판정.
     #       (제목만으로는 디지털·AI 기사인지 알 수 없는 경우가 많기 때문)
     rel_hits = _hit(title, relevance)
+    if rel_hits:
+        article["excluded"] = 0
+        article["exclude_reason"] = None
+        article["_needs_body_check"] = False
+        return article
+
+    # 제목에 디지털·AI 단서가 없음 → 본문을 읽어볼 가치가 있는지 먼저 판단
+    topic = _hit(title, NON_DIGITAL_TOPICS)
+    if topic:
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(%s 기사)" % topic[0]
+        return article
+
     article["excluded"] = 0
     article["exclude_reason"] = None
-    article["_needs_body_check"] = not rel_hits
+    article["_needs_body_check"] = True
     return article
 
 
