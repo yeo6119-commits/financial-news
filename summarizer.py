@@ -24,7 +24,7 @@ PROMPT = """기사를 2~3줄 개조식으로 요약. 각 줄 "- "로 시작. 그
 내용: 첫 줄은 "회사명, 핵심내용". 협력사는 (w/회사명). 본문 사실만 쓰고 지어내지 말 것.
 수치·기간·기능명 우선. 약어는 AI(인공지능)처럼 풀어쓴다.
 
-예:
+예시 (형식만 참고. 아래 내용을 그대로 쓰지 말 것. 반드시 주어진 본문만 요약):
 - KB금융, 실전형 AI(인공지능) 인재 양성 프로그램 'KB AI Lab' 출범
 - KB AI 아카데미 최고 과정 수료 직원 대상 프로젝트형 육성 프로그램
 - 2주 심화 교육과 10주 실전 프로젝트로 구성
@@ -38,6 +38,22 @@ PROMPT = """기사를 2~3줄 개조식으로 요약. 각 줄 "- "로 시작. 그
 BAD_ENDINGS = ("입니다", "습니다", "됩니다", "합니다", "이다", "한다", "했다",
                "된다", "있다", "예정이다", "것이다", "말했다", "밝혔다",
                "-함", "-임", "하였다", "된 바 있다")
+
+
+def _grounded(summary: str, title: str, body: str) -> bool:
+    """요약이 원문에 근거하는지 검증.
+
+    모델이 요약할 내용을 못 찾으면 프롬프트의 예시를 그대로 복창하거나
+    없는 내용을 지어낸다. 요약의 명사 토큰이 원문에 얼마나 등장하는지로 걸러낸다.
+    (한국 기사 요약은 대부분 추출적이라 정상 요약은 겹침이 높다)
+    """
+    src = (title + " " + body).lower()
+    toks = re.findall(r"[가-힣]{2,}|[A-Za-z]{2,}", summary)
+    toks = [t for t in toks if len(t) >= 2]
+    if not toks:
+        return False
+    hits = sum(1 for t in toks if t.lower() in src)
+    return hits / len(toks) >= 0.55
 
 
 def _validate(text: str, cfg: dict) -> str | None:
@@ -138,6 +154,11 @@ def summarize(article: dict, cfg: dict) -> dict:
                     TOKEN_USAGE[model] = TOKEN_USAGE.get(model, 0) + used
                 raw = data["choices"][0]["message"]["content"]
                 valid = _validate(raw, cfg)
+                if valid and not _grounded(valid, article["title"], body):
+                    # 예시 복창·환각 — 재시도해도 같은 결과이므로 즉시 실패 처리
+                    last_err = "환각(원문 근거 없음)"
+                    valid = None
+                    break
                 if valid:
                     article["summary"] = valid
                     article["summary_ok"] = 1

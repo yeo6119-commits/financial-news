@@ -97,7 +97,13 @@ STOCK_REPORT_PATTERNS = [
     "주가", "은행주", "금융주", "증권주", "증시", "상한가", "하한가",
     "신고가", "52주", "시총", "코스피", "코스닥", "지분 확대", "외인 지분",
     "액면분할", "공매도", "배당수익률",
+    # 투자 정보·시장 전망 (디지털·AI 이니셔티브가 아니라 투자 콘텐츠)
+    "투자 노하우", "투자노하우", "고점", "저점", "레버리지", "조정 국면",
+    "약세장", "강세장", "포트폴리오 전략", "자산배분 전략",
 ]
+
+# 투자·증시 코너 태그 — [투자 노하우], [머니 톡] 등
+INVEST_TAG_RE = re.compile(r"^\s*\[(투자|머니|재테크|증시|마켓|스탁|stock|주식)", re.I)
 
 # 증권사가 '다른 종목'을 평가하는 리포트 형식
 #   예: 하나증권 "삼미금속, AI 데이터센터 전력 인프라 공급망 진입"
@@ -167,6 +173,10 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     if STOCK_REPORT_RE.search(title):
         article["excluded"] = 1
         article["exclude_reason"] = "무관(증권사 종목 리포트)"
+        return article
+    if INVEST_TAG_RE.match(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(투자·증시 코너)"
         return article
 
     # (0-b) 인사·부고
