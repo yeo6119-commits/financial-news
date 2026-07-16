@@ -12,7 +12,7 @@ import re
 
 # 여러 소식을 묶은 큐레이션 기사 — 단일 주체가 없어 3줄 요약 불가
 BUNDLE_PATTERNS = [
-    r"^\[.{0,10}(브리핑|풍향계|이모저모|24시|톡톡|NOW|픽|소식|동향|종합)\]",
+    r"^\[.{0,10}(브리핑|풍향계|이모저모|24시|톡톡|NOW|픽|소식|동향|종합|단신|레이더)\]",
     r"^\[(오늘의|데일리|주간|금융|증권|보험|카드|여신)",
     r"外\s*$",
     r"\.\.\.\s*外",
@@ -89,10 +89,20 @@ EXTRA_RELEVANCE = [
 
 # 애널리스트 리포트/투자의견 — 회사명이 있어도 무조건 제외 (디지털·AI 이니셔티브 아님)
 STOCK_REPORT_PATTERNS = [
+    # 애널리스트 리포트·투자의견
     "목표가", "목표주가", "컨센서스", "투자의견", "매수의견", "매도의견",
     "실적 전망", "실적전망", "주가 조정", "저평가", "고평가", "적정주가",
     "애널리포트", "주목할 종목", "특징주", "종목진단", "이 주의 종목",
+    # 시황·주가
+    "주가", "은행주", "금융주", "증권주", "증시", "상한가", "하한가",
+    "신고가", "52주", "시총", "코스피", "코스닥", "지분 확대", "외인 지분",
+    "액면분할", "공매도", "배당수익률",
 ]
+
+# 증권사가 '다른 종목'을 평가하는 리포트 형식
+#   예: 하나증권 "삼미금속, AI 데이터센터 전력 인프라 공급망 진입"
+#   (증권사명 바로 뒤에 따옴표로 시작하는 분석 인용)
+STOCK_REPORT_RE = re.compile(r'(증권|금융투자)\s*[,]?\s*["\u201c\u2018\']')
 
 
 def relevance_keywords(cfg: dict) -> list:
@@ -118,12 +128,16 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     title = article.get("title", "")
     f = cfg["filters"]
 
-    # (0) 애널리스트 리포트·투자의견 — 회사명이 있어도 종목 분석일 뿐 디지털·AI 사안 아님
+    # (0) 애널리스트 리포트·시황 — 회사명이 있어도 종목 분석일 뿐 디지털·AI 사안 아님
     for pat in STOCK_REPORT_PATTERNS:
         if pat in title:
             article["excluded"] = 1
-            article["exclude_reason"] = f"무관(애널리스트 리포트: {pat})"
+            article["exclude_reason"] = f"무관(주식·리포트: {pat})"
             return article
+    if STOCK_REPORT_RE.search(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(증권사 종목 리포트)"
+        return article
 
     # (1) 묶음/종합 기사
     #  - 회사명이 하나도 없으면: 주체 불명 → 제외
