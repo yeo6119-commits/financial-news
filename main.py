@@ -120,6 +120,9 @@ def main():
             print(f"  요약 {i}/{len(live)} {mark}: {it['title'][:40]}")
         if cached:
             print(f"  → 캐시 재사용 {cached}건 (Groq 호출 절약)")
+        tok = smr.usage_report()
+        if tok:
+            print(f"  → 토큰 사용 {tok}")
 
         # 8) DB 저장 — 반영 기사만. 제외 기사는 저장하지 않음(DB 비대화 방지).
         #    제외 목록은 이번 회차분을 메모리에서 HTML로 바로 전달하므로

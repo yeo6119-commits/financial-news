@@ -271,6 +271,8 @@ summarizer:
   provider: groq                # groq | anthropic | openai
   model: llama-3.3-70b-versatile      # 주 모델
   fallback_model: llama-3.1-8b-instant  # 70b 일일한도 소진 시 자동 전환 (쿼터 별개)
+  body_chars: 1500               # 요약에 보낼 본문 길이 (토큰의 70%가 본문 — 여기가 한도의 핵심)
+  max_tokens: 200                # 개조식 3줄이면 충분
   batch: false                  # 절대 변경 금지
   max_retries: 3
   backoff_base_seconds: 2

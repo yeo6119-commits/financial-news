@@ -104,6 +104,19 @@ STOCK_REPORT_PATTERNS = [
 #   (증권사명 바로 뒤에 따옴표로 시작하는 분석 인용)
 STOCK_REPORT_RE = re.compile(r'(증권|금융투자)\s*[,]?\s*["\u201c\u2018\']')
 
+# 인사·부고·동정 — 디지털·AI 사안 아님
+#   '인사'는 '인사이트', '인사말'에도 들어가므로 대괄호 태그/명시 표현만 매칭
+PERSONNEL_RE = re.compile(
+    r"^\[(인사|부고|동정|화촉|승진)\]|\[인사\]|임원\s?인사|정기\s?인사|인사\s?발령|"
+    r"승진\s?인사|^\[신임\]|부고\s?:")
+
+# 여러 회사를 나열한 종합 기사 — 태그 + 구분자 3개 이상
+#   예: [주목! e금융] 하나·신한은행·케이뱅크·KB국민·IBK기업...
+#       [여의도단신] 키움증권·미래에셋자산운용·한국투자신탁운용·KB자산운용
+#   태그 이름은 매체마다 계속 새로 생기므로 이름 열거 대신 구조로 판정
+TAG_RE = re.compile(r"^\s*[\[\【]")
+SEP_RE = re.compile(r"[·ㆍ／/]")
+
 
 def relevance_keywords(cfg: dict) -> list:
     """관련성 키워드 = 검색어 + 로컬 + AI + 보안 + 추가어 + 앱/서비스 브랜드명
@@ -137,6 +150,19 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     if STOCK_REPORT_RE.search(title):
         article["excluded"] = 1
         article["exclude_reason"] = "무관(증권사 종목 리포트)"
+        return article
+
+    # (0-b) 인사·부고
+    if PERSONNEL_RE.search(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(인사·부고)"
+        return article
+
+    # (0-c) 태그 + 구분자 3개 이상 나열 → 종합 기사
+    #       (회사명이 '하나', 'KB국민'처럼 잘려 매칭이 안 되는 경우까지 잡음)
+    if TAG_RE.match(title) and len(SEP_RE.findall(title)) >= 3:
+        article["excluded"] = 1
+        article["exclude_reason"] = "종합기사(여러 건 나열)"
         return article
 
     # (1) 묶음/종합 기사
