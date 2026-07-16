@@ -66,9 +66,25 @@ STOPWORDS = {"기자", "단독", "속보", "종합", "오늘", "밝혀", "위해
              "시대", "체계", "기준", "안전성", "신뢰", "모범사례", "가이드라인"}
 
 
+# 조사·접미 — 같은 명사가 '공무원연금공단' / '공무원연금공단과' 로 갈리는 것 방지
+_JOSA = ("으로써", "으로서", "에서는", "에게는", "으로는", "이라는", "라는",
+         "에서", "에게", "으로", "이라", "까지", "부터", "보다", "처럼", "마다",
+         "와의", "과의", "의", "은", "는", "이", "가", "을", "를", "에", "로",
+         "과", "와", "도", "만", "께", "요")
+
+
+def _strip_josa(tok: str) -> str:
+    """한국어 조사 제거 — 어간이 2자 이상 남을 때만 적용."""
+    for j in _JOSA:                      # 긴 조사부터 검사
+        if len(tok) - len(j) >= 2 and tok.endswith(j):
+            return tok[: -len(j)]
+    return tok
+
+
 def title_tokens(norm_title: str) -> set:
     toks = re.findall(r"[가-힣]{2,}|[a-zA-Z]{2,}|\d+[가-힣]*", norm_title)
-    return {t for t in toks if t not in STOPWORDS}
+    toks = [_strip_josa(t) for t in toks]
+    return {t for t in toks if t not in STOPWORDS and len(t) >= 2}
 
 
 def token_overlap(a: set, b: set) -> float:

@@ -118,6 +118,23 @@ TAG_RE = re.compile(r"^\s*[\[\【]")
 SEP_RE = re.compile(r"[·ㆍ／/]")
 
 
+# 본문 판정 전용 — 제목에 단서가 없을 때 '이 기사가 디지털·AI 사안인가'를 가름.
+# 관련성 목록 전체(앱 이름·브랜드 포함)를 쓰면 CSR 기사에 "하나원큐로 신청" 한 줄만
+# 스쳐도 통과되므로, 주제어급 키워드만 사용한다.
+BODY_CORE = [
+    "AI", "인공지능", "생성형", "LLM", "머신러닝", "딥러닝", "챗봇", "GPT",
+    "에이전트", "디지털", "DT", "DX", "플랫폼", "빅데이터", "데이터 분석",
+    "클라우드", "블록체인", "스테이블코인", "가상자산", "디지털자산", "토큰화",
+    "핀테크", "오픈뱅킹", "API", "자동화", "무인", "비대면", "온라인", "모바일앱",
+    "시스템 구축", "고도화", "전산", "IT", "테크", "알고리즘", "로보어드바이저",
+    "메타버스", "슈퍼앱", "MTS", "간편결제", "간편송금", "이상거래탐지", "FDS",
+]
+
+
+def body_core_keywords(cfg: dict) -> list:
+    return list(dict.fromkeys(BODY_CORE + cfg["classification"]["ai_keywords"]))
+
+
 def relevance_keywords(cfg: dict) -> list:
     """관련성 키워드 = 검색어 + 로컬 + AI + 보안 + 추가어 + 앱/서비스 브랜드명
 
@@ -254,18 +271,21 @@ def apply_filters(article: dict, cfg: dict) -> dict:
     text = "%s %s" % (title, head)
 
     # 제목에 디지털·AI 키워드가 없던 건 → 본문으로 최종 판정
+    #  · 리드(앞 400자)에서만 찾는다. 한국 기사는 역피라미드라 주제가 리드에 온다.
+    #    뒤쪽에 스치듯 나오는 언급은 그 기사의 주제가 아니므로 근거로 삼지 않는다.
+    #  · 핵심 키워드(BODY_CORE)만 인정. 앱 이름·일반어는 제외.
     if article.get("_needs_body_check"):
         if not body:
             article["excluded"] = 1
             article["exclude_reason"] = "무관(제목·본문에서 디지털·AI 근거 없음)"
             return article
-        rel = relevance_keywords(cfg)
-        body_hits = _hit(head, rel)
-        if not body_hits:
+        lead = body[:400]
+        core_hits = _hit(lead, body_core_keywords(cfg))
+        if not core_hits:
             article["excluded"] = 1
             article["exclude_reason"] = "무관(본문 확인: 디지털·AI 내용 아님)"
             return article
-        article["_body_relevance"] = body_hits[0]   # 본문 근거 기록
+        article["_body_relevance"] = core_hits[0]   # 본문 근거 기록
 
     security = _hit(text, f["security_override"])
 
