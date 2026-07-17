@@ -151,6 +151,10 @@ BODY_CORE = [
     "에이전트", "디지털", "DT", "DX", "플랫폼", "빅데이터", "데이터 분석",
     "클라우드", "블록체인", "스테이블코인", "가상자산", "디지털자산", "토큰화",
     "핀테크", "오픈뱅킹", "API", "자동화", "무인", "비대면", "온라인", "모바일앱",
+    # 결제·채널 인프라 — 그 자체로 디지털 사안
+    "결제", "QR", "단말기", "페이먼트", "선불충전", "POS", "밴사", "NFC", "태그",
+    # 계좌·거래 인프라
+    "통합계좌", "계좌개설", "비대면 계좌", "옴니버스", "실시간 이체", "송금",
     "시스템 구축", "고도화", "전산", "IT", "테크", "알고리즘", "로보어드바이저",
     "메타버스", "슈퍼앱", "MTS", "간편결제", "간편송금", "이상거래탐지", "FDS",
 ]
@@ -158,6 +162,21 @@ BODY_CORE = [
 
 def body_core_keywords(cfg: dict) -> list:
     return list(dict.fromkeys(BODY_CORE + cfg["classification"]["ai_keywords"]))
+
+
+def fintech_companies(cfg: dict) -> set:
+    """인터넷은행·핀테크사 — 사업 자체가 디지털이므로 본문 확인을 면제한다.
+
+    은행의 삼계탕 나눔 기사는 디지털이 아니지만,
+    네이버파이낸셜의 금감원 제재 기사는 그 자체로 핀테크 뉴스다.
+    회사 성격에 따라 판정 기준이 달라야 한다.
+    """
+    out = set()
+    g = cfg["tier1"].get("인터넷은행핀테크", {})
+    for names in g.get("companies", {}).values():
+        out.update(names)
+    out.update(g.get("brands_standalone", []))
+    return out
 
 
 def relevance_keywords(cfg: dict) -> list:
@@ -287,6 +306,7 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
         return article
 
     # 제목에 디지털·AI 단서가 없음 → 본문을 읽어볼 가치가 있는지 먼저 판단
+    #   (핀테크사라도 봉사·기탁 기사는 여기서 걸러진다)
     topic = _hit(title, NON_DIGITAL_TOPICS)
     if topic:
         article["excluded"] = 1
@@ -295,7 +315,11 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
 
     article["excluded"] = 0
     article["exclude_reason"] = None
-    article["_needs_body_check"] = True
+    # 핀테크·인터넷은행은 사업 자체가 디지털 → 본문 확인 없이 통과
+    if set(comp_hits) & fintech_companies(cfg):
+        article["_needs_body_check"] = False
+    else:
+        article["_needs_body_check"] = True
     return article
 
 
