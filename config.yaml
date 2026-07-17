@@ -282,7 +282,7 @@ summarizer:
   fallback_model: llama-3.1-8b-instant  # 70b 일일한도 소진 시 자동 전환 (쿼터 별개)
   body_chars: 1100               # 요약에 보낼 본문 길이 (문장 단위로 절단)
   min_body_chars: 200            # 이보다 짧으면 Groq 호출 생략 (환각 방지 + 토큰 절약)
-  max_tokens: 180                # 개조식 3줄이면 충분
+  max_tokens: 320                # 4줄 × 70자 여유분 (상한일 뿐, 실제 생성량만 소비)
   batch: false                  # 절대 변경 금지
   max_retries: 3
   backoff_base_seconds: 2
@@ -296,9 +296,9 @@ summarizer:
     - 약어는 처음 등장 시 괄호로 풀어씀
   validation:
     min_lines: 2                 # 개조식 2~3줄
-    max_lines: 3
+    max_lines: 4          # 내용 많은 기사는 4줄까지
     each_starts_with: "-"
-    min_line_chars: 15
+    min_line_chars: 25   # 단어 나열식 짧은 줄 거부
 
 # -------------------------------------------------------------
 # 11. HTML 아카이브
