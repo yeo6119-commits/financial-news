@@ -44,6 +44,9 @@ need deduplicator.py "_strip_josa"        "한국어 조사 제거"
 # 필터
 need filter.py     "NON_DIGITAL_TOPICS"   "본문확인 대상 축소 (실행시간)"
 need filter.py     "BODY_CORE"            "본문 판정 핵심 키워드"
+# 단독 사용 시 일반 은행업무를 통과시킨 이력 (계좌 여세요 이벤트 → '계좌개설')
+deny filter.py     '"계좌개설",'           "BODY_CORE에 '계좌개설' 단독 없음"
+deny filter.py     '"결제", "QR"'          "BODY_CORE에 '결제' 단독 없음"
 
 echo "────────────────────────────────────────────"
 # 문법 검사
