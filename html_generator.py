@@ -59,6 +59,24 @@ border:1px solid var(--line);border-radius:7px;padding:9px 11px;outline:none;mar
 padding:8px 16px;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--muted)}
 .modal-btns button.primary{background:var(--teal);border-color:var(--teal);color:#fff}
 
+/* 1차 통과 검수 패널 */
+.audit{margin:10px 0 0;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.audit>summary{cursor:pointer;padding:10px 14px;font-size:12.5px;font-weight:700;color:var(--muted);
+list-style:none;display:flex;align-items:center;gap:8px}
+.audit>summary::-webkit-details-marker{display:none}
+.audit>summary::before{content:"▸";color:var(--teal);font-size:10px}
+.audit[open]>summary::before{content:"▾"}
+.audit-body{padding:0 14px 14px;max-height:520px;overflow-y:auto}
+.audit-grp{margin-top:12px}
+.audit-grp h4{font-size:11.5px;font-weight:800;color:var(--teal);margin-bottom:6px;
+padding-bottom:4px;border-bottom:1px solid var(--line)}
+.audit-item{font-size:11.5px;color:var(--ink);padding:4px 0;line-height:1.5}
+.audit-item .meta{color:var(--muted);font-size:10.5px}
+.audit-item a{color:var(--ink);text-decoration:none} .audit-item a:hover{color:var(--teal)}
+.audit-dup{margin:2px 0 6px 14px;padding-left:10px;border-left:2px solid var(--line)}
+.audit-dup div{font-size:11px;color:var(--muted);padding:2px 0}
+.audit-why{color:var(--teal);font-weight:600;font-size:10.5px}
+
 .ledger-line{font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line);
 border-radius:8px;padding:7px 12px;margin:10px 0 12px;font-variant-numeric:tabular-nums}
 .ledger-line b{color:var(--teal)} .ledger-line .warn{color:var(--warn);font-weight:600}
@@ -386,6 +404,56 @@ def _sector_key(s):
 WEEK = "월화수목금토일"
 
 
+def _audit(screened):
+    """1차 통과 기사의 최종 행방 — 중복 제거가 타당했는지 검수."""
+    if not screened:
+        return ""
+    live = [a for a in screened if not a.get("excluded")]
+    dup = [a for a in screened if (a.get("exclude_reason") or "").startswith("중복")]
+    seen = [a for a in screened if (a.get("exclude_reason") or "").startswith("기열람")]
+    irr = [a for a in screened
+           if a.get("excluded") and not (a.get("exclude_reason") or "").startswith(("중복", "기열람"))]
+
+    def item(a, extra=""):
+        url = a.get("naver_url") or ""
+        t = H.escape(a.get("title") or "")
+        title = '<a href="%s" target="_blank">%s</a>' % (H.escape(url), t) if url else t
+        return ('<div class="audit-item">%s <span class="meta">· %s</span>%s</div>'
+                % (title, H.escape(a.get("press") or ""), extra))
+
+    out = []
+    if live:
+        out.append('<div class="audit-grp"><h4>반영 %d건</h4>%s</div>'
+                   % (len(live), "".join(item(a) for a in live)))
+    if dup:
+        reps = [a for a in screened if a.get("dup_members")]
+        blocks = []
+        for r in reps:
+            members = "".join(
+                '<div>└ %s <span class="meta">· %s</span> <span class="audit-why">%s</span></div>'
+                % (H.escape(t), H.escape(p), H.escape(w))
+                for t, p, w in r["dup_members"])
+            blocks.append('%s<div class="audit-dup">%s</div>' % (item(r), members))
+        out.append('<div class="audit-grp"><h4>중복 제거 %d건 → %d개 사건</h4>%s</div>'
+                   % (len(dup), len(reps), "".join(blocks)))
+    if seen:
+        out.append('<div class="audit-grp"><h4>기열람 %d건 (직전 회차에 이미 반영)</h4>%s</div>'
+                   % (len(seen), "".join(
+                       item(a, ' <span class="audit-why">%s</span>'
+                            % H.escape((a.get("exclude_reason") or "")[4:60]))
+                       for a in seen[:60])))
+    if irr:
+        out.append('<div class="audit-grp"><h4>본문 확인 후 제외 %d건</h4>%s</div>'
+                   % (len(irr), "".join(
+                       item(a, ' <span class="meta">%s</span>'
+                            % H.escape((a.get("exclude_reason") or "")[:40]))
+                       for a in irr[:60])))
+
+    return ('<details class="audit"><summary>1차 통과 %d건 검수 — 반영 %d · 중복 %d · '
+            '기열람 %d · 본문무관 %d</summary><div class="audit-body">%s</div></details>'
+            % (len(screened), len(live), len(dup), len(seen), len(irr), "".join(out)))
+
+
 def _runlog(history) -> str:
     """회차별 요청 이력 패널 — 요청 일시 / 반영 / 요약 성공"""
     if not history:
@@ -414,7 +482,8 @@ def _runlog(history) -> str:
 GH_CONF = {}
 
 
-def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh=None):
+def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh=None,
+           screened_rows=None):
     global GH_CONF
     GH_CONF = gh or {}
     runs = OrderedDict()
@@ -446,6 +515,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     import json
     subs_json = json.dumps(sub_js, ensure_ascii=False)
     runlog = _runlog(history or [])
+    audit = _audit(screened_rows or [])
     gh_json = json.dumps(GH_CONF, ensure_ascii=False)
 
     run_html = ""
@@ -526,6 +596,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
   <button class="btn-key" id="btnKey">토큰 변경</button>
 </div>
 <div class="ledger-line">{ledger}</div>
+{audit}
 
 <div class="modal" id="tokenModal">
   <div class="modal-box">

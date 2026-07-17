@@ -186,9 +186,19 @@ def main():
              "pub_date": it.get("pub_date"), "exclude_reason": it.get("exclude_reason")}
             for it in items if it.get("excluded")
         ]
+        # 1차 통과분의 최종 행방 — 중복 제거가 타당했는지 검수용
+        screened_rows = [
+            {"title": it.get("title"), "press": it.get("press"),
+             "company": it.get("company"), "pub_date": it.get("pub_date"),
+             "naver_url": it.get("naver_url") or it.get("original_url"),
+             "excluded": it.get("excluded"),
+             "exclude_reason": it.get("exclude_reason"),
+             "dup_members": it.get("_dup_members") or []}
+            for it in survivors
+        ]
         history = dbm.get_run_history(conn, cfg["db"]["retention_days"])
         out = htm.render(rows, stats, excluded_rows, cfg["html"]["output_file"], history,
-                         cfg.get("github"))
+                         cfg.get("github"), screened_rows)
         print(f"HTML 생성: {out}")
 
         # 10) delivered 트랜잭션 (HTML rename 성공 후에만)

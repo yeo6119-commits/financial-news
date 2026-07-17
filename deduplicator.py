@@ -175,9 +175,12 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                     except (ValueError, TypeError):
                         pass
                 # (ii) 제목 핵심 토큰 겹침 (같은 사건)
-                if token_overlap(atok, ptok) >= 0.5:
+                ov = token_overlap(atok, ptok)
+                if ov >= 0.5:
                     a["excluded"] = 1
-                    a["exclude_reason"] = f"기열람(동일 사건: {ptitle[:24]})"
+                    a["exclude_reason"] = f"기열람(동일 사건 {ov:.2f}: {ptitle[:24]})"
+                    a["_dup_ref"] = ptitle
+                    a["_dup_score"] = ov
                     break
 
     # 2) 배치 내 중복 클러스터링
@@ -211,9 +214,35 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
             continue
         cl.sort(key=_score, reverse=True)
         rep = cl[0]
+        rep["_dup_members"] = []
         for dup in cl[1:]:
+            ov = token_overlap(dup["_tokens"], rep["_tokens"])
+            ts = title_sim(dup["norm_title"], rep["norm_title"])
+            # 어떤 근거로 묶였는지 기록 — 검수·튜닝에 필요
+            why = []
+            if dup["norm_title_hash"] == rep["norm_title_hash"]:
+                why.append("제목동일")
+            if dup.get("body_hash") and dup["body_hash"] == rep.get("body_hash"):
+                why.append("본문동일")
+            if ts >= thr:
+                why.append(f"제목유사 {ts:.2f}")
+            if ov >= 0.35:
+                why.append(f"토큰겹침 {ov:.2f}")
+            if dup.get("body") and rep.get("body"):
+                try:
+                    hd = hamming(int(dup["body_fingerprint"], 16),
+                                 int(rep["body_fingerprint"], 16))
+                    if hd <= 6:
+                        why.append(f"본문지문 {hd}")
+                except (ValueError, TypeError):
+                    pass
             dup["excluded"] = 1
-            dup["exclude_reason"] = f"중복(대표: {rep['title'][:30]})"
+            dup["exclude_reason"] = "중복(%s | 대표: %s)" % (
+                ", ".join(why) or "동일", rep["title"][:26])
             dup["dup_of_title"] = rep["title"]
+            dup["_dup_ref"] = rep["title"]
+            dup["_dup_score"] = ov
+            rep["_dup_members"].append((dup["title"], dup.get("press") or "",
+                                        ", ".join(why)))
 
     return articles
