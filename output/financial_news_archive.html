@@ -13,6 +13,56 @@ header{padding-bottom:8px}
 .eyebrow{font-size:11px;letter-spacing:.14em;color:var(--teal);font-weight:700;text-transform:uppercase}
 h1{font-size:21px;font-weight:800;margin-top:2px}
 .gen-meta{font-size:12px;color:var(--muted);margin-top:4px}
+/* 실행 버튼 */
+.run-bar{display:flex;align-items:center;gap:9px;margin:10px 0 0}
+.btn-run{font-family:inherit;font-size:13.5px;font-weight:800;color:#fff;background:var(--teal);
+border:none;border-radius:8px;padding:9px 20px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn-run:hover{background:#005c65}
+.btn-run:disabled{background:var(--muted);cursor:default}
+.btn-run .spin{width:12px;height:12px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;
+border-radius:50%;animation:sp .7s linear infinite;display:none}
+.btn-run.busy .spin{display:block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.run-status{font-size:12px;color:var(--muted);font-weight:600}
+.run-status.ok{color:var(--teal)} .run-status.err{color:#b3403a}
+.btn-key{font-family:inherit;font-size:11.5px;color:var(--muted);background:transparent;
+border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer;margin-left:auto}
+
+/* 토큰 입력 모달 */
+.modal{position:fixed;inset:0;background:rgba(18,43,43,.5);display:none;align-items:center;
+justify-content:center;z-index:50;padding:20px}
+.modal.show{display:flex}
+.modal-box{background:var(--card);border-radius:12px;padding:20px;max-width:400px;width:100%}
+.modal-box h3{font-size:15px;font-weight:800;margin-bottom:8px}
+.modal-box p{font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.55}
+.modal-box p a{color:var(--teal);font-weight:600}
+.modal-box input{width:100%;font-family:ui-monospace,monospace;font-size:12.5px;
+border:1px solid var(--line);border-radius:7px;padding:9px 11px;outline:none;margin-bottom:12px}
+.modal-box input:focus{border-color:var(--teal)}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.modal-btns button{font-family:inherit;font-size:13px;font-weight:700;border-radius:7px;
+padding:8px 16px;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+.modal-btns button.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+
+/* 1차 통과 검수 패널 */
+.audit{margin:10px 0 0;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.audit>summary{cursor:pointer;padding:10px 14px;font-size:12.5px;font-weight:700;color:var(--muted);
+list-style:none;display:flex;align-items:center;gap:8px}
+.audit>summary::-webkit-details-marker{display:none}
+.audit>summary::before{content:"▸";color:var(--teal);font-size:10px}
+.audit[open]>summary::before{content:"▾"}
+.audit-body{padding:0 14px 14px;max-height:520px;overflow-y:auto}
+.audit-grp{margin-top:12px}
+.audit-grp h4{font-size:11.5px;font-weight:800;color:var(--teal);margin-bottom:6px;
+padding-bottom:4px;border-bottom:1px solid var(--line)}
+.audit-item{font-size:11.5px;color:var(--ink);padding:4px 0;line-height:1.5}
+.audit-item .meta{color:var(--muted);font-size:10.5px}
+.audit-item a{color:var(--ink);text-decoration:none} .audit-item a:hover{color:var(--teal)}
+.audit-dup{margin:2px 0 6px 14px;padding-left:10px;border-left:2px solid var(--line)}
+.audit-dup div{font-size:11px;color:var(--muted);padding:2px 0}
+.audit-why{color:var(--teal);font-weight:600;font-size:10.5px}
+
+.a-meta.nosum{color:#b3403a}
 .ledger-line{font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line);
 border-radius:8px;padding:7px 12px;margin:10px 0 12px;font-variant-numeric:tabular-nums}
 .ledger-line b{color:var(--teal)} .ledger-line .warn{color:var(--warn);font-weight:600}
@@ -87,7 +137,7 @@ padding:11px 14px;margin-bottom:10px;background:var(--card)}
 .a-meta{font-size:11.5px;color:var(--muted);margin:2px 0 7px}
 .summary{list-style:none}
 .summary li{font-size:13.5px;padding-left:14px;position:relative;margin-bottom:3px}
-.summary li::before{content:"*";position:absolute;left:0;color:var(--teal);font-weight:800}
+.summary li::before{content:"–";position:absolute;left:0;color:var(--teal);font-weight:800}
 .article.is-ai .summary li::before{color:var(--ai)}
 .kw{font-size:11px;color:var(--muted);margin-top:7px} .kw b{color:var(--teal);font-weight:600}
 .src-link{display:inline-block;margin-top:8px;font-size:12.5px;font-weight:700;color:var(--teal);
@@ -107,11 +157,30 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
 </style></head><body>
 <header><div class="eyebrow">Financial Digital · AI News Archive</div>
 <h1>금융회사 디지털·AI 뉴스 아카이브</h1>
-<div class="gen-meta">최종 갱신 2026-07-14 22:30 (재렌더링) · 보관 60일 · 뉴스(네이버 API) + 보도자료(9개 그룹)</div></header>
-<div class="ledger-line">최근 회차 수지: 수집 <b>0</b> = 반영 <b>116</b> + 제외 0 &nbsp;·&nbsp; API 0콜 · 추출실패 0 · 요약실패 0</div>
-<details class="runlog"><summary>요청 이력 2회 · 누적 116건 반영</summary><div class="rl-wrap"><div class="rl-row"><span class="rl-when">2026-07-14 (화) 22:05 요청</span><span class="rl-ok">56건 반영</span><span class="rl-sub">요약 성공 41</span> <span class="rl-fail">요약실패 15</span><span class="rl-sub">· 수집 1459 · API 3575콜</span></div><div class="rl-row"><span class="rl-when">2026-07-13 (월) 21:10 요청</span><span class="rl-ok">60건 반영</span><span class="rl-sub">요약 성공 12</span> <span class="rl-fail">요약실패 48</span><span class="rl-sub">· 수집 1546 · API 3740콜</span></div></div></details>
+<div class="gen-meta">최종 갱신 2026-07-17 20:58 (재렌더링) · 보관 60일 · 뉴스(네이버 API) + 보도자료(9개 그룹)</div></header>
+<div class="run-bar">
+  <button class="btn-run" id="btnRun"><span class="spin"></span><span id="btnRunTxt">실행</span></button>
+  <span class="run-status" id="runStatus"></span>
+  <button class="btn-key" id="btnKey">토큰 변경</button>
+</div>
+<div class="ledger-line">최근 회차 수지: 수집 <b>0</b> = 반영 <b>241</b> + 제외 0 &nbsp;·&nbsp; API 0콜 · 추출실패 0 · 요약실패 0</div>
+
+
+<div class="modal" id="tokenModal">
+  <div class="modal-box">
+    <h3>GitHub 토큰 입력</h3>
+    <p>실행 권한 확인을 위해 개인 토큰이 필요합니다. 입력한 토큰은 이 브라우저에만 저장되며 서버로 전송되지 않습니다.<br><br>
+    발급: GitHub → Settings → Developer settings → Personal access tokens (classic) → Generate new token → <b>repo</b>, <b>workflow</b> 체크</p>
+    <input type="password" id="tokenInput" placeholder="ghp_..." autocomplete="off">
+    <div class="modal-btns">
+      <button id="tokenCancel">취소</button>
+      <button class="primary" id="tokenSave">저장</button>
+    </div>
+  </div>
+</div>
+<details class="runlog"><summary>요청 이력 24회 · 누적 241건 반영</summary><div class="rl-wrap"><div class="rl-row"><span class="rl-when">2026-07-17 (금) 18:44 요청</span><span class="rl-ok">2건 반영</span><span class="rl-sub">요약 성공 1</span> <span class="rl-fail">요약실패 1</span><span class="rl-sub">· 수집 439 · API 3630콜</span></div><div class="rl-row"><span class="rl-when">2026-07-17 (금) 16:03 요청</span><span class="rl-ok">0건 반영</span><span class="rl-sub">요약 성공 0</span><span class="rl-sub">· 수집 670 · API 3766콜</span></div><div class="rl-row"><span class="rl-when">2026-07-17 (금) 15:13 요청</span><span class="rl-ok">0건 반영</span><span class="rl-sub">요약 성공 0</span><span class="rl-sub">· 수집 744 · API 3724콜</span></div><div class="rl-row"><span class="rl-when">2026-07-17 (금) 10:58 요청</span><span class="rl-ok">0건 반영</span><span class="rl-sub">요약 성공 0</span><span class="rl-sub">· 수집 977 · API 3902콜</span></div><div class="rl-row"><span class="rl-when">2026-07-17 (금) 10:29 요청</span><span class="rl-ok">2건 반영</span><span class="rl-sub">요약 성공 2</span><span class="rl-sub">· 수집 1022 · API 3781콜</span></div><div class="rl-row"><span class="rl-when">2026-07-17 (금) 10:07 요청</span><span class="rl-ok">0건 반영</span><span class="rl-sub">요약 성공 0</span><span class="rl-sub">· 수집 1859 · API 3769콜</span></div><div class="rl-row"><span class="rl-when">2026-07-17 (금) 09:19 요청</span><span class="rl-ok">3건 반영</span><span class="rl-sub">요약 성공 3</span><span class="rl-sub">· 수집 1953 · API 3889콜</span></div><div class="rl-row"><span class="rl-when">2026-07-16 (목) 21:18 요청</span><span class="rl-ok">2건 반영</span><span class="rl-sub">요약 성공 2</span><span class="rl-sub">· 수집 1886 · API 3947콜</span></div><div class="rl-row"><span class="rl-when">2026-07-16 (목) 20:39 요청</span><span class="rl-ok">0건 반영</span><span class="rl-sub">요약 성공 0</span><span class="rl-sub">· 수집 1823 · API 3942콜</span></div><div class="rl-row"><span class="rl-when">2026-07-16 (목) 19:49 요청</span><span class="rl-ok">5건 반영</span><span class="rl-sub">요약 성공 5</span><span class="rl-sub">· 수집 1710 · API 3955콜</span></div><div class="rl-row"><span class="rl-when">2026-07-16 (목) 17:19 요청</span><span class="rl-ok">3건 반영</span><span class="rl-sub">요약 성공 3</span><span class="rl-sub">· 수집 1537 · API 3975콜</span></div><div class="rl-row"><span class="rl-when">2026-07-16 (목) 17:00 요청</span><span class="rl-ok">7건 반영</span><span class="rl-sub">요약 성공 6</span> <span class="rl-fail">요약실패 1</span><span class="rl-sub">· 수집 1533 · API 4004콜</span></div><div class="rl-row"><span class="rl-when">2026-07-16 (목) 16:13 요청</span><span class="rl-ok">18건 반영</span><span class="rl-sub">요약 성공 13</span> <span class="rl-fail">요약실패 5</span><span class="rl-sub">· 수집 1471 · API 3947콜</span></div><div class="rl-row"><span class="rl-when">2026-07-16 (목) 13:37 요청</span><span class="rl-ok">15건 반영</span><span class="rl-sub">요약 성공 12</span> <span class="rl-fail">요약실패 3</span><span class="rl-sub">· 수집 1491 · API 3995콜</span></div><div class="rl-row"><span class="rl-when">2026-07-16 (목) 08:50 요청</span><span class="rl-ok">40건 반영</span><span class="rl-sub">요약 성공 29</span> <span class="rl-fail">요약실패 11</span><span class="rl-sub">· 수집 1572 · API 3890콜</span></div><div class="rl-row"><span class="rl-when">2026-07-15 (수) 21:56 요청</span><span class="rl-ok">7건 반영</span><span class="rl-sub">요약 성공 4</span> <span class="rl-fail">요약실패 3</span><span class="rl-sub">· 수집 1851 · API 3951콜</span></div><div class="rl-row"><span class="rl-when">2026-07-15 (수) 21:29 요청</span><span class="rl-ok">1건 반영</span><span class="rl-sub">요약 성공 1</span><span class="rl-sub">· 수집 1552 · API 3593콜</span></div><div class="rl-row"><span class="rl-when">2026-07-15 (수) 19:49 요청</span><span class="rl-ok">1건 반영</span><span class="rl-sub">요약 성공 1</span><span class="rl-sub">· 수집 1544 · API 3604콜</span></div><div class="rl-row"><span class="rl-when">2026-07-15 (수) 17:17 요청</span><span class="rl-ok">7건 반영</span><span class="rl-sub">요약 성공 3</span> <span class="rl-fail">요약실패 4</span><span class="rl-sub">· 수집 1481 · API 3689콜</span></div><div class="rl-row"><span class="rl-when">2026-07-15 (수) 14:28 요청</span><span class="rl-ok">8건 반영</span><span class="rl-sub">요약 성공 7</span> <span class="rl-fail">요약실패 1</span><span class="rl-sub">· 수집 1437 · API 3859콜</span></div><div class="rl-row"><span class="rl-when">2026-07-15 (수) 12:22 요청</span><span class="rl-ok">20건 반영</span><span class="rl-sub">요약 성공 17</span> <span class="rl-fail">요약실패 3</span><span class="rl-sub">· 수집 1439 · API 3556콜</span></div><div class="rl-row"><span class="rl-when">2026-07-15 (수) 07:40 요청</span><span class="rl-ok">9건 반영</span><span class="rl-sub">요약 성공 7</span> <span class="rl-fail">요약실패 2</span><span class="rl-sub">· 수집 1485 · API 3863콜</span></div><div class="rl-row"><span class="rl-when">2026-07-14 (화) 22:05 요청</span><span class="rl-ok">45건 반영</span><span class="rl-sub">요약 성공 36</span> <span class="rl-fail">요약실패 9</span><span class="rl-sub">· 수집 1459 · API 3575콜</span></div><div class="rl-row"><span class="rl-when">2026-07-13 (월) 21:10 요청</span><span class="rl-ok">46건 반영</span><span class="rl-sub">요약 성공 10</span> <span class="rl-fail">요약실패 36</span><span class="rl-sub">· 수집 1546 · API 3740콜</span></div></div></details>
 <div class="sticky">
-  <nav class="company-menu" id="menu"><button data-co="all" class="active">전체 <span class="n">116</span></button><button data-co="hana">하나 <span class="n">17</span></button><button data-co="shinhan">신한 <span class="n">9</span></button><button data-co="kb">KB <span class="n">20</span></button><button data-co="woori">우리 <span class="n">10</span></button><button data-co="nh">NH <span class="n">8</span></button><button data-co="regional">지방금융 <span class="n">3</span></button><button data-co="policy">국책 <span class="n">7</span></button><button data-co="nonholding">비지주 <span class="n">17</span></button><button data-co="internet">핀테크 <span class="n">22</span></button><button data-co="overseas">해외 <span class="n">3</span></button></nav>
+  <nav class="company-menu" id="menu"><button data-co="all" class="active">전체 <span class="n">241</span></button><button data-co="hana">하나 <span class="n">19</span></button><button data-co="shinhan">신한 <span class="n">30</span></button><button data-co="kb">KB <span class="n">29</span></button><button data-co="woori">우리 <span class="n">22</span></button><button data-co="nh">NH <span class="n">19</span></button><button data-co="regional">지방금융 <span class="n">18</span></button><button data-co="policy">국책 <span class="n">14</span></button><button data-co="nonholding">비지주 <span class="n">34</span></button><button data-co="internet">핀테크 <span class="n">41</span></button><button data-co="overseas">해외 <span class="n">15</span></button></nav>
   <nav class="sub-menu hidden" id="submenu"></nav>
   <div class="search-wrap">
     <svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -123,20 +192,1497 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
 
 <details class="run-block" open>
  <summary>
-  <div class="run-head"><span class="dot"></span><h2>2026-07-14 22:05 요청분</h2>
-   <span class="cnt" data-total="56">56건</span>
-   <span class="range">검색 07-13 22:05 ~ 07-14 22:05</span><span class="caret">▾</span></div>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-17 18:44 요청분</h2>
+   <span class="cnt" data-total="2">2건</span>
+   <span class="range">검색 07-16 18:44 ~ 07-17 18:44</span><span class="caret">▾</span></div>
  </summary>
  <div class="run-body">
+<div class="article" data-co="internet" data-sector="카카오" data-type="디지털">
+ <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/015/0005311136?sid=101" target="_blank" rel="noopener">정중동 전략?…&#x27;얼굴&#x27; 안 내미는 카카오페이</a></h3>
+ <div class="a-meta">한국경제 · 2026-07-17 17:57</div>
+ <div class="a-meta nosum">요약 미제공 — 개조식 형식 미달 (요약하기 어려운 유형의 기사)</div>
+ <div class="kw">매칭 키워드: <b>카카오페이</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/015/0005311136?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/015/0005311124?sid=101" target="_blank" rel="noopener">단말기 많은 토스, 성장 빠른 네이버…오프라인 결제 &#x27;정面승부&#x27;</a></h3>
+ <div class="a-meta">한국경제 · 2026-07-17 17:48</div>
+ <ul class="summary"><li>토스와 네이버, 얼굴 결제 단말기 보급 경쟁</li><li>토스와 네이버의 얼굴 결제 단말기 설치 가맹점은 각각 40만 곳, 10만 곳으로 집계</li><li>토스와 네이버의 얼굴 결제 단말기 보급으로 오프라인 결제 시장 경쟁이 치열해지는 중</li><li>토스와 네이버의 디지털 금융 주도권 경쟁이 가열되는 가운데 얼굴 결제 시장이 급성장할 전망</li></ul>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/015/0005311124?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-17 10:29 요청분 (과거)</h2>
+   <span class="cnt" data-total="2">2건</span>
+   <span class="range">검색 07-16 10:29 ~ 07-17 10:29</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article" data-co="overseas" data-sector="해외" data-type="디지털">
+ <div class="tags"><span class="tag path">모건스탠리 · 해외</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.tokenpost.kr/news/breaking/378588" target="_blank" rel="noopener">모건스탠리 산하 이트레이드, 암호화폐 현물 거래 정식 출시</a></h3>
+ <div class="a-meta"> · 2026-07-17 01:56</div>
+ <ul class="summary"><li>이트레이드, 암호화폐 현물 거래 서비스 출시</li><li>비트코인, 이더리움, 솔라나 거래 가능</li><li>자산 이체 기능 제공 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>모건스탠리</b></div>
+ <a class="src-link" href="https://www.tokenpost.kr/news/breaking/378588" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">신한투자증권 · 증권</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/031/0001042653?sid=101" target="_blank" rel="noopener">신한證 &#x27;SOL LINK&#x27; 예탁금 이용료 부담 줄인다</a></h3>
+ <div class="a-meta">아이뉴스24 · 2026-07-16 10:45</div>
+ <ul class="summary"><li>신한證, 예탁금 이용료 부담 줄임</li><li>은행 자금 주식매매 연동</li><li>증권사 이자 장사 비판 탈출</li></ul>
+ <div class="kw">매칭 키워드: <b>SOL LINK</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/031/0001042653?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-17 09:19 요청분 (과거)</h2>
+   <span class="cnt" data-total="3">3건</span>
+   <span class="range">검색 07-16 09:19 ~ 07-17 09:19</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article is-ai" data-co="kb" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">KB증권 · 증권</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://hbnpress.com/news/view/1065589230870498" target="_blank" rel="noopener">‘3위 KB증권 vs 4위 삼성증권’...K-브랜드지수 증권사 부문 순위 싸움...</a></h3>
+ <div class="a-meta"> · 2026-07-17 09:06</div>
+ <ul class="summary"><li>아시아브랜드연구소, K-브랜드지수</li><li>미래에셋증권 1위, KB증권 3위, 삼성증권 4위</li><li>2026년 6월 빅데이터 분석 결과</li></ul>
+ <div class="kw">매칭 키워드: <b>KB증권, 삼성증권, AI</b></div>
+ <a class="src-link" href="https://hbnpress.com/news/view/1065589230870498" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">대신증권 · 증권</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/119/0003112357?sid=101" target="_blank" rel="noopener">계좌 개설하고 주식 사면 6만원…대신증권 혜택 뭐길래</a></h3>
+ <div class="a-meta">데일리안 · 2026-07-17 09:01</div>
+ <ul class="summary"><li>대신증권, 신규 고객 최대 6만원 투자지원금</li><li>크레온 비대면 계좌 개설 및 국내 주식 100만원 이상 거래</li><li>전시회 티켓 추첨 및 구글 AI 프로 이용권 제공 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>대신증권</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/119/0003112357?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="internet" data-sector="카카오" data-type="AI">
+ <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.econovill.com/news/articleView.html?idxno=745400" target="_blank" rel="noopener">카카오페이, 농협은행과 대안신용평가 판 키운다 8개사 동맹 결성</a></h3>
+ <div class="a-meta"> · 2026-07-16 13:16</div>
+ <ul class="summary"><li>카카오페이, 농협은행과 대안신용평가 활성화</li><li>카카오페이와 농협은행, NH농협카드, NH농협캐피탈, 코리아크레딧뷰로, 애자일소다, 어니스트AI, 크레파스솔루션, 한국평가정보와의 업무협약 체결</li><li>대안신용평가 모델 개발과 활용방안 모색 중</li></ul>
+ <div class="kw">매칭 키워드: <b>카카오페이, 농협은행, AI</b></div>
+ <a class="src-link" href="https://www.econovill.com/news/articleView.html?idxno=745400" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-16 21:18 요청분 (과거)</h2>
+   <span class="cnt" data-total="2">2건</span>
+   <span class="range">검색 07-15 21:18 ~ 07-16 21:18</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article is-ai" data-co="regional" data-sector="기타" data-type="AI">
+ <div class="tags"><span class="tag path">iM금융그룹 · 기타</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/079/0004169135?sid=102" target="_blank" rel="noopener">iM금융그룹, 전 계열사 사외이사 연수 프로그램 운영</a></h3>
+ <div class="a-meta">노컷뉴스 · 2026-07-16 14:10</div>
+ <ul class="summary"><li>iM금융그룹, 사외이사 연수 프로그램 운영</li><li>금융회사 AI 전환 전략과 스테이블코인 구조 교육</li><li>지배구조 모범관행 도입과 사외이사 운영체계 선진화</li></ul>
+ <div class="kw">매칭 키워드: <b>iM금융그룹, AI</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/079/0004169135?sid=102" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/009/0005708209?sid=101" target="_blank" rel="noopener">간편송금 앱에서 ‘금융 공룡’으로…토스, 핀테크 첫 금융복합기업집...</a></h3>
+ <div class="a-meta">매일경제 · 2026-07-16 09:59</div>
+ <ul class="summary"><li>토스, 금융복합기업집단 지정</li><li>자산 41조원, 금융업 2개 이상 영위 중</li><li>내부거래 승인과 공시 의무화 및 자본비율 관리 중</li></ul>
+ <div class="kw">매칭 키워드: <b>토스, 앱</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/009/0005708209?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-16 19:49 요청분 (과거)</h2>
+   <span class="cnt" data-total="5">5건</span>
+   <span class="range">검색 07-15 19:49 ~ 07-16 19:49</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article is-ai" data-co="shinhan" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">신한은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://m.sports.naver.com/general/article/450/0000152574" target="_blank" rel="noopener">저금통 대신 캐릭터 잡았다... 신한은행, 코엑스서 미래세대 마음 여는...</a></h3>
+ <div class="a-meta"> · 2026-07-16 19:15</div>
+ <ul class="summary"><li>신한은행, 캐릭터 라이선싱 페어 2026 참가</li><li>신한 프렌즈를 활용한 체험형 브랜드 공간 운영</li><li>슈퍼SOL과 함께하는 금융연구소 공간 마련</li></ul>
+ <div class="kw">매칭 키워드: <b>신한은행, AI</b></div>
+ <a class="src-link" href="https://m.sports.naver.com/general/article/450/0000152574" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="internet" data-sector="네이버" data-type="AI">
+ <div class="tags"><span class="tag path">네이버페이 · 네이버</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.fntimes.com/html/view.php?ud=202607151514509828ed56b8e1f8_18" target="_blank" rel="noopener">두나무 결합 늦어진 네이버페이…디지털자산 확장 전략도 속도 조절 [네...</a></h3>
+ <div class="a-meta"> · 2026-07-16 18:24</div>
+ <ul class="summary"><li>네이버페이, 디지털자산 확장 전략</li><li>네이버파이낸셜과 두나무의 포괄적 주식교환</li><li>업비트 시장 영향력과 네이버페이의 결제 규모</li></ul>
+ <div class="kw">매칭 키워드: <b>네이버페이, 디지털, AI, 생성형 AI</b></div>
+ <a class="src-link" href="https://www.fntimes.com/html/view.php?ud=202607151514509828ed56b8e1f8_18" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="regional" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">iM뱅크 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/014/0005549306?sid=101" target="_blank" rel="noopener">iM뱅크 고객 자문단·금감원 금융현장소통반 간담회...&quot;고객 소통 확대...</a></h3>
+ <div class="a-meta">파이낸셜뉴스 · 2026-07-16 18:12</div>
+ <ul class="summary"><li>iM뱅크, 고객 자문단 및 금융감독원 금융현장소통반 간담회</li><li>금융소비자 보호 강화 및 고객 소통 확대</li><li>금융상품 가입 절차 편의성 및 금융 앱 보이스피싱 실시간 인공지능 탐지 차단 기능</li></ul>
+ <div class="kw">매칭 키워드: <b>iM뱅크, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/014/0005549306?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="regional" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">경남은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.newspim.com/news/view/20260716001169" target="_blank" rel="noopener">경남은행 &quot;지역경제·산업 생태계 지원형 금융 전환&quot;</a></h3>
+ <div class="a-meta"> · 2026-07-16 18:06</div>
+ <ul class="summary"><li>BNK경남은행, 지역경제 회복과 산업 생태계 지원형 금융 전환</li><li>산업금융 강화와 AI 혁신을 통한 지역경제 성장 지원 중</li><li>지역 주력산업과 신산업 분야에 대한 금융 지원 확대 추진 중</li></ul>
+ <div class="kw">매칭 키워드: <b>경남은행, AI</b></div>
+ <a class="src-link" href="https://www.newspim.com/news/view/20260716001169" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">신한은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.asiaa.co.kr/news/articleView.html?idxno=255567" target="_blank" rel="noopener">신한은행, 캐릭터 라이선싱 페어서 AI·AR 기반 &#x27;슈퍼SOL 금융연구소&#x27; 운...</a></h3>
+ <div class="a-meta"> · 2026-07-16 16:54</div>
+ <ul class="summary"><li>신한은행, 캐릭터 라이선싱 페어 참여</li><li>AI와 AR 기반 체험형 브랜드 공간</li><li>금융 에너지 모으기와 개인 금융 성향 파악</li></ul>
+ <div class="kw">매칭 키워드: <b>신한은행, 슈퍼SOL, AI</b></div>
+ <a class="src-link" href="https://www.asiaa.co.kr/news/articleView.html?idxno=255567" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-16 17:19 요청분 (과거)</h2>
+   <span class="cnt" data-total="3">3건</span>
+   <span class="range">검색 07-15 17:19 ~ 07-16 17:19</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article is-ai" data-co="regional" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">경남은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/001/0016199716?sid=102" target="_blank" rel="noopener">BNK경남은행, 하반기 경영전략회의 개최…지역경제 도약 논의</a></h3>
+ <div class="a-meta">연합뉴스 · 2026-07-16 17:09</div>
+ <ul class="summary"><li>BNK경남은행, 지역경제 도약 논의</li><li>350여명이 참석한 경영전략회의에서 지역경제 발전과 BNK 가치 제고 방향 논의</li><li>산업금융 주력, 자본시장 강화, 경영관리 고도화, 인공지능·디지털 혁신 등 전략방향 설정</li></ul>
+ <div class="kw">매칭 키워드: <b>경남은행, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/001/0016199716?sid=102" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nh" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">농협은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.energy-news.co.kr/news/articleView.html?idxno=226862" target="_blank" rel="noopener">대출 2026년 7월 브랜드평판...아이엠뱅크, 농협은행, SBI저축은행 順</a></h3>
+ <div class="a-meta"> · 2026-07-16 13:00</div>
+ <ul class="summary"><li>아이엠뱅크, 농협은행, SBI저축은행 대출 브랜드평판</li><li>2026년 7월 대출 브랜드평판 1위 아이엠뱅크 브랜드평판지수</li><li>4,439,145 대출 브랜드평판지수</li></ul>
+ <div class="kw">매칭 키워드: <b>농협은행</b></div>
+ <a class="src-link" href="https://www.energy-news.co.kr/news/articleView.html?idxno=226862" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="policy" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">기업은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/022/0004143506?sid=101" target="_blank" rel="noopener">기업은행 해외 법인서 833억 대형 금융 사고…“외부인 사기”</a></h3>
+ <div class="a-meta">세계일보 · 2026-07-16 10:02</div>
+ <ul class="summary"><li>IBK기업은행, 해외 현지 법인에서 833억7600만 원 규모의 금융사고 발생</li><li>플랫폼 대행사의 원리금 편취 의혹으로 현지 법인과 고객 피해</li><li>현지 사법당국이 본격적인 수사를 벌이고 있는 중</li></ul>
+ <div class="kw">매칭 키워드: <b>기업은행</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/022/0004143506?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-16 17:00 요청분 (과거)</h2>
+   <span class="cnt" data-total="7">7건</span>
+   <span class="range">검색 07-15 17:00 ~ 07-16 17:00</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article" data-co="woori" data-sector="그룹" data-type="디지털">
+ <div class="tags"><span class="tag path">우리금융 · 그룹</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://sateconomy.co.kr/news/view/1065593763038413" target="_blank" rel="noopener">우리금융, 마지막 여의도 퍼즐 맞추나…비은행 타운 구상 본격화</a></h3>
+ <div class="a-meta"> · 2026-07-16 16:50</div>
+ <ul class="summary"><li>우리금융, 비은행 타운 구상</li><li>미래에셋증권빌딩 재건축을 통한 우리투자증권 중심 비은행 계열사 모으기</li><li>2027년 착공과 2031년 준공 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>우리금융</b></div>
+ <a class="src-link" href="https://sateconomy.co.kr/news/view/1065593763038413" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="kb" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">KB국민은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.seoulfn.com/news/articleView.html?idxno=633579" target="_blank" rel="noopener">[은행브리핑] KB국민은행, 8월 말까지 통화 5종 환전 이벤트 외</a></h3>
+ <div class="a-meta"> · 2026-07-16 16:48</div>
+ <ul class="summary"><li>KB국민은행, 통화 5종 환전 이벤트</li><li>5개 통화 환전 신청 고객 대상 여행용 러기지택 제공 예정</li><li>퇴직공무원 디지털 포용을 위한 업무협약식 진행 중</li></ul>
+ <div class="kw">매칭 키워드: <b>KB국민은행</b></div>
+ <a class="src-link" href="https://www.seoulfn.com/news/articleView.html?idxno=633579" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nonholding" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">현대차증권 · 증권</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.insightkorea.co.kr/news/articleView.html?idxno=250359" target="_blank" rel="noopener">배형근 현대차증권 대표, 체질개선 &#x27;성과&#x27;...PF 줄이고 AI는 키운다</a></h3>
+ <div class="a-meta"> · 2026-07-16 16:38</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>현대차증권, AI</b></div>
+ <a class="src-link" href="https://www.insightkorea.co.kr/news/articleView.html?idxno=250359" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nonholding" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">미래에셋증권 · 증권</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.news2day.co.kr/article/20260716500132" target="_blank" rel="noopener">[미래에셋증권이 일하는 법] 불신이 성공의 열쇠...AI를 믿지 않는 AI 조...</a></h3>
+ <div class="a-meta"> · 2026-07-16 16:36</div>
+ <ul class="summary"><li>미래에셋증권, AI 조직 &#x27;미래에셋 AI Lab&#x27; 출범</li><li>미래에셋 AI Lab, 2주 심화 교육과 10주 실전 프로젝트로 구성</li><li>미래에셋 AI Lab, 2024년 3월부터 100명 대상으로 제공 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>미래에셋증권, AI</b></div>
+ <a class="src-link" href="https://www.news2day.co.kr/article/20260716500132" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">신한은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="http://www.wikileaks-kr.org/news/articleView.html?idxno=189871" target="_blank" rel="noopener">신한은행, &#x27;학이재&#x27; 활용 공무원연금공단 협력…&quot;디지털 포용 확대&quot;</a></h3>
+ <div class="a-meta"> · 2026-07-16 16:10</div>
+ <ul class="summary"><li>신한은행, 학이재 활용 공무원연금공단 협력</li><li>퇴직공무원 AI·디지털 금융역량 강화 및 금융소비자 보호를 위한 업무협약 체결</li><li>퇴직공무원 맞춤형 금융교육 프로그램 운영 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>신한은행, 디지털, AI, 인공지능</b></div>
+ <a class="src-link" href="http://www.wikileaks-kr.org/news/articleView.html?idxno=189871" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="policy" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">기업은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/421/0009062678?sid=101" target="_blank" rel="noopener">기업은행, 해외 법인서 834억 금융사고…&quot;비대면 대출 원리금 빼돌려&quot;</a></h3>
+ <div class="a-meta">뉴스1 · 2026-07-16 09:58</div>
+ <ul class="summary"><li>IBK기업은행, 해외 법인서 834억 금융사고 발생</li><li>비대면 소액 대출 원리금 834억 원가량 빼돌린 것으로 확인</li><li>B사와 별도 계약 맺어 시스템 운영을 위한 별도 계좌로 빼돌린 것으로 추정</li></ul>
+ <div class="kw">매칭 키워드: <b>기업은행, 비대면</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/421/0009062678?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="케이뱅크" data-type="디지털">
+ <div class="tags"><span class="tag path">케이뱅크 · 케이뱅크</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.newspim.com/news/view/20260716000218" target="_blank" rel="noopener">케이뱅크, CGV와 손잡고 &#x27;영화관 에티켓 캠페인&#x27; 전개</a></h3>
+ <div class="a-meta"> · 2026-07-16 09:00</div>
+ <ul class="summary"><li>케이뱅크, CGV와 손잡고 &#x27;영화관 에티켓 캠페인&#x27; 전개</li><li>캐릭터 활용한 3D 영상으로 휴대전화 사용 자제 등 안내</li><li>전국 CGV 상영관에서 영화 시작 전 송출되는 캠페인 영상</li></ul>
+ <div class="kw">매칭 키워드: <b>케이뱅크</b></div>
+ <a class="src-link" href="https://www.newspim.com/news/view/20260716000218" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-16 16:13 요청분 (과거)</h2>
+   <span class="cnt" data-total="18">18건</span>
+   <span class="range">검색 07-15 16:13 ~ 07-16 16:13</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.industrynews.co.kr/news/articleView.html?idxno=83406" target="_blank" rel="noopener">토스 카드라운지, 출시 1년 만에 방문자 11배↑…카드 비교 플랫폼 자리...</a></h3>
+ <div class="a-meta"> · 2026-07-16 15:58</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>토스, 플랫폼</b></div>
+ <a class="src-link" href="https://www.industrynews.co.kr/news/articleView.html?idxno=83406" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">신한은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.ajunews.com/view/20260716154652056" target="_blank" rel="noopener">신한은행, 공무원연금공단과 &#x27;퇴직공무원 디지털 지원&#x27; 맞손</a></h3>
+ <div class="a-meta"> · 2026-07-16 15:52</div>
+ <ul class="summary"><li>신한은행, 공무원연금공단과 &#x27;퇴직공무원 디지털 지원&#x27; 협약</li><li>퇴직공무원 맞춤형 금융교육 프로그램 운영</li><li>신한 학이재 기반 디지털 포용 강화</li></ul>
+ <div class="kw">매칭 키워드: <b>신한은행, 디지털, AI, 인공지능</b></div>
+ <a class="src-link" href="https://www.ajunews.com/view/20260716154652056" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/293/0000087725?sid=101" target="_blank" rel="noopener">토스, 은행·증권 키워 금융복합집단 타이틀…41.3조 자산 우뚝</a></h3>
+ <div class="a-meta">블로터 · 2026-07-16 15:33</div>
+ <ul class="summary"><li>토스, 금융복합기업집단 지정 및 41.3조 자산 규모</li><li>토스뱅크와 토스증권을 포함한 금융자산 41조3000억원, 여수신업 자산 33조원, 금융투자업 자산 7조2000억원</li><li>계열사별 감독 넘어 그룹 위험 관리 및 자본적정성 평가, 내부통제와 위험관리 체계 구축</li></ul>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/293/0000087725?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="policy" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">IBK기업은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.smarttoday.co.kr/ko-kr/articles/109561" target="_blank" rel="noopener">IBK기업은행, 온라인 카드 신규회원 연회비 캐시백 이벤트</a></h3>
+ <div class="a-meta"> · 2026-07-16 15:26</div>
+ <ul class="summary"><li>IBK기업은행, 온라인 카드 신규회원 연회비 캐시백 이벤트</li><li>IBK 카드 신규 회원 대상의 연회비 캐시백 제공 예정</li><li>13개 카드 종류 대상, 7월 1일부터 7월 31일까지 이벤트 기간</li></ul>
+ <div class="kw">매칭 키워드: <b>IBK기업은행</b></div>
+ <a class="src-link" href="https://www.smarttoday.co.kr/ko-kr/articles/109561" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="regional" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">전북은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/421/0009063892?sid=102" target="_blank" rel="noopener">전북은행 노조, 얼라인 &#x27;JB·BNK 합병 제안&#x27; 반발…&quot;결사 저지&quot;</a></h3>
+ <div class="a-meta">뉴스1 · 2026-07-16 15:16</div>
+ <ul class="summary"><li>전북은행 노조, 얼라인 &#x27;JB·BNK 합병 제안&#x27; 반발</li><li>단기 주가 부양·먹튀 목적의 이기적 행태로 규정</li><li>지역 금융의 근간을 뒤흔들고 전북은행 정체성을 훼손하려는 금융 자본 시도에 결사 저지</li></ul>
+ <div class="kw">매칭 키워드: <b>전북은행, AI</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/421/0009063892?sid=102" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="overseas" data-sector="해외" data-type="AI">
+ <div class="tags"><span class="tag path">골드만삭스 · 해외</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="http://coinreaders.com/248054" target="_blank" rel="noopener">골드만삭스(GS) 사상 최대 실적...&quot;호재는 이미 끝났다&quot; 경고</a></h3>
+ <div class="a-meta"> · 2026-07-16 15:12</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>골드만삭스, AI</b></div>
+ <a class="src-link" href="http://coinreaders.com/248054" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nh" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">NH농협은행 · 은행</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.newspim.com/news/view/20260716000874" target="_blank" rel="noopener">하림·NH농협은행, 스마트 축산 협력…축산농가 경쟁력 강화</a></h3>
+ <div class="a-meta"> · 2026-07-16 15:09</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>NH농협은행, AI</b></div>
+ <a class="src-link" href="https://www.newspim.com/news/view/20260716000874" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="regional" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">전북은행 · 은행</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/014/0005549152?sid=101" target="_blank" rel="noopener">전북은행노조 &quot;지방은행은 투자 대상 아냐&quot;...얼라인 JB·BNK금융 합병제...</a></h3>
+ <div class="a-meta">파이낸셜뉴스 · 2026-07-16 15:04</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>전북은행, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/014/0005549152?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">신한은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="http://www.techholic.co.kr/news/articleView.html?idxno=222140" target="_blank" rel="noopener">신한은행, &#x27;캐릭터 라이선싱 페어 2026&#x27;서 &#x27;신한 프렌즈&#x27; 활용 체험형 브...</a></h3>
+ <div class="a-meta"> · 2026-07-16 14:58</div>
+ <ul class="summary"><li>신한은행, 캐릭터 라이선싱 페어 2026 참가 및 신한 프렌즈 활용 체험형 브랜드 공간 운영</li><li>슈퍼SOL과 함께하는 금융연구소(Super SOL Finance LAB) 주제로 다양한 콘텐츠 제공</li><li>Challenge LAB, Drawing LAB, Magic LAB, Discovery LAB 등 체험 콘텐츠와 한정판 상품 판매</li></ul>
+ <div class="kw">매칭 키워드: <b>신한은행, AI</b></div>
+ <a class="src-link" href="http://www.techholic.co.kr/news/articleView.html?idxno=222140" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nonholding" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">키움증권 · 증권</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.viva100.com/article/20260716500595" target="_blank" rel="noopener">한미약품, 키움증권과 ‘바이오 이노베이션 데이’ 개최</a></h3>
+ <div class="a-meta"> · 2026-07-16 14:34</div>
+ <ul class="summary"><li>한미약품, 바이오 이노베이션 데이 개최 (w/키움증권)</li><li>국내 바이오벤처 10곳 IR Pitch 진행, 투자자와 1대1 미팅</li><li>80여명 참여, 바이오 산업 경쟁력 강화 및 투자 유치 위한 협력 관계 구축</li></ul>
+ <div class="kw">매칭 키워드: <b>키움증권, AI, 인공지능</b></div>
+ <a class="src-link" href="https://www.viva100.com/article/20260716500595" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="그룹" data-type="AI">
+ <div class="tags"><span class="tag path">신한금융 · 그룹</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="http://www.metroseoul.co.kr/article/20260716500124" target="_blank" rel="noopener">신한證, &#x27;슈퍼SOL&#x27; 신규 가입·친구 초대 이벤트</a></h3>
+ <div class="a-meta"> · 2026-07-16 14:32</div>
+ <ul class="summary"><li>신한투자증권, 신규 가입·친구 초대 이벤트</li><li>5천원 상당의 혜택 및 아이패드 증정, 9월 30일까지 진행 중</li><li>신한 슈퍼SOL 이용자 확대 및 고객 혜택 강화 목적</li></ul>
+ <div class="kw">매칭 키워드: <b>슈퍼SOL, AI</b></div>
+ <a class="src-link" href="http://www.metroseoul.co.kr/article/20260716500124" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="kb" data-sector="그룹" data-type="AI">
+ <div class="tags"><span class="tag path">KB금융 · 그룹</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.news2day.co.kr/article/20260716500146" target="_blank" rel="noopener">KB금융, 디지털자산 유망기업 키우며 &#x27;시장 선점&#x27; 나선다</a></h3>
+ <div class="a-meta"> · 2026-07-16 14:28</div>
+ <ul class="summary"><li>KB금융, 디지털자산 유망기업 키우며 시장 선점 나선다 (w/KB국민은행, KB증권, KB손해보험, KB국민카드, KB라이프생명)</li><li>1000억원 규모 전략 펀드 조성, 미래 디지털 경쟁력 강화에 나선다</li><li>디지털자산 시장 선점을 위한 투자, KB 중심의 디지털자산 생태계 조성 및 AX 가속화 지원</li></ul>
+ <div class="kw">매칭 키워드: <b>KB금융, 디지털, AI, 인공지능</b></div>
+ <a class="src-link" href="https://www.news2day.co.kr/article/20260716500146" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="overseas" data-sector="해외" data-type="AI">
+ <div class="tags"><span class="tag path">JP모건 · 해외</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="http://coinreaders.com/248046" target="_blank" rel="noopener">JP모건, 브로드컴(AVGO) &#x27;공격 매수&#x27; 외치더니...임원은 &#x27;매도&#x27;</a></h3>
+ <div class="a-meta"> · 2026-07-16 14:16</div>
+ <ul class="summary"><li>JP모건, 브로드컴(AVGO) &#x27;공격 매수&#x27; 외치더니...임원은 &#x27;매도&#x27;</li><li>브로드컴, 애플과 300억달러 이상의 반도체 공급 계약을 체결</li><li>브로드컴 AI 반도체 매출, 전년 동기 대비 143% 급증</li></ul>
+ <div class="kw">매칭 키워드: <b>JP모건, AI</b></div>
+ <a class="src-link" href="http://coinreaders.com/248046" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="보험" data-type="디지털">
+ <div class="tags"><span class="tag path">삼성화재 · 보험</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/629/0000516723?sid=101" target="_blank" rel="noopener">삼성화재, 강북삼성병원과 예방 중심 헬스케어 구축 &#x27;맞손&#x27;</a></h3>
+ <div class="a-meta">더팩트 · 2026-07-16 14:13</div>
+ <ul class="summary"><li>삼성화재, 라이프케어 이노베이션 센터 출범 (w/강북삼성병원)</li><li>헬스케어 서비스 운영 경험을 활용한 질환 위험 예측과 맞춤형 건강관리 서비스 개발 예정</li><li>건강검진 임상 데이터와 코호트 연구 역량을 활용한 만성질환 관리 솔루션 개발 및 사업화 추진 중</li></ul>
+ <div class="kw">매칭 키워드: <b>삼성화재</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/629/0000516723?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="overseas" data-sector="해외" data-type="디지털">
+ <div class="tags"><span class="tag path">모건스탠리 · 해외</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/421/0009063603?sid=101" target="_blank" rel="noopener">모건스탠리 &quot;솔라나, 이더리움보다 더 나은 분산투자 자산&quot;</a></h3>
+ <div class="a-meta">뉴스1 · 2026-07-16 14:07</div>
+ <ul class="summary"><li>모건스탠리, 솔라나 분산투자 효과 우수</li><li>솔라나와 이더리움의 상관관계 낮아 분산 효과 주목</li><li>비트코인과 상관관계 낮아 분산 투자 효과 높음</li></ul>
+ <div class="kw">매칭 키워드: <b>모건스탠리</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/421/0009063603?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">한화투자증권 · 증권</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/016/0002671116?sid=101" target="_blank" rel="noopener">한화투자증권, 美 블록체인 기업에 300억 투자…디지털자산 경쟁력 강화</a></h3>
+ <div class="a-meta">헤럴드경제 · 2026-07-16 10:52</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>한화투자증권, 디지털</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/016/0002671116?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">신한투자증권 · 증권</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.newspim.com/news/view/20260716000383" target="_blank" rel="noopener">신한투자증권, 비대면 자산관리 서비스 가입자 2만명 돌파</a></h3>
+ <div class="a-meta"> · 2026-07-16 10:25</div>
+ <ul class="summary"><li>신한투자증권, 비대면 자산관리 서비스 가입자 2만명 돌파</li><li>신한 Premier MyPB 멤버스는 투자 학습과 1:1 상담, 온라인 세미나 등을 제공하는 디지털 자산관리 플랫폼</li><li>주간 퀴즈·세미나 다시 보기 등 참여형 서비스 강화 고객 의견 반영 위한 세미나 평가 기능 도입 및 포인트 혜택 운영</li></ul>
+ <div class="kw">매칭 키워드: <b>신한투자증권, 비대면, AI</b></div>
+ <a class="src-link" href="https://www.newspim.com/news/view/20260716000383" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nh" data-sector="보험" data-type="AI">
+ <div class="tags"><span class="tag path">NH농협손해보험 · 보험</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.ekoreanews.co.kr/news/articleView.html?idxno=87048" target="_blank" rel="noopener">NH농협손해보험, 소비자권익보호위원회 개최...송춘수 대표 &quot;소비자 권...</a></h3>
+ <div class="a-meta"> · 2026-07-15 16:14</div>
+ <ul class="summary"><li>NH농협손해보험, 소비자권익보호위원회 개최 및 AI 서비스 개선 방안 논의</li><li>AI 기반 서비스의 공정성과 투명성, 설명 가능성 향상 및 잠재적 피해 예방을 위한 중장기 과제 논의</li><li>음성봇 도입 및 고객센터 전반으로의 AI 적용 범위 확대 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>NH농협손해보험, AI</b></div>
+ <a class="src-link" href="https://www.ekoreanews.co.kr/news/articleView.html?idxno=87048" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-16 13:37 요청분 (과거)</h2>
+   <span class="cnt" data-total="15">15건</span>
+   <span class="range">검색 07-15 13:37 ~ 07-16 13:37</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article" data-co="regional" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">광주은행 · 은행</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.viva100.com/article/20260716500527" target="_blank" rel="noopener">“지방세도 혜택으로 돌려준다”…광주은행, 통합특별시 출범 맞아 지역...</a></h3>
+ <div class="a-meta"> · 2026-07-16 13:22</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>광주은행</b></div>
+ <a class="src-link" href="https://www.viva100.com/article/20260716500527" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="kb" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">국민은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/629/0000516681?sid=101" target="_blank" rel="noopener">[TF현장] 오후 6시까지 불 밝힌 국민은행…&#x27;늦은 창구&#x27; 지키는 이유</a></h3>
+ <div class="a-meta">더팩트 · 2026-07-16 11:46</div>
+ <ul class="summary"><li>KB국민은행, 오후 6시까지 영업하는 &#x27;여섯시은행&#x27; 운영</li><li>평일 오전 9시부터 오후 6시까지 운영되는 시간 특화점포로 전국 72개 거점에 확대</li><li>고객의 시간 제약과 금융거래에 대한 불안을 덜어주는 데 중점을 둔 서비스 제공</li></ul>
+ <div class="kw">매칭 키워드: <b>국민은행</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/629/0000516681?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="regional" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">경남은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.knnews.co.kr/news/articleView.php?idxno=1546572" target="_blank" rel="noopener">경남은행 “대중교통 타거나 아이 통장 만들면 환급”</a></h3>
+ <div class="a-meta"> · 2026-07-16 11:00</div>
+ <ul class="summary"><li>BNK경남은행, K-패스 교통비 환급 이벤트 및 마이모먼트 체크카드 용돈 지원 이벤트 진행</li><li>K-패스 교통비 환급 이벤트는 31일까지 모바일뱅킹 앱에서 응모, 누적 3만 원 이상 결제 시 캐시백 혜택 제공</li><li>마이모먼트 체크카드 용돈 지원 이벤트는 카드를 발급받은 다음 달 말까지 1건 이상 사용 시 1만 원 캐시백, 추가 용돈 지원도 제공</li></ul>
+ <div class="kw">매칭 키워드: <b>경남은행</b></div>
+ <a class="src-link" href="http://www.knnews.co.kr/news/articleView.php?idxno=1546572" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="overseas" data-sector="해외" data-type="디지털">
+ <div class="tags"><span class="tag path">모건스탠리 · 해외</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.tokenpost.kr/news/blockchain/378352" target="_blank" rel="noopener">모건스탠리 “암호화폐 분산투자, 이더보다 SOL 주목할 만”</a></h3>
+ <div class="a-meta"> · 2026-07-16 10:58</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>모건스탠리</b></div>
+ <a class="src-link" href="https://www.tokenpost.kr/news/blockchain/378352" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.tokenpost.kr/news/blockchain/378312" target="_blank" rel="noopener">옵티미즘, 두나무·토스·DB증권과 손잡고 한국 사업 본격화</a></h3>
+ <div class="a-meta"> · 2026-07-16 10:48</div>
+ <ul class="summary"><li>옵티미즘, 국내 파트너십 확대 및 온체인 금융 인프라 사업 추진</li><li>두나무, 토스, DB증권과 파트너십을 체결하여 OP스택 기반 온체인 금융 인프라 사업을 확대할 예정</li><li>OP스택은 이더리움의 보안성을 기반으로 거래 처리 속도와 비용 문제를 개선한 블록체인 인프라</li></ul>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="https://www.tokenpost.kr/news/blockchain/378312" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="카드" data-type="디지털">
+ <div class="tags"><span class="tag path">우리카드 · 카드</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.wikitree.co.kr/articles/1146770" target="_blank" rel="noopener">매달 나가는 관리비·넷플릭스까지 할인…우리카드가 꺼낸 &#x27;생활비 절약...</a></h3>
+ <div class="a-meta"> · 2026-07-16 10:44</div>
+ <ul class="summary"><li>우리카드, 생활비 절약 카드 &#x27;카드의정석2 ROUTINE&#x27; 출시</li><li>전월 100만원 이상 이용 시 최대 6만원 할인 혜택, 유튜브 프리미엄·넷플릭스 30% 할인</li><li>아파트 관리비·공과금·통신비 15% 할인, 간편결제 이용자 1000원 할인</li></ul>
+ <div class="kw">매칭 키워드: <b>우리카드</b></div>
+ <a class="src-link" href="https://www.wikitree.co.kr/articles/1146770" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="hana" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">하나은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.newspim.com/news/view/20260716000453" target="_blank" rel="noopener">하나은행, &#x27;디지털 미디어아트 페스타 2026&#x27; 개최</a></h3>
+ <div class="a-meta"> · 2026-07-16 10:43</div>
+ <ul class="summary"><li>하나은행, 디지털 미디어아트 페스타 2026 개최</li><li>아마추어 공모전과 초청작가 특별전으로 구성</li><li>하트원과 명동사옥 전광판 등 서울 주요 미디어캔버스에 전시 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>하나은행, 디지털, AI</b></div>
+ <a class="src-link" href="https://www.newspim.com/news/view/20260716000453" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="hana" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">하나은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.inthenews.co.kr/news/article.html?no=89401" target="_blank" rel="noopener">하나은행 ‘만보기적금’ 출시…걸음수 따라 우대금리 최고 연 4.5%</a></h3>
+ <div class="a-meta"> · 2026-07-16 10:38</div>
+ <ul class="summary"><li>하나은행, 생활밀착형 금융상품 &#x27;하나 만보기 적금&#x27; 출시 (w/토스)</li><li>100일만기 단기자유적립식 적금, 걸음수에 따라 우대금리 최고 연 4.5% 제공</li><li>기본금리 연 1.0%, 우대금리 최대 연 3.5% 추가 제공 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>하나은행</b></div>
+ <a class="src-link" href="https://www.inthenews.co.kr/news/article.html?no=89401" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="internet" data-sector="카카오" data-type="AI">
+ <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/138/0002234396?sid=101" target="_blank" rel="noopener">카카오페이, NH농협은행과 ‘NH 크레딧 온’ 얼라이언스 업무협약 체결</a></h3>
+ <div class="a-meta">디지털데일리 · 2026-07-16 10:27</div>
+ <ul class="summary"><li>카카오페이, NH농협은행과 NH 크레딧 온 얼라이언스 업무협약 체결 (w/ NH농협은행, NH농협카드, NH농협캐피탈, KCB, 애자일소다, 어니스트AI, 크레파스솔루션, 한국평가정보)</li><li>대안신용평가 활성화 위한 얼라이언스 업무협약</li><li>카카오페이, 대안정보 공급의 핵심 파트너 역할, 마이데이터와 결제, 송금 등 카카오페이만의 생활 금융 플랫폼 데이터를 기반으로 다양한 대안정보 제시</li></ul>
+ <div class="kw">매칭 키워드: <b>카카오페이, NH농협은행, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/138/0002234396?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://hbnpress.com/news/view/1065573363169834" target="_blank" rel="noopener">토스,금융복합그룹 지정...성장의 훈장, 무거워진 규제</a></h3>
+ <div class="a-meta"> · 2026-07-16 09:46</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="https://hbnpress.com/news/view/1065573363169834" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">한화투자증권 · 증권</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.the-pr.co.kr/news/articleView.html?idxno=61950" target="_blank" rel="noopener">한화투자증권, 디지털 에셋에 300억 전략투자…캔톤 네트워크 본격 참여</a></h3>
+ <div class="a-meta"> · 2026-07-16 09:44</div>
+ <ul class="summary"><li>한화투자증권, 디지털 에셋에 300억 전략투자...캔톤 네트워크 본격 참여</li><li>캔톤 네트워크는 금융기관 특화 개방형 블록체인 네트워크로 자산 간 파편화 문제 해결</li><li>한화투자증권은 디지털 에셋의 캔톤 네트워크 인프라와 협력해 디지털 자산 플랫폼 고도화</li></ul>
+ <div class="kw">매칭 키워드: <b>한화투자증권, 디지털</b></div>
+ <a class="src-link" href="https://www.the-pr.co.kr/news/articleView.html?idxno=61950" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nonholding" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">대신증권 · 증권</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.smarttoday.co.kr/ko-kr/articles/109532" target="_blank" rel="noopener">대신증권, MTS 거래 활성화 나서..신규 고객 지원금·주식 매수 이벤트</a></h3>
+ <div class="a-meta"> · 2026-07-16 09:38</div>
+ <ul class="summary"><li>대신증권, MTS 거래 활성화 나서 (w/대신증권)</li><li>투자지원금 및 문화 혜택 제공</li><li>신규 고객 6만원, 기존 고객 3만원 지원금, 구글 AI 프로 이용권 및 도미노피자 할인 쿠폰 제공 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>대신증권, MTS, AI</b></div>
+ <a class="src-link" href="https://www.smarttoday.co.kr/ko-kr/articles/109532" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.sentv.co.kr/article/view/sentv202607150117" target="_blank" rel="noopener">쿠차라, 멕시칸 스낵 신메뉴 &#x27;타키토스&#x27;·&#x27;워킹타코&#x27; 출시</a></h3>
+ <div class="a-meta"> · 2026-07-16 09:02</div>
+ <ul class="summary"><li>쿠차라, 멕시칸 스낵 신메뉴 &#x27;타키토스&#x27;·&#x27;워킹타코&#x27; 출시</li><li>타키토스, 워킹타코, 멕시칸 스낵</li><li>타키토스, 워킹타코, 신메뉴</li></ul>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="https://www.sentv.co.kr/article/view/sentv202607150117" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/001/0016197098?sid=101" target="_blank" rel="noopener">삼성·한화 등 8개그룹 금융복합기업집단 지정…토스 첫 포함</a></h3>
+ <div class="a-meta">연합뉴스 · 2026-07-15 17:45</div>
+ <ul class="summary"><li>금융위원회, 8개 금융그룹 지정 (w/삼성, 한화, 미래에셋, 교보, 현대차, DB, 다우키움, 토스)</li><li>금융복합기업집단 제도 도입, 금융그룹 차원에서 발생할 수 있는 재무·경영상 위험 관리 감독</li><li>금융그룹이 여수신·보험·금융투자업 중 2개 이상 금융업을 영위하고 금융위에 인허가를 받거나 등록한 회사가 1개 이상이면서 자산총액이 5조원 이상인 경우 지정</li></ul>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/001/0016197098?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">우리은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.seouleconews.com/news/articleView.html?idxno=92428" target="_blank" rel="noopener">우리은행,16일부터 대출 죈다...지점당 주담대 한도 월 30억→10억 축소</a></h3>
+ <div class="a-meta"> · 2026-07-15 14:24</div>
+ <ul class="summary"><li>우리은행, 지점당 주택담보대출 판매한도 월 10억원 축소</li><li>영업점별 주택관련대출 판매한도 제한, 모기지 보험 가입 제한</li><li>SC제일은행, 모바일 비대면 주택담보대출 중단 및 우대금리 축소</li></ul>
+ <div class="kw">매칭 키워드: <b>우리은행</b></div>
+ <a class="src-link" href="http://www.seouleconews.com/news/articleView.html?idxno=92428" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-16 08:50 요청분 (과거)</h2>
+   <span class="cnt" data-total="40">40건</span>
+   <span class="range">검색 07-15 08:50 ~ 07-16 08:50</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article" data-co="hana" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">하나은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.insight.co.kr/news/563293" target="_blank" rel="noopener">하루 6000보 걸으면 연 4.5%...하나은행, 토스 전용 적금 출시</a></h3>
+ <div class="a-meta"> · 2026-07-16 08:46</div>
+ <ul class="summary"><li>하나은행, 토스 전용 적금 &#x27;하나 만보기 적금&#x27; 출시 (w/비바리퍼블리카)</li><li>100일 만기, 하루 최대 3만원 납입, 원금 한도 300만원, 60만보 달성 시 연 4.5% 금리 적용</li><li>걸음 수에 따른 우대금리, 마케팅 동의, 첫 거래 조건 충족 시 최고 금리 제공, 토스 포인트 지급 행사 진행 중</li></ul>
+ <div class="kw">매칭 키워드: <b>하나은행, 토스</b></div>
+ <a class="src-link" href="https://www.insight.co.kr/news/563293" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="overseas" data-sector="해외" data-type="AI">
+ <div class="tags"><span class="tag path">JP모건 · 해외</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/374/0000522035?sid=104" target="_blank" rel="noopener">다이먼 JP모건 CEO &quot;미토스 일반인에 제공하면 탄도미사일 쥐여주는 것...</a></h3>
+ <div class="a-meta">SBS Biz · 2026-07-16 08:45</div>
+ <ul class="summary"><li>KB금융, 실전형 AI 인재 양성 프로그램 &#x27;KB AI Lab&#x27; 출범</li><li>그룹 AI 교육체계인 KB AI 아카데미 최고 과정 수료 직원 대상의 프로젝트형 인재 육성 프로그램</li><li>현업 과제 발굴 및 AI 서비스 직접 구현, 2주간 심화 교육과 10주간 실전 프로젝트로 구성</li></ul>
+ <div class="kw">매칭 키워드: <b>JP모건, 토스, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/374/0000522035?sid=104" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="보험" data-type="디지털">
+ <div class="tags"><span class="tag path">삼성화재 · 보험</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/016/0002670981?sid=101" target="_blank" rel="noopener">삼성화재-강북삼성병원, ‘라이프케어 이노베이션 센터’ 설립</a></h3>
+ <div class="a-meta">헤럴드경제 · 2026-07-16 08:36</div>
+ <ul class="summary"><li>삼성화재-강북삼성병원, 라이프케어 이노베이션 센터 출범 (w/강북삼성병원)</li><li>만성질환 예방·관리 모델 개발을 위한 헬스케어 서비스 실증·운영</li><li>라이프케어 이노베이션 센터 설립·운영, 만성질환 관리 솔루션 공동 개발, 의료 인프라 활용 서비스 실증·사업화 추진 중</li></ul>
+ <div class="kw">매칭 키워드: <b>삼성화재</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/016/0002670981?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="kb" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">KB증권 · 증권</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.etoday.co.kr/news/view/2603844" target="_blank" rel="noopener">주태영 KB증권 부사장 &quot;경쟁력 갖춘 탑티어 IB 하우스로…생산적 금융 ...</a></h3>
+ <div class="a-meta"> · 2026-07-16 08:32</div>
+ <ul class="summary"><li>KB증권, 종합 IB 플랫폼 경쟁력 강화</li><li>협업·실행력 중심 조직 구축과 첨단산업 자금 수요 대응을 위한 종합 솔루션 역량 강화</li><li>하반기 IB 시장 경쟁도 격화와 IPO 시장 선별적 회복 가능성</li></ul>
+ <div class="kw">매칭 키워드: <b>KB증권</b></div>
+ <a class="src-link" href="https://www.etoday.co.kr/news/view/2603844" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="overseas" data-sector="해외" data-type="AI">
+ <div class="tags"><span class="tag path">JP모건 · 해외</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/374/0000522021?sid=104" target="_blank" rel="noopener">[부자들의 투자노트] JP모건 &quot;AI·기술주서 다른 섹터로 시장폭 확대될...</a></h3>
+ <div class="a-meta">SBS Biz · 2026-07-16 07:50</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>JP모건, AI</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/374/0000522021?sid=104" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="woori" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">우리은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://dealsite.co.kr/articles/165316" target="_blank" rel="noopener">[은행 정보보호 경쟁력] 7년째 정보보호 공개한 우리은행…AI 대응 체계...</a></h3>
+ <div class="a-meta"> · 2026-07-16 07:04</div>
+ <ul class="summary"><li>우리은행, 정보보호 자율공시 7년 연속 참여 및 생성형 AI 대응 체계 구축</li><li>정보보호 투자액 363억8143만원, 정보보호 전담인력 101명, AI 기반 이상거래탐지시스템(FDS) 고도화</li><li>정보보호 로드맵 운영, 보안 수준 진단 및 표준화 체계 수립, 지능형 통합관리 체계 전환 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>우리은행, AI, 인공지능, 생성형 AI</b></div>
+ <a class="src-link" href="https://dealsite.co.kr/articles/165316" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="그룹" data-type="디지털">
+ <div class="tags"><span class="tag path">신한금융지주 · 그룹</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="http://www.the-biz.co.kr/news/articleView.html?idxno=724111" target="_blank" rel="noopener">[THE CEO] 진옥동 신한금융지주 회장</a></h3>
+ <div class="a-meta"> · 2026-07-16 06:30</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>신한금융지주</b></div>
+ <a class="src-link" href="http://www.the-biz.co.kr/news/articleView.html?idxno=724111" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">우리은행 · 은행</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/008/0005386750?sid=101" target="_blank" rel="noopener">월가 발전소 딜 따낸 우리은행…지상사 영업 넘어 글로벌 IB로</a></h3>
+ <div class="a-meta">머니투데이 · 2026-07-16 05:10</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>우리은행</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/008/0005386750?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.tokenpost.kr/news/economy/378193" target="_blank" rel="noopener">토스그룹, 금융복합기업집단 지정…빅테크 금융 시대 개막</a></h3>
+ <div class="a-meta"> · 2026-07-16 01:34</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="https://www.tokenpost.kr/news/economy/378193" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="overseas" data-sector="해외" data-type="디지털">
+ <div class="tags"><span class="tag path">레볼루트 · 해외</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.tokenpost.kr/news/breaking/378122" target="_blank" rel="noopener">레볼루트, 두바이 예비 라이선스 획득</a></h3>
+ <div class="a-meta"> · 2026-07-15 20:40</div>
+ <ul class="summary"><li>레볼루트, 두바이 예비 라이선스 획득 (w/VARA)</li><li>레볼루트, 아랍에미리트 내 암호화폐 서비스 출시 추진</li><li>리테일 앱과 레볼루트 X를 통해 현지 이용자에게 서비스 제공 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>레볼루트</b></div>
+ <a class="src-link" href="https://www.tokenpost.kr/news/breaking/378122" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">우리은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.rightknow.co.kr/news/articleView.html?idxno=34427" target="_blank" rel="noopener">[기획] 우리은행 개인정보 유출…이중 조사에 &#x27;반쪽 보안투자&#x27; 논란</a></h3>
+ <div class="a-meta"> · 2026-07-15 20:36</div>
+ <ul class="summary"><li>우리은행, 고객 1만7551명 개인정보 유출(w/한국인터넷진흥원, 방송미디어통신위원회)</li><li>개인정보보호위원회와 방송미디어통신위원회 점검 착수, 금융감독원 상황 예의주시 중</li><li>9개월간 유출 사실 인지하지 못하고 외부 신고로 드러난 개인정보 유출 사고 처리 중</li></ul>
+ <div class="kw">매칭 키워드: <b>우리은행</b></div>
+ <a class="src-link" href="http://www.rightknow.co.kr/news/articleView.html?idxno=34427" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="regional" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">경남은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.etoday.co.kr/news/view/2604206" target="_blank" rel="noopener">‘프로젝트 한강’ 2단계 돌입⋯경남은행ㆍ아이엠뱅크 합류</a></h3>
+ <div class="a-meta"> · 2026-07-15 17:50</div>
+ <ul class="summary"><li>금융위원회, 프로젝트 한강 2단계 시행을 위한 혁신금융서비스 신규 지정 (w/경남은행, 아이엠뱅크)</li><li>프로젝트 한강 2단계 테스트 참여 은행 확대, 예금토큰 이용자와 사용처 대폭 확대</li><li>예금토큰 보유 한도 확대, 지갑 간 송금 기능 추가, 국고금 집행 시범사업 포함</li></ul>
+ <div class="kw">매칭 키워드: <b>경남은행</b></div>
+ <a class="src-link" href="https://www.etoday.co.kr/news/view/2604206" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
 <div class="article is-ai" data-co="policy" data-sector="은행" data-type="AI">
  <div class="tags"><span class="tag path">IBK기업은행 · 은행</span>
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://n.news.naver.com/mnews/article/629/0000516132?sid=101" target="_blank" rel="noopener">IBK기업은행, 하반기 조직개편 단행…생산적 금융·AX 전환 강화</a></h3>
- <div class="a-meta">더팩트 · 2026-07-14 21:52</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>IBK기업은행, 인공지능</b></div>
- <a class="src-link" href="https://n.news.naver.com/mnews/article/629/0000516132?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+ <h3><a href="https://n.news.naver.com/mnews/article/008/0005386655?sid=101" target="_blank" rel="noopener">IBK기업은행, &#x27;IBK창공 광주 5기&#x27; 육성기업 11개사 선발</a></h3>
+ <div class="a-meta">머니투데이 · 2026-07-15 17:46</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>IBK기업은행, AI</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/008/0005386655?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
+<div class="article is-ai" data-co="internet" data-sector="토스" data-type="AI">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.ajunews.com/view/20260715103705794" target="_blank" rel="noopener">[아주초대석] 김창규 우리벤처파트너스 대표 &quot;달바·토스 등 키운 건 동...</a></h3>
+ <div class="a-meta"> · 2026-07-15 17:02</div>
+ <ul class="summary"><li>우리벤처파트너스, 벤처캐피털 역할 강조</li><li>벤처캐피털의 역할은 산업이 급격히 이동하는 초기에 좋은 회사를 최전선에서 발굴하는 것</li><li>우리벤처파트너스는 15%를 넘는 높은 운용사 출자 비율로 출자자들과 위험을 함께 감수하는 의지의 표현</li></ul>
+ <div class="kw">매칭 키워드: <b>토스, AI, 인공지능</b></div>
+ <a class="src-link" href="https://www.ajunews.com/view/20260715103705794" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="regional" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">부산은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/009/0005707921?sid=101" target="_blank" rel="noopener">부산은행, 해양금융추진단 신설…BNK, 지역 금융 역할 강화</a></h3>
+ <div class="a-meta">매일경제 · 2026-07-15 16:41</div>
+ <ul class="summary"><li>BNK금융그룹, 지역 금융 본연의 역할 강화</li><li>부산은행, 해양금융추진단 신설, 해양 금융 전문인력 확보</li><li>부산은행, 선박금융과 해양 인프라 금융사업 발굴을 확대</li></ul>
+ <div class="kw">매칭 키워드: <b>부산은행, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/009/0005707921?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nh" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">NH농협은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.g-enews.com/view.php?ud=202607151607345262e30fcb1ba8_1" target="_blank" rel="noopener">방학 유형 고르고 공유하면 응모…NH올원뱅크, 20명에 5만 원권</a></h3>
+ <div class="a-meta"> · 2026-07-15 16:20</div>
+ <ul class="summary"><li>NH올원뱅크, 방학 유형 공유 이벤트 응모자 20명에 5만 원권 제공 예정</li><li>방학 유형 선택 및 공유를 통한 이벤트 참여</li><li>총 20명에게 5만 원권을 제공하는 이벤트 구성</li></ul>
+ <div class="kw">매칭 키워드: <b>NH올원뱅크</b></div>
+ <a class="src-link" href="https://www.g-enews.com/view.php?ud=202607151607345262e30fcb1ba8_1" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="overseas" data-sector="해외" data-type="디지털">
+ <div class="tags"><span class="tag path">뱅크오브아메리카 · 해외</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/016/0002670800?sid=101" target="_blank" rel="noopener">뱅크오브아메리카 “닷컴버블 때와 유사한 현상…‘충격’ 발생 위험 커...</a></h3>
+ <div class="a-meta">헤럴드경제 · 2026-07-15 16:01</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>뱅크오브아메리카</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/016/0002670800?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="hana" data-sector="그룹" data-type="디지털">
+ <div class="tags"><span class="tag path">하나금융그룹 · 그룹</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/015/0005310328?sid=101" target="_blank" rel="noopener">하나금융그룹, 중·저신용자 연 5.5% 대출…무주택 청년엔 전세금 보험</a></h3>
+ <div class="a-meta">한국경제 · 2026-07-15 16:00</div>
+ <ul class="summary"><li>하나금융그룹, 중·저신용자 대출 공급과 전세금 보험 제공</li><li>취약 차주 지원을 위한 16조원 규모 포용금융 자금 투입과 2000억원 연체채권 소각</li><li>청년과 서민을 위한 금융 안전망 확대와 대안신용평가체계 고도화</li></ul>
+ <div class="kw">매칭 키워드: <b>하나금융그룹</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/015/0005310328?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">우리투자증권 · 증권</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/138/0002234302?sid=101" target="_blank" rel="noopener">체급 키운 남기천號 우리투자증권, 인수금융서 존재감…ECM 성과는 ‘아...</a></h3>
+ <div class="a-meta">디지털데일리 · 2026-07-15 15:55</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>우리투자증권</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/138/0002234302?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">유진투자증권 · 증권</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.topdaily.kr/articles/111005" target="_blank" rel="noopener">[각자대표체제 명암] [유진투자증권] 유창수·고경모 체제 6년차...수익...</a></h3>
+ <div class="a-meta"> · 2026-07-15 15:44</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>유진투자증권</b></div>
+ <a class="src-link" href="https://www.topdaily.kr/articles/111005" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="카드" data-type="디지털">
+ <div class="tags"><span class="tag path">현대카드 · 카드</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/016/0002670754?sid=101" target="_blank" rel="noopener">켄드릭 라마와 협업한 캐나다 밴드, 현대카드 언더스테이지 무대 오른다</a></h3>
+ <div class="a-meta">헤럴드경제 · 2026-07-15 15:01</div>
+ <div class="a-meta nosum">요약 미제공 — 개조식 형식 미달 (요약하기 어려운 유형의 기사)</div>
+ <div class="kw">매칭 키워드: <b>현대카드</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/016/0002670754?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="카드" data-type="디지털">
+ <div class="tags"><span class="tag path">신한카드 · 카드</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://news.mtn.co.kr/news-detail/2026071514133052601" target="_blank" rel="noopener">35만 중앙인 품은 신한카드…동문 전용 카드 선보여</a></h3>
+ <div class="a-meta"> · 2026-07-15 14:30</div>
+ <ul class="summary"><li>신한카드, 중앙대학교 총동문회 제휴카드 출시 (w/중앙대학교 총동문회)</li><li>중앙대 심볼·마스코트 적용한 동문 전용 디자인, 3종 카드 출시</li><li>연회비 및 할인 혜택 등 다양한 서비스 제공, 35만 중앙대 동문 연결 플랫폼 구축 중</li></ul>
+ <div class="kw">매칭 키워드: <b>신한카드</b></div>
+ <a class="src-link" href="https://news.mtn.co.kr/news-detail/2026071514133052601" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="kb" data-sector="카드" data-type="디지털">
+ <div class="tags"><span class="tag path">국민카드 · 카드</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.sentv.co.kr/article/view/sentv202607150108" target="_blank" rel="noopener">국민카드, 트래블카드 경쟁력 키운다…하나·신한 추격 나서</a></h3>
+ <div class="a-meta"> · 2026-07-15 13:58</div>
+ <ul class="summary"><li>국민카드, 트래블카드 경쟁력 강화 (w/하나·신한카드)</li><li>트래블러스 개편 및 해외 특화 서비스 강화</li><li>하나·신한카드와의 시장 공략 및 존재감 확대</li></ul>
+ <div class="kw">매칭 키워드: <b>국민카드</b></div>
+ <a class="src-link" href="https://www.sentv.co.kr/article/view/sentv202607150108" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스증권 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://sateconomy.co.kr/news/view/1065588408644370" target="_blank" rel="noopener">토스증권, 약관 변경·겸영업무 신고 절차 위반…과태료 840만원</a></h3>
+ <div class="a-meta"> · 2026-07-15 13:56</div>
+ <ul class="summary"><li>토스증권, 약관 변경·겸영업무 신고 위반</li><li>금감원, 토스증권에 기관 과태료 840만원 부과</li><li>관련 직원에게 자율처리 필요사항 통보</li></ul>
+ <div class="kw">매칭 키워드: <b>토스증권</b></div>
+ <a class="src-link" href="https://sateconomy.co.kr/news/view/1065588408644370" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nh" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">농협은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/008/0005386444?sid=101" target="_blank" rel="noopener">강태영 농협은행장 &quot;농식품 펀드, 2030년까지 8000억 키운다&quot;</a></h3>
+ <div class="a-meta">머니투데이 · 2026-07-15 13:33</div>
+ <ul class="summary"><li>농협은행, 농식품 펀드 규모 8000억원까지 확대</li><li>농식품성장투자단은 농식품 펀드 운용사(GP) 역할, 시중은행 중 유일한 농식품·애그테크 분야 전용 펀드 운영</li><li>투자 단위 50억원 이상으로 높일 방침, 책임투자 원칙 강화</li></ul>
+ <div class="kw">매칭 키워드: <b>농협은행, AI</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/008/0005386444?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="policy" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">기업은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.naeil.com/news/read/595466?ref=naver" target="_blank" rel="noopener">기업은행 신임 부행장, 정은지 이동운 정광석</a></h3>
+ <div class="a-meta"> · 2026-07-15 13:10</div>
+ <ul class="summary"><li>IBK기업은행, 조직개편 및 정기인사 실시 (w/IBK기업은행)</li><li>본부장급 3명 부행장으로 선임, 정은지 소비자금융그룹 부행장, 이동운 AX전략그룹 부행장, 정광석 글로벌사업그룹 부행장</li><li>생산적포용금융부 신설, 디지털그룹 AX전략그룹으로 재편, AX 컨트롤타워 구축</li></ul>
+ <div class="kw">매칭 키워드: <b>기업은행, AI, 인공지능</b></div>
+ <a class="src-link" href="https://www.naeil.com/news/read/595466?ref=naver" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nh" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">NH농협은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.4th.kr/news/articleView.html?idxno=2114782" target="_blank" rel="noopener">[경제소식] NH농협은행, &#x27;농식품 테크 스타트업 창업 박람회&#x27; 개최</a></h3>
+ <div class="a-meta"> · 2026-07-15 12:02</div>
+ <ul class="summary"><li>NH농협은행, 농식품 테크 스타트업 창업 박람회(AFPRO 2026) 개최</li><li>농식품 스타트업 홍보 부스와 NH투자로드쇼 운영, 약 220개사 전시 부스 구성</li><li>농식품 펀드 운용과 육성·투자한 기업 성과 소개, 투자 유치와 사업 협력 기회 모색 중</li></ul>
+ <div class="kw">매칭 키워드: <b>NH농협은행</b></div>
+ <a class="src-link" href="http://www.4th.kr/news/articleView.html?idxno=2114782" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="kb" data-sector="카드" data-type="디지털">
+ <div class="tags"><span class="tag path">KB국민카드 · 카드</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.slist.kr/news/articleView.html?idxno=751952" target="_blank" rel="noopener">[은행가] KB국민카드 &#x27;국민극장&#x27; 영상 공개·NH농협은행, 청소년 대상 이...</a></h3>
+ <div class="a-meta"> · 2026-07-15 11:50</div>
+ <ul class="summary"><li>KB국민카드, 소상공인 응원 캠페인 &#x27;국민극장&#x27; 영상 공개</li><li>NH농협은행, 청소년 대상 &#x27;올원 틴즈 여름방학 연구소&#x27; 이벤트 진행 중</li><li>KB국민은행, 개인형IRP 비대면 가입 고객 대상 &#x27;찬란한 내일로 가는 개인형IRP 탑승권 발권 중&#x27; 이벤트 진행 중</li></ul>
+ <div class="kw">매칭 키워드: <b>KB국민카드, NH농협은행</b></div>
+ <a class="src-link" href="https://www.slist.kr/news/articleView.html?idxno=751952" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="hana" data-sector="그룹" data-type="디지털">
+ <div class="tags"><span class="tag path">하나금융 · 그룹</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.redian.org/news/articleView.html?idxno=256978" target="_blank" rel="noopener">하나금융, &#x27;청라 시대&#x27; 개막...인천 거점 금융체계 강화</a></h3>
+ <div class="a-meta"> · 2026-07-15 11:40</div>
+ <ul class="summary"><li>하나금융그룹, 인천 청라국제도시 그룹 헤드쿼터 이전</li><li>9월 입주 시작, 10개 계열사 2,200명 근무, 지역 밀착형 금융서비스 확대</li><li>통합데이터센터, 하나글로벌캠퍼스, IT 계열사, AI(인공지능)와 데이터 기반 디지털 전환 가속화</li></ul>
+ <div class="kw">매칭 키워드: <b>하나금융</b></div>
+ <a class="src-link" href="https://www.redian.org/news/articleView.html?idxno=256978" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="보험" data-type="디지털">
+ <div class="tags"><span class="tag path">동양생명 · 보험</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.newscape.co.kr/news/articleView.html?idxno=123336" target="_blank" rel="noopener">동양생명, 중증 되기 전에 예방…&#x27;mini고혈압당뇨보험&#x27; 선봬</a></h3>
+ <div class="a-meta"> · 2026-07-15 10:56</div>
+ <ul class="summary"><li>동양생명, 중증 질환 예방을 위한 &#x27;mini고혈압당뇨보험&#x27; 출시</li><li>고혈압 치료비와 당뇨병 진단금 보장, 1년 만기 일시납 구조 적용</li><li>최대 10만원의 보험금 지급, 건강 이상 신호 조기 확인과 체계적인 건강 관리 지원</li></ul>
+ <div class="kw">매칭 키워드: <b>동양생명</b></div>
+ <a class="src-link" href="http://www.newscape.co.kr/news/articleView.html?idxno=123336" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="kb" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">국민은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/029/0003037162?sid=101" target="_blank" rel="noopener">국민은행, 서울교통공사 주거래 연임…2030년까지 전담</a></h3>
+ <div class="a-meta">디지털타임스 · 2026-07-15 10:48</div>
+ <ul class="summary"><li>KB국민은행, 서울교통공사 주거래은행 선정 (w/서울교통공사)</li><li>2027년부터 2030년까지 4년간 공사 자금 운용과 결제 업무 총괄</li><li>운영자금 관리와 디지털 금융서비스 제공 예정</li></ul>
+ <div class="kw">매칭 키워드: <b>국민은행</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/029/0003037162?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="그룹" data-type="디지털">
+ <div class="tags"><span class="tag path">신한금융 · 그룹</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.asiatime.co.kr/article/20260714500392" target="_blank" rel="noopener">신한금융 롯데손보 품나…&#x27;비은행 퍼즐&#x27; 완성 기대</a></h3>
+ <div class="a-meta"> · 2026-07-15 10:16</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>신한금융</b></div>
+ <a class="src-link" href="https://www.asiatime.co.kr/article/20260714500392" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">신한은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.the-today.com/news/articleView.html?idxno=87624" target="_blank" rel="noopener">&quot;차장 패스하고 부지점장 직행&quot; 신한은행 파격 인사에… 내부선 &quot;제2의 ...</a></h3>
+ <div class="a-meta"> · 2026-07-15 10:02</div>
+ <ul class="summary"><li>신한은행, 파격적인 조기 승진 인사 시행</li><li>6년 만에 연공서열을 깬 인사로 과장급 직원 5명이 차장 직급을 건너뛰고 부지점장으로 승격</li><li>고위험 상품 판매 실적에 집중된 인사로 내부통제 담당 직원들이 소외되고 리스크 관리에 문제가 생길 수 있다는 우려</li></ul>
+ <div class="kw">매칭 키워드: <b>신한은행</b></div>
+ <a class="src-link" href="https://www.the-today.com/news/articleView.html?idxno=87624" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="그룹" data-type="디지털">
+ <div class="tags"><span class="tag path">우리금융 · 그룹</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/029/0003037149?sid=101" target="_blank" rel="noopener">우리금융, ‘1석 2조’ 든든아침 프로젝트…“아이들 밥 챙기고 골목상...</a></h3>
+ <div class="a-meta">디지털타임스 · 2026-07-15 10:02</div>
+ <ul class="summary"><li>우리금융, 아동 결식 문제 해결과 지역 경제 활성화 프로젝트 (w/인천광역시교육청, 월드비전)</li><li>우리금융미래재단의 사업 기획과 재원 지원, 인천광역시교육청의 학교 모집과 행정지원, 월드비전의 지역 소상공인 발굴과 사업 운영</li><li>인천지역 초등학교 10곳의 결식 우려 아동 200명 대상, 학교 인근 소상공인의 아침 식사 조리와 배송, 전용 웹페이지를 통한 데이터 관리와 위생 교육</li></ul>
+ <div class="kw">매칭 키워드: <b>우리금융</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/029/0003037149?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="보험" data-type="디지털">
+ <div class="tags"><span class="tag path">미래에셋생명 · 보험</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.socialvalue.kr/news/view/1065572450827829" target="_blank" rel="noopener">미래에셋생명, K-브랜드지수 보험사 부문 톱10 신규 진입...한화손해보험...</a></h3>
+ <div class="a-meta"> · 2026-07-15 09:38</div>
+ <ul class="summary"><li>미래에셋생명, K-브랜드지수 보험사 부문 톱10 신규 진입</li><li>2026년 6월 1일부터 6월 30일까지의 온라인 빅데이터 1445만8050건 분석 결과</li><li>삼성생명 1위, 미래에셋생명 8위, 한화생명 3위 등 보험사 상위 주요 기업 브랜드 순위 구성</li></ul>
+ <div class="kw">매칭 키워드: <b>미래에셋생명, 한화손해보험</b></div>
+ <a class="src-link" href="https://www.socialvalue.kr/news/view/1065572450827829" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="woori" data-sector="카드" data-type="AI">
+ <div class="tags"><span class="tag path">우리카드 · 카드</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/277/0005790175?sid=101" target="_blank" rel="noopener">실적 조건 없애고 혜택은 키웠다…우리카드, &#x27;카드의정석2 슈퍼&#x27; 선봬</a></h3>
+ <div class="a-meta">아시아경제 · 2026-07-15 09:30</div>
+ <ul class="summary"><li>우리카드, 카드의정석2 SUPER 출시</li><li>국내외 전 가맹점 2% 할인, 월 최대 10만원 할인, 해외 수수료 면제</li><li>기본 2% 할인과 해외 1.3% 할인으로 총 3.3% 할인, 마스터카드 플래티넘 서비스 제공</li></ul>
+ <div class="kw">매칭 키워드: <b>우리카드, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/277/0005790175?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nonholding" data-sector="보험" data-type="AI">
+ <div class="tags"><span class="tag path">삼성화재 · 보험</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://hbnpress.com/news/view/1065572506961383" target="_blank" rel="noopener">삼성화재 1위 독주 DB손해보험·교보생명 순위 약진...K-브랜드지수 보...</a></h3>
+ <div class="a-meta"> · 2026-07-15 09:26</div>
+ <ul class="summary"><li>삼성화재, K-브랜드지수 보험사 부문 1위</li><li>DB손해보험·교보생명 순위 약진, 2026년 6월 1일부터 6월 30일까지의 온라인 빅데이터 1445만 8050건 분석 결과</li><li>TOP10에 삼성생명·한화생명·현대해상·KB손해보험·미래에셋생명·메리츠화재·신한라이프 등 포함</li></ul>
+ <div class="kw">매칭 키워드: <b>삼성화재, DB손해보험, 교보생명, AI</b></div>
+ <a class="src-link" href="https://hbnpress.com/news/view/1065572506961383" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.ajunews.com/view/20260715091726554" target="_blank" rel="noopener">토스인슈어런스, 펫보험 가입 80%↑…연금보험도 급증</a></h3>
+ <div class="a-meta"> · 2026-07-15 09:22</div>
+ <ul class="summary"><li>토스인슈어런스, 펫보험 가입 80%↑…연금보험도 급증</li><li>펫보험 신계약 건수 80% 증가, 연금보험 신계약 건수 78.1% 증가</li><li>청년층에서 연금·건강보험 가입 증가세 두드러지며, 건강관리에 대한 관심이 커진 것으로 보인다.</li></ul>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="https://www.ajunews.com/view/20260715091726554" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="policy" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">IBK기업은행 · 은행</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/020/0003734050?sid=101" target="_blank" rel="noopener">로콘, IBK기업은행 창업 육성 캠프 합류</a></h3>
+ <div class="a-meta">동아일보 · 2026-07-15 09:12</div>
+ <div class="a-meta nosum">요약 미제공 — 개조식 형식 미달 (요약하기 어려운 유형의 기사)</div>
+ <div class="kw">매칭 키워드: <b>IBK기업은행, AI</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/020/0003734050?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="internet" data-sector="카카오" data-type="AI">
+ <div class="tags"><span class="tag path">카카오뱅크 · 카카오</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="http://www.e2news.com/news/articleView.html?idxno=332302" target="_blank" rel="noopener">카카오뱅크-한국핀테크지원센터, &#x27;핀넥트 챌린지&#x27; 5개 권역별 지역예선...</a></h3>
+ <div class="a-meta"> · 2026-07-15 09:00</div>
+ <ul class="summary"><li>카카오뱅크-한국핀테크지원센터, &#x27;핀넥트 챌린지&#x27; 5개 권역별 지역예선 개최</li><li>전국 5개 권역에서 431팀이 참가, 8.8:1의 높은 경쟁률을 기록</li><li>지역예선 발표심사를 거쳐, 12개 팀이 통합본선 진출 팀으로 최종 선발</li></ul>
+ <div class="kw">매칭 키워드: <b>카카오뱅크, AI</b></div>
+ <a class="src-link" href="http://www.e2news.com/news/articleView.html?idxno=332302" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-15 21:56 요청분 (과거)</h2>
+   <span class="cnt" data-total="7">7건</span>
+   <span class="range">검색 07-14 21:56 ~ 07-15 21:56</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article is-ai" data-co="overseas" data-sector="해외" data-type="AI">
+ <div class="tags"><span class="tag path">모건스탠리 · 해외</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/014/0005548798?sid=101" target="_blank" rel="noopener">AI 광풍에 웃은 모건스탠리…순익 58% 급증</a></h3>
+ <div class="a-meta">파이낸셜뉴스 · 2026-07-15 21:36</div>
+ <ul class="summary"><li>모건스탠리의 2·4분기 순이익이 58% 급증함</li><li>미국 5대 투자은행의 주식 트레이딩 수익이 1년 만에 70% 넘게 늘어남</li><li>모건스탠리의 자산관리 부문도 견조한 성장세를 이어감</li></ul>
+ <div class="kw">매칭 키워드: <b>모건스탠리, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/014/0005548798?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nonholding" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">유진투자증권 · 증권</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.cnbizm.com/news/articleView.html?idxno=308710" target="_blank" rel="noopener">AI·리서치·글로벌 협업…유진투자증권의 플랫폼 실험</a></h3>
+ <div class="a-meta"> · 2026-07-15 16:54</div>
+ <ul class="summary"><li>유진투자증권은 투자 플랫폼 전환을 위한 신규 서비스와 조직 개편 및 글로벌 협력을 추진함</li><li>투자 판단을 지원하는 서비스의 고도화와 자산관리 및 글로벌 브로커리지 확대가 주요 전략임</li><li>플랫폼 경쟁력을 바탕으로 고객 접점을 넓히고 투자자 판단 효율을 높이는 도구로 활용하려는 시도임</li></ul>
+ <div class="kw">매칭 키워드: <b>유진투자증권, AI, 플랫폼</b></div>
+ <a class="src-link" href="https://www.cnbizm.com/news/articleView.html?idxno=308710" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="kb" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">KB국민은행 · 은행</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.sentv.co.kr/article/view/sentv202607150157" target="_blank" rel="noopener">KB국민은행, 외국인 고객 패널 ‘KB글로벌스타’ 모집</a></h3>
+ <div class="a-meta"> · 2026-07-15 15:40</div>
+ <div class="a-meta nosum">요약 미제공 — 개조식 형식 미달 (요약하기 어려운 유형의 기사)</div>
+ <div class="kw">매칭 키워드: <b>KB국민은행</b></div>
+ <a class="src-link" href="https://www.sentv.co.kr/article/view/sentv202607150157" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="그룹" data-type="디지털">
+ <div class="tags"><span class="tag path">신한금융 · 그룹</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.ceoscoredaily.com/page/view/2026071514381840783" target="_blank" rel="noopener">삼성전자·신한금융·우리금융·기아·KB금융 등 5곳, ESG평가 최고 ‘S...</a></h3>
+ <div class="a-meta"> · 2026-07-15 14:40</div>
+ <div class="a-meta nosum">요약 미제공 — 개조식 형식 미달 (요약하기 어려운 유형의 기사)</div>
+ <div class="kw">매칭 키워드: <b>신한금융, 우리금융, KB금융</b></div>
+ <a class="src-link" href="https://www.ceoscoredaily.com/page/view/2026071514381840783" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="kb" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">KB증권 · 증권</span>
+ <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
+ <h3><a href="http://www.metroseoul.co.kr/article/20260715500164" target="_blank" rel="noopener">&quot;오늘 반도체 급등, CPI보다 과매도 영향&quot; - KB증권</a></h3>
+ <div class="a-meta"> · 2026-07-15 11:40</div>
+ <div class="a-meta nosum">요약 미제공 — 본문 추출 실패 (매체 페이지 구조 문제)</div>
+ <div class="kw">매칭 키워드: <b>KB증권</b></div>
+ <a class="src-link" href="http://www.metroseoul.co.kr/article/20260715500164" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nh" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">NH농협은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.dailysmart.co.kr/news/articleView.html?idxno=126905" target="_blank" rel="noopener">&quot;난 방학 때 갓생러? 도파민 중독?&quot;… NH올원뱅크, 10대 겨냥 &#x27;여름방학...</a></h3>
+ <div class="a-meta"> · 2026-07-15 10:58</div>
+ <ul class="summary"><li>NH농협은행이 모바일 플랫폼 NH올원뱅크에서 청소년 고객을 대상으로 특별 이벤트를 진행함</li><li>청소년들이 자신의 여름방학 일상과 라이프스타일에 따라 네 가지 유형 중 하나를 선택하는 참여형 콘텐츠를 제공함</li><li>이벤트에 참여한 청소년 고객들에게 추첨을 통해 총 20명의 고객에게 각각 5만원 상당의 경품을 제공함</li></ul>
+ <div class="kw">매칭 키워드: <b>NH올원뱅크</b></div>
+ <a class="src-link" href="http://www.dailysmart.co.kr/news/articleView.html?idxno=126905" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">신한투자증권 · 증권</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.srtimes.kr/news/articleView.html?idxno=207591" target="_blank" rel="noopener">은행·증권 한 계좌로…신한투자증권 SOL LINK 흥행</a></h3>
+ <div class="a-meta"> · 2026-07-15 10:52</div>
+ <ul class="summary"><li>신한투자증권의 통합 계좌 &#x27;SOL LINK&#x27;의 신규 개설 수가 출시 10일 만에 10만좌를 넘어섬</li><li>신한투자증권이 계좌 출시를 기념해 국내주식을 100만원 이상 거래하고 잔고 100만원 이상을 유지한 고객을 대상으로 추첨 이벤트를 진행함</li><li>금융그룹들이 은행과 증권 서비스를 연결한 통합 플랫폼을 강화하고 있으며, KB금융과 하나금융도 은행 계좌 조회와 증권 서비스를 연계하는 통합 플랫폼을 운영함</li></ul>
+ <div class="kw">매칭 키워드: <b>신한투자증권</b></div>
+ <a class="src-link" href="http://www.srtimes.kr/news/articleView.html?idxno=207591" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-15 21:29 요청분 (과거)</h2>
+   <span class="cnt" data-total="1">1건</span>
+   <span class="range">검색 07-14 21:29 ~ 07-15 21:29</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article is-ai" data-co="regional" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">iM뱅크 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/001/0016196862?sid=101" target="_blank" rel="noopener">iM뱅크·기보, 첨단전략산업 육성 위해 738억 대출지원 협약</a></h3>
+ <div class="a-meta">연합뉴스 · 2026-07-15 16:06</div>
+ <ul class="summary"><li>iM뱅크와 기술보증기금이 AtoF 미래전략산업 육성을 위한 생산적 금융지원 협약을 체결함</li><li>iM뱅크가 기술보증기금에 특별출연금과 보증료지원금을 출연해 대출을 지원할 방침임</li><li>기술보증기금이 보증 비율 상향과 보증료 감면 및 지원 등을 3년간 제공할 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>iM뱅크, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/001/0016196862?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-15 19:49 요청분 (과거)</h2>
+   <span class="cnt" data-total="1">1건</span>
+   <span class="range">검색 07-14 19:49 ~ 07-15 19:49</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article is-ai" data-co="regional" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">iM뱅크 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/079/0004168740?sid=102" target="_blank" rel="noopener">iM뱅크·기술보증기금, 6대 첨단 전략산업 지원 협약</a></h3>
+ <div class="a-meta">노컷뉴스 · 2026-07-15 15:06</div>
+ <ul class="summary"><li>iM뱅크와 기술보증기금이 6대 첨단 전략산업 지원을 위한 협약을 맺음</li><li>iM뱅크는 기술보증기금에 특별 출연금과 보증료 지원금을 제공하고 대출을 공급할 예정임</li><li>기술보증기금은 보증비율 상향과 보증료 감면 등의 우대 혜택을 제공해 중소기업의 자금 조달 부담을 덜어줄 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>iM뱅크, AI</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/079/0004168740?sid=102" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-15 17:17 요청분 (과거)</h2>
+   <span class="cnt" data-total="7">7건</span>
+   <span class="range">검색 07-14 17:17 ~ 07-15 17:17</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article" data-co="policy" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">IBK기업은행 · 은행</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="http://digitalchosun.dizzo.com/site/data/html_dir/2026/07/15/2026071580159.html" target="_blank" rel="noopener">IBK기업은행, ‘IBK모임 서비스’ 출시… 모임 자금관리 지원</a></h3>
+ <div class="a-meta"> · 2026-07-15 17:00</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>IBK기업은행</b></div>
+ <a class="src-link" href="http://digitalchosun.dizzo.com/site/data/html_dir/2026/07/15/2026071580159.html" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nh" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">NH투자증권 · 증권</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.newspim.com/news/view/20260715001135" target="_blank" rel="noopener">NH투자증권, AFPRO 지원금 확대…농식품 투자 생태계 강화</a></h3>
+ <div class="a-meta"> · 2026-07-15 16:13</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>NH투자증권, AI</b></div>
+ <a class="src-link" href="https://www.newspim.com/news/view/20260715001135" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="보험" data-type="디지털">
+ <div class="tags"><span class="tag path">삼성생명 · 보험</span>
+ <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
+ <h3><a href="https://news.dealsitetv.com/articles/173350" target="_blank" rel="noopener">[보험·카드24시] 삼성생명, 시니어대표건강보험 출시 外</a></h3>
+ <div class="a-meta"> · 2026-07-15 16:00</div>
+ <div class="a-meta nosum">요약 미제공 — 본문 추출 실패 (매체 페이지 구조 문제)</div>
+ <div class="kw">매칭 키워드: <b>삼성생명</b></div>
+ <a class="src-link" href="https://news.dealsitetv.com/articles/173350" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="카카오" data-type="디지털">
+ <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="http://www.hortitimes.com/news/articleView.html?idxno=34274" target="_blank" rel="noopener">&quot;카카오페이 QR오더로 간편하게&quot; 명륜진사갈비, 5천원 즉시 할인 프로모...</a></h3>
+ <div class="a-meta"> · 2026-07-15 15:40</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>카카오페이</b></div>
+ <a class="src-link" href="http://www.hortitimes.com/news/articleView.html?idxno=34274" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nh" data-sector="그룹" data-type="AI">
+ <div class="tags"><span class="tag path">NH농협금융 · 그룹</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/015/0005310298?sid=101" target="_blank" rel="noopener">NH농협금융, AI·신재생 인프라…첨단산업 맞춤형 &#x27;상생성장펀드&#x27; 조성</a></h3>
+ <div class="a-meta">한국경제 · 2026-07-15 15:20</div>
+ <ul class="summary"><li>NH농협금융이 AI와 신재생 인프라 등 첨단산업을 지원하기 위한 상생성장펀드를 조성함</li><li>총 5000억원 규모의 블라인드 펀드로 인공지능과 신재생에너지 등 첨단 인프라 건설사업에 필요한 자금을 공급할 방침임</li><li>연내 추가 펀드도 조성하고 지역 금고와 영업점, 계열사 네트워크를 활용해 지방의 유망 투자 수요를 발굴하고 자금 공급에 나설 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>NH농협금융, AI</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/015/0005310298?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">신한은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.public25.com/news/articleView.html?idxno=50764" target="_blank" rel="noopener">신한은행, 전남광주 &#x27;신한SOL클러스터&#x27; 개소…생산·포용금융으로 AI·반...</a></h3>
+ <div class="a-meta"> · 2026-07-15 15:00</div>
+ <ul class="summary"><li>신한은행이 전남광주 지역 전략산업 육성과 생산·포용금융 강화를 위한 지역 거점 금융플랫폼인 &#x27;신한SOL클러스터 전남광주&#x27;를 공식 출범시키며 지역 산업 경쟁력 강화에 나서함</li><li>신한SOL클러스터 전남광주는 지역 산업정책과 기업 현장의 금융 수요를 연결하는 역할을 수행하며, AI, 반도체, 미래모빌리티, 에너지 산업을 핵심 지원 분야로 선정하고, 종합적인 금융서비스를 제공할 계획임</li><li>신한은행은 신한SOL클러스터 전남광주를 통해 지역 산업의 미래와 기업의 성장 가능성을 먼저 보는 금융을 실천하고, 지역 현장에 최적화된 복합 금융솔루션을 제공해 전남광주가 성장하는 데 금융 파트너로 역할을 함</li></ul>
+ <div class="kw">매칭 키워드: <b>신한은행, 신한SOL, AI</b></div>
+ <a class="src-link" href="https://www.public25.com/news/articleView.html?idxno=50764" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="보험" data-type="디지털">
+ <div class="tags"><span class="tag path">동양생명 · 보험</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.swtvnews.com/news/newsview.php?ncode=1065586118776851" target="_blank" rel="noopener">동양생명, 고혈압 치료비·당뇨 진단금 보장 ‘고혈압당뇨보험’ 출시</a></h3>
+ <div class="a-meta"> · 2026-07-15 14:30</div>
+ <ul class="summary"><li>동양생명이 고혈압 치료비와 당뇨병 진단금을 보장하는 ‘(무)우리WON하는mini고혈압당뇨보험’을 출시함</li><li>고혈압으로 진단이 확정되고 직접 치료 목적으로 180일 이상 고혈압 약물치료를 받았거나, 당뇨병으로 진단이 확정됐을 때 최초 1회에 한해 최대 10만원을 지급하는 사전 예방형 상품임</li><li>가입 연령은 20~60세로, 1년 만기 일시납 구조를 적용해 장기간 보험료를 납부해야 하는 부담을 줄여 보험 가입자에게 편의를 제공함</li></ul>
+ <div class="kw">매칭 키워드: <b>동양생명</b></div>
+ <a class="src-link" href="https://www.swtvnews.com/news/newsview.php?ncode=1065586118776851" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-15 14:28 요청분 (과거)</h2>
+   <span class="cnt" data-total="8">8건</span>
+   <span class="range">검색 07-14 14:28 ~ 07-15 14:28</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article is-ai" data-co="hana" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">하나은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.greened.kr/news/articleView.html?idxno=345082" target="_blank" rel="noopener">하나은행, 24시간 외환시장 대응 &#x27;속도전&#x27;...개인 해외송금 서비스 범위...</a></h3>
+ <div class="a-meta"> · 2026-07-15 14:15</div>
+ <ul class="summary"><li>하나은행이 24시간 외환시장 대응을 위한 속도전을 벌임</li><li>개인 해외송금 서비스 범위가 확대되고 있음</li><li>금융 서비스의 디지털화와 글로벌화에 대응하기 위한 전략임</li></ul>
+ <div class="kw">매칭 키워드: <b>하나은행, AI</b></div>
+ <a class="src-link" href="https://www.greened.kr/news/articleView.html?idxno=345082" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="hana" data-sector="카드" data-type="AI">
+ <div class="tags"><span class="tag path">하나카드 · 카드</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/030/0003448084?sid=101" target="_blank" rel="noopener">다드림아이앤에스, 하나카드 수어 상담 시스템 솔루션 고도화</a></h3>
+ <div class="a-meta">전자신문 · 2026-07-15 13:51</div>
+ <ul class="summary"><li>다드림아이앤에스가 하나카드에 수어 상담 영상 통화 솔루션 고도화 사업을 완료하고 서비스를 제공함</li><li>다드림아이앤에스의 웹 영상통화 기술을 사용해 청각 장애인에게 기존 영상전화 통화만 가능했던 수어 상담을 하나카드 홈페이지와 애플리케이션에서도 상담할 수 있도록 기능을 통합하고 서비스를 고도화함</li><li>다드림아이앤에스의 영상통화 솔루션은 금융권과 공공기관에서 디지털 취약 계층인 청각 장애인 대상 수어 상담 시스템용으로 사용되고 있으며 AI 콜센터와 연동해 고령자 손님의 비대면 화상 상담을 지원하는 기능을 제공함</li></ul>
+ <div class="kw">매칭 키워드: <b>하나카드, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/030/0003448084?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nh" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">농협은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/366/0001179368?sid=101" target="_blank" rel="noopener">오픈에셋, 농협은행 ‘NH오픈비즈니스허브’ 협업 기업 선정</a></h3>
+ <div class="a-meta">조선비즈 · 2026-07-15 13:38</div>
+ <ul class="summary"><li>오픈에셋이 NH농협은행의 개방형 혁신 프로그램 ‘NH오픈비즈니스허브’ 협업 기업으로 선정됨</li><li>양사는 가상 자산 분야에서 기술 시연과 개념 검증을 포함한 단계적 협업을 추진할 계획임</li><li>오픈에셋은 이 협업을 통해 디지털자산 인프라 역량을 은행권 현장에서 확인하고 다양한 가상 자산 사업을 농협은행과 함께 만들 예정임</li></ul>
+ <div class="kw">매칭 키워드: <b>농협은행, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/366/0001179368?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="regional" data-sector="기타" data-type="AI">
+ <div class="tags"><span class="tag path">BNK금융그룹 · 기타</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/003/0014068033?sid=102" target="_blank" rel="noopener">BNK금융그룹, 부산∙경남은행 산업금융전략팀 신설 등 조직 개편</a></h3>
+ <div class="a-meta">뉴시스 · 2026-07-15 11:10</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>BNK금융그룹, 경남은행, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/003/0014068033?sid=102" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="카드" data-type="디지털">
+ <div class="tags"><span class="tag path">신한카드 · 카드</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.newsworker.co.kr/news/articleView.html?idxno=436479" target="_blank" rel="noopener">[뉴스워커_신한카드] 중앙대와 맞손… 35만 동문 위한 &#x27;맞춤형 제휴카드...</a></h3>
+ <div class="a-meta"> · 2026-07-15 11:00</div>
+ <ul class="summary"><li>신한카드가 중앙대학교와 제휴해 35만 중앙대학교 동문의 자부심과 결속력을 담은 &#x27;중앙대학교 총동문회 제휴 신한카드&#x27;를 출시함</li><li>중앙대 신한카드는 동문의 다양한 라이프스타일과 니즈를 반영해 3종으로 구성되어 있으며, 연회비는 상품별로 1만 5천 원부터 최대 32만 원까지 다양하게 구성되어 선택의 폭을 넓혔음</li><li>신한카드는 이번 제휴카드를 통해 단순한 금융상품을 넘어 35만 동문의 연결을 공고히 하는 플랫폼이 될 것으로 기대되며, 앞으로도 대학 및 동문 사회의 특성을 반영한 차별화된 서비스를 지속적으로 확대할 방침임</li></ul>
+ <div class="kw">매칭 키워드: <b>신한카드</b></div>
+ <a class="src-link" href="http://www.newsworker.co.kr/news/articleView.html?idxno=436479" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">우리은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.sisaon.co.kr/news/articleView.html?idxno=202707" target="_blank" rel="noopener">은행권, 얼굴인증 로그인 &#x27;계륵&#x27;…우리은행 제한적 재개</a></h3>
+ <div class="a-meta"> · 2026-07-15 10:04</div>
+ <ul class="summary"><li>우리은행이 얼굴인증 로그인 서비스를 재개했지만 로그인 기능은 제외하고 추가 본인확인이 필요한 경우에 한해 제한적으로 사용이 가능함</li><li>우리은행은 인증수단의 특성과 보안 수준을 고려해 이용 범위를 축소하고 우리WON인증서는 로그인 및 금융거래 인증수단으로 인증수단별 용도를 명확히 조정함</li><li>은행권은 얼굴인증을 로그인 수단으로 활용하기보다는 신분증 진위 확인이나 이상거래 탐지 과정에서 추가 인증수단으로 활용하는 방향으로 무게중심을 옮기고 있으며 당분간 얼굴인증이 주 인증수단으로 자리 잡기는 어려울 것으로 전망됨</li></ul>
+ <div class="kw">매칭 키워드: <b>우리은행</b></div>
+ <a class="src-link" href="https://www.sisaon.co.kr/news/articleView.html?idxno=202707" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="kb" data-sector="그룹" data-type="AI">
+ <div class="tags"><span class="tag path">KB금융 · 그룹</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/016/0002670466?sid=101" target="_blank" rel="noopener">양종희 회장 “KB금융이 AI인재 산실 돼야”…‘KB AI 랩’ 출범</a></h3>
+ <div class="a-meta">헤럴드경제 · 2026-07-15 09:53</div>
+ <ul class="summary"><li>양종희 KB금융그룹 회장이 AI 시대에 모든 경험이 데이터가 되고 그 데이터를 잘 활용하는 사람이 경쟁력이 된다고 강조함</li><li>KB금융은 AI 전략인 ‘KB 위드 AI’를 바탕으로 AI 에이전트와 데이터를 실제 업무에 적용한 주요 혁신 사례를 소개하고 실전형 AI 핵심 인재 육성 프로그램인 ‘KB AI 랩’을 출범함</li><li>KB금융은 KB AI 랩을 그룹 전 계열사로 확대해 현업 중심의 AI 실행 역량을 강화하고 고객에게 더 나은 금융 서비스를 제공할 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>KB금융, AI, 인공지능, AI 에이전트</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/016/0002670466?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="그룹" data-type="AI">
+ <div class="tags"><span class="tag path">신한금융 · 그룹</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.straightnews.co.kr/news/articleView.html?idxno=307013" target="_blank" rel="noopener">신한금융, &#x27;AI 전환 DNA&#x27; 사회공헌으로 확산</a></h3>
+ <div class="a-meta"> · 2026-07-14 15:06</div>
+ <ul class="summary"><li>신한은행이 Tech봉사단을 통해 어린이 AI 코딩 체험 교실을 열고 디지털 금융 교육을 제공함</li><li>어린이들은 AI 로봇을 조립하고 프로그래밍하며 AI 기술의 원리와 디지털 금융의 기초를 배우고 있음</li><li>신한금융그룹이 AI 전환을 사회공헌 영역으로 확산시키고 지역 디지털 격차 해소를 위해 교육 기회를 제공할 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>신한금융, AI, 인공지능</b></div>
+ <a class="src-link" href="https://www.straightnews.co.kr/news/articleView.html?idxno=307013" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-15 12:22 요청분 (과거)</h2>
+   <span class="cnt" data-total="20">20건</span>
+   <span class="range">검색 07-14 12:22 ~ 07-15 12:22</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article" data-co="shinhan" data-sector="카드" data-type="디지털">
+ <div class="tags"><span class="tag path">신한카드 · 카드</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.wsobi.com/news/articleView.html?idxno=315269" target="_blank" rel="noopener">신한카드·동양생명, 중앙대 총동문회 제휴카드·&#x27;우리WON하는mini고혈압...</a></h3>
+ <div class="a-meta"> · 2026-07-15 12:08</div>
+ <ul class="summary"><li>신한카드와 동양생명이 중앙대학교 총동문회와 제휴카드와 보험 상품을 출시함</li><li>신한카드의 중앙대 신한카드는 더베스트 엑스오, 디스카운트 플랜 플러스, 플리 3종으로 출시되어 각종 혜택과 할인 서비스를 제공하고, 동양생명의 우리WON하는mini고혈압당뇨보험은 고혈압 치료비 또는 당뇨병 진단금을 보장하는 사전 예방형 상품임</li><li>신한카드와 동양생명의 제휴카드와 보험 상품 출시로 중앙대학교 총동문회 회원들에게 다양한 금융 서비스와 보험 혜택을 제공할 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>신한카드, 동양생명, 우리WON</b></div>
+ <a class="src-link" href="http://www.wsobi.com/news/articleView.html?idxno=315269" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="kb" data-sector="그룹" data-type="AI">
+ <div class="tags"><span class="tag path">KB금융 · 그룹</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/021/0002804896?sid=101" target="_blank" rel="noopener">“데이터활용 능력이 곧 경쟁력” … 양종희 KB금융회장, AX 강조</a></h3>
+ <div class="a-meta">문화일보 · 2026-07-15 12:04</div>
+ <ul class="summary"><li>양종희 KB금융지주 회장이 데이터 활용 능력이 곧 경쟁력이라며 그룹 차원의 인공지능 전환 추진 속도를 점검함</li><li>KB금융은 AI 데이터 분석 에이전트인 KB 다비스와 통합 개발 환경인 KB 데브 센터, 실무 중심의 AI 핵심 인재 육성 프로그램인 KB AI 랩을 공개함</li><li>KB금융은 이번 운영 결과를 바탕으로 랩 프로그램을 전 계열사로 확대해 AI 역량을 강화할 방침임</li></ul>
+ <div class="kw">매칭 키워드: <b>KB금융, AI, 인공지능, AI 에이전트</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/021/0002804896?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="kb" data-sector="그룹" data-type="AI">
+ <div class="tags"><span class="tag path">KB금융 · 그룹</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="http://www.updownnews.co.kr/news/articleView.html?idxno=317983" target="_blank" rel="noopener">KB금융, 현업 주도형 AI 핵심인재 육성...&quot;데이터가 곧 경쟁력&quot;</a></h3>
+ <div class="a-meta"> · 2026-07-15 11:50</div>
+ <ul class="summary"><li>KB금융그룹이 인공지능 중심의 전사적인 체질 개선을 가속화하고 현장 맞춤형 전문 인력을 키워내기 위해 대규모 자리를 마련하고 실무 직결형 핵심 인재 육성 과정의 본격적인 가동에 나섬</li><li>KB금융은 2026년 상반기 그룹 AI·데이터 혁신 세미나를 개최하고 실전형 AI 인재 양성 프로그램 ‘KB AI 랩’을 출범했으며, 세미나에서는 KB금융 AI 전략을 바탕으로 AI 에이전트와 데이터를 실제 업무에 적용한 주요 혁신 사례들이 소개됨</li><li>KB금융그룹은 이번 운영 결과를 바탕으로 KB AI 랩을 그룹 전 계열사로 단계적으로 확대해 현업 중심의 AI 실행 역량을 지속적으로 강화해 나갈 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>KB금융, AI, 인공지능, AI 에이전트</b></div>
+ <a class="src-link" href="http://www.updownnews.co.kr/news/articleView.html?idxno=317983" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="overseas" data-sector="해외" data-type="AI">
+ <div class="tags"><span class="tag path">JP모건 · 해외</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/001/0016195799?sid=101" target="_blank" rel="noopener">JP모건, 직원들에 &quot;단순 업무에 비싼 AI 사용 말라&quot;</a></h3>
+ <div class="a-meta">연합뉴스 · 2026-07-15 11:34</div>
+ <ul class="summary"><li>JP모건체이스가 직원들에게 단순 업무에 값비싼 인공지능(AI) 도구 사용을 자제하라고 지시함</li><li>JP모건의 제레미 바넘 최고재무책임자는 애널리스트 보고서를 요약하는 데 최첨단 모델을 사용할 필요가 없다고 말하며 목적에 맞는 적절한 AI 모델을 사용하는 것이 중요함</li><li>미국 금융업계에서 AI 모델 활용이 급증하는 가운데 JP모건과 다른 금융 기관들은 적절한 AI 모델을 사용하여 비용을 절감하고 효율성을 높이려는 전략적 접근을 하고 있음</li></ul>
+ <div class="kw">매칭 키워드: <b>JP모건, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/001/0016195799?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nh" data-sector="보험" data-type="AI">
+ <div class="tags"><span class="tag path">NH농협생명 · 보험</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.tournews21.com/news/articleView.html?idxno=138647" target="_blank" rel="noopener">NH농협생명, AI OCR 도입한 통합 이미지 시스템 새 단장…보험업무 디지...</a></h3>
+ <div class="a-meta"> · 2026-07-15 11:32</div>
+ <ul class="summary"><li>NH농협생명이 AI OCR 기술을 도입한 통합 이미지 시스템 구축을 마무리하고 보험업무 디지털 전환에 나서고 있음</li><li>시스템은 기존 이미지 관리 체계를 재구축하고 AI OCR 기술을 도입해 지급심사와 방카슈랑스 영업, 언더라이팅, 자산운용 등 업무 과정에서 문서를 자동으로 읽어내고 분류하는 방식임</li><li>이를 통해 디지털 업무 혁신과 고객 서비스 경쟁력을 높이고, 결과적으로 고객에게 더 신속한 서비스를 제공할 수 있을 것으로 기대되고 있음</li></ul>
+ <div class="kw">매칭 키워드: <b>NH농협생명, AI, 인공지능</b></div>
+ <a class="src-link" href="https://www.tournews21.com/news/articleView.html?idxno=138647" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="overseas" data-sector="해외" data-type="AI">
+ <div class="tags"><span class="tag path">HSBC · 해외</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.econotimes.com/Arm-Stock-Falls-After-HSBC-Downgrade-Citing-Limited-Near-Term-AI-Upside-1746768" target="_blank" rel="noopener">Arm Stock Falls After HSBC Downgrade, Citing Limited Near-Term AI Upside</a></h3>
+ <div class="a-meta"> · 2026-07-15 11:28</div>
+ <ul class="summary"><li>HSBC가 Arm Holdings의 평가를 하락시켜서 Arm 주가가 하락함</li><li>Arm 주가는 6% 하락한 후에 약간 회복되어 $282.26로 거래됨</li><li>Arm의 장기적인 AI 성장 가능성은 이미 주가에 반영되어서 단기적으로 추가 상승이 어려울 것으로 보임</li></ul>
+ <div class="kw">매칭 키워드: <b>HSBC, AI</b></div>
+ <a class="src-link" href="https://www.econotimes.com/Arm-Stock-Falls-After-HSBC-Downgrade-Citing-Limited-Near-Term-AI-Upside-1746768" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="regional" data-sector="기타" data-type="디지털">
+ <div class="tags"><span class="tag path">BNK금융그룹 · 기타</span>
+ <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
+ <h3><a href="https://www.kukinews.com/article/view/kuk202607150063" target="_blank" rel="noopener">“지역금융 본연의 역할 하겠다”…BNK금융그룹 하반기조직개편</a></h3>
+ <div class="a-meta"> · 2026-07-15 11:10</div>
+ <div class="a-meta nosum">요약 미제공 — 본문 추출 실패 (매체 페이지 구조 문제)</div>
+ <div class="kw">매칭 키워드: <b>BNK금융그룹</b></div>
+ <a class="src-link" href="https://www.kukinews.com/article/view/kuk202607150063" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="regional" data-sector="기타" data-type="디지털">
+ <div class="tags"><span class="tag path">BNK금융그룹 · 기타</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/079/0004168594?sid=102" target="_blank" rel="noopener">BNK금융그룹, 하반기 조직개편 실시…&quot;지역 주력산업 지원 강화&quot;</a></h3>
+ <div class="a-meta">노컷뉴스 · 2026-07-15 11:02</div>
+ <ul class="summary"><li>BNK금융그룹이 하반기 조직개편을 실시하고 지역 주력산업 지원과 미래금융 대응에 초점을 맞춤</li><li>지주에 부울경 경제연구팀과 ESG전략팀을 신설하고 부산·경남은행에는 산업금융전략팀을 신설하여 지역 산업 밀착 지원 체계를 강화함</li><li>지역 주력산업에 대한 생산적금융 공급을 확대하고 미래금융 대응을 강화하는 것을 목표로 하며 지역과 함께 성장하는 미래금융을 실현하기 위한 조직개편임</li></ul>
+ <div class="kw">매칭 키워드: <b>BNK금융그룹</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/079/0004168594?sid=102" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nh" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">NH농협은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/030/0003447996?sid=105" target="_blank" rel="noopener">쿠도커뮤니케이션, AI 웰니스 솔루션 &#x27;HEALLO&#x27; NH농협은행 서울지역 100여...</a></h3>
+ <div class="a-meta">전자신문 · 2026-07-15 10:53</div>
+ <ul class="summary"><li>쿠도커뮤니케이션이 AI 기반 비접촉 건강지표 분석 솔루션 &#x27;HEALLO&#x27;를 NH농협은행 서울지역 100여개 지점에 공급함</li><li>헬로는 카메라 기반 AI 영상 분석 기술을 활용해 얼굴 영상을 분석하고 생체 신호 기반 건강지표를 참고 정보 형태로 제공하는 비접촉 웰니스 솔루션임</li><li>쿠도커뮤니케이션은 헬로 적용 분야를 금융권을 넘어 유통, 공공, 복지, 교육시설 등으로 확대할 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>NH농협은행, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/030/0003447996?sid=105" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/421/0009060528?sid=101" target="_blank" rel="noopener">&quot;외국인 결제 원단말 해결&quot;…쿠콘, 토스플레이스에 글로벌페이 연동</a></h3>
+ <div class="a-meta">뉴스1 · 2026-07-15 10:46</div>
+ <ul class="summary"><li>쿠콘이 토스의 오프라인 결제 플랫폼 토스플레이스에 글로벌 페이 서비스를 연동함</li><li>토스플레이스 결제 단말기에 50여 개 글로벌 페이 서비스를 연동해 방한 외국인 관광객의 국내 결제 편의성을 높임</li><li>소상공인들이 추가 투자 없이 외국인 결제를 유치할 수 있는 환경을 조성하고 글로벌 성장 지원을 강화 중임</li></ul>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/421/0009060528?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nonholding" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">한국투자증권 · 증권</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.viva100.com/article/20260715500511" target="_blank" rel="noopener">한국투자증권, 제9회 리서치챌린지 시상…예비 애널리스트 발굴 확대</a></h3>
+ <div class="a-meta"> · 2026-07-15 10:36</div>
+ <ul class="summary"><li>한국투자증권이 제9회 리서치챌린지 시상식을 열고 우수 참가자를 선정함</li><li>리서치챌린지 참가자들은 시장과 산업을 분석하고 투자 아이디어를 제시하는 과정을 통해 리서치 실무를 경험할 수 있으며, 수상자에게는 채용연계형 인턴십 참여 기회와 최종 면접을 거쳐 리서치 애널리스트로 채용하는 등 인재 육성 프로그램을 운영함</li><li>한국투자증권은 리서치챌린지를 통해 금융시장과 산업에 대한 분석 역량을 갖춘 인재를 발굴하고, 예비 애널리스트들이 실무 경험과 성장 기회를 쌓을 수 있도록 지원할 방침임</li></ul>
+ <div class="kw">매칭 키워드: <b>한국투자증권, AI, 인공지능</b></div>
+ <a class="src-link" href="https://www.viva100.com/article/20260715500511" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="kb" data-sector="그룹" data-type="AI">
+ <div class="tags"><span class="tag path">KB금융그룹 · 그룹</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.ajunews.com/view/20260715095656673" target="_blank" rel="noopener">KB금융그룹, AI·데이터 기반 업무혁신 속도…전사적 AX 드라이브</a></h3>
+ <div class="a-meta"> · 2026-07-15 10:14</div>
+ <ul class="summary"><li>KB금융그룹이 AI와 데이터를 활용한 업무 혁신과 인재 육성을 강화하는 AX 전략을 추진함</li><li>KB금융은 AI 활용 사례를 확산하고 실무 프로젝트 중심의 AI 인재 육성 프로그램을 신설하여 임직원의 AI 활용 역량을 강화하는 중임</li><li>KB금융그룹은 AI와 데이터를 기반으로 한 업무 혁신을 통해 경쟁력을 강화하고 금융 산업의 미래를 준비하는 중임</li></ul>
+ <div class="kw">매칭 키워드: <b>KB금융그룹, AI, AI 에이전트</b></div>
+ <a class="src-link" href="https://www.ajunews.com/view/20260715095656673" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="kb" data-sector="그룹" data-type="AI">
+ <div class="tags"><span class="tag path">KB금융 · 그룹</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/029/0003037139?sid=101" target="_blank" rel="noopener">“AI 인재 양성의 산실되겠다”…양종희, KB금융 전사적 AX 드라이브</a></h3>
+ <div class="a-meta">디지털타임스 · 2026-07-15 09:34</div>
+ <ul class="summary"><li>양종희 KB금융 회장이 AI와 데이터를 활용한 실질적 업무 혁신을 주문하며 그룹 차원의 인공지능 전환에 속도를 내고 있음</li><li>KB금융은 ‘KB With AI’ 전략을 통해 AI 에이전트와 데이터를 실제 현업에 적용해 생산성을 극대화한 주요 혁신 사례들을 공개하고 개인화 데이터 분석 에이전트인 ‘KB DAVIS’와 개발 패러다임을 바꾼 ‘AI Dev 센터’를 소개함</li><li>KB금융은 전사적인 AI 일상화를 이끌 핵심 인재 육성 프로그램 ‘KB AI Lab’를 운영하며 전사적 AI 문화를 퍼뜨리는 주역으로 활동할 수료자들을 양성하고 전 계열사로 확대할 방침임</li></ul>
+ <div class="kw">매칭 키워드: <b>KB금융, AI, 인공지능, AI 에이전트</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/029/0003037139?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="카드" data-type="디지털">
+ <div class="tags"><span class="tag path">신한카드 · 카드</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/003/0014067406?sid=101" target="_blank" rel="noopener">신한카드, 중앙대학교 동문 제휴카드 출시…다양한 소비 반영</a></h3>
+ <div class="a-meta">뉴시스 · 2026-07-15 09:18</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>신한카드</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/003/0014067406?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">한국투자증권 · 증권</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/008/0005386213?sid=101" target="_blank" rel="noopener">THE E&amp;M, 한국투자증권과 청라 영상·문화복합단지 금융분야 업무협약</a></h3>
+ <div class="a-meta">머니투데이 · 2026-07-15 09:03</div>
+ <ul class="summary"><li>더이앤엠이 한국투자증권과 청라 영상 문화 복합단지 조성사업의 성공적 추진을 위한 전략적 업무협약을 체결함</li><li>양사는 프로젝트금융투자회사 설립과 출자, 프로젝트파이낸싱 구조 설계 등 사업 전반의 금융 협력 체계를 구축할 계획임</li><li>더이앤엠이 금융 역량을 강화하고 사업 추진 체계를 구체화하여 청라 영상 문화 복합단지 사업의 성공적 추진을 도모하는 계기가 될 것으로 기대됨</li></ul>
+ <div class="kw">매칭 키워드: <b>한국투자증권</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/008/0005386213?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="기타" data-type="AI">
+ <div class="tags"><span class="tag path">신한자산운용 · 기타</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.etoday.co.kr/news/view/2603829" target="_blank" rel="noopener">신한자산운용, &#x27;SOL AI반도체TOP2플러스 ETF&#x27; 정기 리밸런싱 진행</a></h3>
+ <div class="a-meta"> · 2026-07-15 08:48</div>
+ <ul class="summary"><li>신한자산운용은 SOL AI반도체TOP2플러스 ETF의 정기 리밸런싱을 진행함</li><li>신규 편입된 종목은 원익IPS, 대덕전자, 피에스케이, 브이엠, 테스이며 주요 종목의 편입 비중은 SK하이닉스 25.75%, 삼성전자 24.84%임</li><li>이번 리밸런싱은 메모리 반도체 기업의 설비투자 확대와 이에 따른 전공정 장비 발주 증가 가능성을 반영하며 향후에도 기초지수의 방법론에 따라 정기 리밸런싱을 통해 종목과 비중을 조절할 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>신한자산운용, AI</b></div>
+ <a class="src-link" href="https://www.etoday.co.kr/news/view/2603829" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="증권" data-type="디지털">
+ <div class="tags"><span class="tag path">한국투자증권 · 증권</span>
+ <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.nbntv.kr/news/articleView.html?idxno=340463" target="_blank" rel="noopener">더이앤엠, 한국투자증권과 청라 복합단지 개발금융 구축… &#x27;솜시티&#x27; 시...</a></h3>
+ <div class="a-meta"> · 2026-07-15 08:30</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>한국투자증권</b></div>
+ <a class="src-link" href="https://www.nbntv.kr/news/articleView.html?idxno=340463" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nonholding" data-sector="보험" data-type="AI">
+ <div class="tags"><span class="tag path">미래에셋생명 · 보험</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.e-science.co.kr/news/articleView.html?idxno=131890" target="_blank" rel="noopener">보험 본업에서 AI 투자까지…미래에셋생명, &#x27;한국형 버크셔&#x27; 전략 실행...</a></h3>
+ <div class="a-meta"> · 2026-07-15 08:00</div>
+ <ul class="summary"><li>미래에셋생명이 보험 본업과 장기 투자 역량을 연결하는 &#x27;한국형 버크셔 해서웨이&#x27; 전략을 실행에 옮김</li><li>AI 반도체와 전력 인프라를 중심으로 한 자산배분 방향을 공개하며 보험 본업과 장기 투자 역량을 연결하는 청사진을 구체적인 운용 전략으로 이어감</li><li>미래에셋생명이 추진하는 &#x27;한국형 버크셔 해서웨이&#x27; 전략이 실제 운용 전략으로 이어졌으며 보험과 투자, 자산관리를 하나의 생태계로 연결하려는 것이 전략의 핵심임</li></ul>
+ <div class="kw">매칭 키워드: <b>미래에셋생명, AI</b></div>
+ <a class="src-link" href="https://www.e-science.co.kr/news/articleView.html?idxno=131890" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nh" data-sector="증권" data-type="AI">
+ <div class="tags"><span class="tag path">NH투자증권 · 증권</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://www.megaeconomy.co.kr/news/newsview.php?ncode=1065590901443696" target="_blank" rel="noopener">NH투자증권, 목표전환형랩 고객 세미나 개최…AI·반도체 중심 하반기 투...</a></h3>
+ <div class="a-meta"> · 2026-07-14 14:48</div>
+ <ul class="summary"><li>NH투자증권이 목표전환형랩 고객을 대상으로 하반기 투자전략과 시장 전망을 공유하는 세미나를 개최함</li><li>세미나에서 인공지능과 반도체를 중심으로 한 구조적 성장 산업과 변동성 장세에 대응하는 자산배분 전략을 제시함</li><li>하반기 투자전략과 시장 전망을 공유하며 투자자들의 관심을 모으고 투자자들에게 유용한 정보를 제공함</li></ul>
+ <div class="kw">매칭 키워드: <b>NH투자증권, AI, 인공지능</b></div>
+ <a class="src-link" href="https://www.megaeconomy.co.kr/news/newsview.php?ncode=1065590901443696" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="shinhan" data-sector="보험" data-type="디지털">
+ <div class="tags"><span class="tag path">신한라이프 · 보험</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.cnbnews.com/news/articleView.html?idxno=1008056" target="_blank" rel="noopener">신한라이프, 시니어 고객 자산관리 세미나 성료</a></h3>
+ <div class="a-meta"> · 2026-07-14 14:08</div>
+ <ul class="summary"><li>신한라이프가 시니어 고객을 대상으로 자산관리 세미나를 성료함</li><li>세미나에서 전문가가 시니어 고객의 자산관리 전략과 금융상품을 소개하고 자문함</li><li>시니어 고객의 금융 안정과 자산관리 지원을 강화 중임</li></ul>
+ <div class="kw">매칭 키워드: <b>신한라이프</b></div>
+ <a class="src-link" href="https://www.cnbnews.com/news/articleView.html?idxno=1008056" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-15 07:40 요청분 (과거)</h2>
+   <span class="cnt" data-total="9">9건</span>
+   <span class="range">검색 07-14 07:40 ~ 07-15 07:40</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
+<div class="article is-ai" data-co="internet" data-sector="토스" data-type="AI">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="https://www.ceoscoredaily.com/page/view/2026071416091775282" target="_blank" rel="noopener">토스는 WM·카카오는 IB·키움은 발행어음…‘온라인 증권사’ 전략 엇...</a></h3>
+ <div class="a-meta"> · 2026-07-15 07:00</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>토스, AI</b></div>
+ <a class="src-link" href="https://www.ceoscoredaily.com/page/view/2026071416091775282" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="nonholding" data-sector="보험" data-type="AI">
+ <div class="tags"><span class="tag path">교보생명 · 보험</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/081/0003661276?sid=101" target="_blank" rel="noopener">스테이블코인 외치는 교보생명… 고객들은 보험 전용 앱도 ‘외면’ [경...</a></h3>
+ <div class="a-meta">서울신문 · 2026-07-15 05:05</div>
+ <ul class="summary"><li>교보생명이 디지털 전환을 추진하고 있지만 고객들이 앱을 자주 이용하지 않는 문제가 있음</li><li>교보생명 앱의 월간활성이용자 수는 40만 1703명으로 생명보험사 앱 중 4위이며, 주간활성이용자 수도 다른 업체에 비해 낮음</li><li>교보생명은 고객이 앱을 자주 이용할 수 있도록 하는 방안을 고민해야 하며, 디지털 보험서비스의 이용자 비율과 사용 빈도, 만족도를 높일 수 있는 전략을 수립해야 함</li></ul>
+ <div class="kw">매칭 키워드: <b>교보생명, 앱, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/081/0003661276?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="카카오" data-type="디지털">
+ <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/014/0005548240?sid=102" target="_blank" rel="noopener">&#x27;4천만명 中에 정보 이전&#x27; 카카오페이, 항소심 쟁점은?</a></h3>
+ <div class="a-meta">파이낸셜뉴스 · 2026-07-15 05:00</div>
+ <ul class="summary"><li>카카오페이가 알리페이를 경유해 이용자 개인정보를 동의 없이 이전한 데에 제재가 적법하다는 1심 판결에 불복해 항소심을 앞둠</li><li>카카오페이와 알리페이 사이에 개인정보 처리 위탁관계가 성립하지 않는다고 판단한 1심 판결에서 계약 문서와 이메일 내용까지 살펴봄</li><li>항소심에서도 &#x27;업무위탁&#x27; 여부가 최대 쟁점이 될 전망이며 카카오페이는 디지털 서비스 환경에서 &#x27;업무 위탁&#x27;과 &#x27;제3자 제공의 범위&#x27;에 관한 법적 기준을 명확히 확인하고자 항소를 제기함</li></ul>
+ <div class="kw">매칭 키워드: <b>카카오페이</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/014/0005548240?sid=102" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="카카오" data-type="디지털">
+ <div class="tags"><span class="tag path">카카오페이증권 · 카카오</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.startuptoday.co.kr/news/articleView.html?idxno=806631" target="_blank" rel="noopener">[기획] &#x27;IB 퍼즐&#x27; 맞춘 카카오페이증권, 진격의 &#x27;종합증권사&#x27; 행보</a></h3>
+ <div class="a-meta"> · 2026-07-15 05:00</div>
+ <ul class="summary"><li>카카오페이증권이 IB 퍼즐을 맞춘 종합증권사로 행보함</li><li>카카오페이증권은 투자은행과 증권업을 하나로 묶은 종합증권사로 발전 중임</li><li>카카오페이증권의 종합증권사 전략은 금융시장에서 경쟁력을 높일 전망임</li></ul>
+ <div class="kw">매칭 키워드: <b>카카오페이증권</b></div>
+ <a class="src-link" href="https://www.startuptoday.co.kr/news/articleView.html?idxno=806631" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="policy" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">기업은행 · 은행</span>
+ <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
+ <h3><a href="http://www.segyebiz.com/newsView/20260714522520?OutUrl=naver" target="_blank" rel="noopener">장민영 은행장 경영전략 반영…기업은행, AX대전환 방점 조직개편 실시</a></h3>
+ <div class="a-meta"> · 2026-07-14 19:12</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
+ <div class="kw">매칭 키워드: <b>기업은행, 인공지능</b></div>
+ <a class="src-link" href="http://www.segyebiz.com/newsView/20260714522520?OutUrl=naver" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="woori" data-sector="은행" data-type="디지털">
+ <div class="tags"><span class="tag path">우리은행 · 은행</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://www.lcnews.co.kr/news/articleView.html?idxno=204964" target="_blank" rel="noopener">[금융 게시판] 우리은행, 1670조원 국민연금 외화금고 재선정…KB·농협...</a></h3>
+ <div class="a-meta"> · 2026-07-14 18:52</div>
+ <ul class="summary"><li>우리은행이 약 1670조원 규모의 국민연금기금 외화금고은행으로 재선정됨</li><li>우리은행은 오는 8월부터 2029년 7월까지 3년간 국민연금기금의 외화출납과 외화계좌 관리를 전담하고 KB국민은행은 중소 협력사와 현장 근로자를 보호하는 금융체계 구축에 나서며 NH농협은행은 지역 우수고객을 대상으로 찾아가는 종합자산관리 서비스를 선보임</li><li>금융권의 하반기 경쟁은 규모가 큰 기관 고객과 일상적인 금융 수요를 가진 개인·사업자 고객을 동시에 확보하는 방향으로 전개되고 있으며, 은행권은 기관 외환자금 관리부터 산업현장의 대금 지급, 지역 자산관리, 생활형 해외송금, 개인사업자 금융까지 고객군별로 서비스를 세분화하고 있음</li></ul>
+ <div class="kw">매칭 키워드: <b>우리은행</b></div>
+ <a class="src-link" href="https://www.lcnews.co.kr/news/articleView.html?idxno=204964" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="internet" data-sector="토스" data-type="디지털">
+ <div class="tags"><span class="tag path">토스 · 토스</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="http://www.enewstoday.co.kr/news/articleView.html?idxno=2448774" target="_blank" rel="noopener">서울사랑상품권, 토스 단말기 QR로 &#x27;바로 결제&#x27;, 실물 QR 없이도 간편 이...</a></h3>
+ <div class="a-meta"> · 2026-07-14 17:05</div>
+ <ul class="summary"><li>서울시는 토스 플레이스 결제 단말기 화면에 서울페이+ QR코드를 표시하는 서비스를 시작함</li><li>토스 플레이스 단말기와 서울페이+ 플랫폼을 연계해 소비자와 소상공인의 결제 편의성을 높이고, 소상공인의 매장 운영 부담을 줄임</li><li>서울시는 민간 결제 인프라와의 협력을 지속 확대할 계획이고, 다음달에는 네이버페이 커넥트 단말기와도 서비스를 연계해 서울사랑상품권 이용 편의성을 높일 방침임</li></ul>
+ <div class="kw">매칭 키워드: <b>토스</b></div>
+ <a class="src-link" href="http://www.enewstoday.co.kr/news/articleView.html?idxno=2448774" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article" data-co="nonholding" data-sector="카드" data-type="디지털">
+ <div class="tags"><span class="tag path">현대카드 · 카드</span>
+ <span class="tag digital">디지털</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/629/0000515855?sid=101" target="_blank" rel="noopener">현대카드, 케이뱅크 협업…개인사업자 제휴카드 공개</a></h3>
+ <div class="a-meta">더팩트 · 2026-07-14 11:20</div>
+ <ul class="summary"><li>현대카드가 케이뱅크와 협업을 통해 개인사업자 제휴카드인 &#x27;케이뱅크 BUSINESS 현대카드&#x27;를 출시함</li><li>이 카드는 사업 관련 지출과 생활 소비 영역에서 적립을 모두 제공하며, 지정 업종에서 결제금액의 10%를 월 최대 4만M포인트까지 적립하고, 국내외 모든 가맹점에서는 결제금액의 1%를 M포인트로 쌓을 수 있음</li><li>현대카드는 개인사업자의 사업 운영에 도움이 되는 차별화된 상품과 서비스를 지속적으로 선보일 계획임</li></ul>
+ <div class="kw">매칭 키워드: <b>현대카드, 케이뱅크</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/629/0000515855?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div>
+<div class="article is-ai" data-co="shinhan" data-sector="은행" data-type="AI">
+ <div class="tags"><span class="tag path">신한은행 · 은행</span>
+ <span class="tag ai">AI</span></div>
+ <h3><a href="https://n.news.naver.com/mnews/article/138/0002234103?sid=101" target="_blank" rel="noopener">신한은행, 초등생 AI 코딩교실…하반기 광주·부산으로 확대</a></h3>
+ <div class="a-meta">디지털데일리 · 2026-07-14 10:09</div>
+ <ul class="summary"><li>신한은행이 서울 중구 명동 신한익스페이스에서 초등학생을 대상으로 ‘어린이 AI 코딩 체험 교실’을 진행함</li><li>어린이들이 인공지능(AI) 로봇을 직접 조립하고 프로그래밍하며 AI 기술의 원리를 익힐 수 있도록 마련된 교육임</li><li>신한은행은 하반기부터 교육 지역을 광주와 부산으로 확대하고 지역 어린이들에게 AI와 디지털 금융 교육 기회를 제공할 방침임</li></ul>
+ <div class="kw">매칭 키워드: <b>신한은행, AI, 인공지능</b></div>
+ <a class="src-link" href="https://n.news.naver.com/mnews/article/138/0002234103?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
+</div></div>
+</details>
+<details class="run-block">
+ <summary>
+  <div class="run-head"><span class="dot"></span><h2>2026-07-14 22:05 요청분 (과거)</h2>
+   <span class="cnt" data-total="45">45건</span>
+   <span class="range">검색 07-13 22:05 ~ 07-14 22:05</span><span class="caret">▾</span></div>
+ </summary>
+ <div class="run-body">
 <div class="article" data-co="nonholding" data-sector="증권" data-type="디지털">
  <div class="tags"><span class="tag path">미래에셋증권 · 증권</span>
  <span class="tag digital">디지털</span></div>
@@ -145,15 +1691,6 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <ul class="summary"><li>미래에셋증권 런던법인이 글로벌 전문지 Securities Finance Times의 &#x27;올해의 신규 증권금융팀&#x27;으로 선정됨</li><li>미래에셋증권 런던법인은 미국 버클러 시큐리티즈와 일본증권금융과 함께 최종 후보에 오른 뒤 수상의 영예를 안은 것으로, 코로나19 이후 글로벌 금융시장 환경 변화에 대응해 투자 중심의 사업 포트폴리오를 다변화한 이후 거둔 성과임</li><li>미래에셋증권은 글로벌 네트워크를 기반으로 각 지역의 금융시장 구조와 고객 수요에 맞는 S&amp;T 비즈니스를 지속 확대 중이며, 런던법인은 유럽 주요 기관투자가를 대상으로 증권금융 서비스를 제공하는 핵심 거점으로 자리매김하고 있음</li></ul>
  <div class="kw">매칭 키워드: <b>미래에셋증권</b></div>
  <a class="src-link" href="https://www.rcast.co.kr/news/articleView.html?idxno=31260" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article is-ai" data-co="nh" data-sector="증권" data-type="AI">
- <div class="tags"><span class="tag path">NH투자증권 · 증권</span>
- <span class="tag ai">AI</span></div>
- <h3><a href="https://www.womentimes.co.kr/news/articleView.html?idxno=104384" target="_blank" rel="noopener">NH투자증권 &quot;반도체 슈퍼사이클 투자 시기…AI는 인프라 구축 단계&quot;</a></h3>
- <div class="a-meta"> · 2026-07-14 18:56</div>
- <ul class="summary"><li>NH투자증권이 &#x27;목표전환형랩 고객 초청 세미나&#x27;를 개최함</li><li>반도체 업종은 단기 조정을 받고 있지만 반도체 슈퍼사이클에 적극 투자해야 할 시기이며, AI 혁명은 인프라 구축 단계임</li><li>국내외 목표전환형랩 운용사와 함께 다양한 투자 콘텐츠를 제공할 방침임</li></ul>
- <div class="kw">매칭 키워드: <b>NH투자증권, AI</b></div>
- <a class="src-link" href="https://www.womentimes.co.kr/news/articleView.html?idxno=104384" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
 <div class="article is-ai" data-co="policy" data-sector="은행" data-type="AI">
  <div class="tags"><span class="tag path">기업은행 · 은행</span>
@@ -169,7 +1706,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/015/0005309953?sid=101" target="_blank" rel="noopener">정부, 전세사기 진단 서비스 직방·네이버페이 등과 연계</a></h3>
  <div class="a-meta">한국경제 · 2026-07-14 17:54</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>네이버페이</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/015/0005309953?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -187,7 +1724,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/081/0003661160?sid=101" target="_blank" rel="noopener">스테이블코인 앞세운 교보생명… 앱 성적표 보니 ‘엇박자 디지털’ [경...</a></h3>
  <div class="a-meta">서울신문 · 2026-07-14 17:31</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>교보생명, 앱, 디지털, 인공지능</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/081/0003661160?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -254,24 +1791,6 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <div class="kw">매칭 키워드: <b>NH농협카드</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/011/0004641483?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
-<div class="article" data-co="nonholding" data-sector="카드" data-type="디지털">
- <div class="tags"><span class="tag path">현대카드 · 카드</span>
- <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="http://www.breaknews.com/1221638" target="_blank" rel="noopener">현대카드, 케이뱅크와 개인사업자 특화 신용카드 출시</a></h3>
- <div class="a-meta"> · 2026-07-14 15:40</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>현대카드, 케이뱅크</b></div>
- <a class="src-link" href="http://www.breaknews.com/1221638" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article" data-co="internet" data-sector="카카오" data-type="디지털">
- <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
- <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
- <h3><a href="http://www.metroseoul.co.kr/article/20260714500374" target="_blank" rel="noopener">[보험브리핑]한화손보·NH농협손보·카카오페이손보·흥국생명</a></h3>
- <div class="a-meta"> · 2026-07-14 15:36</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>카카오페이, 흥국생명</b></div>
- <a class="src-link" href="http://www.metroseoul.co.kr/article/20260714500374" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
 <div class="article" data-co="shinhan" data-sector="은행" data-type="디지털">
  <div class="tags"><span class="tag path">신한은행 · 은행</span>
  <span class="tag digital">디지털</span></div>
@@ -281,21 +1800,12 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <div class="kw">매칭 키워드: <b>신한은행</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/011/0004641463?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
-<div class="article is-ai" data-co="internet" data-sector="토스" data-type="AI">
- <div class="tags"><span class="tag path">토스뱅크 · 토스</span>
- <span class="tag ai">AI</span></div>
- <h3><a href="https://www.ajunews.com/view/20260714151531585" target="_blank" rel="noopener">토스뱅크, 해외송금 수수료 면제 연말까지 연장</a></h3>
- <div class="a-meta"> · 2026-07-14 15:20</div>
- <ul class="summary"><li>토스뱅크가海外송금 수수료 면제 혜택을 연말까지 연장함</li><li>해외송금 수수료 3900원 면제 혜택이 기존 7개 송금 가능 통화에 적용 중이며 일본 엔화·베트남 동·태국 바트 3개 통화가 새롭게 추가되어 총 10개 통화로 해외송금이 가능해짐</li><li>토스뱅크의 해외송금 수수료 면제 연장은 고객들이 더 부담 없이 외환 서비스를 이용할 수 있도록 하며 일상 속 외환 수요를 세심하게 반영해 편리하고 합리적인 금융 경험을 제공하는 데 기여함</li></ul>
- <div class="kw">매칭 키워드: <b>토스뱅크, AI</b></div>
- <a class="src-link" href="https://www.ajunews.com/view/20260714151531585" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
 <div class="article is-ai" data-co="nh" data-sector="보험" data-type="AI">
  <div class="tags"><span class="tag path">NH농협생명 · 보험</span>
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="http://www.newswatch.kr/news/articleView.html?idxno=80423" target="_blank" rel="noopener">[박수진의 금융人] NH농협생명 박병희, &#x27;보장성·AI&#x27; 승부수…수익성 반...</a></h3>
  <div class="a-meta"> · 2026-07-14 15:20</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>NH농협생명, AI</b></div>
  <a class="src-link" href="http://www.newswatch.kr/news/articleView.html?idxno=80423" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -313,7 +1823,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
  <h3><a href="https://news.dealsitetv.com/articles/173266" target="_blank" rel="noopener">[보험·카드24시] KB국민카드, &#x27;트래블러스 체크카드&#x27; 서비스 개편 外</a></h3>
  <div class="a-meta"> · 2026-07-14 13:58</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — 본문 추출 실패 (매체 페이지 구조 문제)</div>
  <div class="kw">매칭 키워드: <b>KB국민카드</b></div>
  <a class="src-link" href="https://news.dealsitetv.com/articles/173266" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -344,15 +1854,6 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <div class="kw">매칭 키워드: <b>우리은행</b></div>
  <a class="src-link" href="https://dealsite.co.kr/articles/165209" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
-<div class="article" data-co="hana" data-sector="그룹" data-type="디지털">
- <div class="tags"><span class="tag path">하나금융 · 그룹</span>
- <span class="tag digital">디지털</span></div>
- <h3><a href="https://www.meconomynews.com/news/articleView.html?idxno=132785" target="_blank" rel="noopener">하나금융, 청라에 그룹 심장부 구축…10개 계열사 집결</a></h3>
- <div class="a-meta"> · 2026-07-14 11:42</div>
- <ul class="summary"><li>하나금융이 인천 청라에 그룹 심장부를 구축하고 10개 계열사를 집결함</li><li>하나은행, 하나카드, 하나증권 등 주요 계열사가 입주하고 금융그룹의 전략적 의사결정과 경영 지원을 강화할 예정임</li><li>하나금융의 청라 입지는 금융그룹의 경영 효율성을 높이고 비즈니스 전략을 강화하는 데 중요한 역할을 할 것으로 기대됨</li></ul>
- <div class="kw">매칭 키워드: <b>하나금융</b></div>
- <a class="src-link" href="https://www.meconomynews.com/news/articleView.html?idxno=132785" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
 <div class="article" data-co="internet" data-sector="네이버" data-type="디지털">
  <div class="tags"><span class="tag path">네이버페이 · 네이버</span>
  <span class="tag digital">디지털</span></div>
@@ -380,15 +1881,6 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <div class="kw">매칭 키워드: <b>신한은행, 디지털, AI, 인공지능</b></div>
  <a class="src-link" href="https://www.gokorea.kr/news/articleView.html?idxno=872032" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
-<div class="article is-ai" data-co="internet" data-sector="토스" data-type="AI">
- <div class="tags"><span class="tag path">토스 · 토스</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://www.newspim.com/news/view/20260714000074" target="_blank" rel="noopener">서울시, 토스 플레이스 결제 단말기 화면에 &#x27;서울페이+&#x27; QR 표출</a></h3>
- <div class="a-meta"> · 2026-07-14 11:15</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>토스, AI</b></div>
- <a class="src-link" href="https://www.newspim.com/news/view/20260714000074" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
 <div class="article" data-co="woori" data-sector="카드" data-type="디지털">
  <div class="tags"><span class="tag path">우리카드 · 카드</span>
  <span class="tag digital">디지털</span></div>
@@ -403,7 +1895,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.upkoreanews.kr/news/articleView.html?idxno=99273" target="_blank" rel="noopener">현대해상, 보험산업 구조개편 최대 수혜 기대…수익중심 경영 지속</a></h3>
  <div class="a-meta"> · 2026-07-14 11:00</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>현대해상</b></div>
  <a class="src-link" href="https://www.upkoreanews.kr/news/articleView.html?idxno=99273" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -421,7 +1913,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.ajunews.com/view/20260710152952465" target="_blank" rel="noopener">[경제일보] 현대카드, 애플페이 독점 장기화에 반사이익…경쟁사 연내 ...</a></h3>
  <div class="a-meta"> · 2026-07-14 10:40</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>현대카드</b></div>
  <a class="src-link" href="https://www.ajunews.com/view/20260710152952465" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -442,24 +1934,6 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <ul class="summary"><li>신한은행이 기업 업무 지원 서비스 &#x27;신한비즈메이트&#x27;를 사업자번호 기반 서비스로 개편함</li><li>신한비즈메이트 서비스 이용 대상을 개인에서 사업자등록번호를 보유한 법인과 개인사업자로 개편하고, 사업자번호마다 등록된 관리자회원이 계정을 관리하는 구조로 바뀜</li><li>기업 고객이 은행 플랫폼에서 자금 거래뿐 아니라 직원별 권한 관리와 업무 지원 기능을 함께 이용할 수 있게 되어 은행 입장에서는 기업 거래 기반을 넓힐 수 있는 효과가 있음</li></ul>
  <div class="kw">매칭 키워드: <b>신한은행, 플랫폼</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/030/0003447491?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article is-ai" data-co="shinhan" data-sector="은행" data-type="AI">
- <div class="tags"><span class="tag path">신한은행 · 은행</span>
- <span class="tag ai">AI</span></div>
- <h3><a href="https://www.sentv.co.kr/article/view/sentv202607140048" target="_blank" rel="noopener">신한은행, 어린이 AI 코딩 교실…3년째 재능기부</a></h3>
- <div class="a-meta"> · 2026-07-14 10:14</div>
- <ul class="summary"><li>신한은행이 어린이 AI 코딩 교실을 열어 초등학생들을 대상으로 AI 로봇 조립과 프로그래밍 체험을 진행함</li><li>Tech봉사단이 교육을 맡아 금융 콘텐츠를 접목한 프로그램으로 디지털 금융 기초를 함께 다루며 어린이들의 디지털 역량과 문제 해결 능력 향상을 지원함</li><li>신한은행은 하반기부터 교육 대상을 지방으로 넓혀 광주와 부산에 조성한 신한 학이재와 연계해 지역 어린이에게 AI와 디지털 금융 교육 기회를 제공할 계획임</li></ul>
- <div class="kw">매칭 키워드: <b>신한은행, AI</b></div>
- <a class="src-link" href="https://www.sentv.co.kr/article/view/sentv202607140048" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article is-ai" data-co="kb" data-sector="은행" data-type="AI">
- <div class="tags"><span class="tag path">KB국민은행 · 은행</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://www.newspim.com/news/view/20260714000282" target="_blank" rel="noopener">KB국민은행, NICE디앤알과 &#x27;포용금융 실천을 위한 업무협약&#x27; 체결</a></h3>
- <div class="a-meta"> · 2026-07-14 10:04</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>KB국민은행, AI</b></div>
- <a class="src-link" href="https://www.newspim.com/news/view/20260714000282" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
 <div class="article is-ai" data-co="internet" data-sector="카카오" data-type="AI">
  <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
@@ -484,7 +1958,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.viva100.com/article/20260714500294" target="_blank" rel="noopener">카카오페이손보, AI 활용 전 직군으로 확대…‘업무 기본 도구’ 전환 ...</a></h3>
  <div class="a-meta"> · 2026-07-14 09:54</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>카카오페이, AI, 생성형 AI</b></div>
  <a class="src-link" href="https://www.viva100.com/article/20260714500294" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -524,15 +1998,6 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <div class="kw">매칭 키워드: <b>신한금융, AI, 인공지능</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/030/0003447411?sid=105" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
-<div class="article is-ai" data-co="woori" data-sector="은행" data-type="AI">
- <div class="tags"><span class="tag path">우리은행 · 은행</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://www.newspim.com/news/view/20260714000127" target="_blank" rel="noopener">우리은행, 서울경제진흥원과 &#x27;청년·금융취약계층&#x27; 금융교육 협약</a></h3>
- <div class="a-meta"> · 2026-07-14 08:51</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>우리은행, AI</b></div>
- <a class="src-link" href="https://www.newspim.com/news/view/20260714000127" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
 <div class="article is-ai" data-co="nh" data-sector="보험" data-type="AI">
  <div class="tags"><span class="tag path">NH농협손해보험 · 보험</span>
  <span class="tag ai">AI</span></div>
@@ -551,21 +2016,12 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <div class="kw">매칭 키워드: <b>KB자산운용, AI, 인공지능</b></div>
  <a class="src-link" href="https://www.youthdaily.co.kr/news/article.html?no=222915" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
-<div class="article is-ai" data-co="kb" data-sector="증권" data-type="AI">
- <div class="tags"><span class="tag path">KB증권 · 증권</span>
- <span class="tag ai">AI</span></div>
- <h3><a href="https://n.news.naver.com/mnews/article/003/0014064506?sid=101" target="_blank" rel="noopener">KB증권 &quot;코스피 반등 열쇠는 금리 안정…오픈AI 국부펀드도 주목&quot;</a></h3>
- <div class="a-meta">뉴시스 · 2026-07-14 07:57</div>
- <ul class="summary"><li>KB증권은 국내 증시가 반등하기 위해서는 금리 안정과 AI 투자에 대한 신뢰 회복이 필요함</li><li>금리 안정은 성장주 반등의 핵심 변수이며, 중동 지정학적 리스크는 장기화 가능성이 제한적임</li><li>오픈AI의 AI 국부펀드 구상은 정부의 주주 참여로 AI 기업에 대한 자금조달 불안과 회사채 스프레드가 완화될 수 있는 요인임</li></ul>
- <div class="kw">매칭 키워드: <b>KB증권, AI</b></div>
- <a class="src-link" href="https://n.news.naver.com/mnews/article/003/0014064506?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
 <div class="article" data-co="hana" data-sector="그룹" data-type="디지털">
  <div class="tags"><span class="tag path">하나금융 · 그룹</span>
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.ceoscoredaily.com/page/view/2026071315373256208" target="_blank" rel="noopener">‘지분 투자’ 하나금융부터 ‘글로벌 동맹’ 신한·KB까지…가상자산...</a></h3>
  <div class="a-meta"> · 2026-07-14 07:00</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>하나금융</b></div>
  <a class="src-link" href="https://www.ceoscoredaily.com/page/view/2026071315373256208" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -583,7 +2039,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/008/0005385471?sid=101" target="_blank" rel="noopener">&#x27;AI로 치매머니 지킨다&#x27; 피싱 안전망 촘촘히 세운 신한은행</a></h3>
  <div class="a-meta">머니투데이 · 2026-07-14 05:10</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>신한은행, AI</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/008/0005385471?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -636,7 +2092,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
 <details class="run-block">
  <summary>
   <div class="run-head"><span class="dot"></span><h2>2026-07-13 21:10 요청분 (과거)</h2>
-   <span class="cnt" data-total="60">60건</span>
+   <span class="cnt" data-total="46">46건</span>
    <span class="range">검색 07-12 21:10 ~ 07-13 21:10</span><span class="caret">▾</span></div>
  </summary>
  <div class="run-body">
@@ -645,7 +2101,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.gnnews.co.kr/news/articleView.html?idxno=641036" target="_blank" rel="noopener">중진공, KB금융과 산업안전 구축사업 현장 점검·우수사례 공유</a></h3>
  <div class="a-meta"> · 2026-07-13 19:10</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>KB금융</b></div>
  <a class="src-link" href="https://www.gnnews.co.kr/news/articleView.html?idxno=641036" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -654,7 +2110,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/014/0005547540?sid=102" target="_blank" rel="noopener">카카오페이證에 투자매매 허용... IPO 주관·IB로 사업영역 확대</a></h3>
  <div class="a-meta">파이낸셜뉴스 · 2026-07-13 18:06</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>카카오페이</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/014/0005547540?sid=102" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -663,7 +2119,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
  <h3><a href="https://www.ceoscoredaily.com/page/view/2026071313315835933" target="_blank" rel="noopener">트래블카드 흥행에 제휴사 지급 수수료도 증가…하나카드 980억 ‘최고’</a></h3>
  <div class="a-meta"> · 2026-07-13 17:40</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — 본문 추출 실패 (매체 페이지 구조 문제)</div>
  <div class="kw">매칭 키워드: <b>하나카드</b></div>
  <a class="src-link" href="https://www.ceoscoredaily.com/page/view/2026071313315835933" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -672,7 +2128,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/008/0005385350?sid=101" target="_blank" rel="noopener">라젠카AI, 메디바로 출시.. KB금융그룹·GC메디아이 협업</a></h3>
  <div class="a-meta">머니투데이 · 2026-07-13 17:33</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>KB금융그룹, AI</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/008/0005385350?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -681,7 +2137,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/277/0005789330?sid=101" target="_blank" rel="noopener">성대규 동양생명 대표 &quot;전 임직원 AI 활용 문화 정착&quot;</a></h3>
  <div class="a-meta">아시아경제 · 2026-07-13 17:23</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>동양생명, AI, 인공지능</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/277/0005789330?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -690,7 +2146,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.ajunews.com/view/20260713163238095" target="_blank" rel="noopener">동양생명, 2026년 리더스 포럼 개최…&quot;AI 시대 성장 방안 논의&quot;</a></h3>
  <div class="a-meta"> · 2026-07-13 17:10</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>동양생명, AI, 인공지능</b></div>
  <a class="src-link" href="https://www.ajunews.com/view/20260713163238095" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -699,7 +2155,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.ajunews.com/view/20260713165108127" target="_blank" rel="noopener">산업은행, 국민성장펀드 자펀드 2차 운용사 7곳 선정</a></h3>
  <div class="a-meta"> · 2026-07-13 16:54</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>산업은행, AI</b></div>
  <a class="src-link" href="https://www.ajunews.com/view/20260713165108127" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -717,25 +2173,16 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/009/0005706800?sid=101" target="_blank" rel="noopener">IBK투자증권, 유튜브 채널 구독 이벤트…여행지원금 200만원 등 제공</a></h3>
  <div class="a-meta">매일경제 · 2026-07-13 16:33</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>IBK투자증권</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/009/0005706800?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article" data-co="kb" data-sector="증권" data-type="디지털">
- <div class="tags"><span class="tag path">KB증권 · 증권</span>
- <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="http://www.niceeconomy.co.kr/news/articleView.html?idxno=90238" target="_blank" rel="noopener">[금융 브리핑] KB증권·카카오페이증권·키움증권·LS증권</a></h3>
- <div class="a-meta"> · 2026-07-13 16:18</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>KB증권, 카카오페이증권, 키움증권</b></div>
- <a class="src-link" href="http://www.niceeconomy.co.kr/news/articleView.html?idxno=90238" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
 <div class="article" data-co="internet" data-sector="네이버" data-type="디지털">
  <div class="tags"><span class="tag path">네이버페이 · 네이버</span>
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/030/0003447200?sid=101" target="_blank" rel="noopener">[단독]네이버페이, 내달 &#x27;연금 관리 서비스&#x27; 출시…500조 시장 공략</a></h3>
  <div class="a-meta">전자신문 · 2026-07-13 16:01</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>네이버페이</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/030/0003447200?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -744,7 +2191,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/008/0005385270?sid=101" target="_blank" rel="noopener">미래에셋생명, 한미중 반도체 ETF 3종 탑재…&quot;보험으로 반도체 투자&quot;</a></h3>
  <div class="a-meta">머니투데이 · 2026-07-13 15:56</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>미래에셋생명</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/008/0005385270?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -753,7 +2200,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.goodkyung.com/news/articleView.html?idxno=289175" target="_blank" rel="noopener">[금융 ESG 점검 ③하나금융] &#x27;사회문제 해결 금융 플랫폼&#x27;으로 확장</a></h3>
  <div class="a-meta"> · 2026-07-13 15:54</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>하나금융, 플랫폼</b></div>
  <a class="src-link" href="https://www.goodkyung.com/news/articleView.html?idxno=289175" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -762,7 +2209,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://biz.newdaily.co.kr/site/data/html/2026/07/13/2026071300229.html" target="_blank" rel="noopener">쿠팡도 뛰어든 100조 간편결제 시장 … 네이버페이 &#x27;결제 1위&#x27; 수성전</a></h3>
  <div class="a-meta"> · 2026-07-13 15:26</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>네이버페이</b></div>
  <a class="src-link" href="https://biz.newdaily.co.kr/site/data/html/2026/07/13/2026071300229.html" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -771,7 +2218,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.viva100.com/article/20260713500922" target="_blank" rel="noopener">“7분 만에 해외 송금”…현대카드·토스·쿠콘, 스테이블코인 영토 전...</a></h3>
  <div class="a-meta"> · 2026-07-13 15:16</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>현대카드, 토스</b></div>
  <a class="src-link" href="https://www.viva100.com/article/20260713500922" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -780,7 +2227,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.viva100.com/article/20260713500924" target="_blank" rel="noopener">한국씨티은행, 2년 연속 ‘최우수 글로벌 수탁기관’ 선정</a></h3>
  <div class="a-meta"> · 2026-07-13 14:58</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>씨티은행, AI, 인공지능</b></div>
  <a class="src-link" href="https://www.viva100.com/article/20260713500924" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -798,7 +2245,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.newscammp.co.kr/news/articleView.html?idxno=6550" target="_blank" rel="noopener">하나캐피탈, 렌터카 AI 챗봇 도입…24시간 업무 지원</a></h3>
  <div class="a-meta"> · 2026-07-13 14:18</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>하나캐피탈, AI</b></div>
  <a class="src-link" href="https://www.newscammp.co.kr/news/articleView.html?idxno=6550" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -807,34 +2254,16 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.smarttoday.co.kr/ko-kr/articles/109453" target="_blank" rel="noopener">우주부터 AI까지… IBK기업은행, 103개 혁신 스타트업 키운다</a></h3>
  <div class="a-meta"> · 2026-07-13 14:18</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>IBK기업은행, AI</b></div>
  <a class="src-link" href="https://www.smarttoday.co.kr/ko-kr/articles/109453" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article is-ai" data-co="kb" data-sector="그룹" data-type="AI">
- <div class="tags"><span class="tag path">KB금융 · 그룹</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://n.news.naver.com/mnews/article/629/0000515537?sid=101" target="_blank" rel="noopener">양종희 KB금융 회장 &quot;AI·머니무브 시대, 고객 중심으로 계열사 함께 움...</a></h3>
- <div class="a-meta">더팩트 · 2026-07-13 13:44</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>KB금융, AI, 인공지능</b></div>
- <a class="src-link" href="https://n.news.naver.com/mnews/article/629/0000515537?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article" data-co="internet" data-sector="카카오" data-type="디지털">
- <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
- <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://www.ajunews.com/view/20260713110024340" target="_blank" rel="noopener">카카오페이, 일본 여행 혜택 강화…대한항공·에어비앤비 할인 한 번에</a></h3>
- <div class="a-meta"> · 2026-07-13 13:42</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>카카오페이</b></div>
- <a class="src-link" href="https://www.ajunews.com/view/20260713110024340" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
 <div class="article" data-co="kb" data-sector="카드" data-type="디지털">
  <div class="tags"><span class="tag path">KB국민카드 · 카드</span>
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.ajunews.com/view/20260713105920339" target="_blank" rel="noopener">교통카드 찍듯 결제…KB국민카드, &#x27;탭앤페이&#x27; 선봬</a></h3>
  <div class="a-meta"> · 2026-07-13 13:40</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>KB국민카드</b></div>
  <a class="src-link" href="https://www.ajunews.com/view/20260713105920339" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -843,7 +2272,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.kpinews.kr/newsView/1065586077304894" target="_blank" rel="noopener">&#x27;앱 실행 없이 결제 완료&#x27;…국민카드, 초간편 결제 가능해져</a></h3>
  <div class="a-meta"> · 2026-07-13 13:20</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>국민카드, 앱</b></div>
  <a class="src-link" href="https://www.kpinews.kr/newsView/1065586077304894" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -861,7 +2290,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.viva100.com/article/20260713500589" target="_blank" rel="noopener">광주은행, 지역 주택업계 자금 숨통 틔운다…사업자보증 확대 ‘마중물...</a></h3>
  <div class="a-meta"> · 2026-07-13 12:12</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>광주은행</b></div>
  <a class="src-link" href="https://www.viva100.com/article/20260713500589" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -870,18 +2299,9 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
  <h3><a href="https://www.todayeconomic.com/news/article.html?no=31298" target="_blank" rel="noopener">신한은행, 여행 체크카드 결제계좌 바꾸면 항공권·라운지 혜택</a></h3>
  <div class="a-meta"> · 2026-07-13 12:06</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — 본문 추출 실패 (매체 페이지 구조 문제)</div>
  <div class="kw">매칭 키워드: <b>신한은행</b></div>
  <a class="src-link" href="https://www.todayeconomic.com/news/article.html?no=31298" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article" data-co="hana" data-sector="은행" data-type="디지털">
- <div class="tags"><span class="tag path">하나은행 · 은행</span>
- <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
- <h3><a href="https://m.skyedaily.com/news_view.html?ID=307717" target="_blank" rel="noopener">“보낸 원금 그대로, 美 송금 1분 컷”… 하나은행이 바꾸는 해외송금 ...</a></h3>
- <div class="a-meta"> · 2026-07-13 12:04</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>하나은행</b></div>
- <a class="src-link" href="https://m.skyedaily.com/news_view.html?ID=307717" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
 <div class="article" data-co="internet" data-sector="카카오" data-type="디지털">
  <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
@@ -892,21 +2312,12 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <div class="kw">매칭 키워드: <b>카카오페이</b></div>
  <a class="src-link" href="http://www.whitepaper.co.kr/news/articleView.html?idxno=264516" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
-<div class="article" data-co="nonholding" data-sector="카드" data-type="디지털">
- <div class="tags"><span class="tag path">삼성카드 · 카드</span>
- <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://www.ilovepc.co.kr/news/articleView.html?idxno=60005" target="_blank" rel="noopener">삼성카드 &#x27;계획대로&#x27; … 건전성 강화, 스테이블코인 착착</a></h3>
- <div class="a-meta"> · 2026-07-13 11:38</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>삼성카드</b></div>
- <a class="src-link" href="https://www.ilovepc.co.kr/news/articleView.html?idxno=60005" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
 <div class="article" data-co="internet" data-sector="카카오" data-type="디지털">
  <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
  <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
  <h3><a href="https://www.betanews.net/article/view/beta202607130029" target="_blank" rel="noopener">에어비앤비, 카카오페이·대한항공과 ‘해외여행 올-패스’ 프로모션 진...</a></h3>
  <div class="a-meta"> · 2026-07-13 11:20</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — 본문 추출 실패 (매체 페이지 구조 문제)</div>
  <div class="kw">매칭 키워드: <b>카카오페이</b></div>
  <a class="src-link" href="https://www.betanews.net/article/view/beta202607130029" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -915,7 +2326,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.newspim.com/news/view/20260713000557" target="_blank" rel="noopener">우리은행, 임직원 자원봉사 플랫폼 &#x27;WE:TH&#x27; 개설</a></h3>
  <div class="a-meta"> · 2026-07-13 11:18</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>우리은행, 플랫폼</b></div>
  <a class="src-link" href="https://www.newspim.com/news/view/20260713000557" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -924,7 +2335,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.newspim.com/news/view/20260713000556" target="_blank" rel="noopener">KB증권, 온라인 자산관리 &#x27;오늘의 콕&#x27; 올해 누적 1000만 조회 돌파</a></h3>
  <div class="a-meta"> · 2026-07-13 11:16</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>KB증권, AI</b></div>
  <a class="src-link" href="https://www.newspim.com/news/view/20260713000556" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -933,7 +2344,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.etoday.co.kr/news/view/2603051" target="_blank" rel="noopener">삼성화재, 개인정보 보호 체계 구축 성과…금융보안 유공 표창 수상</a></h3>
  <div class="a-meta"> · 2026-07-13 11:12</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>삼성화재</b></div>
  <a class="src-link" href="https://www.etoday.co.kr/news/view/2603051" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -942,18 +2353,9 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.newspim.com/news/view/20260713000482" target="_blank" rel="noopener">카카오페이증권, 투자매매업 인가 취득</a></h3>
  <div class="a-meta"> · 2026-07-13 10:57</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>카카오페이증권, AI</b></div>
  <a class="src-link" href="https://www.newspim.com/news/view/20260713000482" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article" data-co="hana" data-sector="은행" data-type="디지털">
- <div class="tags"><span class="tag path">하나은행 · 은행</span>
- <span class="tag digital">디지털</span></div>
- <h3><a href="https://www.techm.kr/news/articleView.html?idxno=153318" target="_blank" rel="noopener">&quot;해외송금 1분 시대&quot;…하나은행, 글로벌 송금 경쟁 선점 나섰다</a></h3>
- <div class="a-meta"> · 2026-07-13 10:48</div>
- <ul class="summary"><li>하나은행이 해외송금 소요 시간을 획기적으로 줄인 신규 서비스를 선보이며 글로벌 외환 서비스 경쟁력 강화에 나섬</li><li>하나은행의 &#x27;패스트핏 송금 서비스&#x27;는 송금을 보내기 전 고객이 실제 부담하는 수수료와 수취인이 받게 될 최종 금액을 미리 확인할 수 있도록 하고 송금 이후에는 처리 과정을 실시간으로 조회할 수 있어 해외송금의 투명성도 한층 높임</li><li>하나은행은 이번 서비스를 통해 글로벌 외환 플랫폼 경쟁력을 강화하고 향후 해외에서 국내로 송금받는 서비스까지 확대할 계획임</li></ul>
- <div class="kw">매칭 키워드: <b>하나은행</b></div>
- <a class="src-link" href="https://www.techm.kr/news/articleView.html?idxno=153318" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
 <div class="article" data-co="hana" data-sector="은행" data-type="디지털">
  <div class="tags"><span class="tag path">하나은행 · 은행</span>
@@ -964,30 +2366,12 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <div class="kw">매칭 키워드: <b>하나은행</b></div>
  <a class="src-link" href="http://www.intn.co.kr/news/articleView.html?idxno=2051892" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
-<div class="article is-ai" data-co="nonholding" data-sector="증권" data-type="AI">
- <div class="tags"><span class="tag path">신영증권 · 증권</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://www.newspim.com/news/view/20260713000328" target="_blank" rel="noopener">신영증권 &quot;대한광통신, 광섬유 가격 상승 효과 본격화, 수익성 개선&quot;</a></h3>
- <div class="a-meta"> · 2026-07-13 10:32</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>신영증권, AI</b></div>
- <a class="src-link" href="https://www.newspim.com/news/view/20260713000328" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article" data-co="internet" data-sector="카카오" data-type="디지털">
- <div class="tags"><span class="tag path">카카오페이 · 카카오</span>
- <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://www.catchnews.kr/news/articleView.html?idxno=126065" target="_blank" rel="noopener">&quot;올여름 일본여행 유류할증료 면제부터 특화노선 할인까지&quot; 카카오페이...</a></h3>
- <div class="a-meta"> · 2026-07-13 10:23</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>카카오페이</b></div>
- <a class="src-link" href="https://www.catchnews.kr/news/articleView.html?idxno=126065" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
 <div class="article" data-co="kb" data-sector="은행" data-type="디지털">
  <div class="tags"><span class="tag path">KB국민은행 · 은행</span>
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.newspim.com/news/view/20260713000311" target="_blank" rel="noopener">KB국민은행, 부가가치세 셀프신고 서비스 출시</a></h3>
  <div class="a-meta"> · 2026-07-13 10:17</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>KB국민은행</b></div>
  <a class="src-link" href="https://www.newspim.com/news/view/20260713000311" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -1005,7 +2389,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.ajunews.com/view/20260713095133136" target="_blank" rel="noopener">&quot;커피 한 잔 값으로 투자&quot;…우리은행 &#x27;펀드 모으기&#x27; 서비스 출시</a></h3>
  <div class="a-meta"> · 2026-07-13 10:16</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>우리은행</b></div>
  <a class="src-link" href="https://www.ajunews.com/view/20260713095133136" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -1014,7 +2398,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/030/0003446948?sid=101" target="_blank" rel="noopener">케이뱅크, 스테이블코인·AI 양축 강화…상장 후 미래 금융 승부수</a></h3>
  <div class="a-meta">전자신문 · 2026-07-13 10:02</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>케이뱅크, AI</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/030/0003446948?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -1023,7 +2407,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/277/0005788984?sid=101" target="_blank" rel="noopener">KB금융, 중소기업 산업안전 구축 지원…맞춤형 솔루션 제공</a></h3>
  <div class="a-meta">아시아경제 · 2026-07-13 09:57</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>KB금융</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/277/0005788984?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -1032,18 +2416,9 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.newspim.com/news/view/20260713000222" target="_blank" rel="noopener">카카오뱅크, 개인사업자 부동산담보대출 계산기 출시</a></h3>
  <div class="a-meta"> · 2026-07-13 09:41</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>카카오뱅크, AI</b></div>
  <a class="src-link" href="https://www.newspim.com/news/view/20260713000222" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article is-ai" data-co="nonholding" data-sector="증권" data-type="AI">
- <div class="tags"><span class="tag path">삼성증권 · 증권</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://www.tokenpost.kr/news/market/377014" target="_blank" rel="noopener">삼성증권, 카카오 목표주가 4만4천 원으로 하향... AI 부진과 노사 갈등...</a></h3>
- <div class="a-meta"> · 2026-07-13 09:34</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>삼성증권, AI, 인공지능</b></div>
- <a class="src-link" href="https://www.tokenpost.kr/news/market/377014" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
 <div class="article is-ai" data-co="woori" data-sector="증권" data-type="AI">
  <div class="tags"><span class="tag path">우리투자증권 · 증권</span>
@@ -1072,57 +2447,21 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <div class="kw">매칭 키워드: <b>삼성카드, AI, AI 에이전트</b></div>
  <a class="src-link" href="https://www.news2day.co.kr/article/20260713500053" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
-<div class="article is-ai" data-co="hana" data-sector="카드" data-type="AI">
- <div class="tags"><span class="tag path">하나카드 · 카드</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://thetracker.co.kr/View.aspx?No=4146246" target="_blank" rel="noopener">&quot;AI 서비스 30종 담았다&quot;...하나카드, ‘AI스마트팩’ 출시</a></h3>
- <div class="a-meta"> · 2026-07-13 09:06</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>하나카드, AI</b></div>
- <a class="src-link" href="https://thetracker.co.kr/View.aspx?No=4146246" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
 <div class="article" data-co="nonholding" data-sector="보험" data-type="디지털">
  <div class="tags"><span class="tag path">DB생명 · 보험</span>
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/030/0003446872?sid=105" target="_blank" rel="noopener">포유디지탈, DB생명 인재개발원에 포유비전 65인치 DID 디지털 사이니지...</a></h3>
  <div class="a-meta">전자신문 · 2026-07-13 08:58</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>DB생명, 디지털</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/030/0003446872?sid=105" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article is-ai" data-co="kb" data-sector="증권" data-type="AI">
- <div class="tags"><span class="tag path">KB증권 · 증권</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://n.news.naver.com/mnews/article/374/0000521274?sid=101" target="_blank" rel="noopener">KB증권 &quot;삼성전자 실적 개선 확대…내년 반도체 공급 부족 심화&quot;</a></h3>
- <div class="a-meta">SBS Biz · 2026-07-13 08:50</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>KB증권, AI</b></div>
- <a class="src-link" href="https://n.news.naver.com/mnews/article/374/0000521274?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article" data-co="hana" data-sector="은행" data-type="디지털">
- <div class="tags"><span class="tag path">하나은행 · 은행</span>
- <span class="tag digital">디지털</span></div>
- <h3><a href="https://www.thefairnews.co.kr/news/articleView.html?idxno=81972" target="_blank" rel="noopener">&quot;미국까지 1분, 돈 깎임 없이 전액 입금&quot; 하나은행 해외송금 패러다임 ...</a></h3>
- <div class="a-meta"> · 2026-07-13 08:44</div>
- <ul class="summary"><li>하나은행이 해외송금 고객들의 편의성을 높이기 위해 송금 속도와 투명성을 강화한 차별화된 ‘Fast-Fit 송금 서비스’를 출시함</li><li>미국행 서비스의 경우 최단 1분 내외 그리고 평균 30분 이내에 현지 수취인 계좌로 입금이 완료되고 중개은행이나 현지 해외은행이 차감하던 중간 수수료를 원천 면제함</li><li>향후 미국을 시작으로 호주와 캐나다 등으로 대상 국가를 넓히는 것은 물론 해외에서 국내로 유입되는 수취 송금 영역까지 인프라를 확장해 외국환 시장 내 독보적인 리더십을 공고히 할 방침임</li></ul>
- <div class="kw">매칭 키워드: <b>하나은행</b></div>
- <a class="src-link" href="https://www.thefairnews.co.kr/news/articleView.html?idxno=81972" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article is-ai" data-co="kb" data-sector="증권" data-type="AI">
- <div class="tags"><span class="tag path">KB증권 · 증권</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://n.news.naver.com/mnews/article/421/0009055167?sid=101" target="_blank" rel="noopener">KB증권 &quot;피크아웃론, 메타 투자확대로 해소…60만전자 간다&quot;</a></h3>
- <div class="a-meta">뉴스1 · 2026-07-13 08:39</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>KB증권, AI</b></div>
- <a class="src-link" href="https://n.news.naver.com/mnews/article/421/0009055167?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
 <div class="article" data-co="kb" data-sector="그룹" data-type="디지털">
  <div class="tags"><span class="tag path">KB금융그룹 · 그룹</span>
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/421/0009055156?sid=101" target="_blank" rel="noopener">중소기업 산업 현장 지켜라…중진공-KB금융그룹, 안전 예방 &#x27;맞손&#x27;</a></h3>
  <div class="a-meta">뉴스1 · 2026-07-13 08:35</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>KB금융그룹</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/421/0009055156?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -1131,7 +2470,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">본문 추출 실패</span></div>
  <h3><a href="https://news.dealsitetv.com/articles/173010" target="_blank" rel="noopener">[KB금융 차기 리더십] 비은행 출신 이창권…디지털 경쟁력 &#x27;승부수&#x27;</a></h3>
  <div class="a-meta"> · 2026-07-13 08:06</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — 본문 추출 실패 (매체 페이지 구조 문제)</div>
  <div class="kw">매칭 키워드: <b>KB금융, 디지털</b></div>
  <a class="src-link" href="https://news.dealsitetv.com/articles/173010" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -1140,18 +2479,9 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://n.news.naver.com/mnews/article/648/0000048840?sid=101" target="_blank" rel="noopener">우리금융 &quot;AI 네이티브로 의사결정 구조 바꾼다&quot;</a></h3>
  <div class="a-meta">비즈워치 · 2026-07-13 08:00</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>우리금융, AI, 인공지능</b></div>
  <a class="src-link" href="https://n.news.naver.com/mnews/article/648/0000048840?sid=101" target="_blank" rel="noopener">원문 보기 →</a>
-</div>
-<div class="article is-ai" data-co="nh" data-sector="증권" data-type="AI">
- <div class="tags"><span class="tag path">NH투자증권 · 증권</span>
- <span class="tag ai">AI</span><span class="tag fail">요약 실패</span></div>
- <h3><a href="https://www.etoday.co.kr/news/view/2602848" target="_blank" rel="noopener">NH투자증권 &quot;AI가 바꾼 美 오피스 시장…뉴욕·샌프란시스코 리츠 주목...</a></h3>
- <div class="a-meta"> · 2026-07-13 07:42</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
- <div class="kw">매칭 키워드: <b>NH투자증권, AI, 인공지능</b></div>
- <a class="src-link" href="https://www.etoday.co.kr/news/view/2602848" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
 <div class="article is-ai" data-co="hana" data-sector="그룹" data-type="AI">
  <div class="tags"><span class="tag path">하나금융 · 그룹</span>
@@ -1167,7 +2497,7 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag digital">디지털</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://sateconomy.co.kr/news/view/1065618447021042" target="_blank" rel="noopener">카카오페이, 증권 완전자회사화…금융사업 비중 확대</a></h3>
  <div class="a-meta"> · 2026-07-12 22:16</div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>카카오페이</b></div>
  <a class="src-link" href="https://sateconomy.co.kr/news/view/1065618447021042" target="_blank" rel="noopener">원문 보기 →</a>
 </div>
@@ -1176,14 +2506,105 @@ footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
  <span class="tag ai">AI</span><span class="tag pr">보도자료</span><span class="tag fail">요약 실패</span></div>
  <h3><a href="https://www.bnkfg.com/02/03.jsp?dataSeqNo=6914&amp;dataPageNo=1&amp;dataWhere=" target="_blank" rel="noopener">BNK금융그룹_부울경 경제 도약 BNK프로젝트 가동</a></h3>
  <div class="a-meta">BNK금융 보도자료 · </div>
- <div class="a-meta">요약 미제공 — 원문 확인 필요</div>
+ <div class="a-meta nosum">요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)</div>
  <div class="kw">매칭 키워드: <b>BNK금융그룹, AI, 인공지능</b></div>
  <a class="src-link" href="https://www.bnkfg.com/02/03.jsp?dataSeqNo=6914&amp;dataPageNo=1&amp;dataWhere=" target="_blank" rel="noopener">원문 보기 →</a>
 </div></div>
 </details>
 
 <footer>금융 디지털·AI 뉴스 수집 시스템 v2.5 — 수집은 넓게, 판단은 본문 확보 후 로컬에서</footer>
-<script>window.__SUBS__ = {"hana": [["그룹", 5], ["은행", 7], ["증권", 1], ["카드", 3], ["캐피탈", 1]], "internet": [["네이버", 5], ["카카오", 12], ["케이뱅크", 2], ["토스", 3]], "kb": [["그룹", 6], ["은행", 4], ["증권", 5], ["카드", 3], ["캐피탈", 1], ["기타", 1]], "nh": [["은행", 2], ["증권", 2], ["카드", 1], ["보험", 2], ["기타", 1]], "nonholding": [["증권", 4], ["카드", 7], ["보험", 5], ["기타", 1]], "overseas": [["해외", 3]], "policy": [["은행", 6], ["증권", 1]], "regional": [["은행", 2], ["기타", 1]], "shinhan": [["그룹", 1], ["은행", 7], ["카드", 1]], "woori": [["그룹", 1], ["은행", 5], ["증권", 1], ["카드", 1], ["보험", 2]]};</script>
+<script>window.__SUBS__ = {"internet": [["카카오", 16], ["토스", 16], ["네이버", 6], ["케이뱅크", 3]], "overseas": [["해외", 15]], "shinhan": [["그룹", 6], ["은행", 14], ["증권", 3], ["카드", 5], ["보험", 1], ["기타", 1]], "kb": [["그룹", 11], ["은행", 7], ["증권", 4], ["카드", 5], ["캐피탈", 1], ["기타", 1]], "nonholding": [["증권", 14], ["카드", 7], ["보험", 12], ["기타", 1]], "regional": [["은행", 13], ["기타", 5]], "nh": [["그룹", 1], ["은행", 10], ["증권", 2], ["카드", 1], ["보험", 4], ["기타", 1]], "policy": [["은행", 13], ["증권", 1]], "woori": [["그룹", 3], ["은행", 10], ["증권", 2], ["카드", 3], ["보험", 4]], "hana": [["그룹", 6], ["은행", 8], ["증권", 1], ["카드", 3], ["캐피탈", 1]]}; window.__GH__ = {"owner": "yeo6119-commits", "repo": "financial-news", "workflow": "run.yml", "branch": "main"};</script>
+<script>
+(function(){
+var GH = window.__GH__ || {};
+var KEY = 'fnews_gh_token';
+var btn = document.getElementById('btnRun'), btnTxt = document.getElementById('btnRunTxt');
+var stat = document.getElementById('runStatus'), keyBtn = document.getElementById('btnKey');
+var modal = document.getElementById('tokenModal'), input = document.getElementById('tokenInput');
+if(!btn) return;
+
+function token(){ try { return localStorage.getItem(KEY); } catch(e){ return null; } }
+function setToken(v){ try { localStorage.setItem(KEY, v); } catch(e){} }
+function say(msg, cls){ stat.textContent = msg || ''; stat.className = 'run-status' + (cls ? ' '+cls : ''); }
+function busy(on, label){
+  btn.classList.toggle('busy', on); btn.disabled = on;
+  btnTxt.textContent = label || (on ? '실행 중' : '실행');
+}
+function openModal(){ modal.classList.add('show'); input.value = token() || ''; input.focus(); }
+function closeModal(){ modal.classList.remove('show'); }
+
+document.getElementById('tokenCancel').onclick = closeModal;
+document.getElementById('tokenSave').onclick = function(){
+  var v = input.value.trim();
+  if(!v){ return; }
+  setToken(v); closeModal(); say('토큰이 저장되었습니다', 'ok');
+};
+keyBtn.onclick = openModal;
+input.addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('tokenSave').click(); });
+
+function headers(t){
+  return { 'Authorization': 'Bearer ' + t, 'Accept': 'application/vnd.github+json',
+           'X-GitHub-Api-Version': '2022-11-28', 'Content-Type': 'application/json' };
+}
+
+async function poll(t, startedAt){
+  var url = 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/actions/runs?per_page=5';
+  for(var i=0; i<120; i++){
+    await new Promise(function(r){ setTimeout(r, 6000); });
+    try {
+      var res = await fetch(url, { headers: headers(t) });
+      if(!res.ok) continue;
+      var data = await res.json();
+      var run = (data.workflow_runs || []).find(function(r){
+        return new Date(r.created_at).getTime() >= startedAt - 60000;
+      });
+      if(!run){ say('실행 대기 중…'); continue; }
+      var mins = Math.floor((Date.now()-startedAt)/60000), secs = Math.floor(((Date.now()-startedAt)%60000)/1000);
+      var el = mins + '분 ' + secs + '초';
+      if(run.status === 'completed'){
+        if(run.conclusion === 'success'){
+          busy(false); say('완료 (' + el + ') · 새로고침합니다', 'ok');
+          setTimeout(function(){ location.reload(true); }, 2000);
+        } else {
+          busy(false); say('실패: ' + (run.conclusion||'error') + ' — GitHub Actions에서 로그 확인', 'err');
+        }
+        return;
+      }
+      say((run.status === 'queued' ? '대기 중' : '수집 중') + '… ' + el);
+    } catch(e){ /* 네트워크 일시 오류는 무시하고 계속 */ }
+  }
+  busy(false); say('시간 초과 — GitHub Actions에서 상태를 확인하세요', 'err');
+}
+
+btn.onclick = async function(){
+  var t = token();
+  if(!t){ openModal(); return; }
+  busy(true, '요청 중'); say('워크플로 실행 요청…');
+  var url = 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/actions/workflows/'+GH.workflow+'/dispatches';
+  try {
+    var res = await fetch(url, { method:'POST', headers: headers(t),
+                                 body: JSON.stringify({ ref: GH.branch || 'main' }) });
+    if(res.status === 204){
+      var startedAt = Date.now();
+      busy(true, '실행 중'); say('실행 시작됨…');
+      poll(t, startedAt);
+    } else if(res.status === 401 || res.status === 403){
+      busy(false); say('토큰이 유효하지 않습니다. 토큰 변경을 눌러 다시 입력하세요', 'err'); openModal();
+    } else if(res.status === 404){
+      busy(false); say('워크플로를 찾을 수 없습니다 (' + GH.workflow + ')', 'err');
+    } else {
+      var msg = '';
+      try { msg = (await res.json()).message || ''; } catch(e){}
+      busy(false); say('요청 실패 (' + res.status + ') ' + msg, 'err');
+    }
+  } catch(e){
+    busy(false); say('네트워크 오류: ' + e.message, 'err');
+  }
+};
+
+if(!token()){ say('처음이면 실행을 눌러 토큰을 입력하세요'); }
+})();
+</script>
 <script>
 (function(){
 var coMenu=document.getElementById('menu'), subMenu=document.getElementById('submenu');
