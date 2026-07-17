@@ -186,6 +186,7 @@ def summarize(article: dict, cfg: dict) -> dict:
                 if used:
                     TOKEN_USAGE[model] = TOKEN_USAGE.get(model, 0) + used
                 raw = data["choices"][0]["message"]["content"]
+                v = cfg["summarizer"]["validation"]
                 valid = _validate(raw, cfg)
                 if valid and not _grounded(valid, article["title"], body):
                     # 예시 복창·환각 — 재시도해도 같은 결과이므로 즉시 실패 처리
@@ -201,7 +202,8 @@ def summarize(article: dict, cfg: dict) -> dict:
                     return article
                 # 형식 실패는 같은 프롬프트로 재호출해도 대개 같은 결과 → 1회만 재시도.
                 # (3회 재시도 시 1건에 정상 3건치 토큰을 태우게 됨)
-                last_err = "형식 검증 실패(2~3줄/불릿/어미)"
+                last_err = "형식 검증 실패(%d~%d줄/불릿/25자/어미)" % (
+                    v.get("min_lines", 2), v.get("max_lines", 4))
                 fmt_fail += 1
                 if fmt_fail >= 2:
                     break

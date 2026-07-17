@@ -77,6 +77,7 @@ padding-bottom:4px;border-bottom:1px solid var(--line)}
 .audit-dup div{font-size:11px;color:var(--muted);padding:2px 0}
 .audit-why{color:var(--teal);font-weight:600;font-size:10.5px}
 
+.a-meta.nosum{color:#b3403a}
 .ledger-line{font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line);
 border-radius:8px;padding:7px 12px;margin:10px 0 12px;font-variant-numeric:tabular-nums}
 .ledger-line b{color:var(--teal)} .ledger-line .warn{color:var(--warn);font-weight:600}
@@ -380,7 +381,21 @@ def _card(a) -> str:
                       for l in a["summary"].splitlines() if l.strip())
         summary = '<ul class="summary">%s</ul>' % lis
     else:
-        summary = '<div class="a-meta">요약 미제공 — 원문 확인 필요</div>'
+        # 사유를 함께 보여준다. 안 그러면 왜 없는지 알 수 없다.
+        why = a["summary_fail_reason"] or ""
+        _LBL = (
+            ("레이트리밋", "요약 미제공 — Groq 일일 한도 소진 (내일 오전 9시 이후 재시도)"),
+            ("본문 없음", "요약 미제공 — 본문 추출 실패 (매체 페이지 구조 문제)"),
+            ("본문 부족", "요약 미제공 — 본문이 너무 짧아 요약 생략"),
+            ("형식 검증", "요약 미제공 — 개조식 형식 미달 (요약하기 어려운 유형의 기사)"),
+            ("환각", "요약 미제공 — 생성된 요약이 원문과 무관해 폐기"),
+        )
+        txt = "요약 미제공 — 원문 확인 필요"
+        for k, v in _LBL:
+            if why.startswith(k):
+                txt = v
+                break
+        summary = '<div class="a-meta nosum">%s</div>' % H.escape(txt)
     pr_tag = '<span class="tag pr">보도자료</span>' if is_pr else ""
     pub = (a["pub_date"] or "")[:16].replace("T", " ")
     cls = " is-ai" if is_ai else ""
