@@ -134,7 +134,7 @@ tier1:
       보험:      [동양생명, ABL생명]
       저축은행:  [우리금융저축은행]
       기타:      [우리자산운용, 우리에프아이에스, 우리펀드서비스]
-    brands_standalone: [우리WON뱅킹, 우리WON, 원뱅킹, 우리페이, 위비]
+    brands_standalone: [우리WON뱅킹, 우리WON, 원뱅킹, "WON뱅킹", "WON 뱅킹", WON뱅크, 우리페이, 위비]
     brands_body_only:  [WON]
 
   NH농협금융:
@@ -183,7 +183,8 @@ tier2:
       KDB: [KDB산업은행, 산업은행]
       수출입: [수출입은행]
       수협: [Sh수협은행, 수협은행]
-    brands_standalone: [아이원뱅크, "i-ONE뱅크", "i-ONE Bank"]
+      상호금융: [새마을금고, MG새마을금고, 신협, 신용협동조합]
+    brands_standalone: [아이원뱅크, "i-ONE뱅크", "i-ONE Bank", MG상상뱅크, 상상뱅크]
 
   비지주증권:
     menu_id: securities
