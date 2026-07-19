@@ -187,22 +187,29 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     live = [a for a in articles if not a.get("excluded")]
     # 언론사 차단 소스는 대표가 되지 못하게 후순위
     live.sort(key=lambda a: (any(p in (a.get("press") or "") for p in BLOCKED_PRESS), ), )
+    def _matches(a, b) -> bool:
+        """두 기사가 같은 사건인가."""
+        if (a["norm_title_hash"] == b["norm_title_hash"]) or \
+           (a["body_hash"] and a["body_hash"] == b["body_hash"]):
+            return True
+        if title_sim(a["norm_title"], b["norm_title"]) >= thr:
+            return True
+        if (a.get("body") and b.get("body") and
+                hamming(int(a["body_fingerprint"], 16),
+                        int(b["body_fingerprint"], 16)) <= 6):
+            return True
+        overlap = token_overlap(a["_tokens"], b["_tokens"])
+        # 같은 날+겹침0.35, 또는 날짜 무관+겹침0.5(강한 겹침)
+        return (same_day(a, b) and overlap >= 0.35) or overlap >= 0.5
+
     clusters: list[list[dict]] = []
     for a in live:
         placed = False
         for cl in clusters:
-            rep = cl[0]
-            same_hash = (a["norm_title_hash"] == rep["norm_title_hash"]) or \
-                        (a["body_hash"] and a["body_hash"] == rep["body_hash"])
-            similar_title = title_sim(a["norm_title"], rep["norm_title"]) >= thr
-            similar_body = (a.get("body") and rep.get("body") and
-                            hamming(int(a["body_fingerprint"], 16),
-                                    int(rep["body_fingerprint"], 16)) <= 6)
-            # 한국어 보완: 같은 날짜 + 제목 핵심 토큰 60% 이상 겹침 → 동일 사건
-            overlap = token_overlap(a["_tokens"], rep["_tokens"])
-            # 같은 사건 판정: 같은 날+겹침0.35, 또는 날짜 무관+겹침0.5(강한 겹침)
-            same_event = (same_day(a, rep) and overlap >= 0.35) or overlap >= 0.5
-            if same_hash or similar_title or similar_body or same_event:
+            # 대표뿐 아니라 클러스터 내 '아무 멤버와든' 겹치면 합류(전이적 연결).
+            #   대표하고만 비교하면 같은 사건이 '성료'류/'개최'류로 쪼개진다.
+            #   (SKT·하나금융 해커톤이 2개 클러스터로 갈려 둘 다 노출된 버그)
+            if any(_matches(a, m) for m in cl):
                 cl.append(a)
                 placed = True
                 break
