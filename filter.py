@@ -184,6 +184,23 @@ def body_core_keywords(cfg: dict) -> list:
 
 
 # 핀테크사라도 이 주제는 디지털 사안이 아님 (M&A·실적·채용)
+# 관련성 키워드('디지털'·'확대' 등)보다 먼저 걸러야 하는 강한 제외 주제.
+#   제목에 '디지털'·'AI'가 있어도 이 맥락이면 디지털 사안이 아니다.
+HARD_EXCLUDE = [
+    # 채용
+    "채용", "인턴 모집", "채용연계", "경력직", "신입 모집", "공채",
+    "인재 확보", "인재 모집", "채용 설명회", "수시 모집",
+    # 프로모션·제휴 혜택
+    "할인", "캐시백", "적립 이벤트", "사전예약", "휴가철", "여행 할인",
+    "제휴 혜택", "혜택 확대", "경품", "사은품", "무이자 할부", "맞춤 혜택",
+]
+
+# 보이스피싱 '미담' — FDS·이상거래탐지 같은 디지털 대응이 아니라
+#   창구 직원이 눈치채고 막은 미담. 제목에 '보이스피싱'이 있어도 제외.
+PHISHING_ANECDOTE = re.compile(
+    r"(막은|막아|차단|지켜|지킨|예방)\s*(공로|미담)?|감사장|표창|의인|"
+    r"직원.{0,8}(막|지키|눈치)|계장|출동|수상")
+
 FINTECH_EXCLUDE = ["인수", "매각", "합병", "품은", "지분 취득", "대환대출",
                    "돌파", "순이익", "영업이익", "실적", "분기", "최대 실적",
                    "채용", "인재 찾", "사람 찾", "경력직", "공채"]
@@ -322,6 +339,19 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     if not comp_hits:
         article["excluded"] = 1
         article["exclude_reason"] = "무관(제목에 대상 금융사 없음)"
+        return article
+
+    # 강한 제외 주제 — 관련성 단어('디지털'·'확대' 등)가 있어도 제외.
+    #   "디지털 인재 채용", "혜택 확대", "제휴 할인"이 관련성에서 새던 문제.
+    hard = _hit(title, HARD_EXCLUDE)
+    if hard:
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(%s)" % hard[0]
+        return article
+    # 보이스피싱 미담(직원이 막은 공로) — 디지털 대응이 아님
+    if "보이스피싱" in title and PHISHING_ANECDOTE.search(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(보이스피싱 예방 미담)"
         return article
 
     # (6) 제목에 서비스·AI·관련성 키워드가 있으면 즉시 통과.

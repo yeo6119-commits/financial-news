@@ -54,10 +54,7 @@ local_relevance_keywords:
   - 고도화
   - 출시
   - 도입
-  - 확대
-  - 개선
   - 탑재
-  - 적용
   - 오픈
   - 챗봇
   - 마이데이터
@@ -121,7 +118,7 @@ tier1:
       저축은행:  [KB저축은행]
       기타:      [KB자산운용, KB인베스트먼트, KB부동산신탁, KB데이타시스템]
     brands_standalone: [KB스타뱅킹, 스타뱅킹, "KB Pay", KB페이, 리브넥스트, "리브 넥스트", "KB증권 MTS", 마블미니]
-    brands_body_only:  [리브]
+    brands_body_only:  []   # '리브' 제거: 올리브영 등에 오매칭
 
   우리금융:
     menu_id: woori
