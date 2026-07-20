@@ -88,6 +88,15 @@ EXTRA_RELEVANCE = [
 ]
 
 # 애널리스트 리포트/투자의견 — 회사명이 있어도 무조건 제외 (디지털·AI 이니셔티브 아님)
+# 외국계 IB·기관의 시황·전망 코멘트 — 종목 리포트와 같은 성격
+#   "모건스탠리 '연준보다 AI 지출이 문제'", "스탠다드차타드가 전망한 암호화폐 4종"
+FORECAST_HOUSES = ["모건스탠리", "골드만삭스", "JP모건", "뱅크오브아메리카", "BofA",
+                   "씨티", "웰스파고", "스탠다드차타드", "SC", "노무라", "UBS",
+                   "도이체방크", "바클레이스", "HSBC", "번스타인", "웨드부시"]
+FORECAST_WORDS = ["전망", "예상", "예측", "경고", "제시", "지목", "꼽았", "분석",
+                  "진단", "평가절하", "목표", "추천", "수익 안겨", "문제", "우려",
+                  "리스크", "주목", "선호", "매력", "부담", "기회", "위험"]
+
 STOCK_REPORT_PATTERNS = [
     # 애널리스트 리포트·투자의견
     "목표가", "목표주가", "컨센서스", "투자의견", "매수의견", "매도의견",
@@ -174,6 +183,12 @@ def body_core_keywords(cfg: dict) -> list:
     return list(dict.fromkeys(BODY_CORE + cfg["classification"]["ai_keywords"]))
 
 
+# 핀테크사라도 이 주제는 디지털 사안이 아님 (M&A·실적·채용)
+FINTECH_EXCLUDE = ["인수", "매각", "합병", "품은", "지분 취득", "대환대출",
+                   "돌파", "순이익", "영업이익", "실적", "분기", "최대 실적",
+                   "채용", "인재 찾", "사람 찾", "경력직", "공채"]
+
+
 def fintech_companies(cfg: dict) -> set:
     """인터넷은행·핀테크사 — 사업 자체가 디지털이므로 본문 확인을 면제한다.
 
@@ -225,6 +240,11 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     if INVEST_TAG_RE.match(title):
         article["excluded"] = 1
         article["exclude_reason"] = "무관(투자·증시 코너)"
+        return article
+    # 외국계 IB의 시황 전망 — 회사명 + 전망 동사가 함께 있으면 종목 리포트급
+    if _hit(title, FORECAST_HOUSES) and _hit(title, FORECAST_WORDS):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(기관 시황 전망)"
         return article
 
     # (0-b) 인사·부고
@@ -308,6 +328,15 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     #     없으면 제외하지 않고 '본문 확인 대기'로 넘긴다.
     #     → 본문 추출 후 apply_filters()가 본문 앞부분을 읽어 최종 판정.
     #       (제목만으로는 디지털·AI 기사인지 알 수 없는 경우가 많기 때문)
+    # 핀테크사의 M&A·실적·채용은 관련성 단어('출시' 등)가 있어도 제외.
+    #   ("대환대출 1조 돌파"에 '출시'가 섞여 통과하던 문제)
+    if set(comp_hits) & fintech_companies(cfg):
+        fin_noise = _hit(title, FINTECH_EXCLUDE)
+        if fin_noise:
+            article["excluded"] = 1
+            article["exclude_reason"] = "무관(%s)" % fin_noise[0]
+            return article
+
     rel_hits = _hit(title, relevance)
     if rel_hits:
         article["excluded"] = 0
@@ -325,7 +354,8 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
 
     article["excluded"] = 0
     article["exclude_reason"] = None
-    # 핀테크·인터넷은행은 사업 자체가 디지털 → 본문 확인 없이 통과
+    # 핀테크·인터넷은행은 사업 자체가 디지털 → 본문 확인 없이 통과.
+    #   (M&A·실적·채용은 위에서 이미 걸렀다)
     if set(comp_hits) & fintech_companies(cfg):
         article["_needs_body_check"] = False
     else:

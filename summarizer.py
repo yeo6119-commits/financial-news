@@ -162,7 +162,10 @@ def summarize(article: dict, cfg: dict) -> dict:
                    "messages": [{"role": "user", "content": prompt}]}
         quota_out = False
         fmt_fail = 0
-        for attempt in range(s["max_retries"]):
+        rate_hits = 0
+        # 분당 한도는 잠깐 기다리면 풀리므로, 형식 재시도(max_retries)와 별개로
+        # 429에는 좀 더 여유를 준다.
+        for attempt in range(s["max_retries"] + 4):
             try:
                 r = requests.post(GROQ_URL, json=payload, headers=headers, timeout=30)
                 if r.status_code == 429:
@@ -176,9 +179,19 @@ def summarize(article: dict, cfg: dict) -> dict:
                         last_err = f"레이트리밋(일일한도:{model})"
                         quota_out = True
                         break
-                    # 분당 한도(TPM)는 잠시 기다리면 회복
-                    time.sleep(s["backoff_base_seconds"] * (2 ** attempt))
-                    last_err = "레이트리밋"
+                    # 분당 한도(TPM)는 잠시 기다리면 회복.
+                    #   Groq가 알려주는 재시도 대기시간(retry-after)을 우선 존중한다.
+                    wait = r.headers.get("retry-after")
+                    try:
+                        wait = float(wait) if wait else s["backoff_base_seconds"] * (2 ** attempt)
+                    except (TypeError, ValueError):
+                        wait = s["backoff_base_seconds"] * (2 ** attempt)
+                    wait = min(wait, 30)          # 과도한 대기 방지
+                    time.sleep(wait)
+                    last_err = "분당한도"
+                    rate_hits += 1
+                    if rate_hits >= 6:           # 6회 기다려도 안 풀리면 포기
+                        break
                     continue
                 r.raise_for_status()
                 data = r.json()
