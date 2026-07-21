@@ -276,16 +276,16 @@ def _policy_screen(article: dict, cfg: dict) -> dict:
         article["exclude_reason"] = "무관(시황 코너)"
         return article
 
-    # 디지털·AI 맥락이 제목에 있으면 통과, 없으면 본문 확인
+    # 디지털·AI 맥락이 제목에 있으면 통과, 없으면 즉시 제외.
+    #   정책 기사는 물량이 많아 '본문 확인'을 열면 extractor가 폭증한다.
+    #   검색어 자체가 정책 키워드이므로, 제목에 맥락이 없으면 대개 무관 기사.
     if _hit(title, ps["digital_context"]):
         article["excluded"] = 0
         article["exclude_reason"] = None
         article["_needs_body_check"] = False
         return article
-    # 제목만으론 애매 → 본문에서 디지털 맥락 확인
-    article["excluded"] = 0
-    article["exclude_reason"] = None
-    article["_needs_body_check"] = True
+    article["excluded"] = 1
+    article["exclude_reason"] = "무관(정책이나 제목에 디지털 맥락 없음)"
     return article
 
 
