@@ -11,12 +11,13 @@ from collections import OrderedDict
 from datetime import datetime
 
 MENU_LABELS = OrderedDict([
-    ("all", "전체"), ("hana", "하나"), ("shinhan", "신한"), ("kb", "KB"),
-    ("woori", "우리"), ("nh", "NH"), ("regional", "지방·국책"),
-    ("nonholding", "비지주"),
-    ("internet", "핀테크"), ("pubpolicy", "정책·규제"),
+    ("all", "전체"), ("pubpolicy", "정책·규제"),
+    ("hana", "하나"), ("shinhan", "신한"), ("kb", "KB"),
+    ("woori", "우리"), ("nh", "NH"), ("internet", "핀테크"),
     ("overseas", "해외"), ("etc", "기타"),
 ])
+# '기타' 탭이 흡수하는 그룹 (지방·국책, 비지주 증권/카드보험, 미분류)
+ETC_GROUPS = {"regional", "policy", "nonholding", "securities", "cardins", "etc"}
 SECTOR_ORDER = ["그룹", "은행", "증권", "카드", "캐피탈", "보험", "저축은행", "해외", "기타"]
 
 CSS = """
@@ -309,8 +310,9 @@ function apply(){
   var shown=0;
   var filtering = !!q || co!=='all' || sub!=='all';
   arts.forEach(function(a){
+    var ETC=['regional','policy','nonholding','securities','cardins','etc'];
     var okCo  = (co==='all' || a.dataset.co===co ||
-                 (co==='regional' && a.dataset.co==='policy'));
+                 (co==='etc' && ETC.indexOf(a.dataset.co)>=0));
     var okSub = (sub==='all' || a.dataset.sector===sub);
     var okQ   = (!q || a.__txt.indexOf(q)>-1);
     var vis = okCo && okSub && okQ;
@@ -511,11 +513,11 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     for a in rows:
         runs.setdefault(a["run_id"], {"meta": a, "arts": []})["arts"].append(a)
         counts["all"] += 1
-        # 국책(policy)은 지방·국책(regional) 탭으로 합산
-        grp = "regional" if a["fin_group"] == "policy" else a["fin_group"]
+        # 지방·국책·비지주·미분류는 '기타' 탭으로 합산
+        grp = "etc" if a["fin_group"] in ETC_GROUPS else a["fin_group"]
         counts[grp] = counts.get(grp, 0) + 1
         sec = a["sector"] or "기타"
-        grp2 = "regional" if a["fin_group"] == "policy" else a["fin_group"]
+        grp2 = "etc" if a["fin_group"] in ETC_GROUPS else a["fin_group"]
         subs.setdefault(grp2, {})
         subs[grp2][sec] = subs[grp2].get(sec, 0) + 1
 
@@ -532,7 +534,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
         % (k, ' class="active"' if k == "all" else "",
            ' disabled style="opacity:.45;cursor:default"' if counts.get(k, 0) == 0 and k != "all" else "",
            v, counts.get(k, 0))
-        for k, v in MENU_LABELS.items() if k != "etc" or counts.get("etc", 0) > 0)
+        for k, v in MENU_LABELS.items())
 
     import json
     subs_json = json.dumps(sub_js, ensure_ascii=False)
