@@ -307,10 +307,75 @@ github:
   workflow: run.yml               # 워크플로 파일명
   branch: main
 
+# -------------------------------------------------------------
+# 정책·규제 (회사명 무관) — 금융당국의 디지털·AI 정책
+#   회사명이 없어 일반 검색 그물에 안 걸리는 제도·규제 기사 전용.
+#   검색: 정책 키워드 단독. 판정: 디지털·AI 맥락이 있을 때만.
+# -------------------------------------------------------------
+policy_section:
+  menu_id: pubpolicy
+  # 정책 키워드 단독으로 검색 (회사명 조합 안 함)
+  search_keywords:
+    # 금융위·금감원 디지털 정책
+    - 금융위 망분리
+    - 망분리 규제
+    - 망분리 완화
+    - 망분리 개선
+    - 마이데이터
+    - 전자금융거래법
+    - 전자금융감독규정
+    - 금융보안원
+    - 금융 클라우드
+    - 금융규제 샌드박스
+    - 혁신금융서비스
+    - 금융 AI
+    - 금융위 인공지능
+    - 오픈뱅킹
+    - 오픈파이낸스
+    - 금융 마이데이터
+    # 한국은행 CBDC·디지털화폐
+    - CBDC
+    - 중앙은행 디지털화폐
+    - 한국은행 디지털화폐
+    - 디지털원화
+    - 예금토큰
+    # 가상자산·스테이블코인 규제
+    - 가상자산 규제
+    - 가상자산이용자보호법
+    - 스테이블코인 규제
+    - 원화 스테이블코인
+    - 디지털자산 기본법
+    - 토큰증권
+    - STO 가이드라인
+    # AI 금융 규제
+    - 금융 AI 가이드라인
+    - AI 신용평가 규제
+    - 알고리즘 규제
+  # 이 키워드가 함께 있어야 '디지털·AI 정책'으로 인정 (노이즈 차단)
+  digital_context:
+    - 디지털
+    - AI
+    - 인공지능
+    - 데이터
+    - 클라우드
+    - 핀테크
+    - 가상자산
+    - 디지털자산
+    - 블록체인
+    - 토큰
+    - 망분리
+    - 마이데이터
+    - CBDC
+    - 스테이블코인
+    - 전자금융
+    - 온라인
+    - 비대면
+    - 플랫폼
+
 html:
   output_file: output/financial_news_archive.html
   view: archive                 # DB 60일치 전체를 매 실행 재생성
-  menu_order: [all, hana, shinhan, kb, woori, nh, regional, policy, securities, cardins, internet, overseas]
+  menu_order: [all, hana, shinhan, kb, woori, nh, regional, securities, cardins, internet, pubpolicy, overseas]
   group_articles_by: run_datetime      # 회차(요청 일시)별 타임라인
   ledger: compact               # 수지 검증은 한 줄 요약바
   show_failed_articles: inline  # 요약/추출 실패도 해당 카테고리에 카드로 수록

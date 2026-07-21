@@ -119,6 +119,23 @@ def classify(article: dict, cfg: dict, idx: list) -> dict:
     body = article.get("body") or ""
     head = body[:500]
 
+    # 정책·규제 기사는 회사가 없으므로 전용 분류
+    if article.get("menu_id") == cfg.get("policy_section", {}).get("menu_id"):
+        ai_kw = cfg["classification"]["ai_keywords"]
+        is_ai = any(k in title or k in head for k in ai_kw)
+        article["fin_group"] = article["menu_id"]
+        article["subgroup"] = "정책·규제"
+        article["company"] = "금융당국"
+        article["sector"] = "정책"
+        article["classify_source"] = "policy"
+        article["dig_ai"] = "AI" if is_ai else "디지털"
+        # 어떤 정책인지 키워드 표시
+        ps = cfg["policy_section"]
+        matched = [k for k in ps["search_keywords"] if k in title]
+        matched += [k for k in ps["digital_context"] if k in title and k not in matched]
+        article["matched_keywords"] = ", ".join(dict.fromkeys(matched))[:200]
+        return article
+
     # 1순위: 제목에 등장하는 회사 (기사의 주체)
     hits = _match(title, idx)
     source = "title"

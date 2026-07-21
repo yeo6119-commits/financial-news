@@ -257,9 +257,45 @@ def relevance_keywords(cfg: dict) -> list:
 # ----------------------------------------------------------
 # 1차 스크리닝 — 본문 추출 '전' 호출 (제목만 사용)
 # ----------------------------------------------------------
+def _policy_screen(article: dict, cfg: dict) -> dict:
+    """정책·규제 기사 전용 판정 — 회사명 불필요, 디지털·AI 맥락만 확인.
+
+    금융당국의 제도·규제 기사는 회사명이 없어 일반 필터를 못 통과한다.
+    대신 '정책 키워드 + 디지털 맥락'이 함께 있는지로 판정한다.
+    """
+    title = article.get("title", "")
+    ps = cfg["policy_section"]
+
+    # 종합기사·시황 코너는 정책 섹션에서도 배제
+    if TAG_RE.match(title) and len(SEP_RE.findall(title)) >= 3:
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(종합기사)"
+        return article
+    if CRYPTO_COLUMN_RE.search(title) or INVEST_TAG_RE.match(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(시황 코너)"
+        return article
+
+    # 디지털·AI 맥락이 제목에 있으면 통과, 없으면 본문 확인
+    if _hit(title, ps["digital_context"]):
+        article["excluded"] = 0
+        article["exclude_reason"] = None
+        article["_needs_body_check"] = False
+        return article
+    # 제목만으론 애매 → 본문에서 디지털 맥락 확인
+    article["excluded"] = 0
+    article["exclude_reason"] = None
+    article["_needs_body_check"] = True
+    return article
+
+
 def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dict:
     title = article.get("title", "")
     f = cfg["filters"]
+
+    # 정책·규제 기사는 전용 판정 (회사명 불필요)
+    if article.get("menu_id") == cfg.get("policy_section", {}).get("menu_id"):
+        return _policy_screen(article, cfg)
 
     # (0) 애널리스트 리포트·시황 — 회사명이 있어도 종목 분석일 뿐 디지털·AI 사안 아님
     for pat in STOCK_REPORT_PATTERNS:
@@ -454,6 +490,15 @@ def apply_filters(article: dict, cfg: dict) -> dict:
             article["exclude_reason"] = "무관(제목·본문에서 디지털·AI 근거 없음)"
             return article
         lead = body[:400]
+        # 정책 기사는 디지털 맥락(digital_context)으로 판정
+        if article.get("menu_id") == cfg.get("policy_section", {}).get("menu_id"):
+            if _hit(lead, cfg["policy_section"]["digital_context"]):
+                article["excluded"] = 0
+                article["exclude_reason"] = None
+            else:
+                article["excluded"] = 1
+                article["exclude_reason"] = "무관(정책이나 디지털·AI 아님)"
+            return article
         core_hits = _hit(lead, body_core_keywords(cfg))
         if not core_hits:
             article["excluded"] = 1
