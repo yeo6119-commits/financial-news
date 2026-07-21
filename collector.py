@@ -120,6 +120,7 @@ class Collector:
         }
         self.api_calls = 0
         self.cutoff_keywords: list[str] = []
+        self._logged_errors: set = set()
         self._lock = threading.Lock()
         self._session = requests.Session()
 
@@ -135,9 +136,18 @@ class Collector:
                 self.api_calls += 1
             if r.status_code == 200:
                 return r.json().get("items", [])
+            # 실패 원인을 한 번만 로그 (같은 상태 반복 출력 방지)
+            with self._lock:
+                code = r.status_code
+                if code not in self._logged_errors:
+                    self._logged_errors.add(code)
+                    body = r.text[:200].replace("\n", " ")
+                    print(f"  ⚠ 네이버 API {code}: {body}")
             if r.status_code == 429:            # 레이트리밋 — 백오프
                 time.sleep(2 ** attempt)
                 continue
+            if r.status_code in (401, 403):     # 인증·권한 — 재시도 무의미
+                return []
             r.raise_for_status()
         return []
 
