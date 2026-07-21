@@ -204,10 +204,11 @@ class Collector:
             except Exception:
                 return []
 
+        print(f"  네이버 수집 시작: {len(keywords)}개 키워드, {workers}스레드")
         with ThreadPoolExecutor(max_workers=workers) as ex:
             for batch in ex.map(work, keywords):
                 done[0] += 1
-                if done[0] % 200 == 0:
+                if done[0] % 100 == 0:
                     print(f"  수집 {done[0]}/{len(keywords)} 키워드")
                 for item in batch:
                     if item["url_hash"] in seen_urls:

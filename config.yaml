@@ -14,7 +14,7 @@ time:
 # -------------------------------------------------------------
 naver_api:
   display: 100
-  max_start: 1000
+  max_start: 500                # 24시간 검색이므로 5페이지면 충분 (조회량 절반)
   sort: date
   stop_rule: full_page_old       # 페이지 전체가 기간 이전일 때만 중단
   extra_page_after_old: 1        # 기간 외 기사 첫 발견 후 1페이지 추가 확인
