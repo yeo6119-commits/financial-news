@@ -70,7 +70,7 @@ def hana(start_time):
                   "searchVal": "", "searchType": "", "kwrdNm": ""},
             headers={**UA, "X-Requested-With": "XMLHttpRequest",
                      "Referer": "https://www.hanafn.com/mediaRoom/mediaRoom.do"},
-            timeout=10)
+            timeout=(3, 7))
         soup = BeautifulSoup(r.text, "lxml")
         items = soup.select("li")
         if not items:
@@ -102,7 +102,7 @@ def kb(start_time):
     out, page = [], 1
     while page <= 10:
         r = requests.get("https://www.kbfg.com/api/kbfg/notics",
-                         params={"bulbdId": 8, "pageIndex": page}, headers=UA, timeout=10)
+                         params={"bulbdId": 8, "pageIndex": page}, headers=UA, timeout=(3, 7))
         data = r.json()
         rows = data.get("list") or data.get("notics") or []
         if not rows:
@@ -128,7 +128,7 @@ def shinhan(start_time):
     r = requests.post("https://www.shinhangroup.com/api/v1/pr/report/list",
                       json={"pageType": "REPORT", "lang": "KOR", "page": 1},
                       headers={**UA, "Referer": "https://www.shinhangroup.com/kr/pr/press"},
-                      timeout=10)
+                      timeout=(3, 7))
     r.raise_for_status()
     out = []
     for it in (r.json().get("data") or {}).get("list", []):
@@ -143,7 +143,7 @@ def shinhan(start_time):
 def woori(start_time):
     s = requests.Session()
     s.mount("https://", LegacySSLAdapter())
-    r = s.get("https://www.woorifg.com/kor/pr/news/list.do", headers=UA, timeout=10)
+    r = s.get("https://www.woorifg.com/kor/pr/news/list.do", headers=UA, timeout=(3, 7))
     soup = BeautifulSoup(r.text, "lxml")
     out = []
     for row in soup.select("tr, li"):
@@ -165,7 +165,7 @@ def woori(start_time):
 def nh(start_time):
     r = requests.get("https://www.nhfngroup.com/user/boardList.do",
                      params={"siteId": "nhfngroup", "boardId": "4998475"},
-                     headers=UA, timeout=10)
+                     headers=UA, timeout=(3, 7))
     soup = BeautifulSoup(r.text, "lxml")
     out = []
     for row in soup.select("tbody tr"):
@@ -185,7 +185,7 @@ def bnk(start_time):
     out, page = [], 1
     while page <= 3:
         r = requests.get(f"https://www.bnkfg.com/02/03.jsp?dataPageNo={page}&dataWhere=",
-                         headers=UA, timeout=10)
+                         headers=UA, timeout=(3, 7))
         soup = BeautifulSoup(r.text, "lxml")
         rows = soup.select("tbody tr")
         if not rows:
@@ -215,7 +215,7 @@ def jb(start_time):
     out, page = [], 1
     while page <= 3:
         r = requests.get(f"https://www.jbfg.com/ko/prcenter/press.do?pageNum={page}",
-                         headers=UA, timeout=10)
+                         headers=UA, timeout=(3, 7))
         soup = BeautifulSoup(r.text, "lxml")
         rows = soup.select("tbody tr, .board-list li")
         if not rows:
@@ -242,9 +242,11 @@ def jb(start_time):
 
 
 def meritz(start_time):
+    # (connect, read) 튜플로 강제 — 응답이 느려도 최대 8초 안에 예외 발생.
+    #   단일 정수 timeout은 read마다 리셋돼 무한정 매달릴 수 있다.
     r = requests.post("https://www.meritzgroup.com/web/pr_search.do",
                       data={"bd_div_cd": "PR001", "currentPage": 1},
-                      headers=UA, timeout=10, verify=False)
+                      headers=UA, timeout=(3, 5), verify=False)
     soup = BeautifulSoup(r.text, "lxml")
     out = []
     for row in soup.select("tbody tr, li"):
@@ -261,7 +263,7 @@ def meritz(start_time):
 
 
 def im(start_time):
-    r = requests.post("https://www.imfngroup.com/nbbsR1.fg", data={}, headers=UA, timeout=15)
+    r = requests.post("https://www.imfngroup.com/nbbsR1.fg", data={}, headers=UA, timeout=(3, 10))
     data = r.json() if "json" in r.headers.get("content-type", "") else {}
     rows = data.get("list") or data.get("resultList") or []
     out = []
@@ -277,12 +279,13 @@ def im(start_time):
     return out
 
 
+# 안정적인 3개 그룹만 보도자료 크롤링.
+#   나머지(우리·NH·BNK·JB·메리츠·iM)는 사이트가 느리거나 불안정해 제외.
+#   빠진 그룹의 기사는 네이버 뉴스 수집이 대개 커버한다.
 ADAPTERS = {
-    "hana": ("하나금융", "hana", hana), "kb": ("KB금융", "kb", kb),
-    "shinhan": ("신한금융", "shinhan", shinhan), "woori": ("우리금융", "woori", woori),
-    "nh": ("NH농협금융", "nh", nh), "bnk": ("지방금융", "regional", bnk),
-    "jb": ("지방금융", "regional", jb), "meritz": ("카드·보험(비지주)", "cardins", meritz),
-    "im": ("지방금융", "regional", im),
+    "hana": ("하나금융", "hana", hana),
+    "kb": ("KB금융", "kb", kb),
+    "shinhan": ("신한금융", "shinhan", shinhan),
 }
 
 
@@ -305,20 +308,23 @@ def collect_press(start_time) -> tuple[list[dict], dict]:
             g["sector_hint"] = None
         return got
 
-    with ThreadPoolExecutor(max_workers=len(ADAPTERS)) as ex:
-        futs = {ex.submit(run_one, k, g, m, fn): k
-                for k, (g, m, fn) in ADAPTERS.items()}
-        for fut in as_completed(futs, timeout=ADAPTER_TIMEOUT + 5):
+    ex = ThreadPoolExecutor(max_workers=len(ADAPTERS))
+    futs = {ex.submit(run_one, k, g, m, fn): k
+            for k, (g, m, fn) in ADAPTERS.items()}
+    try:
+        for fut in as_completed(futs, timeout=ADAPTER_TIMEOUT):
             key = futs[fut]
             try:
-                got = fut.result(timeout=ADAPTER_TIMEOUT)
+                got = fut.result(timeout=1)
                 items += got
                 health[key] = f"ok ({len(got)}건)"
-            except FTimeout:
-                health[key] = "실패: 시간 초과(25초)"
             except Exception as e:
-                health[key] = f"실패: {str(e)[:60]}"
-    # as_completed 자체가 타임아웃되면 남은 어댑터는 미완료로 표시
+                health[key] = f"실패: {str(e)[:50]}"
+    except FTimeout:
+        pass          # 전체 상한 도달 — 미완료 어댑터는 아래에서 표시
+    # 남은(매달린) 스레드는 기다리지 않고 진행. 개별 요청에 튜플 타임아웃이
+    #   걸려 있어 스레드는 곧 스스로 종료된다.
+    ex.shutdown(wait=False)
     for key in ADAPTERS:
-        health.setdefault(key, "실패: 응답 없음")
+        health.setdefault(key, "실패: 응답 없음(건너뜀)")
     return items, health
