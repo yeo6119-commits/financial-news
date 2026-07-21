@@ -287,18 +287,38 @@ ADAPTERS = {
 
 
 def collect_press(start_time) -> tuple[list[dict], dict]:
-    """모든 어댑터 실행. (기사 리스트, {어댑터: 'ok'|에러메시지}) 반환."""
+    """모든 어댑터를 병렬 실행. (기사 리스트, {어댑터: 'ok'|에러메시지}) 반환.
+
+    한 사이트가 느려도 전체를 막지 않도록 병렬 처리 + 어댑터별 시간 상한(25초).
+    보도자료는 보조 소스이므로, 느린 사이트는 건너뛰고 나머지를 진행한다.
+    """
+    from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError as FTimeout
+
     items, health = [], {}
-    for key, (gname, menu_id, fn) in ADAPTERS.items():
-        try:
-            got = fn(start_time)
-            for g in got:
-                g["menu_id"] = menu_id
-                g["subgroup"] = g.get("pr_company") or gname
-                g["sector_hint"] = None
-            items += got
-            health[key] = f"ok ({len(got)}건)"
-        except Exception as e:
-            health[key] = f"실패: {str(e)[:60]}"
-        time.sleep(0.3)
+    ADAPTER_TIMEOUT = 25          # 어댑터 하나가 25초 넘으면 포기
+
+    def run_one(key, gname, menu_id, fn):
+        got = fn(start_time)
+        for g in got:
+            g["menu_id"] = menu_id
+            g["subgroup"] = g.get("pr_company") or gname
+            g["sector_hint"] = None
+        return got
+
+    with ThreadPoolExecutor(max_workers=len(ADAPTERS)) as ex:
+        futs = {ex.submit(run_one, k, g, m, fn): k
+                for k, (g, m, fn) in ADAPTERS.items()}
+        for fut in as_completed(futs, timeout=ADAPTER_TIMEOUT + 5):
+            key = futs[fut]
+            try:
+                got = fut.result(timeout=ADAPTER_TIMEOUT)
+                items += got
+                health[key] = f"ok ({len(got)}건)"
+            except FTimeout:
+                health[key] = "실패: 시간 초과(25초)"
+            except Exception as e:
+                health[key] = f"실패: {str(e)[:60]}"
+    # as_completed 자체가 타임아웃되면 남은 어댑터는 미완료로 표시
+    for key in ADAPTERS:
+        health.setdefault(key, "실패: 응답 없음")
     return items, health

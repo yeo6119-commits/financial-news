@@ -24,7 +24,7 @@ GENERIC_BODY_SELECTORS = [
 ]
 
 
-def _get(url: str, timeout: int = 5) -> str | None:
+def _get(url: str, timeout: int = 4) -> str | None:
     try:
         r = requests.get(url, headers=HEADERS, timeout=timeout)
         if r.status_code == 200:
@@ -78,7 +78,7 @@ def _extract_generic(html: str) -> str | None:
     return text if len(text) >= 200 else None
 
 
-def extract_many(articles: list, workers: int = 10, progress_every: int = 40) -> list:
+def extract_many(articles: list, workers: int = 24, progress_every: int = 40) -> list:
     """본문 추출 병렬 처리 (10스레드). 같은 언론사 동시 요청은 드물어 안전."""
     done = [0]
 

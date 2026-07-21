@@ -92,7 +92,7 @@ def main():
             else:
                 need_extract.append(it)
         if need_extract:
-            ext.extract_many(need_extract, workers=16)
+            ext.extract_many(need_extract, workers=24)
         for it in items:
             it.setdefault("extract_ok", 0)
             it.setdefault("extract_fail_reason", None)
