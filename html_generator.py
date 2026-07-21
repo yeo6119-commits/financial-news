@@ -510,16 +510,21 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     runs = OrderedDict()
     counts = {k: 0 for k in MENU_LABELS}
     subs = {}          # menu_id -> {company: count}
+    # 탭 옆 숫자는 '가장 최근 실행'분만 센다 (누적 아님).
+    #   rows는 run_id 내림차순 정렬이므로 첫 기사의 run_id가 최근 회차.
+    recent_run = rows[0]["run_id"] if rows else None
     for a in rows:
         runs.setdefault(a["run_id"], {"meta": a, "arts": []})["arts"].append(a)
+        # 아카이브(runs)에는 전체를 담되, 카운트는 최근 회차만.
+        if a["run_id"] != recent_run:
+            continue
         counts["all"] += 1
         # 지방·국책·비지주·미분류는 '기타' 탭으로 합산
         grp = "etc" if a["fin_group"] in ETC_GROUPS else a["fin_group"]
         counts[grp] = counts.get(grp, 0) + 1
         sec = a["sector"] or "기타"
-        grp2 = "etc" if a["fin_group"] in ETC_GROUPS else a["fin_group"]
-        subs.setdefault(grp2, {})
-        subs[grp2][sec] = subs[grp2].get(sec, 0) + 1
+        subs.setdefault(grp, {})
+        subs[grp][sec] = subs[grp].get(sec, 0) + 1
 
     # 업권 순으로 고정 정렬 (그룹 → 은행 → 증권 → 카드 → 캐피탈 → 보험 → 저축은행 → 해외 → 기타)
     sub_js = {}
