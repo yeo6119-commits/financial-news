@@ -113,6 +113,18 @@ STOCK_REPORT_PATTERNS = [
 
 # 투자·증시 코너 태그 — [투자 노하우], [머니 톡] 등
 INVEST_TAG_RE = re.compile(r"^\s*\[(투자|머니|재테크|증시|마켓|스탁|stock|주식)", re.I)
+# 크립토·코인 시황 코너 — [크립토브리핑] 등
+CRYPTO_COLUMN_RE = re.compile(
+    r"\[(크립토|코인|블록체인|가상자산|디지털자산)\s*(브리핑|브리프|리포트|나우|투데이|위클리|칼럼)", re.I)
+# 규제·수상·시황 — 회사명 일부('KB금융그룹')와 겹치므로 구절로 정확히 매칭.
+#   관련성(AI·디지털)이 없을 때만 적용해 정상 기사 오차단 방지.
+#   ※ '금융그룹 시대'는 제외하지 않는다 (사용자 요청: 해당 기사는 노출).
+HARD_EXCLUDE_RE = re.compile(
+    # ※ 감독·규제 담론('금융그룹 시대', '개별 감독')은 제외하지 않는다 (노출 대상).
+    r"\d+년?\s*연속\s*(선정|수상)|수탁기관|어워드|시상식|관심도\s*\d*위|"           # 수상·순위
+    r"소비자\s*관심도|최우수\s*(은행|기관|기업)|베스트\s*(뱅크|은행)|"
+    r"거래대금|거래량\s*감소|시장\s*침체|'?한겨울'?|"                                 # 시황
+    r"세미나|설명회|포럼\s*개최|회고전|전시회|미술관|갤러리")                          # 세미나·전시
 
 # 증권사가 '다른 종목'을 평가하는 리포트 형식
 #   예: 하나증권 "삼미금속, AI 데이터센터 전력 인프라 공급망 진입"
@@ -182,6 +194,11 @@ BODY_CORE = [
 def body_core_keywords(cfg: dict) -> list:
     return list(dict.fromkeys(BODY_CORE + cfg["classification"]["ai_keywords"]))
 
+
+# 우리 대상이 아닌 회사 — 회사명에 부분 매칭되지만 금융사가 아님.
+#   '토스'가 "앱토스랩스"에, 다른 키워드가 크립토 업체에 오매칭되는 것 차단.
+NOT_OUR_COMPANY = ["앱토스", "앱토스랩스", "리플", "서클", "테더", "체이널리시스",
+                   "코인베이스", "바이낸스", "크라켄", "점프트레이딩"]
 
 # 핀테크사라도 이 주제는 디지털 사안이 아님 (M&A·실적·채용)
 # 관련성 키워드('디지털'·'확대' 등)보다 먼저 걸러야 하는 강한 제외 주제.
@@ -257,6 +274,10 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     if INVEST_TAG_RE.match(title):
         article["excluded"] = 1
         article["exclude_reason"] = "무관(투자·증시 코너)"
+        return article
+    if CRYPTO_COLUMN_RE.search(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(크립토 시황 코너)"
         return article
     # 외국계 IB의 시황 전망 — 회사명 + 전망 동사가 함께 있으면 종목 리포트급
     if _hit(title, FORECAST_HOUSES) and _hit(title, FORECAST_WORDS):
@@ -340,6 +361,17 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
         article["excluded"] = 1
         article["exclude_reason"] = "무관(제목에 대상 금융사 없음)"
         return article
+    # 우리 대상이 아닌 회사가 오매칭된 경우 제외 ('토스'→"앱토스랩스").
+    #   진짜 대상사도 함께 있으면 유지.
+    not_ours = _hit(title, NOT_OUR_COMPANY)
+    if not_ours:
+        cleaned = title
+        for n in not_ours:
+            cleaned = cleaned.replace(n, "")
+        if not _hit(cleaned, companies):
+            article["excluded"] = 1
+            article["exclude_reason"] = "무관(대상 아닌 업체: %s)" % not_ours[0]
+            return article
 
     # 강한 제외 주제 — 관련성 단어('디지털'·'확대' 등)가 있어도 제외.
     #   "디지털 인재 채용", "혜택 확대", "제휴 할인"이 관련성에서 새던 문제.
@@ -374,6 +406,12 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
         article["_needs_body_check"] = False
         return article
 
+    # 관련성 없음 → 규제·수상·시황·세미나면 제외 (회사명 겹침 없이 구절로 매칭)
+    m = HARD_EXCLUDE_RE.search(title)
+    if m:
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(규제·수상·시황: %s)" % m.group()[:12]
+        return article
     # 제목에 디지털·AI 단서가 없음 → 본문을 읽어볼 가치가 있는지 먼저 판단
     #   (핀테크사라도 봉사·기탁 기사는 여기서 걸러진다)
     topic = _hit(title, NON_DIGITAL_TOPICS)
