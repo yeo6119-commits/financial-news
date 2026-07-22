@@ -365,6 +365,12 @@ policy_section:
     - 비대면
     - 플랫폼
 
+# 검토 에이전트 — 필터 통과 기사를 LLM으로 재검 (오탐 최종 차단)
+reviewer:
+  enabled: true                 # false로 끄면 검토 건너뜀 (속도 우선 시)
+  model: llama-3.1-8b-instant   # 경량 모델 (YES/NO 판정만이라 충분)
+  max_retries: 2
+
 html:
   output_file: output/financial_news_archive.html
   view: archive                 # DB 60일치 전체를 매 실행 재생성

@@ -16,6 +16,7 @@ import filter as flt
 import deduplicator as ddp
 import classifier as cls
 import summarizer as smr
+import reviewer as rvw
 import html_generator as htm
 
 load_dotenv()
@@ -108,6 +109,12 @@ def main():
         cls_idx = cls.build_index(cfg)
         for it in live:
             cls.classify(it, cfg, cls_idx)
+        # 검토 에이전트 — 필터가 놓친 오탐을 LLM으로 최종 차단
+        rvw.review_many(live, cfg)
+        before_review = len(live)
+        live = [it for it in live if not it.get("excluded")]
+        if before_review != len(live):
+            print(f"검토 후: {before_review}건 → {len(live)}건 (에이전트가 {before_review-len(live)}건 제외)")
 
         # 7) 요약 — 캐시 우선 (C안: 이미 요약된 URL이면 Groq 호출 0회)
         cached = 0
