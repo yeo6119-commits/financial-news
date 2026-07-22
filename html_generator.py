@@ -11,7 +11,7 @@ from collections import OrderedDict
 from datetime import datetime
 
 MENU_LABELS = OrderedDict([
-    ("all", "전체"), ("pubpolicy", "정책·규제"),
+    ("all", "전체"),
     ("hana", "하나"), ("shinhan", "신한"), ("kb", "KB"),
     ("woori", "우리"), ("nh", "NH"), ("internet", "핀테크"),
     ("overseas", "해외"), ("etc", "기타"),

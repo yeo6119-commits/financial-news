@@ -293,8 +293,9 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
     title = article.get("title", "")
     f = cfg["filters"]
 
-    # 정책·규제 기사는 전용 판정 (회사명 불필요)
-    if article.get("menu_id") == cfg.get("policy_section", {}).get("menu_id"):
+    # 정책·규제 기사는 전용 판정 (회사명 불필요). enabled일 때만.
+    _ps = cfg.get("policy_section", {})
+    if _ps.get("enabled") and article.get("menu_id") == _ps.get("menu_id"):
         return _policy_screen(article, cfg)
 
     # (0) 애널리스트 리포트·시황 — 회사명이 있어도 종목 분석일 뿐 디지털·AI 사안 아님

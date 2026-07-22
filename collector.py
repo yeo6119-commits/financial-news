@@ -75,7 +75,7 @@ def build_keywords(cfg: dict) -> list[dict]:
 
     # --- 정책·규제 (회사명 무관) ---
     ps = cfg.get("policy_section")
-    if ps:
+    if ps and ps.get("enabled"):
         for kw in ps["search_keywords"]:
             kws.append({"query": kw, "menu_id": ps["menu_id"],
                         "subgroup": "정책·규제", "sector_hint": "policy"})
