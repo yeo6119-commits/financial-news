@@ -123,15 +123,41 @@ HARD_EXCLUDE_RE = re.compile(
     # 규제·지정·내부통제 (제도 이슈, 개별사 디지털 사안 아님)
     r"금융그룹\s*지정|빅테크\s*.{0,4}지정|내부통제\s*관건|지주.{0,4}지정|"
     r"동일인\s*지정|규제\s*대상\s*지정|"
-    r"\d+년?\s*연속\s*(선정|수상)|수탁기관|어워드|시상식|관심도\s*\d*위|"           # 수상·순위
+    # 수상·순위. '연속'과 '선정' 사이에 순위 표현이 끼는 형태까지 잡는다.
+    #   예: "서비스품질지수(KSQI) 11년 연속 1위 은행 선정" → 기존 패턴은 통과했음
+    r"\d+년?\s*연속.{0,10}(선정|수상|1위|최우수|대상)|서비스품질지수|\bKSQI\b|"
+    r"수탁기관|어워드|시상식|관심도\s*\d*위|"
     r"소비자\s*관심도|최우수\s*(은행|기관|기업)|베스트\s*(뱅크|은행)|"
     r"거래대금|거래량\s*감소|시장\s*침체|'?한겨울'?|"                                 # 시황
     r"세미나|설명회|포럼\s*개최|회고전|전시회|미술관|갤러리")                          # 세미나·전시
 
 # 증권사가 '다른 종목'을 평가하는 리포트 형식
-#   예: 하나증권 "삼미금속, AI 데이터센터 전력 인프라 공급망 진입"
-#   (증권사명 바로 뒤에 따옴표로 시작하는 분석 인용)
-STOCK_REPORT_RE = re.compile(r'(증권|금융투자)\s*[,]?\s*["\u201c\u2018\']')
+#   KB증권·신한투자증권·하나증권 등은 수집 대상 자체라 이름만으로는 자를 수 없다.
+#   구분 신호는 '역할' — 증권사가 발화자이고 주체는 남의 종목인가.
+_BROKER = r'(?:[가-힣A-Za-z]*(?:증권|금융투자|자산운용))'
+_QUOTE = r'["\u201c\u201d\u2018\u2019\']'
+# 종목 리포트 특유 어휘 (자사 디지털 사업 기사에는 거의 안 쓰인다)
+_RPT_WORDS = (r'(?:수혜주|수혜 종목|목표주가|목표가|커버리지|투자의견|밸류에이션|'
+              r'눈높이|추정치|실적 랠리|어닝서프라이즈|비중확대|매수 추천|'
+              r'성장 기대|실적 전망)')
+
+# (1) 증권사명 뒤에 인용 — 하나증권 "삼미금속, AI 데이터센터…"
+STOCK_REPORT_RE = re.compile(_BROKER + r'\s*[,]?\s*' + _QUOTE)
+# (2) 인용문이 먼저 오고 증권사명이 뒤 — 어순이 반대인 형태.
+#     예: "플랜티넷, …성장 기대" - 교보증권  /  "60만전자 현실화되나" KB증권, 삼성전자…
+STOCK_REPORT_LEAD_RE = re.compile(
+    r'^\s*' + _QUOTE + r'.{3,60}?' + _QUOTE + r'\s*[-\u2013\u2014]?\s*' + _BROKER)
+# (3) 증권사명 + 리포트 어휘 (인용부호가 없는 형태)
+#     예: KB증권, 삼성전자 목표주가 상향
+STOCK_REPORT_WORD_RE = re.compile(
+    _BROKER + r'.{0,30}' + _RPT_WORDS + r'|' + _RPT_WORDS + r'.{0,30}' + _BROKER)
+
+
+def is_broker_report(title: str) -> bool:
+    """증권사가 타 종목을 평가하는 리포트 기사인가."""
+    return bool(STOCK_REPORT_RE.search(title)
+                or STOCK_REPORT_LEAD_RE.search(title)
+                or STOCK_REPORT_WORD_RE.search(title))
 
 # 인사·부고·동정 — 디지털·AI 사안 아님
 #   '인사'는 '인사이트', '인사말'에도 들어가므로 대괄호 태그/명시 표현만 매칭
@@ -326,7 +352,7 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
             article["excluded"] = 1
             article["exclude_reason"] = f"무관(주식·리포트: {pat})"
             return article
-    if STOCK_REPORT_RE.search(title):
+    if is_broker_report(title):
         article["excluded"] = 1
         article["exclude_reason"] = "무관(증권사 종목 리포트)"
         return article

@@ -9,6 +9,14 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 from bs4 import BeautifulSoup
 
+# 범용 본문 추출 폴백 — 매체마다 커스텀 HTML이라 셀렉터 수동 추가는 끝이 없다.
+#   보안뉴스·더벨·iM뱅크 등 비제휴 매체가 반복 실패했다(<br> 문단, 자체 div, EUC-KR).
+#   설치 안 돼 있어도 동작하도록 선택적 임포트.
+try:
+    import trafilatura
+except ImportError:
+    trafilatura = None
+
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                   "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
@@ -28,7 +36,10 @@ def _get(url: str, timeout: int = 4) -> str | None:
     try:
         r = requests.get(url, headers=HEADERS, timeout=timeout)
         if r.status_code == 200:
-            r.encoding = r.apparent_encoding or r.encoding
+            # 매체가 charset을 선언했으면(보안뉴스=EUC-KR) 그걸 우선한다.
+            # 선언이 없을 때만 추정 — requests는 이 경우 ISO-8859-1로 잡아 한글이 깨진다.
+            if "charset=" not in r.headers.get("content-type", "").lower():
+                r.encoding = r.apparent_encoding or r.encoding
             return r.text
     except requests.RequestException:
         pass
@@ -72,7 +83,20 @@ def _extract_generic(html: str) -> str | None:
             text = _clean(node.get_text(" "))
             if len(text) >= 200:      # 본문이라 보기 어려운 짧은 덩어리 배제
                 return text
-    # 최후: p 태그 밀도 방식
+    # 폴백 1: trafilatura — 셀렉터 목록에 없는 매체를 구조 분석으로 처리.
+    #   <br> 문단·자체 div 레이아웃도 잡아낸다. p 밀도 방식보다 정확도가 높아 먼저 시도.
+    if trafilatura is not None:
+        try:
+            got = trafilatura.extract(html, include_comments=False,
+                                      include_tables=False, favor_recall=True)
+            if got:
+                text = _clean(got)
+                if len(text) >= 200:
+                    return text
+        except Exception:
+            pass
+
+    # 폴백 2: p 태그 밀도 방식
     paras = [p.get_text(" ") for p in soup.find_all("p")]
     text = _clean(" ".join(paras))
     return text if len(text) >= 200 else None
