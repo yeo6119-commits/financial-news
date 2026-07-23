@@ -260,6 +260,9 @@ classification:
 # -------------------------------------------------------------
 dedup:
   batch_internal: [url_hash, norm_title_hash, body_hash, title_similarity, body_fingerprint]
+  # 회차 간 중복(기열람) 임계 — 같은 회사일 때만 적용.
+  #   실측: 실제 중복은 0.35~0.44에 집중, 0.45~0.49는 공백 구간.
+  cross_run_threshold: 0.35
   title_similarity_threshold: 0.62     # 정규화 제목 자카드/시퀀스 유사도
   body_fingerprint: simhash            # 해밍거리 3 이하 중복 판정
   delivered_exclude: [url_hash_exact, norm_title_hash_exact]   # 과거분은 완전 일치만

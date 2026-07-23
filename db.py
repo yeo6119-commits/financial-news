@@ -148,7 +148,7 @@ def find_delivered_for_dedup(conn, days: int = 3):
     days를 짧게(3일) 잡아 오래된 기사와의 오인식을 방지."""
     cutoff = (now_kst() - timedelta(days=days)).isoformat()
     return conn.execute(
-        """SELECT title, body_fingerprint FROM articles
+        """SELECT title, body_fingerprint, company FROM articles
            WHERE delivered=1 AND collected_at >= ?""",
         (cutoff,),
     ).fetchall()

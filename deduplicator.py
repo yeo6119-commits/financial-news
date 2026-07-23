@@ -130,12 +130,29 @@ def _score(a: dict) -> tuple:
 # ----------------------------------------------------------
 # 본체
 # ----------------------------------------------------------
+def company_hits(title: str, comp_kw: list) -> set:
+    """제목에 등장하는 회사명 집합.
+
+    dedup은 classify보다 먼저 돌기 때문에 article["company"]가 아직 비어 있다.
+    회차 간 판정에서 '같은 회사인가'를 보려면 제목에서 직접 뽑아야 한다.
+    """
+    t = (title or "").replace(" ", "")
+    return {c for c in comp_kw if c.replace(" ", "") in t}
+
+
 def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     """excluded 안 된 기사들에 대해:
     1) 과거 delivered 완전 일치 → 기열람 제외
     2) 배치 내 해시·유사도 중복 → 대표 1건 외 중복 표시
     반환: 동일 리스트 (excluded/exclude_reason/dup_of 갱신)"""
     thr = cfg["dedup"]["title_similarity_threshold"]
+    # 회차 간(기열람) 완화 임계 — 같은 회사일 때만 적용
+    cross_thr = cfg["dedup"].get("cross_run_threshold", 0.38)
+    try:
+        import filter as _flt
+        comp_kw = _flt.company_keywords(cfg)
+    except Exception:
+        comp_kw = []
 
     # 정규화·해시·fingerprint 부여
     for a in articles:
@@ -163,16 +180,18 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
         past_info = []
         for p in past:
             past_info.append((p["body_fingerprint"], p["title"],
-                              title_tokens(normalize_title(p["title"], cfg))))
+                              title_tokens(normalize_title(p["title"], cfg)),
+                              company_hits(p["title"], comp_kw)))
         for a in articles:
             if a.get("excluded"):
                 continue
             atok = a["_tokens"]
+            acomp = company_hits(a.get("title"), comp_kw)
             try:
                 afp = int(a["body_fingerprint"], 16) if a.get("body") else 0
             except (ValueError, TypeError):
                 afp = 0
-            for fp, ptitle, ptok in past_info:
+            for fp, ptitle, ptok, pcomp in past_info:
                 # (i) 본문 완전 재탕
                 if afp:
                     try:
@@ -183,8 +202,12 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                     except (ValueError, TypeError):
                         pass
                 # (ii) 제목 핵심 토큰 겹침 (같은 사건)
+                #   실측: 회차를 넘나드는 실제 중복은 0.35~0.44에 몰려 있고
+                #   0.45~0.49 구간은 비어 있다. 0.5 단일 임계로는 거의 다 샜다.
+                #   회사가 같으면 완화 임계(cross_run)를 적용해 잡는다.
                 ov = token_overlap(atok, ptok)
-                if ov >= 0.5:
+                same_comp = bool(acomp & pcomp)
+                if ov >= 0.5 or (same_comp and ov >= cross_thr):
                     a["excluded"] = 1
                     a["exclude_reason"] = f"기열람(동일 사건 {ov:.2f}: {ptitle[:24]})"
                     a["_dup_ref"] = ptitle

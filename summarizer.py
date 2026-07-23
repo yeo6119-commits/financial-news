@@ -121,7 +121,13 @@ def _grounded(summary: str, title: str, body: str) -> bool:
     return hits / len(toks) >= 0.55
 
 
+# 마지막 형식 실패 사유 — 어느 규칙에서 걸렸는지 로그·카드에 남긴다
+LAST_FMT_REASON = ""
+
+
 def _validate(text: str, cfg: dict) -> str | None:
+    global LAST_FMT_REASON
+    LAST_FMT_REASON = ""
     v = cfg["summarizer"]["validation"]
     bullet = v.get("each_starts_with", "-")
     lo = v.get("min_lines", 2)
@@ -133,16 +139,21 @@ def _validate(text: str, cfg: dict) -> str | None:
     if len(lines) > hi:
         lines = lines[:hi]
     if len(lines) < lo:
+        LAST_FMT_REASON = "줄 수 부족(%d줄)" % len(lines)
         return None                      # 부족한 줄은 기계적으로 만들 수 없음
     out = []
     for l in lines:
         if not l.startswith(bullet):
+            LAST_FMT_REASON = "불릿 없음: %s" % l[:18]
             return None
         body = fix_ending(l.lstrip("- ").strip())   # 서술형 → 명사구 보정
-        if any(body.endswith(e) for e in BAD_ENDINGS):
+        bad = next((e for e in BAD_ENDINGS if body.endswith(e)), None)
+        if bad:
+            LAST_FMT_REASON = "어미 미보정('%s'): %s" % (bad, body[-16:])
             return None                  # 보정으로도 못 고친 어미
         line = f"{bullet} {body}"
         if len(line) < v["min_line_chars"]:
+            LAST_FMT_REASON = "짧은 줄(%d자): %s" % (len(line), body[:16])
             return None
         out.append(line)
     return "\n".join(out)
@@ -276,8 +287,8 @@ def summarize(article: dict, cfg: dict) -> dict:
                     return article
                 # 형식 실패는 같은 프롬프트로 재호출해도 대개 같은 결과 → 1회만 재시도.
                 # (3회 재시도 시 1건에 정상 3건치 토큰을 태우게 됨)
-                last_err = "형식 검증 실패(%d~%d줄/불릿/25자/어미)" % (
-                    v.get("min_lines", 2), v.get("max_lines", 4))
+                last_err = "형식 검증 실패 — %s" % (
+                    LAST_FMT_REASON or "사유 미상")
                 fmt_fail += 1
                 if fmt_fail >= 2:
                     break
