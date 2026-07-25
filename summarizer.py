@@ -152,7 +152,12 @@ def _validate(text: str, cfg: dict) -> str | None:
             LAST_FMT_REASON = "어미 미보정('%s'): %s" % (bad, body[-16:])
             return None                  # 보정으로도 못 고친 어미
         line = f"{bullet} {body}"
-        if len(line) < v["min_line_chars"]:
+        # 첫 줄은 헤드라인 성격이라 자연히 짧다("NH농협은행, 애자일소다 협업" 18자).
+        #   성공 요약 282건 실측: 첫 줄 최소 15자 / 중앙 31자.
+        #   본문 줄과 같은 25자를 요구하면 멀쩡한 요약이 통째로 버려진다.
+        floor = (v.get("min_first_line_chars", 14) if not out
+                 else v["min_line_chars"])
+        if len(line) < floor:
             LAST_FMT_REASON = "짧은 줄(%d자): %s" % (len(line), body[:16])
             return None
         out.append(line)

@@ -57,6 +57,7 @@ need filter.py     "NOT_OUR_COMPANY"      "오매칭 회사 제외 (토스→앱
 need filter.py     "CRYPTO_COLUMN_RE"     "크립토 시황 코너 제외"
 need filter.py     "HARD_EXCLUDE_RE"      "수상·시황·세미나 제외"
 need config.yaml   "인공지능'·'생성형AI' 제거"  "검색어 슬림화 유지"
+need export_csv.py "news_archive.csv"     "구글시트용 CSV 내보내기"
 need config.yaml   "incremental"          "증분 수집 설정"
 need main.py       "overlap_minutes"      "증분 겹침 여유"
 need config.yaml   "cross_run_threshold"   "회차 간 중복 완화 임계"
