@@ -23,12 +23,44 @@ load_dotenv()
 
 
 def calc_window(conn, cfg):
-    """요청 시각 기준 최근 24시간 고정.
-    (직전 실행 시각과 무관 — 기열람 제외로 중복 수록은 방지됨)"""
+    """검색 구간 결정.
+
+    incremental: true 이면 '직전 성공 실행 이후 ~ 지금'만 본다.
+      아침 정기 실행은 window_hours(24h)를 그대로 쓰고,
+      낮에 수동 재실행하면 직전 실행 시각부터만 훑는다.
+    범위가 지나치게 좁으면(min_hours 미만) 경계 기사 누락을 막기 위해 넓힌다.
+    직전 실행 기록이 없으면 기존 방식(24시간)으로 되돌아간다.
+    """
     now = dbm.now_kst()
-    hours = cfg["time"].get("window_hours", 24)
-    start = now - timedelta(hours=hours)
-    return start, now, None    # truncated_from 없음
+    tcfg = cfg.get("time", {})
+    hours = tcfg.get("window_hours", 24)
+    full_start = now - timedelta(hours=hours)
+
+    if not tcfg.get("incremental"):
+        return full_start, now, None
+
+    row = conn.execute(
+        "SELECT requested_at FROM runs WHERE status='success' ORDER BY id DESC LIMIT 1"
+    ).fetchone()
+    if not row or not row[0]:
+        return full_start, now, None
+
+    try:
+        last = datetime.fromisoformat(row[0])
+    except ValueError:
+        return full_start, now, None
+
+    # 겹침 여유 — 직전 실행 직전에 올라온 기사가 새지 않도록 조금 앞에서 시작
+    lap = tcfg.get("overlap_minutes", 20)
+    start = last - timedelta(minutes=lap)
+    # 너무 좁은 구간은 의미가 없다 (최소 min_hours 확보)
+    min_h = tcfg.get("min_hours", 3)
+    if (now - start) < timedelta(hours=min_h):
+        start = now - timedelta(hours=min_h)
+    # 정기 실행 간격(24h)을 넘지는 않도록
+    if start < full_start:
+        start = full_start
+    return start, now, None
 
 
 def main():

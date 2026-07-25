@@ -577,8 +577,9 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
             % (H.escape((e["exclude_reason"] or "")[:26]), H.escape(e["title"]),
                H.escape(e["press"] or ""), (e["pub_date"] or "")[:10])
             for e in excluded_rows[:400])
-        ex_html = ('<details class="excluded"><summary>이번 회차 제외 목록 %d건 — 검수용</summary>'
-                   '<div class="ex-wrap">%s</div></details>' % (len(excluded_rows), items))
+        # 하단 '이번 회차 제외 목록'은 제거 — 위쪽 1차 통과 검수 목록과 내용이 겹친다.
+        _ = items
+        ex_html = ""
 
     s = run_stats
     warn = []
@@ -586,9 +587,8 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
         warn.append("절단: %s" % H.escape(s["cutoff_keywords"][:60]))
     if s.get("truncated_from"):
         warn.append("72h 초과 잘림: %s 이전" % s["truncated_from"][:16])
-    pr_fail = [k for k, v in (s.get("press_health") or {}).items() if not v.startswith("ok")]
-    if pr_fail:
-        warn.append("PR 실패: %s" % ", ".join(pr_fail))
+    # 보도자료(PR) 크롤링 실패는 화면에 표기하지 않는다 — 상시 노출돼 노이즈만 된다.
+    # 실행 로그에는 그대로 남으므로 진단은 로그에서 한다.
     warn_html = ' · <span class="warn">%s</span>' % " / ".join(warn) if warn else ""
 
     # 단계별 흐름 — 어디서 걸러졌는지 한눈에
@@ -613,11 +613,11 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     doc = f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>금융 디지털·AI 뉴스 아카이브</title>
+<title>금융권 디지털 AI 동향</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css">
 <style>{CSS}</style></head><body>
 <header><div class="eyebrow">Financial Digital · AI News Archive</div>
-<h1>금융회사 디지털·AI 뉴스 아카이브</h1>
+<h1>금융권 디지털 AI 동향</h1>
 <div class="gen-meta">최종 갱신 {s.get("generated_at","")} · 보관 60일 · 뉴스(네이버 API) + 보도자료(9개 그룹)</div></header>
 <div class="run-bar">
   <button class="btn-run" id="btnRun"><span class="spin"></span><span id="btnRunTxt">실행</span></button>
