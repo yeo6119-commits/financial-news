@@ -337,9 +337,62 @@ def _policy_screen(article: dict, cfg: dict) -> dict:
     return article
 
 
+def _topic_screen(article: dict, cfg: dict) -> dict:
+    """업계 동향 기사 전용 판정 — 회사명 대신 '업권어 + 디지털 맥락'을 본다.
+
+    "AI가 PB를 바꾼다…자산관리 초개인화"처럼 개별 회사명이 없는 기사를 살린다.
+    정책 검색이 무관 기사를 긁어왔던 전철을 피하려고 조건을 둘 다 요구한다:
+      (1) 제목에 업권어(금융권·은행권·자산관리…)  → 국내 금융 맥락 고정
+      (2) 제목에 디지털·AI 맥락                  → 주제 적합성
+    """
+    title = article.get("title", "")
+    ts = cfg["topic_section"]
+
+    # 일반 기사와 같은 배제 규칙을 먼저 적용 (인사·프로모션·리포트·수상)
+    if PERSONNEL_RE.search(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(인사·부고)"
+        return article
+    if is_broker_report(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(증권사 종목 리포트)"
+        return article
+    if HARD_EXCLUDE_RE.search(title) or _hit(title, HARD_EXCLUDE):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(프로모션·수상·상품)"
+        return article
+    if TAG_RE.match(title) and len(SEP_RE.findall(title)) >= 3:
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(종합기사)"
+        return article
+    if CRYPTO_COLUMN_RE.search(title) or INVEST_TAG_RE.match(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(시황 코너)"
+        return article
+
+    has_sector = _hit(title, ts["sector_words"])
+    has_digital = _hit(title, ts["digital_context"])
+    if has_sector and has_digital:
+        article["excluded"] = 0
+        article["exclude_reason"] = None
+        article["_needs_body_check"] = False
+        article["matched_keywords"] = ", ".join(
+            dict.fromkeys(has_sector[:2] + has_digital[:2]))
+        return article
+    article["excluded"] = 1
+    article["exclude_reason"] = ("무관(업계동향이나 업권어 없음)" if not has_sector
+                                 else "무관(업계동향이나 디지털 맥락 없음)")
+    return article
+
+
 def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dict:
     title = article.get("title", "")
     f = cfg["filters"]
+
+    # 업계 동향 기사는 전용 판정 (회사명 불필요). enabled일 때만.
+    _ts = cfg.get("topic_section", {})
+    if _ts.get("enabled") and article.get("menu_id") == _ts.get("menu_id"):
+        return _topic_screen(article, cfg)
 
     # 정책·규제 기사는 전용 판정 (회사명 불필요). enabled일 때만.
     _ps = cfg.get("policy_section", {})

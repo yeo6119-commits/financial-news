@@ -80,6 +80,13 @@ def build_keywords(cfg: dict) -> list[dict]:
             kws.append({"query": kw, "menu_id": ps["menu_id"],
                         "subgroup": "정책·규제", "sector_hint": "policy"})
 
+    # --- 업계 동향 (회사명 무관) ---
+    ts = cfg.get("topic_section")
+    if ts and ts.get("enabled"):
+        for kw in ts["search_keywords"]:
+            kws.append({"query": kw, "menu_id": ts["menu_id"],
+                        "subgroup": "업계동향", "sector_hint": "industry"})
+
     # 동일 query 중복 제거 (첫 매핑 유지)
     seen, out = set(), []
     for k in kws:

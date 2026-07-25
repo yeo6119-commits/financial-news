@@ -119,6 +119,19 @@ def classify(article: dict, cfg: dict, idx: list) -> dict:
     body = article.get("body") or ""
     head = body[:500]
 
+    # 업계 동향 기사도 회사가 없으므로 전용 분류 (기타 탭으로 흡수)
+    _ts = cfg.get("topic_section", {})
+    if _ts.get("enabled") and article.get("menu_id") == _ts.get("menu_id"):
+        ai_kw = cfg["classification"]["ai_keywords"]
+        is_ai = any(k in title or k in head for k in ai_kw)
+        article["fin_group"] = "etc"
+        article["subgroup"] = "업계동향"
+        article["company"] = "금융권"
+        article["sector"] = "기타"
+        article["classify_source"] = "topic"
+        article["dig_ai"] = "AI" if is_ai else "디지털"
+        return article
+
     # 정책·규제 기사는 회사가 없으므로 전용 분류
     if article.get("menu_id") == cfg.get("policy_section", {}).get("menu_id"):
         ai_kw = cfg["classification"]["ai_keywords"]
