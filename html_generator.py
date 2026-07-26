@@ -661,4 +661,14 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     with open(tmp, "w", encoding="utf-8") as fh:
         fh.write(doc)
     os.replace(tmp, out_path)
+
+    # VS Code Live Preview 등 기존 북마크(output/article_list.html)가
+    # 계속 최신 데이터를 보여주도록 동일 내용을 그 이름으로도 남긴다.
+    alias = os.path.join(os.path.dirname(out_path), "article_list.html")
+    if os.path.abspath(alias) != os.path.abspath(out_path):
+        alias_tmp = alias + ".tmp"
+        with open(alias_tmp, "w", encoding="utf-8") as fh:
+            fh.write(doc)
+        os.replace(alias_tmp, alias)
+
     return out_path
