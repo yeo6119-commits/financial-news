@@ -140,6 +140,102 @@ def company_hits(title: str, comp_kw: list) -> set:
     return {c for c in comp_kw if c.replace(" ", "") in t}
 
 
+# 기관명 접미사 — "KB국민, JP모건..." 처럼 헤드라인에서 '은행'을 생략하는
+# 경우가 흔하다. company_keywords 원본 목록(다른 필터에도 쓰임)은 건드리지
+# 않고, 이 요약 기반 판정에서만 접미사를 뗀 '어간'으로도 매칭한다.
+_ORG_SUFFIXES = ("은행", "증권", "카드", "손해보험", "생명", "캐피탈",
+                 "저축은행", "자산운용", "금융지주", "금융그룹", "금융", "보험")
+
+
+def _company_stems(title: str, comp_kw: list) -> set:
+    """제목에서 회사명을 찾되, 접미사 생략형도 같은 것으로 취급해 어간을 반환.
+
+    원본 키워드(예: 'KB증권', '토스')는 길이 상관없이 그대로 매칭 — 이미 큐레이션된
+    고유명사라 안전하다. 접미사를 뗀 파생 어간은 길이 3자 미만이면 버린다.
+    'KB금융' → '금융' 제거 시 'KB'(2자)만 남으면 다른 모든 KB계열과 충돌하고,
+    '기업은행' → '은행' 제거 시 '기업'(2자)만 남으면 '기업결제' 같은 일반 문구와
+    오매칭된다. 'KB국민은행' → '은행' 제거한 'KB국민'(4자)은 특정성이 충분해 유지.
+    """
+    t = (title or "").replace(" ", "")
+    stems = set()
+    for c in comp_kw:
+        bare = c.replace(" ", "")
+        if bare in t:
+            stems.add(bare)          # 원본 키워드는 길이 무관 (이미 고유함)
+        for suf in _ORG_SUFFIXES:
+            if bare.endswith(suf) and len(bare) - len(suf) >= 3:
+                stem = bare[:-len(suf)]
+                if stem in t:
+                    stems.add(stem)
+                break
+    return stems
+
+
+def dedup_by_summary(articles: list[dict], cfg: dict) -> None:
+    """요약 완료 후 2차 중복 판정 — 제목만으론 못 잡는 '같은 사건, 다른 제목'을 잡는다.
+
+    실측(2026-07-26): "KB국민, JP모건 키넥시스 활용 송금 서비스 출시" vs
+    "KB국민은행, 블록체인 기반 국제결제망으로 기업결제 서비스 혁신" — 제목 토큰
+    겹침 0.25(임계 0.35 미달)로 살아남았지만, 요약 겹침은 0.52로 명백히 같은 사건.
+    제목이 매체마다 완전히 다른 문장으로 쓰이는 반면, Groq 요약은 개조식으로
+    정규화돼 있어 같은 사건이면 핵심 사실(주체·기술명·숫자)이 그대로 겹친다.
+
+    적용 범위를 좁게 잡는다 — 같은 날 + 같은 회사(제목에서 추출) + 요약 겹침 高만
+    묶는다. 이미 검증(2026-07-24 세션)에서 회사 무관 조건으로는 15쌍 중 1쌍이
+    오병합됐으나, 이번엔 시간 여유가 없어 같은 조건(같은 회사)만 우선 반영한다.
+    """
+    thr = cfg["dedup"].get("summary_dup_threshold", 0.5)
+    try:
+        import filter as _flt
+        comp_kw = _flt.company_keywords(cfg)
+    except Exception:
+        comp_kw = []
+
+    cands = [a for a in articles if not a.get("excluded") and a.get("summary_ok")
+             and a.get("summary")]
+    if len(cands) < 2:
+        return
+
+    def summ_tokens(a):
+        flat = (a["summary"] or "").replace("\n", " ")
+        return title_tokens(normalize_title(flat, cfg))
+
+    for a in cands:
+        a["_sum_tokens"] = summ_tokens(a)
+        a["_comp_hits"] = _company_stems(a.get("title"), comp_kw)
+
+    cands.sort(key=_score, reverse=True)
+    clusters: list[list[dict]] = []
+    for a in cands:
+        placed = False
+        for cl in clusters:
+            rep = cl[0]
+            if not same_day(a, rep):
+                continue
+            if not (a["_comp_hits"] & rep["_comp_hits"]):
+                continue
+            if token_overlap(a["_sum_tokens"], rep["_sum_tokens"]) >= thr:
+                cl.append(a)
+                placed = True
+                break
+        if not placed:
+            clusters.append([a])
+
+    for cl in clusters:
+        if len(cl) < 2:
+            continue
+        rep = cl[0]
+        rep.setdefault("_dup_members", [])
+        for dup in cl[1:]:
+            ov = token_overlap(dup["_sum_tokens"], rep["_sum_tokens"])
+            dup["excluded"] = 1
+            dup["exclude_reason"] = "중복(요약기준 %.2f | 대표: %s)" % (ov, rep["title"][:26])
+            dup["_dup_ref"] = rep["title"]
+            dup["_dup_score"] = ov
+            rep["_dup_members"].append((dup["title"], dup.get("press") or "",
+                                        f"요약겹침 {ov:.2f}"))
+
+
 def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     """excluded 안 된 기사들에 대해:
     1) 과거 delivered 완전 일치 → 기열람 제외

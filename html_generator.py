@@ -78,13 +78,14 @@ padding-bottom:4px;border-bottom:1px solid var(--line)}
 .audit-dup{margin:2px 0 6px 14px;padding-left:10px;border-left:2px solid var(--line)}
 .audit-dup div{font-size:11px;color:var(--muted);padding:2px 0}
 .audit-why{color:var(--teal);font-weight:600;font-size:10.5px}
-.seen-company{margin:8px 0 4px;border-top:1px dashed var(--line);padding-top:6px}
-.seen-company>summary{cursor:pointer;font-size:11.5px;font-weight:700;color:var(--ink)}
-.seen-company>summary::-webkit-details-marker{display:none}
-.seen-company>summary::before{content:"▸ ";color:var(--muted);font-size:9px}
-.seen-company[open]>summary::before{content:"▾ "}
+.seen-group{margin:8px 0 4px;border-top:1px dashed var(--line);padding-top:6px}
+.seen-group>summary{cursor:pointer;font-size:11.5px;font-weight:700;color:var(--ink)}
+.seen-group>summary::-webkit-details-marker{display:none}
+.seen-group>summary::before{content:"▸ ";color:var(--muted);font-size:9px}
+.seen-group[open]>summary::before{content:"▾ "}
 .seen-cluster{margin:6px 0 4px 12px;padding-left:10px;border-left:2px solid var(--teal-soft)}
 .seen-ref{font-size:10.5px;color:var(--teal);font-weight:700;margin-bottom:2px}
+.seen-ref .co{color:var(--ink);font-weight:800}
 .seen-ref .date{color:var(--muted);font-weight:600}
 .seen-cluster .audit-item{padding:2px 0}
 
@@ -441,37 +442,41 @@ def _fmt_date(d):
 
 
 def _render_seen_grouped(seen):
-    """기열람(직전 회차 이미 반영) 목록 — 회사 → 같은 사건 순으로 묶어서 보여준다.
+    """기열람(직전 회차 이미 반영) 목록 — 원래 게재된 날짜별로 묶어서 보여준다.
 
-    개별 기사만 나열하면 'KB국민은행 JP모건 블록체인' 같은 한 사건이
-    매체 10곳에 실린 게 10줄로 흩어져 보인다. 여기서는
-      회사(dup_ref_company) → 사건(dup_ref 원제목) → 오늘 들어온 매체별 기사
-    순으로 묶고, 그 사건이 처음 게재된 날짜를 함께 보여준다.
-    dup_ref_company가 없는 예전 실행분과의 호환을 위해 미상은 '기타'로 묶는다.
+    날짜(그 사건이 처음 보도된 날) → 같은 사건(같은 회사·같은 건) 순으로 묶는다.
+    회사별로 묶으면 "오늘 KB 기사가 어느 날짜 사건들과 겹쳤는지"는 보이지만
+    "어느 날짜에 반복이 몰렸는지"는 안 보인다. 날짜를 1순위로 두면 그게 보인다.
+    모든 그룹은 기본으로 펼쳐 둔다(open) — 검수 목적이라 클릭 한 번도 아끼는 게 낫다.
     """
     def esc(x):
         return H.escape(x or "")
 
-    groups = OrderedDict()  # company -> {dup_ref -> {"date":..., "items":[a,...]}}
+    def day_of(d):
+        return (str(d)[:10] if d else "날짜미상")
+
+    groups = OrderedDict()  # 날짜 -> {(company,ref) -> {"company":.., "ref":.., "date":.., "items":[]}}
     for a in seen:
+        d = day_of(a.get("dup_ref_date"))
         company = a.get("dup_ref_company") or "기타"
         ref = a.get("dup_ref") or "(같은 사건으로 묶인 과거 기사)"
-        groups.setdefault(company, OrderedDict())
-        cluster = groups[company].setdefault(ref, {"date": a.get("dup_ref_date"), "items": []})
+        groups.setdefault(d, OrderedDict())
+        key = (company, ref)
+        cluster = groups[d].setdefault(key, {"company": company, "ref": ref,
+                                              "date": a.get("dup_ref_date"), "items": []})
         cluster["items"].append(a)
 
-    # 회사는 건수 많은 순, 사건은 건수 많은 순으로 — 반복 노출이 컸던 것부터 보이게
-    ordered_companies = sorted(groups.items(),
-                                key=lambda kv: sum(len(c["items"]) for c in kv[1].values()),
-                                reverse=True)
+    # 최근 날짜부터 (오늘과 가까운 반복이 위로)
+    ordered_days = sorted(groups.items(), key=lambda kv: kv[0], reverse=True)
 
     blocks = []
-    for company, clusters in ordered_companies:
+    for day, clusters in ordered_days:
         total = sum(len(c["items"]) for c in clusters.values())
         cluster_blocks = []
-        for ref, c in sorted(clusters.items(), key=lambda kv: len(kv[1]["items"]), reverse=True):
-            ref_line = ('<div class="seen-ref">↳ 최초 게재 <span class="date">%s</span> · %s</div>'
-                        % (esc(_fmt_date(c["date"])), esc(ref)))
+        for c in sorted(clusters.values(), key=lambda c: len(c["items"]), reverse=True):
+            ref_line = ('<div class="seen-ref"><span class="co">%s</span> · 최초 게재'
+                        ' <span class="date">%s</span> · %s</div>'
+                        % (esc(c["company"]), esc(_fmt_date(c["date"])), esc(c["ref"])))
             rows = []
             for a in c["items"]:
                 url = a.get("naver_url") or ""
@@ -479,10 +484,9 @@ def _render_seen_grouped(seen):
                 title = '<a href="%s" target="_blank">%s</a>' % (esc(url), t) if url else t
                 rows.append('<div class="audit-item">%s <span class="meta">· %s · %s</span></div>'
                             % (title, esc(a.get("press")), esc(_fmt_date(a.get("pub_date")))))
-            cluster_blocks.append('<div class="seen-cluster">%s%s</div>'
-                                  % (ref_line, "".join(rows)))
-        blocks.append('<details class="seen-company"><summary>%s — %d건 (%d개 사건)</summary>%s</details>'
-                      % (esc(company), total, len(clusters), "".join(cluster_blocks)))
+            cluster_blocks.append('<div class="seen-cluster">%s%s</div>' % (ref_line, "".join(rows)))
+        blocks.append('<details class="seen-group" open><summary>%s — %d건 (%d개 사건)</summary>%s</details>'
+                      % (esc(day), total, len(clusters), "".join(cluster_blocks)))
 
     return ('<div class="audit-grp"><h4>기열람 %d건 (직전 회차에 이미 반영)</h4>%s</div>'
             % (len(seen), "".join(blocks)))

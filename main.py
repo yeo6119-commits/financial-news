@@ -168,6 +168,14 @@ def main():
         if tok:
             print(f"  → 토큰 사용 {tok}")
 
+        # 7-b) 요약 기반 2차 중복 판정 — 제목만으론 못 잡는 '같은 사건, 다른 제목'
+        #      (예: "JP모건 키넥시스 활용 송금" vs "블록체인 국제결제망 기업결제")
+        before_sum_dedup = len([it for it in live if not it.get("excluded")])
+        ddp.dedup_by_summary(live, cfg)
+        live = [it for it in live if not it.get("excluded")]
+        if before_sum_dedup != len(live):
+            print(f"  요약 기반 중복 제거: {before_sum_dedup}건 → {len(live)}건")
+
         # 8) DB 저장 — 반영 기사만. 제외 기사는 저장하지 않음(DB 비대화 방지).
         #    제외 목록은 이번 회차분을 메모리에서 HTML로 바로 전달하므로
         #    "조용히 사라지지 않는다"는 원칙은 그대로 유지됨.
