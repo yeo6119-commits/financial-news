@@ -166,9 +166,13 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     for a in articles:
         if a.get("excluded"):
             continue
-        if dbm.url_or_title_delivered(conn, a["url_hash"], a["norm_title_hash"]):
+        hit = dbm.url_or_title_delivered(conn, a["url_hash"], a["norm_title_hash"])
+        if hit:
             a["excluded"] = 1
             a["exclude_reason"] = "기열람(delivered 완전 일치)"
+            a["_dup_ref"] = hit.get("title")
+            a["_dup_ref_company"] = hit.get("company")
+            a["_dup_ref_date"] = hit.get("pub_date")
 
     # 1-b) 과거 delivered 재탕 제외 — 두 방식 병행
     #      (i) 본문 simhash 거리 <=3 (완전 재탕)
@@ -181,7 +185,8 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
         for p in past:
             past_info.append((p["body_fingerprint"], p["title"],
                               title_tokens(normalize_title(p["title"], cfg)),
-                              company_hits(p["title"], comp_kw)))
+                              company_hits(p["title"], comp_kw),
+                              p["company"], p["pub_date"]))
         for a in articles:
             if a.get("excluded"):
                 continue
@@ -191,13 +196,16 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                 afp = int(a["body_fingerprint"], 16) if a.get("body") else 0
             except (ValueError, TypeError):
                 afp = 0
-            for fp, ptitle, ptok, pcomp in past_info:
+            for fp, ptitle, ptok, pcomp, pcompany, pdate in past_info:
                 # (i) 본문 완전 재탕
                 if afp:
                     try:
                         if hamming(afp, int(fp, 16)) <= 3:
                             a["excluded"] = 1
                             a["exclude_reason"] = f"기열람(본문 재탕: {ptitle[:24]})"
+                            a["_dup_ref"] = ptitle
+                            a["_dup_ref_company"] = pcompany
+                            a["_dup_ref_date"] = pdate
                             break
                     except (ValueError, TypeError):
                         pass
@@ -211,6 +219,8 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                     a["excluded"] = 1
                     a["exclude_reason"] = f"기열람(동일 사건 {ov:.2f}: {ptitle[:24]})"
                     a["_dup_ref"] = ptitle
+                    a["_dup_ref_company"] = pcompany
+                    a["_dup_ref_date"] = pdate
                     a["_dup_score"] = ov
                     break
 

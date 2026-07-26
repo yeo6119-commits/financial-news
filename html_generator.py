@@ -78,6 +78,15 @@ padding-bottom:4px;border-bottom:1px solid var(--line)}
 .audit-dup{margin:2px 0 6px 14px;padding-left:10px;border-left:2px solid var(--line)}
 .audit-dup div{font-size:11px;color:var(--muted);padding:2px 0}
 .audit-why{color:var(--teal);font-weight:600;font-size:10.5px}
+.seen-company{margin:8px 0 4px;border-top:1px dashed var(--line);padding-top:6px}
+.seen-company>summary{cursor:pointer;font-size:11.5px;font-weight:700;color:var(--ink)}
+.seen-company>summary::-webkit-details-marker{display:none}
+.seen-company>summary::before{content:"▸ ";color:var(--muted);font-size:9px}
+.seen-company[open]>summary::before{content:"▾ "}
+.seen-cluster{margin:6px 0 4px 12px;padding-left:10px;border-left:2px solid var(--teal-soft)}
+.seen-ref{font-size:10.5px;color:var(--teal);font-weight:700;margin-bottom:2px}
+.seen-ref .date{color:var(--muted);font-weight:600}
+.seen-cluster .audit-item{padding:2px 0}
 
 .a-meta.nosum{color:#b3403a}
 .ledger-line{font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line);
@@ -425,6 +434,60 @@ def _sector_key(s):
 WEEK = "월화수목금토일"
 
 
+def _fmt_date(d):
+    if not d:
+        return ""
+    return str(d).replace("T", " ")[:16]
+
+
+def _render_seen_grouped(seen):
+    """기열람(직전 회차 이미 반영) 목록 — 회사 → 같은 사건 순으로 묶어서 보여준다.
+
+    개별 기사만 나열하면 'KB국민은행 JP모건 블록체인' 같은 한 사건이
+    매체 10곳에 실린 게 10줄로 흩어져 보인다. 여기서는
+      회사(dup_ref_company) → 사건(dup_ref 원제목) → 오늘 들어온 매체별 기사
+    순으로 묶고, 그 사건이 처음 게재된 날짜를 함께 보여준다.
+    dup_ref_company가 없는 예전 실행분과의 호환을 위해 미상은 '기타'로 묶는다.
+    """
+    def esc(x):
+        return H.escape(x or "")
+
+    groups = OrderedDict()  # company -> {dup_ref -> {"date":..., "items":[a,...]}}
+    for a in seen:
+        company = a.get("dup_ref_company") or "기타"
+        ref = a.get("dup_ref") or "(같은 사건으로 묶인 과거 기사)"
+        groups.setdefault(company, OrderedDict())
+        cluster = groups[company].setdefault(ref, {"date": a.get("dup_ref_date"), "items": []})
+        cluster["items"].append(a)
+
+    # 회사는 건수 많은 순, 사건은 건수 많은 순으로 — 반복 노출이 컸던 것부터 보이게
+    ordered_companies = sorted(groups.items(),
+                                key=lambda kv: sum(len(c["items"]) for c in kv[1].values()),
+                                reverse=True)
+
+    blocks = []
+    for company, clusters in ordered_companies:
+        total = sum(len(c["items"]) for c in clusters.values())
+        cluster_blocks = []
+        for ref, c in sorted(clusters.items(), key=lambda kv: len(kv[1]["items"]), reverse=True):
+            ref_line = ('<div class="seen-ref">↳ 최초 게재 <span class="date">%s</span> · %s</div>'
+                        % (esc(_fmt_date(c["date"])), esc(ref)))
+            rows = []
+            for a in c["items"]:
+                url = a.get("naver_url") or ""
+                t = esc(a.get("title"))
+                title = '<a href="%s" target="_blank">%s</a>' % (esc(url), t) if url else t
+                rows.append('<div class="audit-item">%s <span class="meta">· %s · %s</span></div>'
+                            % (title, esc(a.get("press")), esc(_fmt_date(a.get("pub_date")))))
+            cluster_blocks.append('<div class="seen-cluster">%s%s</div>'
+                                  % (ref_line, "".join(rows)))
+        blocks.append('<details class="seen-company"><summary>%s — %d건 (%d개 사건)</summary>%s</details>'
+                      % (esc(company), total, len(clusters), "".join(cluster_blocks)))
+
+    return ('<div class="audit-grp"><h4>기열람 %d건 (직전 회차에 이미 반영)</h4>%s</div>'
+            % (len(seen), "".join(blocks)))
+
+
 def _audit(screened):
     """1차 통과 기사의 최종 행방 — 중복 제거가 타당했는지 검수."""
     if not screened:
@@ -458,11 +521,7 @@ def _audit(screened):
         out.append('<div class="audit-grp"><h4>중복 제거 %d건 → %d개 사건</h4>%s</div>'
                    % (len(dup), len(reps), "".join(blocks)))
     if seen:
-        out.append('<div class="audit-grp"><h4>기열람 %d건 (직전 회차에 이미 반영)</h4>%s</div>'
-                   % (len(seen), "".join(
-                       item(a, ' <span class="audit-why">%s</span>'
-                            % H.escape((a.get("exclude_reason") or "")[4:60]))
-                       for a in seen[:60])))
+        out.append(_render_seen_grouped(seen))
     if irr:
         out.append('<div class="audit-grp"><h4>본문 확인 후 제외 %d건</h4>%s</div>'
                    % (len(irr), "".join(

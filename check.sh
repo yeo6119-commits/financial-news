@@ -61,6 +61,7 @@ need config.yaml   "topic_section"        "업계 동향 검색(회사명 무관
 need filter.py     "_topic_screen"        "업계 동향 전용 판정"
 need .github/workflows/run.yml "list_view.py"  "목록 보기 자동 갱신(list_view.py 실행)"
 need .github/workflows/run.yml "article_list.html"  "HTML도 커밋 대상"
+need html_generator.py "_render_seen_grouped" "기열람 목록 회사·사건별 그룹화"
 need config.yaml   "incremental"          "증분 수집 설정"
 need main.py       "overlap_minutes"      "증분 겹침 여유"
 need config.yaml   "cross_run_threshold"   "회차 간 중복 완화 임계"
