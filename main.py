@@ -243,7 +243,8 @@ def main():
              "dup_members": it.get("_dup_members") or [],
              "dup_ref": it.get("_dup_ref"),
              "dup_ref_company": it.get("_dup_ref_company"),
-             "dup_ref_date": it.get("_dup_ref_date")}
+             "dup_ref_date": it.get("_dup_ref_date"),
+             "dup_ref_url": it.get("_dup_ref_url")}
             for it in survivors
         ]
         history = dbm.get_run_history(conn, cfg["db"]["retention_days"])

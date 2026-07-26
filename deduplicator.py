@@ -269,6 +269,7 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
             a["_dup_ref"] = hit.get("title")
             a["_dup_ref_company"] = hit.get("company")
             a["_dup_ref_date"] = hit.get("pub_date")
+            a["_dup_ref_url"] = hit.get("url")
 
     # 1-b) 과거 delivered 재탕 제외 — 두 방식 병행
     #      (i) 본문 simhash 거리 <=3 (완전 재탕)
@@ -282,7 +283,7 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
             past_info.append((p["body_fingerprint"], p["title"],
                               title_tokens(normalize_title(p["title"], cfg)),
                               company_hits(p["title"], comp_kw),
-                              p["company"], p["pub_date"]))
+                              p["company"], p["pub_date"], p["url"]))
         for a in articles:
             if a.get("excluded"):
                 continue
@@ -292,7 +293,7 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                 afp = int(a["body_fingerprint"], 16) if a.get("body") else 0
             except (ValueError, TypeError):
                 afp = 0
-            for fp, ptitle, ptok, pcomp, pcompany, pdate in past_info:
+            for fp, ptitle, ptok, pcomp, pcompany, pdate, purl in past_info:
                 # (i) 본문 완전 재탕
                 if afp:
                     try:
@@ -302,6 +303,7 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                             a["_dup_ref"] = ptitle
                             a["_dup_ref_company"] = pcompany
                             a["_dup_ref_date"] = pdate
+                            a["_dup_ref_url"] = purl
                             break
                     except (ValueError, TypeError):
                         pass
@@ -317,6 +319,7 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                     a["_dup_ref"] = ptitle
                     a["_dup_ref_company"] = pcompany
                     a["_dup_ref_date"] = pdate
+                    a["_dup_ref_url"] = purl
                     a["_dup_score"] = ov
                     break
 

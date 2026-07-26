@@ -463,7 +463,9 @@ def _render_seen_grouped(seen):
         groups.setdefault(d, OrderedDict())
         key = (company, ref)
         cluster = groups[d].setdefault(key, {"company": company, "ref": ref,
-                                              "date": a.get("dup_ref_date"), "items": []})
+                                              "date": a.get("dup_ref_date"),
+                                              "ref_url": a.get("dup_ref_url"),
+                                              "items": []})
         cluster["items"].append(a)
 
     # 최근 날짜부터 (오늘과 가까운 반복이 위로)
@@ -474,9 +476,13 @@ def _render_seen_grouped(seen):
         total = sum(len(c["items"]) for c in clusters.values())
         cluster_blocks = []
         for c in sorted(clusters.values(), key=lambda c: len(c["items"]), reverse=True):
+            ref_url = c.get("ref_url")
+            ref_title = esc(c["ref"])
+            ref_link = ('<a href="%s" target="_blank">%s</a>' % (esc(ref_url), ref_title)
+                       if ref_url else ref_title)
             ref_line = ('<div class="seen-ref"><span class="co">%s</span> · 최초 게재'
                         ' <span class="date">%s</span> · %s</div>'
-                        % (esc(c["company"]), esc(_fmt_date(c["date"])), esc(c["ref"])))
+                        % (esc(c["company"]), esc(_fmt_date(c["date"])), ref_link))
             rows = []
             for a in c["items"]:
                 url = a.get("naver_url") or ""

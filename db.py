@@ -124,9 +124,11 @@ def insert_article(conn, art: dict) -> int:
 
 def url_or_title_delivered(conn, url_hash: str, norm_title_hash: str):
     """과거 delivered 완전 일치 행 조회 (후속 보도 보호를 위해 완전 일치만 본다).
-    매칭 없으면 None, 있으면 {title, company, pub_date} 반환 — 화면 표시용."""
+    매칭 없으면 None, 있으면 {title, company, pub_date, url} 반환 — 화면 표시용."""
     row = conn.execute(
-        """SELECT title, company, pub_date FROM articles
+        """SELECT title, company, pub_date,
+                  COALESCE(NULLIF(naver_url, ''), original_url) AS url
+           FROM articles
            WHERE delivered=1 AND (url_hash=? OR norm_title_hash=?) LIMIT 1""",
         (url_hash, norm_title_hash),
     ).fetchone()
@@ -146,11 +148,13 @@ def find_delivered_by_fingerprint(conn, fingerprint: str, days: int = 30):
 
 
 def find_delivered_for_dedup(conn, days: int = 3):
-    """최근 delivered 기사 (제목+지문+원게재일) — 회차 간 재탕/동일사건 제외용.
+    """최근 delivered 기사 (제목+지문+원게재일+링크) — 회차 간 재탕/동일사건 제외용.
     days를 짧게(3일) 잡아 오래된 기사와의 오인식을 방지."""
     cutoff = (now_kst() - timedelta(days=days)).isoformat()
     return conn.execute(
-        """SELECT title, body_fingerprint, company, pub_date FROM articles
+        """SELECT title, body_fingerprint, company, pub_date,
+                  COALESCE(NULLIF(naver_url, ''), original_url) AS url
+           FROM articles
            WHERE delivered=1 AND collected_at >= ?""",
         (cutoff,),
     ).fetchall()
