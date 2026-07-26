@@ -25,6 +25,8 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           TZ: Asia/Seoul
         run: python main.py
+      - name: 목록 보기 갱신 (article_list.html)
+        run: python list_view.py
       - name: DB 커밋
         run: |
           git config user.name "github-actions"
