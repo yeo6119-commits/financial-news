@@ -1,6 +1,9 @@
 name: 금융 뉴스 수집
 on:
   workflow_dispatch:
+  schedule:
+    # 매일 아침 7:30 KST (UTC 22:30 전날)
+    - cron: "30 22 * * *"
 permissions:
   contents: write
   pages: write
