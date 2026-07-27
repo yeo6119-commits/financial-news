@@ -70,6 +70,8 @@ def company_keywords(cfg: dict) -> list:
         out += g.get("brands_standalone", [])
     for names in cfg["overseas"]["subgroups"].values():
         out += names
+    # 헤드라인 축약형(카뱅·DB손보 등) — 판정 전용. 검색어 생성에는 쓰이지 않는다.
+    out += cfg.get("company_aliases", [])
     return list(dict.fromkeys(out))
 
 

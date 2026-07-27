@@ -57,9 +57,17 @@ def calc_window(conn, cfg):
     min_h = tcfg.get("min_hours", 3)
     if (now - start) < timedelta(hours=min_h):
         start = now - timedelta(hours=min_h)
-    # 정기 실행 간격(24h)을 넘지는 않도록
-    if start < full_start:
-        start = full_start
+    # 공백이 길었으면 그만큼 따라잡는다.
+    #   예전에는 window_hours(24h)로 잘라내서, 주말처럼 이틀 쉬면
+    #   그 사이 기사가 통째로 사라졌다(실측: 36시간 공백 → 12시간치 소실).
+    #   자동 스케줄이 늘 도는 게 보장되지 않으므로 상한을 따로 둔다.
+    catch_h = max(hours, tcfg.get("max_catchup_hours", 72))
+    hard_start = now - timedelta(hours=catch_h)
+    if start < hard_start:
+        start = hard_start
+    span = (now - start).total_seconds() / 3600
+    if span > hours + 0.5:
+        print(f"  ↺ 공백 따라잡기: 직전 실행 이후 {span:.1f}시간 구간을 훑습니다")
     return start, now, None
 
 
@@ -179,6 +187,12 @@ def main():
         # 8) DB 저장 — 반영 기사만. 제외 기사는 저장하지 않음(DB 비대화 방지).
         #    제외 목록은 이번 회차분을 메모리에서 HTML로 바로 전달하므로
         #    "조용히 사라지지 않는다"는 원칙은 그대로 유지됨.
+        # 제외분은 경량 로그로 남긴다 (본문·요약 제외 → 용량 부담 없음).
+        #   회차 하나가 아니라 기간 전체로 추적 가능해야 과도 필터링을 잡아낸다.
+        n_ex = dbm.log_excluded(conn, run_id, items)
+        if n_ex:
+            print(f"  제외 로그 {n_ex}건 기록")
+
         ids = []
         for it in items:
             if it.get("excluded"):

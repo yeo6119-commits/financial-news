@@ -43,6 +43,23 @@ CREATE TABLE IF NOT EXISTS articles (
     collected_at TEXT NOT NULL,
     delivered_at TEXT
 );
+-- 제외 기사 경량 로그.
+--   본문·요약은 저장하지 않아 용량 부담이 거의 없다(행당 ~200B).
+--   이 기록이 없어서 url_hash 버그(119개 매체에서 기사 유실)를 몇 주간
+--   발견하지 못했다. 과도 필터링·조용한 유실을 사후 추적하기 위한 최소 장부.
+CREATE TABLE IF NOT EXISTS excluded_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id INTEGER,
+    title TEXT,
+    url TEXT,
+    press TEXT,
+    reason TEXT,
+    pub_date TEXT,
+    collected_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_exlog_run ON excluded_log(run_id);
+CREATE INDEX IF NOT EXISTS idx_exlog_at ON excluded_log(collected_at);
+
 CREATE INDEX IF NOT EXISTS idx_url_hash ON articles(url_hash);
 CREATE INDEX IF NOT EXISTS idx_title_hash ON articles(norm_title_hash);
 CREATE INDEX IF NOT EXISTS idx_delivered ON articles(delivered);
@@ -235,6 +252,29 @@ def commit_delivered(conn, run_id: int, article_ids: list[int]):
 # ----------------------------------------------------------
 # 60일 정리
 # ----------------------------------------------------------
+def log_excluded(conn, run_id: int, items: list) -> int:
+    """제외된 기사를 경량 로그에 남긴다 (본문·요약 제외).
+
+    '어떤 기사도 조용히 사라지지 않는다'는 원칙을 회차 하나가 아니라
+    기간 전체로 확장한다. 이게 있어야 필터가 과했는지 사후 검증할 수 있다.
+    """
+    rows = []
+    now = now_kst().isoformat()
+    for it in items:
+        if not it.get("excluded"):
+            continue
+        rows.append((run_id, it.get("title"),
+                     it.get("naver_url") or it.get("original_url"),
+                     it.get("press"), it.get("exclude_reason"),
+                     it.get("pub_date"), now))
+    if rows:
+        conn.executemany(
+            """INSERT INTO excluded_log
+               (run_id, title, url, press, reason, pub_date, collected_at)
+               VALUES (?,?,?,?,?,?,?)""", rows)
+    return len(rows)
+
+
 def cleanup(conn, retention_days: int = 60, excluded_days: int = 0):
     """반영 기사만 60일 보관. 제외 기사는 애초에 저장하지 않으므로
     과거에 쌓인 것이 있으면 전량 삭제(legacy 정리)."""
@@ -242,6 +282,9 @@ def cleanup(conn, retention_days: int = 60, excluded_days: int = 0):
     conn.execute("DELETE FROM articles WHERE collected_at < ?", (cutoff,))
     conn.execute("DELETE FROM articles WHERE excluded=1")      # 제외분 전량 정리
     conn.execute("DELETE FROM runs WHERE requested_at < ?", (cutoff,))
+    # 제외 로그는 짧게 보관 (기본 14일) — 추적용이라 오래 둘 필요 없다
+    ex_cut = (now_kst() - timedelta(days=max(excluded_days, 1))).isoformat()
+    conn.execute("DELETE FROM excluded_log WHERE collected_at < ?", (ex_cut,))
     conn.commit()
     # VACUUM은 트랜잭션 밖에서만 실행 가능 → autocommit 전환 후 실행
     conn.isolation_level = None
