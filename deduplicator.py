@@ -117,9 +117,21 @@ TRUSTED_PRESS = ["전자신문", "머니투데이", "한국경제", "매일경�
 BLOCKED_PRESS = ["Fintechtoday", "핀테크투데이"]
 
 
+# 브리핑·게시판형 묶음기사 — 여러 회사 소식을 한데 모은 글.
+#   이런 기사가 클러스터 대표가 되면, 나중에 필터·검토에서 '종합기사'로 걸릴 때
+#   묶여 있던 진짜 기사들까지 통째로 사라진다(실측: 우리카드 라운지 건 3개 소실).
+#   대표 자격을 낮춰서 개별 기사가 대표가 되게 한다.
+_ROUNDUP_RE = re.compile(
+    r"^\s*\[[^\]]*(브리핑|브리프|게시판|소식|종합|모아보기|한눈에|이모저모|위클리|"
+    r"데일리|투데이)[^\]]*\]|"
+    r"(뉴스\s*브리핑|금융가\s*소식|업계\s*소식)|\s外\s*$|\s外$")
+
+
 def _score(a: dict) -> tuple:
     press = a.get("press") or ""
+    title = a.get("title") or ""
     return (
+        0 if _ROUNDUP_RE.search(title) else 1,     # 묶음기사는 대표 후순위
         a.get("extract_ok", 0),
         len(a.get("body") or ""),
         any(p in press for p in TRUSTED_PRESS),
@@ -325,6 +337,8 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
 
     # 2) 배치 내 중복 클러스터링
     live = [a for a in articles if not a.get("excluded")]
+    for a in live:
+        a["_comp"] = company_hits(a.get("title"), comp_kw)
     # 언론사 차단 소스는 대표가 되지 못하게 후순위
     live.sort(key=lambda a: (any(p in (a.get("press") or "") for p in BLOCKED_PRESS), ), )
     def _matches(a, b) -> bool:
@@ -338,6 +352,13 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                 hamming(int(a["body_fingerprint"], 16),
                         int(b["body_fingerprint"], 16)) <= 6):
             return True
+        # 회사가 서로 명시적으로 다르면 토큰이 겹쳐도 같은 사건이 아니다.
+        #   실측: "삼성카드, 상반기 순익 3105억원" ↔ "기업은행, 상반기 순익 1조4429억"
+        #   이 '상반기·순익' 때문에 겹침 0.5로 묶였다. 양쪽 다 회사가 잡히는데
+        #   교집합이 없으면 차단한다 (한쪽만 잡히는 경우는 판단 보류 → 기존대로).
+        ca, cb = a.get("_comp"), b.get("_comp")
+        if ca and cb and not (ca & cb):
+            return False
         overlap = token_overlap(a["_tokens"], b["_tokens"])
         # 같은 날+겹침0.35, 또는 날짜 무관+겹침0.5(강한 겹침)
         return (same_day(a, b) and overlap >= 0.35) or overlap >= 0.5

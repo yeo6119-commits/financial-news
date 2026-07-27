@@ -103,9 +103,35 @@ def strip_tags(s: str) -> str:
     return html.unescape(re.sub(r"<[^>]+>", "", s or "")).strip()
 
 
+# 추적용 파라미터만 제거한다. 쿼리 전체를 지우면 안 된다 —
+# 한국 언론사 CMS 상당수가 기사 번호를 쿼리에 담는다
+# (예: .../articleView.html?idxno=255567). 통째로 지우면 그 사이트의
+# 모든 기사가 같은 해시가 되어, 두 번째 기사부터 '기열람'으로 버려진다.
+_TRACKING_PARAMS = {
+    "fbclid", "gclid", "dclid", "msclkid", "ttclid", "igshid",
+    "spm", "outlnkchk", "utm", "naverkeyword", "ref",
+}
+
+
+def _clean_url(url: str) -> str:
+    u = re.sub(r"#.*$", "", (url or "").strip())
+    if "?" in u:
+        base, q = u.split("?", 1)
+        keep = []
+        for kv in q.split("&"):
+            if not kv:
+                continue
+            k = kv.split("=", 1)[0].strip().lower()
+            if k.startswith("utm_") or k in _TRACKING_PARAMS:
+                continue
+            keep.append(kv)
+        keep.sort()                      # 파라미터 순서 차이로 해시가 갈리지 않게
+        u = base + ("?" + "&".join(keep) if keep else "")
+    return u.rstrip("/")
+
+
 def url_hash(url: str) -> str:
-    u = re.sub(r"[?#].*$", "", (url or "").strip().rstrip("/"))
-    return hashlib.sha256(u.encode()).hexdigest()[:24]
+    return hashlib.sha256(_clean_url(url).encode()).hexdigest()[:24]
 
 
 def parse_pubdate(s: str) -> datetime | None:

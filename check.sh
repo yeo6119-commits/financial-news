@@ -63,6 +63,8 @@ need .github/workflows/run.yml "list_view.py"  "목록 보기 자동 갱신(list
 need .github/workflows/run.yml "article_list.html"  "HTML도 커밋 대상"
 need html_generator.py "_render_seen_grouped" "기열람 목록 날짜별 그룹화(기본펼침)"
 need deduplicator.py "dedup_by_summary"    "요약 기반 2차 중복(제목 달라도 같은 사건)"
+need collector.py  "_TRACKING_PARAMS"     "URL 해시가 기사번호 쿼리 보존(idxno)"
+need deduplicator.py "_ROUNDUP_RE"         "묶음기사 대표 후순위"
 need deduplicator.py "_company_stems"      "회사명 접미사 생략형 대응(KB국민 등)"
 need db.py         "url_or_title_delivered" "기열람 원게재 링크 조회"
 need html_generator.py "ref_link"          "기열람 원게재 기사 클릭 가능"

@@ -19,7 +19,9 @@ UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
 
 
 def _hash(u: str) -> str:
-    return hashlib.sha256(re.sub(r"[?#].*$", "", u.strip()).encode()).hexdigest()[:24]
+    # collector와 같은 규칙 — 쿼리 전체를 지우면 idxno 기반 CMS에서 기사가 뭉개진다
+    from collector import url_hash as _uh
+    return _uh(u)
 
 
 def _parse_date(s: str) -> datetime | None:
