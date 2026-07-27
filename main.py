@@ -179,7 +179,7 @@ def main():
         # 7-b) 요약 기반 2차 중복 판정 — 제목만으론 못 잡는 '같은 사건, 다른 제목'
         #      (예: "JP모건 키넥시스 활용 송금" vs "블록체인 국제결제망 기업결제")
         before_sum_dedup = len([it for it in live if not it.get("excluded")])
-        ddp.dedup_by_summary(live, cfg)
+        ddp.dedup_by_summary(live, cfg, conn)
         live = [it for it in live if not it.get("excluded")]
         if before_sum_dedup != len(live):
             print(f"  요약 기반 중복 제거: {before_sum_dedup}건 → {len(live)}건")

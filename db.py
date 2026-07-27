@@ -252,6 +252,23 @@ def commit_delivered(conn, run_id: int, article_ids: list[int]):
 # ----------------------------------------------------------
 # 60일 정리
 # ----------------------------------------------------------
+def find_delivered_summaries(conn, days: int = 3):
+    """최근 delivered 기사의 요약 — 회차 간 '같은 사건' 판정용.
+
+    제목은 매체마다 완전히 다르게 쓰지만(블록체인망 vs 국제결제망),
+    개조식 요약은 핵심 사실이 그대로 겹쳐서 훨씬 안정적인 신호다.
+    """
+    cutoff = (now_kst() - timedelta(days=days)).isoformat()
+    return conn.execute(
+        """SELECT title, summary, company, pub_date,
+                  COALESCE(NULLIF(naver_url, ''), original_url) AS url
+           FROM articles
+           WHERE delivered=1 AND summary_ok=1 AND summary IS NOT NULL
+             AND collected_at >= ?""",
+        (cutoff,),
+    ).fetchall()
+
+
 def log_excluded(conn, run_id: int, items: list) -> int:
     """제외된 기사를 경량 로그에 남긴다 (본문·요약 제외).
 

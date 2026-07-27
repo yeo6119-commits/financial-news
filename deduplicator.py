@@ -127,6 +127,55 @@ _ROUNDUP_RE = re.compile(
     r"(뉴스\s*브리핑|금융가\s*소식|업계\s*소식)|\s外\s*$|\s外$")
 
 
+def company_token_set(title: str, comp_kw: list, cfg: dict) -> set:
+    """제목에서 잡힌 회사명을 토큰으로 변환한 집합.
+
+    회사 일치는 이미 별도 게이트 조건이므로, 겹침 점수에까지 회사명이
+    들어가면 이중 계산이 된다. 실측: "KB국민은행, 블록체인 국제결제망" vs
+    "KB국민은행, 공동구매정기예금 출시"의 공통 토큰이 'kb','국민은행'뿐인데
+    겹침 0.40이 나와 전혀 다른 사건이 같은 사건으로 묶였다.
+    """
+    out = set()
+    for h in company_hits(title, comp_kw):
+        out |= title_tokens(normalize_title(h, cfg))
+    return out
+
+
+# 제목 판정에서만 무시하는 일반어.
+#   금융 기사 제목에 습관적으로 붙는 말들이라, 이것만 겹쳐도 무관한 기사가
+#   같은 사건으로 묶인다. 실측: "하나증권 …2030 투자자 공략" vs
+#   "하나증권, 푸투증권과 외국인통합계좌 개시…해외 투자자 공략" → 공통이
+#   '투자자·공략'뿐인데 겹침 0.40으로 묶였다.
+#   ※ 요약 기반 판정에는 적용하지 않는다 — 거기선 이 단어들이 정상 신호다.
+TITLE_GENERIC = {
+    "공략", "투자자", "고객", "서비스", "출시", "도입", "추진", "계획",
+    "전략", "시장", "사업", "지원", "제공", "운영", "개시", "진행",
+    "실시", "시행", "개선", "성장", "혁신", "협력", "맞손", "선봬",
+    "나선다", "박차", "속도", "본격화", "첫선", "공개", "발표",
+}
+
+
+def content_overlap(a_tok: set, b_tok: set, a_comp: set, b_comp: set,
+                    min_common: int = 2) -> float:
+    """회사명과 일반어를 뺀 '내용 토큰'만으로 겹침을 잰다.
+
+    회사명을 빼는 이유: 회사 일치는 이미 별도 게이트라 이중 계산이 된다.
+    일반어를 빼는 이유: 습관적 표현만 겹쳐도 무관한 기사가 묶인다.
+    양쪽 다 2개 미만이거나 공통이 min_common개 미만이면 근거 부족으로 0.
+
+    한국어 복합명사(블록체인 ⊂ 블록체인망, 결제 ⊂ 기업결제)는 정확히
+    일치하지 않으면 안 세어지므로 이 방식은 '놓침'이 생긴다. 놓친 건
+    요약 기반 2차 판정(dedup_by_summary)이 잡는다 — 그쪽이 훨씬 정확하다.
+    """
+    a = a_tok - a_comp - TITLE_GENERIC
+    b = b_tok - b_comp - TITLE_GENERIC
+    if len(a) < 2 or len(b) < 2:
+        return 0.0
+    if len(a & b) < min_common:
+        return 0.0
+    return token_overlap(a, b)
+
+
 def _score(a: dict) -> tuple:
     press = a.get("press") or ""
     title = a.get("title") or ""
@@ -183,7 +232,7 @@ def _company_stems(title: str, comp_kw: list) -> set:
     return stems
 
 
-def dedup_by_summary(articles: list[dict], cfg: dict) -> None:
+def dedup_by_summary(articles: list[dict], cfg: dict, conn=None) -> None:
     """요약 완료 후 2차 중복 판정 — 제목만으론 못 잡는 '같은 사건, 다른 제목'을 잡는다.
 
     실측(2026-07-26): "KB국민, JP모건 키넥시스 활용 송금 서비스 출시" vs
@@ -247,6 +296,40 @@ def dedup_by_summary(articles: list[dict], cfg: dict) -> None:
             rep["_dup_members"].append((dup["title"], dup.get("press") or "",
                                         f"요약겹침 {ov:.2f}"))
 
+    # --- 회차 간: 과거 delivered 기사의 요약과 대조 ---
+    #   제목 토큰은 한국어 복합명사 때문에 '블록체인망 vs 블록체인'을 못 잡는다.
+    #   요약은 개조식으로 정규화돼 있어 같은 사건이면 핵심 사실이 그대로 겹친다.
+    if conn is None:
+        return
+    try:
+        past = dbm.find_delivered_summaries(conn, days=cfg["dedup"].get("cross_run_days", 3))
+    except Exception:
+        return
+    if not past:
+        return
+    past_info = []
+    for p in past:
+        flat = (p["summary"] or "").replace("\n", " ")
+        past_info.append((title_tokens(normalize_title(flat, cfg)),
+                          _company_stems(p["title"], comp_kw),
+                          p["title"], p["company"], p["pub_date"], p["url"]))
+    for a in articles:
+        if a.get("excluded") or not a.get("_sum_tokens"):
+            continue
+        for ptok, pcomp, ptitle, pcompany, pdate, purl in past_info:
+            if not (a["_comp_hits"] & pcomp):
+                continue
+            ov = token_overlap(a["_sum_tokens"], ptok)
+            if ov >= thr:
+                a["excluded"] = 1
+                a["exclude_reason"] = "기열람(요약 동일사건 %.2f: %s)" % (ov, ptitle[:24])
+                a["_dup_ref"] = ptitle
+                a["_dup_ref_company"] = pcompany
+                a["_dup_ref_date"] = pdate
+                a["_dup_ref_url"] = purl
+                a["_dup_score"] = ov
+                break
+
 
 def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     """excluded 안 된 기사들에 대해:
@@ -295,17 +378,19 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
             past_info.append((p["body_fingerprint"], p["title"],
                               title_tokens(normalize_title(p["title"], cfg)),
                               company_hits(p["title"], comp_kw),
-                              p["company"], p["pub_date"], p["url"]))
+                              p["company"], p["pub_date"], p["url"],
+                              company_token_set(p["title"], comp_kw, cfg)))
         for a in articles:
             if a.get("excluded"):
                 continue
             atok = a["_tokens"]
             acomp = company_hits(a.get("title"), comp_kw)
+            actok = company_token_set(a.get("title"), comp_kw, cfg)
             try:
                 afp = int(a["body_fingerprint"], 16) if a.get("body") else 0
             except (ValueError, TypeError):
                 afp = 0
-            for fp, ptitle, ptok, pcomp, pcompany, pdate, purl in past_info:
+            for fp, ptitle, ptok, pcomp, pcompany, pdate, purl, pctok in past_info:
                 # (i) 본문 완전 재탕
                 if afp:
                     try:
@@ -323,7 +408,9 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                 #   실측: 회차를 넘나드는 실제 중복은 0.35~0.44에 몰려 있고
                 #   0.45~0.49 구간은 비어 있다. 0.5 단일 임계로는 거의 다 샜다.
                 #   회사가 같으면 완화 임계(cross_run)를 적용해 잡는다.
-                ov = token_overlap(atok, ptok)
+                #   단, 겹침은 회사명을 뺀 '내용 토큰'으로 잰다 — 회사명이
+                #   게이트와 점수에 이중으로 쓰이면 무관한 기사가 묶인다.
+                ov = content_overlap(atok, ptok, actok, pctok)
                 same_comp = bool(acomp & pcomp)
                 if ov >= 0.5 or (same_comp and ov >= cross_thr):
                     a["excluded"] = 1
@@ -339,6 +426,7 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     live = [a for a in articles if not a.get("excluded")]
     for a in live:
         a["_comp"] = company_hits(a.get("title"), comp_kw)
+        a["_comp_tok"] = company_token_set(a.get("title"), comp_kw, cfg)
     # 언론사 차단 소스는 대표가 되지 못하게 후순위
     live.sort(key=lambda a: (any(p in (a.get("press") or "") for p in BLOCKED_PRESS), ), )
     def _matches(a, b) -> bool:
@@ -359,7 +447,8 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
         ca, cb = a.get("_comp"), b.get("_comp")
         if ca and cb and not (ca & cb):
             return False
-        overlap = token_overlap(a["_tokens"], b["_tokens"])
+        overlap = content_overlap(a["_tokens"], b["_tokens"],
+                                  a.get("_comp_tok", set()), b.get("_comp_tok", set()))
         # 같은 날+겹침0.35, 또는 날짜 무관+겹침0.5(강한 겹침)
         return (same_day(a, b) and overlap >= 0.35) or overlap >= 0.5
 
