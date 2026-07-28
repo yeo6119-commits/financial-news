@@ -523,11 +523,17 @@ def _audit(screened):
         reps = [a for a in screened if a.get("dup_members")]
         blocks = []
         for r in reps:
-            members = "".join(
-                '<div>└ %s <span class="meta">· %s</span> <span class="audit-why">%s</span></div>'
-                % (H.escape(t), H.escape(p), H.escape(w))
-                for t, p, w in r["dup_members"])
-            blocks.append('%s<div class="audit-dup">%s</div>' % (item(r), members))
+            rows = []
+            for m in r["dup_members"]:
+                # 옛 회차 데이터는 (제목, 매체, 사유) 3요소 — URL 없이도 동작하게
+                t, p, w = m[0], m[1], m[2]
+                url = m[3] if len(m) > 3 else ""
+                title = ('<a href="%s" target="_blank">%s</a>' % (H.escape(url), H.escape(t))
+                         if url else H.escape(t))
+                rows.append('<div>└ %s <span class="meta">· %s</span> '
+                            '<span class="audit-why">%s</span></div>'
+                            % (title, H.escape(p), H.escape(w)))
+            blocks.append('%s<div class="audit-dup">%s</div>' % (item(r), "".join(rows)))
         out.append('<div class="audit-grp"><h4>중복 제거 %d건 → %d개 사건</h4>%s</div>'
                    % (len(dup), len(reps), "".join(blocks)))
     if seen:

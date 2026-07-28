@@ -98,6 +98,10 @@ need deduplicator.py "if acomp and pcomp and not" "회차간 판정 회사충돌
 need config.yaml   "summary_dup_threshold: 0.40" "요약중복 임계 실측조정(0.5→0.40)"
 need extractor.py  "attempt in range(2)" "접속실패 1회 재시도(간헐적 봇차단)"
 
+need deduplicator.py "rep.get(\"_comp\") and a.get(\"_comp\")" "클러스터 합류시 대표와 회사공유 필수"
+need deduplicator.py "body_ok"              "빈 본문 동일판정 차단"
+need html_generator.py "len(m) > 3"         "중복목록 기사 링크"
+
 echo "────────────────────────────────────────────"
 # 문법 검사
 for f in *.py; do

@@ -123,7 +123,7 @@ BLOCKED_PRESS = ["Fintechtoday", "핀테크투데이"]
 #   대표 자격을 낮춰서 개별 기사가 대표가 되게 한다.
 _ROUNDUP_RE = re.compile(
     r"^\s*\[[^\]]*(브리핑|브리프|게시판|소식|종합|모아보기|한눈에|이모저모|위클리|"
-    r"데일리|투데이)[^\]]*\]|"
+    r"데일리|투데이|은행가|증권가|보험가|카드가|금융가|\d+시)[^\]]*\]|"
     r"(뉴스\s*브리핑|금융가\s*소식|업계\s*소식)|\s外\s*$|\s外$")
 
 
@@ -294,7 +294,8 @@ def dedup_by_summary(articles: list[dict], cfg: dict, conn=None) -> None:
             dup["_dup_ref"] = rep["title"]
             dup["_dup_score"] = ov
             rep["_dup_members"].append((dup["title"], dup.get("press") or "",
-                                        f"요약겹침 {ov:.2f}"))
+                                        f"요약겹침 {ov:.2f}",
+                                        dup.get("naver_url") or dup.get("original_url") or ""))
 
     # --- 회차 간: 과거 delivered 기사의 요약과 대조 ---
     #   제목 토큰은 한국어 복합명사 때문에 '블록체인망 vs 블록체인'을 못 잡는다.
@@ -450,12 +451,21 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
         ca, cb = a.get("_comp"), b.get("_comp")
         if ca and cb and not (ca & cb):
             return False
-        if (a["norm_title_hash"] == b["norm_title_hash"]) or \
-           (a["body_hash"] and a["body_hash"] == b["body_hash"]):
+        # 본문 완전일치는 '본문이 실제로 있을 때'만 신뢰한다.
+        #   추출 실패·차단 페이지·짧은 안내문이면 서로 다른 기사도 같은 본문이
+        #   되어 버린다. 실측: "한화투자증권 연금상담센터 신설"과 "우리카드
+        #   더라운지 서비스"가 '본문동일, 본문지문 0'으로 묶였다.
+        #   지문이 0이면 본문에서 유의미한 토큰이 안 나온 것 → 신뢰 불가.
+        body_ok = (a.get("body_fingerprint") not in (None, "", "0") and
+                   b.get("body_fingerprint") not in (None, "", "0") and
+                   len(a.get("body") or "") >= 300 and len(b.get("body") or "") >= 300)
+        if a["norm_title_hash"] == b["norm_title_hash"]:
+            return True
+        if body_ok and a["body_hash"] and a["body_hash"] == b["body_hash"]:
             return True
         if title_sim(a["norm_title"], b["norm_title"]) >= thr:
             return True
-        if (a.get("body") and b.get("body") and
+        if (body_ok and
                 hamming(int(a["body_fingerprint"], 16),
                         int(b["body_fingerprint"], 16)) <= 6):
             return True
@@ -467,7 +477,23 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     clusters: list[list[dict]] = []
     for a in live:
         placed = False
+        # 여러 회사 소식을 한데 묶은 기사(브리핑·게시판)는 회사명이 많아
+        # 서로 무관한 클러스터를 이어붙이는 '다리' 역할을 한다.
+        #   실측: "[은행가] 하나카드 '삼성 월렛'·KB국민은행 '공동구매정기예금'"
+        #   하나가 하나은행 시니어라운지·삼성전자 카드출시 등을 전부 끌어모았다.
+        #   이런 기사는 클러스터에 넣지 않고 단독으로 둔다.
+        if _ROUNDUP_RE.search(a.get("title") or ""):
+            clusters.append([a])
+            continue
         for cl in clusters:
+            rep = cl[0]
+            # 대표와 회사가 겹치지 않으면 합류 불가.
+            #   전이적 연결만 두면 A-B, B-C로 이어져 A와 C가 무관한데도
+            #   한 덩어리가 된다(실측: KB증권 퇴직연금 클러스터가 신한금융
+            #   교육생 모집·KB손보 중대재해까지 흡수, 229건→16클러스터).
+            #   대표를 기준점으로 고정해 주제 이탈을 막는다.
+            if rep.get("_comp") and a.get("_comp") and not (rep["_comp"] & a["_comp"]):
+                continue
             # 대표뿐 아니라 클러스터 내 '아무 멤버와든' 겹치면 합류(전이적 연결).
             #   대표하고만 비교하면 같은 사건이 '성료'류/'개최'류로 쪼개진다.
             #   (SKT·하나금융 해커톤이 2개 클러스터로 갈려 둘 다 노출된 버그)
@@ -512,6 +538,7 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
             dup["_dup_ref"] = rep["title"]
             dup["_dup_score"] = ov
             rep["_dup_members"].append((dup["title"], dup.get("press") or "",
-                                        ", ".join(why)))
+                                        ", ".join(why),
+                                        dup.get("naver_url") or dup.get("original_url") or ""))
 
     return articles
