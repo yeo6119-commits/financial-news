@@ -104,6 +104,9 @@ need html_generator.py "len(m) > 3"         "중복목록 기사 링크"
 
 need filter.py     "def is_roundup"        "묶음기사 제외(브리핑·단신·外)"
 
+need .github/workflows/run.yml "pull --rebase" "push 충돌 재시도(실행 실패 방지)"
+need config.yaml   "'플랫폼'·'비대면' 제거" "저생산 검색어 정리 유지"
+
 echo "────────────────────────────────────────────"
 # 문법 검사
 for f in *.py; do
