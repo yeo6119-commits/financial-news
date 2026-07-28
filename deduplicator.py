@@ -477,11 +477,9 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     clusters: list[list[dict]] = []
     for a in live:
         placed = False
-        # 여러 회사 소식을 한데 묶은 기사(브리핑·게시판)는 회사명이 많아
-        # 서로 무관한 클러스터를 이어붙이는 '다리' 역할을 한다.
-        #   실측: "[은행가] 하나카드 '삼성 월렛'·KB국민은행 '공동구매정기예금'"
-        #   하나가 하나은행 시니어라운지·삼성전자 카드출시 등을 전부 끌어모았다.
-        #   이런 기사는 클러스터에 넣지 않고 단독으로 둔다.
+        # 묶음기사(브리핑·게시판)는 filter 단계에서 이미 제외된다.
+        #   혹시 새 형태가 새어 들어와도 클러스터의 '다리'가 되지 않도록
+        #   여기서도 단독 처리한다(이중 방어).
         if _ROUNDUP_RE.search(a.get("title") or ""):
             clusters.append([a])
             continue

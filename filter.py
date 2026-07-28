@@ -190,6 +190,33 @@ PERSONNEL_RE = re.compile(
 TAG_RE = re.compile(r"^\s*[\[\【]")
 SEP_RE = re.compile(r"[·ㆍ／/]")
 
+# 묶음(브리핑·단신) 기사 — 여러 회사 소식을 한 편에 모은 글.
+#   구분자 3개 조건만으론 "[은행가] 하나카드 'A'·KB국민은행 'B'"처럼
+#   2개짜리가 빠져나간다. 태그 이름과 꼬리표(外/등)로도 판정한다.
+#   실측: 이런 기사가 클러스터의 '다리'가 되어 무관한 기사 20여 건을
+#   한 덩어리로 끌어모았다(하나은행 시니어라운지 + 삼성전자 카드출시 …).
+ROUNDUP_TAG_RE = re.compile(
+    r"^\s*[\[\【][^\]\】]*("
+    r"브리핑|브리프|게시판|단신|소식|종합|모아보기|한눈에|이모저모|"
+    r"위클리|데일리|투데이|은행가|증권가|보험가|카드가|금융가|"
+    r"주목!|\d+시"
+    r")[^\]\】]*[\]\】]")
+# 제목 끝의 '外/등' — 여러 건을 묶었다는 신호
+ROUNDUP_TAIL_RE = re.compile(r"(外|等)\s*$|\s(外|等)(?=[\s\"'’”]|$)")
+
+
+def is_roundup(title: str) -> bool:
+    """여러 회사·건을 한데 묶은 브리핑성 기사인가."""
+    t = title or ""
+    if ROUNDUP_TAG_RE.search(t):
+        return True
+    if ROUNDUP_TAIL_RE.search(t):
+        return True
+    # 태그로 시작하면서 구분자가 2개 이상이면 나열형으로 본다
+    if TAG_RE.match(t) and len(SEP_RE.findall(t)) >= 2:
+        return True
+    return False
+
 
 # 본문 판정 전용 — 제목에 단서가 없을 때 '이 기사가 디지털·AI 사안인가'를 가름.
 # 관련성 목록 전체(앱 이름·브랜드 포함)를 쓰면 CSR 기사에 "하나원큐로 신청" 한 줄만
@@ -330,6 +357,10 @@ def _policy_screen(article: dict, cfg: dict) -> dict:
     ps = cfg["policy_section"]
 
     # 종합기사·시황 코너는 정책 섹션에서도 배제
+    if is_roundup(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(묶음기사)"
+        return article
     if TAG_RE.match(title) and len(SEP_RE.findall(title)) >= 3:
         article["excluded"] = 1
         article["exclude_reason"] = "무관(종합기사)"
@@ -375,6 +406,10 @@ def _topic_screen(article: dict, cfg: dict) -> dict:
     if HARD_EXCLUDE_RE.search(title) or _hit(title, HARD_EXCLUDE):
         article["excluded"] = 1
         article["exclude_reason"] = "무관(프로모션·수상·상품)"
+        return article
+    if is_roundup(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(묶음기사)"
         return article
     if TAG_RE.match(title) and len(SEP_RE.findall(title)) >= 3:
         article["excluded"] = 1
@@ -446,6 +481,10 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
 
     # (0-c) 태그 + 구분자 3개 이상 나열 → 종합 기사
     #       (회사명이 '하나', 'KB국민'처럼 잘려 매칭이 안 되는 경우까지 잡음)
+    if is_roundup(title):
+        article["excluded"] = 1
+        article["exclude_reason"] = "무관(묶음기사)"
+        return article
     if TAG_RE.match(title) and len(SEP_RE.findall(title)) >= 3:
         article["excluded"] = 1
         article["exclude_reason"] = "종합기사(여러 건 나열)"

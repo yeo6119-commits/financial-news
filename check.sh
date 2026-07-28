@@ -102,6 +102,8 @@ need deduplicator.py "rep.get(\"_comp\") and a.get(\"_comp\")" "클러스터 합
 need deduplicator.py "body_ok"              "빈 본문 동일판정 차단"
 need html_generator.py "len(m) > 3"         "중복목록 기사 링크"
 
+need filter.py     "def is_roundup"        "묶음기사 제외(브리핑·단신·外)"
+
 echo "────────────────────────────────────────────"
 # 문법 검사
 for f in *.py; do
