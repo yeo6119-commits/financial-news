@@ -93,6 +93,11 @@ need classifier.py "policy"               "정책 기사 전용 분류"
 deny filter.py     '"계좌개설",'           "BODY_CORE에 '계좌개설' 단독 없음"
 deny filter.py     '"결제", "QR"'          "BODY_CORE에 '결제' 단독 없음"
 
+need deduplicator.py "회사 충돌 검사를 맨 앞에" "매칭함수 순서(회사충돌 최우선)"
+need deduplicator.py "if acomp and pcomp and not" "회차간 판정 회사충돌 가드"
+need config.yaml   "summary_dup_threshold: 0.40" "요약중복 임계 실측조정(0.5→0.40)"
+need extractor.py  "attempt in range(2)" "접속실패 1회 재시도(간헐적 봇차단)"
+
 echo "────────────────────────────────────────────"
 # 문법 검사
 for f in *.py; do

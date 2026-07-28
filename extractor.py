@@ -33,16 +33,23 @@ GENERIC_BODY_SELECTORS = [
 
 
 def _get(url: str, timeout: int = 4) -> str | None:
-    try:
-        r = requests.get(url, headers=HEADERS, timeout=timeout)
-        if r.status_code == 200:
-            # 매체가 charset을 선언했으면(보안뉴스=EUC-KR) 그걸 우선한다.
-            # 선언이 없을 때만 추정 — requests는 이 경우 ISO-8859-1로 잡아 한글이 깨진다.
-            if "charset=" not in r.headers.get("content-type", "").lower():
-                r.encoding = r.apparent_encoding or r.encoding
-            return r.text
-    except requests.RequestException:
-        pass
+    """단발성 접속 실패는 대부분 일시적 WAF/봇차단 챌린지다.
+    실측(dealsitetv.com): 같은 도메인에서 6건 중 5건이 '원문 접속 실패'였는데
+    1건은 성공했다 — 완전 차단이 아니라 간헐적이라는 뜻. 재시도 없이 단발로
+    끝내던 걸 짧은 지연 후 1회만 다시 시도하도록 바꾼다(과금·시간 부담 최소화)."""
+    for attempt in range(2):
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=timeout)
+            if r.status_code == 200:
+                # 매체가 charset을 선언했으면(보안뉴스=EUC-KR) 그걸 우선한다.
+                # 선언이 없을 때만 추정 — requests는 이 경우 ISO-8859-1로 잡아 한글이 깨진다.
+                if "charset=" not in r.headers.get("content-type", "").lower():
+                    r.encoding = r.apparent_encoding or r.encoding
+                return r.text
+        except requests.RequestException:
+            pass
+        if attempt == 0:
+            time.sleep(1.2)
     return None
 
 

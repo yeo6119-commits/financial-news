@@ -318,7 +318,12 @@ dedup:
   cross_run_threshold: 0.35
   # 요약 기반 2차 중복(같은 날+같은 회사 조건에서만 적용) — 실측 카카오페이·농협
   # 사례 0.55, KB국민 JP모건 사례 0.52로 확인. 0.5를 기준선으로 둔다.
-  summary_dup_threshold: 0.5
+  # 실측(2026-07-28): 같은날+같은회사 조건에서 0.35~0.49 구간 31쌍 전수 검토 →
+  #   30쌍이 진짜 같은 사건(BC카드 오픈소스 0.41, 신한은행 캐릭터 0.41 등),
+  #   무관 1쌍은 0.37("신한카드 제휴카드" vs "동양생명 보험상품" — 다른 주제).
+  #   0.40을 기준선으로 두면 그 유일한 오탐(0.37)은 안전하게 비켜가면서
+  #   실제 중복 30건을 추가로 잡는다.
+  summary_dup_threshold: 0.40
   title_similarity_threshold: 0.62     # 정규화 제목 자카드/시퀀스 유사도
   body_fingerprint: simhash            # 해밍거리 3 이하 중복 판정
   delivered_exclude: [url_hash_exact, norm_title_hash_exact]   # 과거분은 완전 일치만

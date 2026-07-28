@@ -410,6 +410,13 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                 #   회사가 같으면 완화 임계(cross_run)를 적용해 잡는다.
                 #   단, 겹침은 회사명을 뺀 '내용 토큰'으로 잰다 — 회사명이
                 #   게이트와 점수에 이중으로 쓰이면 무관한 기사가 묶인다.
+                #
+                #   회사가 둘 다 잡히는데 서로 다르면(explicit conflict) 겹침이
+                #   아무리 높아도 매칭하지 않는다. 예전엔 ov>=0.5 무조건매칭이
+                #   이 검사보다 먼저 통과돼, "우리은행 AX" 기사와 "모건스탠리
+                #   AI 도입" 기사가 공통 토큰 'ai'·'기업' 둘만으로 묶였다.
+                if acomp and pcomp and not (acomp & pcomp):
+                    continue
                 ov = content_overlap(atok, ptok, actok, pctok)
                 same_comp = bool(acomp & pcomp)
                 if ov >= 0.5 or (same_comp and ov >= cross_thr):
@@ -430,7 +437,19 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     # 언론사 차단 소스는 대표가 되지 못하게 후순위
     live.sort(key=lambda a: (any(p in (a.get("press") or "") for p in BLOCKED_PRESS), ), )
     def _matches(a, b) -> bool:
-        """두 기사가 같은 사건인가."""
+        """두 기사가 같은 사건인가.
+
+        회사 충돌 검사를 맨 앞에 둔다. 예전엔 맨 뒤에 있어서, 그 앞의
+        title_sim(문자열 유사도)이나 body_hash(본문 완전일치)가 먼저
+        True를 반환하면 회사가 달라도 그냥 통과됐다.
+        실측: "AI가 서류 맡고 RM은 기업 만난다...우리은행 기업여신 AX 본격화"
+        vs "모건스탠리 'AI 도입 기업, 이익률 개선 뚜렷'" — 공통 내용 토큰이
+        'ai'·'기업' 둘뿐인데 content_overlap 0.5(무조건 매칭 기준)를 넘겨
+        전혀 다른 회사·사건이 하나로 묶였다.
+        """
+        ca, cb = a.get("_comp"), b.get("_comp")
+        if ca and cb and not (ca & cb):
+            return False
         if (a["norm_title_hash"] == b["norm_title_hash"]) or \
            (a["body_hash"] and a["body_hash"] == b["body_hash"]):
             return True
@@ -440,13 +459,6 @@ def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
                 hamming(int(a["body_fingerprint"], 16),
                         int(b["body_fingerprint"], 16)) <= 6):
             return True
-        # 회사가 서로 명시적으로 다르면 토큰이 겹쳐도 같은 사건이 아니다.
-        #   실측: "삼성카드, 상반기 순익 3105억원" ↔ "기업은행, 상반기 순익 1조4429억"
-        #   이 '상반기·순익' 때문에 겹침 0.5로 묶였다. 양쪽 다 회사가 잡히는데
-        #   교집합이 없으면 차단한다 (한쪽만 잡히는 경우는 판단 보류 → 기존대로).
-        ca, cb = a.get("_comp"), b.get("_comp")
-        if ca and cb and not (ca & cb):
-            return False
         overlap = content_overlap(a["_tokens"], b["_tokens"],
                                   a.get("_comp_tok", set()), b.get("_comp_tok", set()))
         # 같은 날+겹침0.35, 또는 날짜 무관+겹침0.5(강한 겹침)
