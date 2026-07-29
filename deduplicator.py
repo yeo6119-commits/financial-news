@@ -296,6 +296,14 @@ def dedup_by_summary(articles: list[dict], cfg: dict, conn=None) -> None:
             rep["_dup_members"].append((dup["title"], dup.get("press") or "",
                                         f"요약겹침 {ov:.2f}",
                                         dup.get("naver_url") or dup.get("original_url") or ""))
+            # dup이 앞 단계(제목 기준)에서 이미 자기 클러스터의 '대표'였다면,
+            # 그 멤버들이 고아가 되어 화면에 별도 사건처럼 남는다.
+            #   실측: 한컴위드 안면인증 기사 10건이 2개 사건으로 쪼개져 보였다
+            #   (ziksir 기사가 1번 클러스터의 멤버이자 2번 클러스터의 대표).
+            #   멤버를 새 대표로 옮기고 참조도 갱신한다.
+            for m in dup.pop("_dup_members", []):
+                rep["_dup_members"].append(m)
+            dup["_dup_members"] = []
 
     # --- 회차 간: 과거 delivered 기사의 요약과 대조 ---
     #   제목 토큰은 한국어 복합명사 때문에 '블록체인망 vs 블록체인'을 못 잡는다.
@@ -329,6 +337,17 @@ def dedup_by_summary(articles: list[dict], cfg: dict, conn=None) -> None:
                 a["_dup_ref_date"] = pdate
                 a["_dup_ref_url"] = purl
                 a["_dup_score"] = ov
+                # 이 기사가 배치 클러스터의 대표였다면 멤버들도 함께 기열람 처리.
+                #   안 그러면 대표만 사라지고 멤버들이 별도 사건처럼 남는다.
+                for m in a.pop("_dup_members", []):
+                    for sib in articles:
+                        if sib is a or sib.get("_dup_ref") != a["title"]:
+                            continue
+                        sib["_dup_ref"] = ptitle
+                        sib["_dup_ref_company"] = pcompany
+                        sib["_dup_ref_date"] = pdate
+                        sib["_dup_ref_url"] = purl
+                a["_dup_members"] = []
                 break
 
 
