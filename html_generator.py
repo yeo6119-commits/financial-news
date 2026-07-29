@@ -78,6 +78,10 @@ padding-bottom:4px;border-bottom:1px solid var(--line)}
 .audit-dup{margin:2px 0 6px 14px;padding-left:10px;border-left:2px solid var(--line)}
 .audit-dup div{font-size:11px;color:var(--muted);padding:2px 0}
 .audit-why{color:var(--teal);font-weight:600;font-size:10.5px}
+.rep-ok{font-size:10px;font-weight:800;color:#0a7d55;background:#e4f5ec;
+padding:1px 6px;border-radius:9px;white-space:nowrap}
+.rep-out{font-size:10px;font-weight:700;color:var(--warn);background:var(--warn-soft);
+padding:1px 6px;border-radius:9px}
 .seen-group{margin:8px 0 4px;border-top:1px dashed var(--line);padding-top:6px}
 .seen-group>summary{cursor:pointer;font-size:11.5px;font-weight:700;color:var(--ink)}
 .seen-group>summary::-webkit-details-marker{display:none}
@@ -521,8 +525,19 @@ def _audit(screened):
                    % (len(live), "".join(item(a) for a in live)))
     if dup:
         reps = [a for a in screened if a.get("dup_members")]
+        # 대표가 최종적으로 반영됐는지 표시한다.
+        #   중복 33건을 9개 사건으로 줄여도, 그 대표가 뒤 단계(기열람·검토·요약)에서
+        #   또 빠지면 화면엔 아무것도 안 나온다. 그런데 목록엔 멀쩡히 대표로 보여서
+        #   "반영된 줄 알았는데 없다"는 혼선이 생겼다(실측: 한컴위드 9건 전부 미반영).
         blocks = []
+        n_live_rep = 0
         for r in reps:
+            if not r.get("excluded"):
+                n_live_rep += 1
+                badge = '<span class="rep-ok">반영됨</span>'
+            else:
+                why = (r.get("exclude_reason") or "제외")[:34]
+                badge = '<span class="rep-out">미반영 · %s</span>' % H.escape(why)
             rows = []
             for m in r["dup_members"]:
                 # 옛 회차 데이터는 (제목, 매체, 사유) 3요소 — URL 없이도 동작하게
@@ -533,9 +548,12 @@ def _audit(screened):
                 rows.append('<div>└ %s <span class="meta">· %s</span> '
                             '<span class="audit-why">%s</span></div>'
                             % (title, H.escape(p), H.escape(w)))
-            blocks.append('%s<div class="audit-dup">%s</div>' % (item(r), "".join(rows)))
-        out.append('<div class="audit-grp"><h4>중복 제거 %d건 → %d개 사건</h4>%s</div>'
-                   % (len(dup), len(reps), "".join(blocks)))
+            blocks.append('%s<div class="audit-dup">%s</div>'
+                          % (item(r, " " + badge), "".join(rows)))
+        out.append('<div class="audit-grp"><h4>중복 제거 %d건 → %d개 사건 '
+                   '(반영 %d · 미반영 %d)</h4>%s</div>'
+                   % (len(dup), len(reps), n_live_rep, len(reps) - n_live_rep,
+                      "".join(blocks)))
     if seen:
         out.append(_render_seen_grouped(seen))
     if irr:

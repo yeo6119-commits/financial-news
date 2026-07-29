@@ -107,9 +107,7 @@ need filter.py     "def is_roundup"        "묶음기사 제외(브리핑·단�
 need .github/workflows/run.yml "pull --rebase" "push 충돌 재시도(실행 실패 방지)"
 need config.yaml   "'플랫폼'·'비대면' 제거" "저생산 검색어 정리 유지"
 
-need deduplicator.py "고아가 되어"          "대표 제외시 멤버 이관(사건 쪼개짐 방지)"
-need summarizer.py "예시2 — 조직·전략형"    "요약 예시 2종"
-need reviewer.py   "토스페이먼츠"           "핀테크 사업재편 포함"
+need html_generator.py "rep-out"             "중복 대표 반영여부 배지"
 
 echo "────────────────────────────────────────────"
 # 문법 검사
