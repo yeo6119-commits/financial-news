@@ -109,6 +109,9 @@ need config.yaml   "'플랫폼'·'비대면' 제거" "저생산 검색어 정리
 
 need html_generator.py "rep-out"             "중복 대표 반영여부 배지"
 
+need .github/workflows/run.yml "47 21"  "아침 정기실행(KST 06:47, 지연흡수)"
+need .github/workflows/run.yml "13 23"  "백업 실행(KST 08:13)"
+
 echo "────────────────────────────────────────────"
 # 문법 검사
 for f in *.py; do
