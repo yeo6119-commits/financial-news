@@ -550,9 +550,9 @@ def _audit(screened):
     if dup:
         reps = [a for a in screened if a.get("dup_members")]
         # 대표가 최종적으로 반영됐는지 표시한다.
-        #   중복 33건을 9개 사건으로 줄여도, 그 대표가 뒤 단계(기열람·검토·요약)에서
-        #   또 빠지면 화면엔 아무것도 안 나온다. 그런데 목록엔 멀쩡히 대표로 보여서
-        #   "반영된 줄 알았는데 없다"는 혼선이 생겼다(실측: 한컴위드 9건 전부 미반영).
+        #   중복 20건을 2개 사건으로 줄여도, 그 대표가 뒤 단계(기열람·검토·요약)에서
+        #   또 빠지면 화면엔 아무것도 안 나온다. 반영/미반영을 배지로 구분하고,
+        #   미반영은 왜 빠졌는지 사유까지 붙여서 과도 필터링을 바로 알아볼 수 있게 한다.
         blocks = []
         n_live_rep = 0
         for r in reps:
@@ -560,11 +560,8 @@ def _audit(screened):
                 n_live_rep += 1
                 badge = '<span class="rep-ok">반영됨</span>'
             else:
-                # 대표가 결국 미반영이면 이 사건 자체를 검수 목록에서 뺀다.
-                #   반영 안 될 걸 알면서 "중복 33건 → 9개 사건"에 끼워 보여주면
-                #   반영된 것처럼 오인하게 된다. 미반영 건수는 헤더 집계에는
-                #   남기되(과도필터링 추적용), 상세 블록은 펼치지 않는다.
-                continue
+                why = (r.get("exclude_reason") or "사유 미상")[:44]
+                badge = '<span class="rep-out">미반영 · %s</span>' % H.escape(why)
             rows = []
             for m in r["dup_members"]:
                 # 옛 회차 데이터는 (제목, 매체, 사유) 3요소 — URL 없이도 동작하게

@@ -112,7 +112,6 @@ need html_generator.py "rep-out"             "중복 대표 반영여부 배지"
 need .github/workflows/run.yml "47 21"  "아침 정기실행(KST 06:47, 지연흡수)"
 need .github/workflows/run.yml "13 23"  "백업 실행(KST 08:13)"
 
-need html_generator.py "이 사건 자체를 검수 목록에서 뺀다" "미반영 대표 숨김"
 need html_generator.py "seen-more"           "기열람 대표1건+더보기 접힘"
 need html_generator.py "rep-dup"             "본문무관 반복사건 묶음"
 
@@ -120,6 +119,8 @@ need config.yaml   "min_line_chars: 14"   "본문 줄 기준 완화"
 need summarizer.py "LAST_GROUND_RATIO"    "환각 판정 비율 진단"
 need classifier.py "ALIAS_TO_FULL"        "축약형 회사명 분류 매핑"
 deny html_generator.py "<h4>반영 %d건"     "검수목록에 반영 섹션 없음"
+
+need html_generator.py "미반영 · %s"        "미반영 대표도 사유와 함께 노출"
 
 echo "────────────────────────────────────────────"
 # 문법 검사
