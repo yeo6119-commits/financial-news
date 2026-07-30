@@ -112,6 +112,10 @@ need html_generator.py "rep-out"             "중복 대표 반영여부 배지"
 need .github/workflows/run.yml "47 21"  "아침 정기실행(KST 06:47, 지연흡수)"
 need .github/workflows/run.yml "13 23"  "백업 실행(KST 08:13)"
 
+need html_generator.py "이 사건 자체를 검수 목록에서 뺀다" "미반영 대표 숨김"
+need html_generator.py "seen-more"           "기열람 대표1건+더보기 접힘"
+need html_generator.py "rep-dup"             "본문무관 반복사건 묶음"
+
 echo "────────────────────────────────────────────"
 # 문법 검사
 for f in *.py; do

@@ -7,6 +7,7 @@
 # =============================================================
 import html as H
 import os
+import re
 from collections import OrderedDict
 from datetime import datetime
 
@@ -92,6 +93,13 @@ padding:1px 6px;border-radius:9px}
 .seen-ref .co{color:var(--ink);font-weight:800}
 .seen-ref .date{color:var(--muted);font-weight:600}
 .seen-cluster .audit-item{padding:2px 0}
+.seen-more{margin-top:2px}
+.seen-more>summary{cursor:pointer;font-size:10.5px;color:var(--muted);font-weight:600}
+.seen-more>summary::-webkit-details-marker{display:none}
+.seen-more>summary::before{content:"▸ "}
+.seen-more[open]>summary::before{content:"▾ "}
+.rep-dup{font-size:10px;font-weight:700;color:var(--muted);background:var(--paper);
+padding:1px 6px;border-radius:9px;border:1px solid var(--line)}
 
 .a-meta.nosum{color:#b3403a}
 .ledger-line{font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line);
@@ -487,15 +495,30 @@ def _render_seen_grouped(seen):
             ref_line = ('<div class="seen-ref"><span class="co">%s</span> · 최초 게재'
                         ' <span class="date">%s</span> · %s</div>'
                         % (esc(c["company"]), esc(_fmt_date(c["date"])), ref_link))
-            rows = []
-            for a in c["items"]:
+            items = c["items"]
+            head = items[0]
+            head_url = head.get("naver_url") or ""
+            head_t = esc(head.get("title"))
+            head_title = ('<a href="%s" target="_blank">%s</a>' % (esc(head_url), head_t)
+                          if head_url else head_t)
+            head_row = ('<div class="audit-item">%s <span class="meta">· %s · %s</span></div>'
+                       % (head_title, esc(head.get("press")), esc(_fmt_date(head.get("pub_date")))))
+            rest_rows = []
+            for a in items[1:]:
                 url = a.get("naver_url") or ""
                 t = esc(a.get("title"))
                 title = '<a href="%s" target="_blank">%s</a>' % (esc(url), t) if url else t
-                rows.append('<div class="audit-item">%s <span class="meta">· %s · %s</span></div>'
+                rest_rows.append('<div class="audit-item">%s <span class="meta">· %s · %s</span></div>'
                             % (title, esc(a.get("press")), esc(_fmt_date(a.get("pub_date")))))
-            cluster_blocks.append('<div class="seen-cluster">%s%s</div>' % (ref_line, "".join(rows)))
-        blocks.append('<details class="seen-group" open><summary>%s — %d건 (%d개 사건)</summary>%s</details>'
+            # 사건당 대표 기사 하나만 바로 보이고, 나머지 매체는 접어 둔다.
+            #   실측: 한 사건에 매체 6~10곳이 그대로 나열돼 화면이 길어졌다.
+            if rest_rows:
+                more = ('<details class="seen-more"><summary>매체 %d곳 더보기</summary>%s</details>'
+                       % (len(rest_rows), "".join(rest_rows)))
+            else:
+                more = ""
+            cluster_blocks.append('<div class="seen-cluster">%s%s%s</div>' % (ref_line, head_row, more))
+        blocks.append('<details class="seen-group"><summary>%s — %d건 (%d개 사건)</summary>%s</details>'
                       % (esc(day), total, len(clusters), "".join(cluster_blocks)))
 
     return ('<div class="audit-grp"><h4>기열람 %d건 (직전 회차에 이미 반영)</h4>%s</div>'
@@ -510,7 +533,8 @@ def _audit(screened):
     dup = [a for a in screened if (a.get("exclude_reason") or "").startswith("중복")]
     seen = [a for a in screened if (a.get("exclude_reason") or "").startswith("기열람")]
     irr = [a for a in screened
-           if a.get("excluded") and not (a.get("exclude_reason") or "").startswith(("중복", "기열람"))]
+           if a.get("excluded") and not (a.get("exclude_reason") or "").startswith(("중복", "기열람"))
+           and not a.get("dup_members")]
 
     def item(a, extra=""):
         url = a.get("naver_url") or ""
@@ -536,8 +560,11 @@ def _audit(screened):
                 n_live_rep += 1
                 badge = '<span class="rep-ok">반영됨</span>'
             else:
-                why = (r.get("exclude_reason") or "제외")[:34]
-                badge = '<span class="rep-out">미반영 · %s</span>' % H.escape(why)
+                # 대표가 결국 미반영이면 이 사건 자체를 검수 목록에서 뺀다.
+                #   반영 안 될 걸 알면서 "중복 33건 → 9개 사건"에 끼워 보여주면
+                #   반영된 것처럼 오인하게 된다. 미반영 건수는 헤더 집계에는
+                #   남기되(과도필터링 추적용), 상세 블록은 펼치지 않는다.
+                continue
             rows = []
             for m in r["dup_members"]:
                 # 옛 회차 데이터는 (제목, 매체, 사유) 3요소 — URL 없이도 동작하게
@@ -550,18 +577,63 @@ def _audit(screened):
                             % (title, H.escape(p), H.escape(w)))
             blocks.append('%s<div class="audit-dup">%s</div>'
                           % (item(r, " " + badge), "".join(rows)))
-        out.append('<div class="audit-grp"><h4>중복 제거 %d건 → %d개 사건 '
-                   '(반영 %d · 미반영 %d)</h4>%s</div>'
-                   % (len(dup), len(reps), n_live_rep, len(reps) - n_live_rep,
-                      "".join(blocks)))
+        if blocks:
+            out.append('<div class="audit-grp"><h4>중복 제거 %d건 → %d개 사건 '
+                       '(반영 %d · 미반영 %d)</h4>%s</div>'
+                       % (len(dup), len(reps), n_live_rep, len(reps) - n_live_rep,
+                          "".join(blocks)))
     if seen:
         out.append(_render_seen_grouped(seen))
     if irr:
-        out.append('<div class="audit-grp"><h4>본문 확인 후 제외 %d건</h4>%s</div>'
-                   % (len(irr), "".join(
-                       item(a, ' <span class="meta">%s</span>'
-                            % H.escape((a.get("exclude_reason") or "")[:40]))
-                       for a in irr[:60])))
+        # 같은 보도자료가 여러 매체에 실려 반복 제외되는 경우가 많다
+        #   (실측: "우리금융, 전북혁신도시 우리원금융타운"이 KBS 등 4개 매체로 중복,
+        #    "우리금융 균형발전 전북거점" 계열도 같은 사건).
+        #   본문무관 목록 전용 경량 그룹화 — 정식 dedup 로직(cfg 필요)과 별개로,
+        #   화면 가독성만을 위해 2글자 이상 단어 겹침으로 느슨하게 묶는다.
+        def _loose_tokens(title):
+            t = re.sub(r"[\[\]【】\"'“”‘’]", " ", title or "")
+            return {w for w in re.findall(r"[가-힣A-Za-z0-9]{2,}", t)}
+
+        irr_tok = [_loose_tokens(a.get("title")) for a in irr]
+        clusters, seen_idx = [], set()
+        for i, a in enumerate(irr):
+            if i in seen_idx:
+                continue
+            group = [a]
+            seen_idx.add(i)
+            ca = irr_tok[i]
+            for j in range(i + 1, len(irr)):
+                if j in seen_idx or not ca:
+                    continue
+                cb = irr_tok[j]
+                if not cb:
+                    continue
+                sim = len(ca & cb) / min(len(ca), len(cb))
+                if sim >= 0.6:
+                    group.append(irr[j])
+                    seen_idx.add(j)
+            clusters.append(group)
+
+        blocks = []
+        for g in clusters:
+            head_a = g[0]
+            reason = H.escape((head_a.get("exclude_reason") or "")[:40])
+            if len(g) == 1:
+                blocks.append(item(head_a, ' <span class="meta">%s</span>' % reason))
+            else:
+                members = "".join(
+                    '<div>└ %s <span class="meta">· %s</span></div>'
+                    % (('<a href="%s" target="_blank">%s</a>'
+                        % (H.escape(m.get("naver_url") or ""), H.escape(m.get("title") or ""))
+                        if m.get("naver_url") else H.escape(m.get("title") or "")),
+                       H.escape(m.get("press") or ""))
+                    for m in g[1:])
+                blocks.append('%s<div class="audit-dup">%s</div>'
+                              % (item(head_a, ' <span class="meta">%s</span> '
+                                 '<span class="rep-dup">+%d건 동일사건</span>' % (reason, len(g) - 1)),
+                                 members))
+        out.append('<div class="audit-grp"><h4>본문 확인 후 제외 %d건 (%d개 사건)</h4>%s</div>'
+                   % (len(irr), len(clusters), "".join(blocks)))
 
     return ('<details class="audit"><summary>1차 통과 %d건 검수 — 반영 %d · 중복 %d · '
             '기열람 %d · 본문무관 %d</summary><div class="audit-body">%s</div></details>'
