@@ -116,6 +116,11 @@ need html_generator.py "이 사건 자체를 검수 목록에서 뺀다" "미반
 need html_generator.py "seen-more"           "기열람 대표1건+더보기 접힘"
 need html_generator.py "rep-dup"             "본문무관 반복사건 묶음"
 
+need config.yaml   "min_line_chars: 14"   "본문 줄 기준 완화"
+need summarizer.py "LAST_GROUND_RATIO"    "환각 판정 비율 진단"
+need classifier.py "ALIAS_TO_FULL"        "축약형 회사명 분류 매핑"
+deny html_generator.py "<h4>반영 %d건"     "검수목록에 반영 섹션 없음"
+
 echo "────────────────────────────────────────────"
 # 문법 검사
 for f in *.py; do

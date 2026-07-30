@@ -544,9 +544,9 @@ def _audit(screened):
                 % (title, H.escape(a.get("press") or ""), extra))
 
     out = []
-    if live:
-        out.append('<div class="audit-grp"><h4>반영 %d건</h4>%s</div>'
-                   % (len(live), "".join(item(a) for a in live)))
+    # '반영' 목록은 여기서 보여주지 않는다.
+    #   같은 기사가 아래 본문 카드로 이미 전부 나오므로 중복이고,
+    #   검수 목록의 목적은 '왜 안 보이는지'를 추적하는 것이다.
     if dup:
         reps = [a for a in screened if a.get("dup_members")]
         # 대표가 최종적으로 반영됐는지 표시한다.
@@ -575,8 +575,13 @@ def _audit(screened):
                 rows.append('<div>└ %s <span class="meta">· %s</span> '
                             '<span class="audit-why">%s</span></div>'
                             % (title, H.escape(p), H.escape(w)))
-            blocks.append('%s<div class="audit-dup">%s</div>'
-                          % (item(r, " " + badge), "".join(rows)))
+            # 대표만 바로 보이고, 묶인 기사들은 접어 둔다.
+            #   실측: KB국민은행 예금토큰 건 하나에 매체 11곳이 그대로 펼쳐져
+            #   화면이 끝없이 길어졌다.
+            more = ('<details class="seen-more"><summary>중복 %d건 보기</summary>'
+                    '<div class="audit-dup">%s</div></details>'
+                    % (len(rows), "".join(rows))) if rows else ""
+            blocks.append('%s%s' % (item(r, " " + badge), more))
         if blocks:
             out.append('<div class="audit-grp"><h4>중복 제거 %d건 → %d개 사건 '
                        '(반영 %d · 미반영 %d)</h4>%s</div>'
@@ -628,10 +633,10 @@ def _audit(screened):
                         if m.get("naver_url") else H.escape(m.get("title") or "")),
                        H.escape(m.get("press") or ""))
                     for m in g[1:])
-                blocks.append('%s<div class="audit-dup">%s</div>'
-                              % (item(head_a, ' <span class="meta">%s</span> '
-                                 '<span class="rep-dup">+%d건 동일사건</span>' % (reason, len(g) - 1)),
-                                 members))
+                blocks.append('%s<details class="seen-more"><summary>중복 %d건 보기</summary>'
+                              '<div class="audit-dup">%s</div></details>'
+                              % (item(head_a, ' <span class="meta">%s</span>' % reason),
+                                 len(g) - 1, members))
         out.append('<div class="audit-grp"><h4>본문 확인 후 제외 %d건 (%d개 사건)</h4>%s</div>'
                    % (len(irr), len(clusters), "".join(blocks)))
 

@@ -99,6 +99,31 @@ def build_index(cfg: dict) -> list:
         for n in names:
             idx.append((n, ov["menu_id"], sub, "해외"))
 
+    # 헤드라인 축약형 → 정식명 매핑. 자동 추론은 위험해서 명시적으로 적는다.
+    #   실측: 자동 추론 시 'IBK'가 IBK캐피탈(policy)로, '현대해상화재'가
+    #   현대(기타)로 잘못 붙었다. 이름만 겹쳐도 소속이 달라질 수 있어서다.
+    #   실측 오분류: "미래에셋 박현주 회장 Digital X" → 회사 인식 실패 →
+    #   검색어 폴백으로 '우리금융'이 됨.
+    ALIAS_TO_FULL = {
+        "한투증권": "한국투자증권", "미래에셋": "미래에셋증권", "NH투자": "NH투자증권",
+        "키움": "키움증권",
+        "신한지주": "신한금융", "KB지주": "KB금융", "하나지주": "하나금융",
+        "우리지주": "우리금융",
+        "IBK": "기업은행", "카뱅": "카카오뱅크", "케뱅": "케이뱅크", "토뱅": "토스뱅크",
+        "아이엠뱅크": "iM뱅크",
+        "DB손보": "DB손해보험", "KB손보": "KB손해보험", "한화손보": "한화손해보험",
+        "롯데손보": "롯데손해보험", "흥국손보": "흥국화재", "하나손보": "하나손해보험",
+        "NH농협손보": "농협손해보험", "현대해상화재": "현대해상",
+        "삼성생명보험": "삼성생명", "교보생명보험": "교보생명",
+        "신한라이프생명": "신한라이프",
+    }
+    by_name = {c: (mid, sub, sec) for c, mid, sub, sec in idx}
+    for alias, full in ALIAS_TO_FULL.items():
+        if alias in by_name or full not in by_name:
+            continue
+        mid, sub, sec = by_name[full]
+        idx.append((alias, mid, sub, sec))
+
     # 긴 회사명 먼저 (예: "신한투자증권"이 "신한"보다 우선)
     idx.sort(key=lambda x: len(x[0]), reverse=True)
     return idx

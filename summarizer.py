@@ -110,6 +110,10 @@ def fix_ending(line: str) -> str:
     return s
 
 
+# 마지막 환각 판정 비율 — 기준이 과한지 사후 판단하려면 수치가 남아야 한다
+LAST_GROUND_RATIO = 0.0
+
+
 def _grounded(summary: str, title: str, body: str) -> bool:
     """요약이 원문에 근거하는지 검증.
 
@@ -123,7 +127,9 @@ def _grounded(summary: str, title: str, body: str) -> bool:
     if not toks:
         return False
     hits = sum(1 for t in toks if t.lower() in src)
-    return hits / len(toks) >= 0.55
+    global LAST_GROUND_RATIO
+    LAST_GROUND_RATIO = hits / len(toks)
+    return LAST_GROUND_RATIO >= 0.55
 
 
 # 마지막 형식 실패 사유 — 어느 규칙에서 걸렸는지 로그·카드에 남긴다
@@ -285,7 +291,7 @@ def summarize(article: dict, cfg: dict) -> dict:
                 valid = _validate(raw, cfg)
                 if valid and not _grounded(valid, article["title"], body):
                     # 예시 복창·환각 — 재시도해도 같은 결과이므로 즉시 실패 처리
-                    last_err = "환각(원문 근거 없음)"
+                    last_err = "환각(원문 근거 %.0f%%, 기준 55%%)" % (LAST_GROUND_RATIO*100)
                     valid = None
                     break
                 if valid:
