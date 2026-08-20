@@ -340,11 +340,13 @@ title_normalize:
 # -------------------------------------------------------------
 summarizer:
   provider: groq                # groq | anthropic | openai
-  model: llama-3.3-70b-versatile      # 주 모델
-  fallback_model: llama-3.1-8b-instant  # 70b 일일한도 소진 시 자동 전환 (쿼터 별개)
+  model: openai/gpt-oss-120b      # 주 모델
+  fallback_model: openai/gpt-oss-20b  # 70b 일일한도 소진 시 자동 전환 (쿼터 별개)
   body_chars: 1100               # 요약에 보낼 본문 길이 (문장 단위로 절단)
   min_body_chars: 200            # 이보다 짧으면 Groq 호출 생략 (환각 방지 + 토큰 절약)
-  max_tokens: 320                # 4줄 × 70자 여유분 (상한일 뿐, 실제 생성량만 소비)
+  max_tokens: 1000                # 4줄 × 70자 여유분 (상한일 뿐, 실제 생성량만 소비)
+  reasoning_effort: low
+  reasoning_format: hidden
   batch: false                  # 절대 변경 금지
   max_retries: 3
   backoff_base_seconds: 2
@@ -510,7 +512,10 @@ policy_section:
 # 검토 에이전트 — 필터 통과 기사를 LLM으로 재검 (오탐 최종 차단)
 reviewer:
   enabled: true                 # false로 끄면 검토 건너뜀 (속도 우선 시)
-  model: llama-3.1-8b-instant   # 경량 모델 (YES/NO 판정만이라 충분)
+  model: openai/gpt-oss-20b   # 경량 모델 (YES/NO 판정만이라 충분)
+  max_tokens: 500
+  reasoning_effort: low
+  reasoning_format: hidden
   max_retries: 2
 
 html:

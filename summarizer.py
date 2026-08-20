@@ -81,6 +81,13 @@ _ENDING_FIXES = [
     # 가능
     (re.compile(r"할\s*수\s*있다$"), " 가능"),
     (re.compile(r"수\s*있다$"), " 가능"),
+    # 금지어미 -함/-임/-됨 → 명사(구). 프롬프트가 금지하지만 모델이
+    #   어길 수 있어 기계 보정으로 방어한다. 포함/보관함 등은 lookbehind 제외.
+    (re.compile(r"(?<!포)(?<!보관)(?<!사물)(?<!우편)(?<!신발)(?<!저금)"
+                r"(?<!의견)(?<!건의)(?<!투표)(?<!응모)(?<!수납)함$"), ""),
+    (re.compile(r"(?:예정|계획|목표|방침|전망|필요|가능|추진|도입|확대)임$"),
+     lambda m: m.group(0)[:-1]),
+    (re.compile(r"(?<!게)(?<!타)(?<!레)(?<!책)(?<!소)(?<!모)됨$"), ""),
     # 일반 서술 어미 제거 → 명사로 끝맺음
     (re.compile(r"(?:했|하였|하겠|한|합)다$"), ""),
     (re.compile(r"했습니다$|합니다$|입니다$|습니다$"), ""),
@@ -248,6 +255,11 @@ def summarize(article: dict, cfg: dict) -> dict:
         payload = {"model": model, "max_tokens": s.get("max_tokens", 180),
                    "temperature": 0,          # 결정적 출력 → 형식 오류·재시도 감소
                    "messages": [{"role": "user", "content": prompt}]}
+        # gpt-oss 계열은 추론 모델 - 추론 토큰이 max_tokens를 잠식하고
+        # 추론 텍스트가 content로 새는 사례가 있어 명시적으로 억제한다.
+        for _k in ("reasoning_effort", "reasoning_format"):
+            if s.get(_k):
+                payload[_k] = s[_k]
         quota_out = False
         fmt_fail = 0
         rate_hits = 0

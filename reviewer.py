@@ -65,12 +65,15 @@ def review(article: dict, cfg: dict) -> dict:
     headers = {"Authorization": f"Bearer {os.environ['GROQ_API_KEY']}",
                "Content-Type": "application/json"}
     payload = {
-        "model": rc.get("model", "llama-3.1-8b-instant"),
-        "max_tokens": 3,                 # YES/NO만 — 토큰 최소
+        "model": rc.get("model", "openai/gpt-oss-20b"),
+        "max_tokens": rc.get("max_tokens", 500),  # 추론 모델은 추론 토큰이 예산을 잠식함
         "temperature": 0,
         "messages": [{"role": "system", "content": SYSTEM},
                      {"role": "user", "content": user}],
     }
+    for _k in ("reasoning_effort", "reasoning_format"):
+        if rc.get(_k):
+            payload[_k] = rc[_k]
 
     for attempt in range(rc.get("max_retries", 2)):
         try:
