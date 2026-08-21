@@ -57,6 +57,7 @@ jobs:
           path: output
   deploy:
     needs: collect
+    if: always()
     runs-on: ubuntu-latest
     environment:
       name: github-pages
