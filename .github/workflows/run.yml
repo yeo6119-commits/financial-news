@@ -53,6 +53,7 @@ jobs:
             sleep 5
           done
       - uses: actions/upload-pages-artifact@v3
+        if: always()
         with:
           path: output
   deploy:
