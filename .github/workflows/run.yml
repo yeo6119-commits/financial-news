@@ -16,6 +16,10 @@ permissions:
   contents: write
   pages: write
   id-token: write
+concurrency:
+  group: financial-news-pipeline
+  cancel-in-progress: false
+
 jobs:
   collect:
     runs-on: ubuntu-latest
