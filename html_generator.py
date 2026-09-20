@@ -192,7 +192,7 @@ details.excluded summary{cursor:pointer;list-style:none;padding:10px 14px;font-s
 .ex-reason{font-size:10.5px;font-weight:700;color:var(--warn);background:#fff;border-radius:4px;padding:1px 7px;white-space:nowrap}
 .ex-meta{color:var(--muted);font-size:11px}
 footer{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
-.hidden{display:none} .empty-run{font-size:12.5px;color:var(--muted);padding:6px 0 2px}
+.hidden{display:none}
 """
 
 RUN_JS = """
@@ -346,15 +346,12 @@ function apply(){
   });
   document.querySelectorAll('.run-block').forEach(function(r){
     var vis=r.querySelectorAll('.article:not(.hidden)').length;
-    var em=r.querySelector('.empty-run');
-    if(vis===0){
-      if(!em){em=document.createElement('div');em.className='empty-run';
-        em.textContent='이 회차에는 해당 조건의 기사가 없습니다.';r.querySelector('.run-body').appendChild(em);}
-      em.classList.remove('hidden');
-    } else if(em){ em.classList.add('hidden'); }
+    // 필터 중엔 매칭 0건인 날짜/회차는 통째로 숨긴다 — 빈 회차를 보여줄 이유가 없다.
+    r.classList.toggle('hidden', filtering && vis===0);
+    // 필터가 걸리면 매칭된 회차는 자동으로 펼치고(클릭 없이 바로 보이게),
+    // 필터를 지우면 기본 상태(최신 회차만 펼침)로 되돌린다.
+    r.open = filtering ? (vis>0) : (r.dataset.latest==='1');
 
-    // 자동 펼침 없음 — 사용자가 클릭할 때만 열림.
-    // 대신 헤더 배지에 현재 조건의 매칭 건수를 표시.
     var cnt = r.querySelector('.cnt');
     if(cnt){
       if(filtering){
@@ -677,14 +674,11 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     runs = OrderedDict()
     counts = {k: 0 for k in MENU_LABELS}
     subs = {}          # menu_id -> {company: count}
-    # 탭 옆 숫자는 '가장 최근 실행'분만 센다 (누적 아님).
-    #   rows는 run_id 내림차순 정렬이므로 첫 기사의 run_id가 최근 회차.
-    recent_run = rows[0]["run_id"] if rows else None
+    # 탭 옆 숫자·활성화 여부는 아카이브 전체(60일치) 기준으로 집계한다.
+    #   과거엔 '가장 최근 실행'분만 셌는데, 그러면 이번 회차에 기사가 없던
+    #   회사 탭이 disabled로 막혀 과거 회차에 있는 기사조차 필터로 못 봤다.
     for a in rows:
         runs.setdefault(a["run_id"], {"meta": a, "arts": []})["arts"].append(a)
-        # 아카이브(runs)에는 전체를 담되, 카운트는 최근 회차만.
-        if a["run_id"] != recent_run:
-            continue
         counts["all"] += 1
         # 지방·국책·비지주·미분류는 '기타' 탭으로 합산
         grp = "etc" if a["fin_group"] in ETC_GROUPS else a["fin_group"]
@@ -728,7 +722,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
         opened = " open" if is_latest else ""
         label = f"{req} 요청분" + ("" if is_latest else " (과거)")
         run_html += f"""
-<details class="run-block"{opened}>
+<details class="run-block" data-latest="{1 if is_latest else 0}"{opened}>
  <summary>
   <div class="run-head"><span class="dot"></span><h2>{label}</h2>
    <span class="cnt" data-total="{len(r['arts'])}">{len(r['arts'])}건</span>
