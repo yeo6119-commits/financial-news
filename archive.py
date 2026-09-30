@@ -1,7 +1,7 @@
-# archive.py — 무제한 누적 아카이브 (월별 CSV, 삭제 없음)
+# archive.py — 무제한 누적 아카이브 (일별 CSV, 삭제 없음)
 #
 # news.db는 60일 보관(retention_days)이라 오래된 기사가 지워진다.
-# 이 스크립트는 반영 기사를 archive/YYYY-MM.csv 에 URL 기준으로 "추가만" 한다.
+# 이 스크립트는 반영 기사를 archive/YYYY-MM-DD.csv 에 URL 기준으로 "추가만" 한다.
 # 기존 행은 지우지 않는다 (요약이 갱신된 경우에만 덮어쓴다).
 #
 # 사용:
@@ -34,7 +34,7 @@ def _clean(key, v):
 
 
 def _month_path(pub_date: str) -> str:
-    return os.path.join(ARCHIVE_DIR, f"{(pub_date or 'unknown')[:7] or 'unknown'}.csv")
+    return os.path.join(ARCHIVE_DIR, f"{(pub_date or '')[:10] or 'unknown'}.csv")
 
 
 def _load(path):
@@ -47,7 +47,7 @@ def _load(path):
 
 
 def merge(rows) -> int:
-    """rows(DB 튜플들)를 월별 CSV에 병합. 새로 추가된 건수 반환."""
+    """rows(DB 튜플들)를 일별 CSV에 병합. 새로 추가된 건수 반환."""
     by_month = {}
     for r in rows:
         clean = [_clean(k, v) for k, v in zip(COLUMNS, r)]
