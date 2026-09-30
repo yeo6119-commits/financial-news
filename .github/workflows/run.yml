@@ -42,12 +42,15 @@ jobs:
       - name: 목록 보기 갱신 (article_list.html)
         if: always()
         run: python list_view.py
+      - name: 무제한 아카이브 갱신 (archive/*.csv, 삭제 없음)
+        run: python archive.py
       - name: DB 커밋
         if: always()
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add -f news.db output/financial_news_archive.html output/article_list.html
+          git add archive
           git diff --staged --quiet || git commit -m "run"
           # 실행 도중 다른 push가 들어오면 원격이 앞서가 push가 거부된다.
           #   rebase로 원격 변경을 먼저 얹고, 실패하면 재시도.
