@@ -39,6 +39,9 @@ done
 # 요약 안전장치
 need summarizer.py "_grounded"            "요약 근거 검증 (예시 복창 차단)"
 need summarizer.py "min_body_chars"       "짧은 본문 호출 생략"
+need summarizer.py "_summarize_claude"    "Groq 소진 시 Claude 대체 요약"
+need summarizer.py "_DAILY_OUT"           "소진된 Groq 모델 재호출 생략"
+need .github/workflows/run.yml "ANTHROPIC_API_KEY" "Claude 대체 요약 키 주입"
 # 중복 제거
 need deduplicator.py "_strip_josa"        "한국어 조사 제거"
 need deduplicator.py "_matches"            "전이적 클러스터링 (대표만 비교하면 사건이 쪼개짐)"

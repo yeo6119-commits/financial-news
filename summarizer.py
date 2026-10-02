@@ -10,10 +10,20 @@ import time
 import requests
 
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 
 # 모델별 누적 토큰 사용량 (Groq 응답의 usage 필드 — 추정 아닌 실측)
 TOKEN_USAGE: dict[str, int] = {}
 DAILY_LIMIT = 100_000        # Groq 무료 티어 모델별 일일 토큰 한도(TPD)
+
+# 이번 실행 중 일일한도(TPD) 소진이 확인된 Groq 모델.
+#   소진 후에도 기사마다 두 모델을 차례로 불러 매번 429를 맞던 낭비를 없앤다.
+_DAILY_OUT: set[str] = set()
+
+# Claude 대체 경로 (Groq 쿼터 소진 시). 사용량은 Groq와 단위가 달라 따로 센다.
+CLAUDE_USAGE = {"calls": 0, "in": 0, "out": 0}
+CLAUDE_LAST_ERR = ""         # 마지막 Claude 실패 사유
+_CLAUDE_DEAD = False         # 인증·잔액 오류면 이번 실행에서 더 부르지 않는다
 
 PROMPT = """기사를 3~4줄 개조식으로 요약. 각 줄 "- "로 시작. 그 외 텍스트 출력 금지.
 
@@ -222,6 +232,72 @@ def compact_body(text: str, limit: int) -> str:
     return " ".join(out) if out else t[:limit]
 
 
+def _summarize_claude(article: dict, prompt: str, body: str, cfg: dict) -> bool:
+    """Groq 쿼터가 바닥났을 때의 대체 경로. 기사 1건 = Claude 호출 1회(배치 금지).
+
+    프롬프트·형식 검증·근거 검증(_grounded)은 Groq 경로와 동일하게 거친다.
+    형식 실패는 1회만 재시도하고, 인증·잔액 오류는 이번 실행에서 더 부르지 않는다.
+    성공하면 True. 실패하면 CLAUDE_LAST_ERR에 사유를 남기고 False.
+    """
+    global CLAUDE_LAST_ERR, _CLAUDE_DEAD
+    CLAUDE_LAST_ERR = ""
+    c = cfg["summarizer"].get("claude_fallback") or {}
+    key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    if not c.get("enabled") or not key or _CLAUDE_DEAD:
+        return False
+
+    model = c.get("model", "claude-haiku-4-5-20251001")
+    payload = {"model": model, "max_tokens": c.get("max_tokens", 400),
+               "temperature": 0,
+               "messages": [{"role": "user", "content": prompt}]}
+    headers = {"x-api-key": key, "anthropic-version": "2023-06-01",
+               "content-type": "application/json"}
+    fmt_fail = 0
+    for attempt in range(4):
+        try:
+            r = requests.post(ANTHROPIC_URL, json=payload, headers=headers, timeout=60)
+            if r.status_code in (401, 403) or (
+                    r.status_code == 400 and "credit balance" in r.text):
+                CLAUDE_LAST_ERR = "Claude 인증·잔액 오류(%d)" % r.status_code
+                _CLAUDE_DEAD = True
+                print("  ⚠ " + CLAUDE_LAST_ERR + " — 이번 실행에서 Claude 대체 요약 중단")
+                return False
+            if r.status_code in (429, 500, 502, 503, 529):
+                try:
+                    wait = min(float(r.headers.get("retry-after") or 2 * (attempt + 1)), 30)
+                except ValueError:
+                    wait = 2 * (attempt + 1)
+                CLAUDE_LAST_ERR = "Claude 호출 지연(%d)" % r.status_code
+                time.sleep(wait)
+                continue
+            r.raise_for_status()
+            data = r.json()
+            u = data.get("usage") or {}
+            CLAUDE_USAGE["calls"] += 1
+            CLAUDE_USAGE["in"] += u.get("input_tokens", 0)
+            CLAUDE_USAGE["out"] += u.get("output_tokens", 0)
+            raw = "".join(b.get("text", "") for b in data.get("content", [])
+                          if b.get("type") == "text")
+            valid = _validate(raw, cfg)
+            if valid and not _grounded(valid, article["title"], body):
+                CLAUDE_LAST_ERR = "환각(원문 근거 %.0f%%, 기준 55%%)" % (LAST_GROUND_RATIO * 100)
+                return False
+            if valid:
+                article["summary"] = valid
+                article["summary_ok"] = 1
+                article["summary_fail_reason"] = None
+                article["summary_model"] = model
+                return True
+            CLAUDE_LAST_ERR = "형식 검증 실패 — %s" % (LAST_FMT_REASON or "사유 미상")
+            fmt_fail += 1
+            if fmt_fail >= 2:
+                return False
+        except Exception as e:
+            CLAUDE_LAST_ERR = "Claude 호출 실패: " + str(e)[:80]
+            time.sleep(2 * (attempt + 1))
+    return False
+
+
 def summarize(article: dict, cfg: dict) -> dict:
     """summary / summary_ok / summary_fail_reason 채워 반환."""
     if not article.get("body"):
@@ -252,6 +328,9 @@ def summarize(article: dict, cfg: dict) -> dict:
 
     last_err = None
     for mi, model in enumerate(models):
+        if model in _DAILY_OUT:              # 이번 실행에서 이미 소진 확인 → 호출 생략
+            last_err = f"레이트리밋(일일한도:{model})"
+            continue
         payload = {"model": model, "max_tokens": s.get("max_tokens", 180),
                    "temperature": 0,          # 결정적 출력 → 형식 오류·재시도 감소
                    "messages": [{"role": "user", "content": prompt}]}
@@ -278,6 +357,7 @@ def summarize(article: dict, cfg: dict) -> dict:
                     if "per day" in msg or "TPD" in msg:
                         last_err = f"레이트리밋(일일한도:{model})"
                         quota_out = True
+                        _DAILY_OUT.add(model)
                         break
                     # 분당 한도(TPM)는 잠시 기다리면 회복.
                     #   Groq가 알려주는 재시도 대기시간(retry-after)을 우선 존중한다.
@@ -328,6 +408,14 @@ def summarize(article: dict, cfg: dict) -> dict:
         if not quota_out:
             break                           # 쿼터 문제가 아니면 폴백해도 같은 결과
 
+    # Groq가 쿼터 때문에 못 쓰는 경우에만 Claude로 넘긴다.
+    #   형식·환각 실패는 모델 문제라 비싼 경로로 넘겨도 득이 적다.
+    if (last_err or "").startswith(("레이트리밋", "분당한도")):
+        if _summarize_claude(article, prompt, body, cfg):
+            return article
+        if CLAUDE_LAST_ERR.startswith(("형식 검증", "환각")):
+            last_err = CLAUDE_LAST_ERR      # 쿼터가 아니라 요약 품질 문제로 실패한 건
+
     article["summary_ok"] = 0
     article["summary_fail_reason"] = last_err or "알 수 없음"
     return article
@@ -335,12 +423,14 @@ def summarize(article: dict, cfg: dict) -> dict:
 
 def usage_report() -> str:
     """모델별 토큰 사용량 — 일일 한도 대비 잔량 표시"""
-    if not TOKEN_USAGE:
-        return ""
     parts = []
     for model, used in TOKEN_USAGE.items():
         m = re.search(r"(\d+b)", model)
         short = m.group(1) if m else model
         pct = used * 100 // DAILY_LIMIT
         parts.append(f"{short} {used:,}/{DAILY_LIMIT:,} ({pct}%)")
+    if CLAUDE_USAGE["calls"]:
+        parts.append("Claude %d건 (입력 %s·출력 %s 토큰)" % (
+            CLAUDE_USAGE["calls"], format(CLAUDE_USAGE["in"], ","),
+            format(CLAUDE_USAGE["out"], ",")))
     return " · ".join(parts)

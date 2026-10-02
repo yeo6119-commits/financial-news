@@ -84,6 +84,7 @@ git show origin/main:summarizer.py | grep -c "compact_body"    # 1 이상이면 
 | `NAVER_CLIENT_ID` | 네이버 개발자센터 |
 | `NAVER_CLIENT_SECRET` | 네이버 개발자센터 |
 | `GROQ_API_KEY` | console.groq.com |
+| `ANTHROPIC_API_KEY` | console.anthropic.com (선택) — Groq 두 모델이 일일한도를 소진했을 때만 Claude Haiku가 요약을 대신한다. 없으면 건너뛴다. Claude 구독과는 별개로 API 크레딧이 필요하다 |
 
 ---
 
