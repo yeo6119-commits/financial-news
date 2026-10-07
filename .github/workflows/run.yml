@@ -30,6 +30,16 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
+      - name: Claude Code CLI 설치 (구독 토큰이 있을 때만 — Groq 소진 시 요약 대체용)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        continue-on-error: true
+        run: |
+          if [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            npm install -g @anthropic-ai/claude-code && claude --version
+          else
+            echo "CLAUDE_CODE_OAUTH_TOKEN 없음 — 설치 생략"
+          fi
       - name: 실행 트리거 표시
         run: echo "트리거=${{ github.event_name }} · 예정시각=${{ github.event.schedule || '수동' }} · 현재 $(TZ=Asia/Seoul date '+%m-%d %H:%M') KST"
       - name: 뉴스 수집 실행
@@ -38,6 +48,7 @@ jobs:
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           TZ: Asia/Seoul
         run: python -u main.py
       - name: 목록 보기 갱신 (article_list.html)

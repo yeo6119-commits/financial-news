@@ -16,6 +16,7 @@ import filter as flt
 import deduplicator as ddp
 import classifier as cls
 import summarizer as smr
+import backfill
 import reviewer as rvw
 import html_generator as htm
 
@@ -215,6 +216,10 @@ def main():
         tok = smr.usage_report()
         if tok:
             print(f"  → 토큰 사용 {tok}")
+
+        # 신규 요약이 끝난 뒤, 남은 쿼터로 이전 회차의 '한도 실패' 요약을 채운다.
+        #   건별로 즉시 커밋하므로 아래 HTML 생성 직전의 rollback과 무관하다.
+        bf_ok, _ = backfill.run(conn, cfg)
 
         live = final_live  # 이후 통계·HTML 코드는 최종 생존 리스트를 그대로 사용 (기존과 동일)
 

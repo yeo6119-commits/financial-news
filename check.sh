@@ -41,7 +41,11 @@ need summarizer.py "_grounded"            "요약 근거 검증 (예시 복창 �
 need summarizer.py "min_body_chars"       "짧은 본문 호출 생략"
 need summarizer.py "_summarize_claude"    "Groq 소진 시 Claude 대체 요약"
 need summarizer.py "_DAILY_OUT"           "소진된 Groq 모델 재호출 생략"
+need main.py       "backfill.run"         "한도 실패 요약 자동 보충 연결"
+need backfill.py   "LIMIT_REASONS"        "보충은 한도 실패만 대상(환각 등 재시도 금지)"
 need .github/workflows/run.yml "ANTHROPIC_API_KEY" "Claude 대체 요약 키 주입"
+need .github/workflows/run.yml "CLAUDE_CODE_OAUTH_TOKEN" "Claude 구독 토큰 주입(CLI 대체 요약)"
+need summarizer.py "_claude_call_cli"     "Claude CLI 경로(구독 한도 사용)"
 # 중복 제거
 need deduplicator.py "_strip_josa"        "한국어 조사 제거"
 need deduplicator.py "_matches"            "전이적 클러스터링 (대표만 비교하면 사건이 쪼개짐)"
