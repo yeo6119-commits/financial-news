@@ -118,6 +118,8 @@ need html_generator.py "rep-out"             "중복 대표 반영여부 배지"
 
 need .github/workflows/run.yml "47 21"  "아침 정기실행(KST 06:47, 지연흡수)"
 need .github/workflows/run.yml "13 23"  "백업 실행(KST 08:13)"
+need .github/workflows/run.yml "ref: main"   "checkout은 항상 최신 main (대기 실행의 구버전 충돌 방지)"
+need .github/workflows/run.yml "rebase --abort" "rebase 충돌 시 원상 복구(충돌 표시 배포 방지)"
 
 need html_generator.py "seen-more"           "기열람 대표1건+더보기 접힘"
 need html_generator.py "rep-dup"             "본문무관 반복사건 묶음"
