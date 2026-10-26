@@ -165,6 +165,24 @@ border-radius:20px;padding:1px 9px}
 .article{border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:8px;
 padding:11px 14px;margin-bottom:10px;background:var(--card)}
 .article.is-ai{border-left-color:var(--ai)}
+.article{position:relative}
+/* 공유용 요약 복사 버튼 — 라벨은 ::before로 그려 검색(textContent)에 잡히지 않게 한다 */
+.copy-sum{position:absolute;top:9px;right:12px;font-family:inherit;font-size:12px;font-weight:800;
+color:var(--teal);background:var(--teal-soft);border:1px solid transparent;border-radius:6px;
+padding:4px 12px;cursor:pointer;line-height:1.3}
+.copy-sum::before{content:"요약"}
+.copy-sum:hover{background:var(--teal);color:#fff}
+.article.is-ai .copy-sum{color:var(--ai);background:var(--ai-soft)}
+.article.is-ai .copy-sum:hover{background:var(--ai);color:#fff}
+.article.has-sum .tags{padding-right:84px}
+/* 공유용 요약 팝업 */
+.share-box{max-width:520px}
+.share-box textarea{width:100%;font-family:inherit;font-size:13px;line-height:1.6;color:var(--ink);
+background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+margin-bottom:8px;resize:vertical;outline:none}
+.share-box textarea:focus{border-color:var(--teal)}
+.share-note{font-size:11.5px;color:var(--muted);margin-bottom:12px;min-height:16px}
+.share-note.ok{color:#0a7d55;font-weight:700} .share-note.err{color:#b3403a;font-weight:700}
 .tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:5px}
 .tag{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:4px}
 .tag.path{background:#eef1f0;color:var(--muted)} .tag.digital{background:var(--teal-soft);color:var(--teal)}
@@ -288,6 +306,51 @@ if(!token()){ say('처음이면 실행을 눌러 토큰을 입력하세요'); }
 """
 
 
+COPY_JS = """
+(function(){
+var modal=document.getElementById('shareModal'), ta=document.getElementById('shareText');
+var note=document.getElementById('shareNote'), cp=document.getElementById('shareCopy');
+if(!modal) return;
+var NOTE0='내용을 고친 뒤 복사할 수 있습니다';
+function say(msg, cls){ note.textContent=msg; note.className='share-note'+(cls?' '+cls:''); }
+function openShare(text){
+  ta.value=text; say(NOTE0); cp.textContent='복사';
+  modal.classList.add('show'); ta.focus(); ta.select(); ta.scrollTop=0;
+}
+function closeShare(){ modal.classList.remove('show'); }
+function fallback(t){
+  var prev=ta.value; ta.value=t; ta.focus(); ta.select();
+  var ok=false; try{ ok=document.execCommand('copy'); }catch(e){}
+  return ok;
+}
+function copy(){
+  var t=ta.value;
+  function done(ok){
+    if(ok){ say('클립보드에 복사했습니다', 'ok'); cp.textContent='복사됨 ✓'; }
+    else { say('자동 복사가 막혔습니다. 내용을 선택해 Cmd+C(Ctrl+C)로 복사하세요', 'err'); ta.focus(); ta.select(); }
+  }
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(t).then(function(){ done(true); }, function(){ done(fallback(t)); });
+  } else { done(fallback(t)); }
+}
+document.addEventListener('click', function(e){
+  var b = e.target.closest ? e.target.closest('.copy-sum') : null;
+  if(!b) return;
+  e.preventDefault();
+  openShare(b.getAttribute('data-copy') || '');
+});
+cp.addEventListener('click', copy);
+document.getElementById('shareClose').addEventListener('click', closeShare);
+modal.addEventListener('click', function(e){ if(e.target===modal) closeShare(); });
+ta.addEventListener('input', function(){ say(NOTE0); cp.textContent='복사'; });
+document.addEventListener('keydown', function(e){
+  if(!modal.classList.contains('show')) return;
+  if(e.key==='Escape'){ closeShare(); }
+  else if(e.key==='Enter' && (e.metaKey||e.ctrlKey)){ e.preventDefault(); copy(); }
+});
+})();
+"""
+
 JS = """
 (function(){
 var coMenu=document.getElementById('menu'), subMenu=document.getElementById('submenu');
@@ -390,6 +453,24 @@ renderSub(); apply();
 """
 
 
+def _share_text(a, company: str) -> str:
+    """카톡 등에 붙여넣어 공유할 요약 문구.
+
+        [2026/10/26] 삼성화재
+        - 요약 1줄
+        - 요약 2줄
+        https://원문링크
+
+    날짜는 기사 게재일, 링크는 언론사 원문(없으면 네이버 링크)이다.
+    """
+    day = (a["pub_date"] or "")[:10].replace("-", "/")
+    head = ("[%s] %s" % (day, company)).strip() if day else company
+    lines = ["- " + l.lstrip("*-• ").strip()
+             for l in (a["summary"] or "").splitlines() if l.strip()]
+    link = a["original_url"] or a["naver_url"] or ""
+    return "\n".join([head] + lines + ([link] if link else []))
+
+
 def _card(a) -> str:
     is_ai = a["dig_ai"] == "AI"
     is_pr = (a["search_keyword"] or "").startswith("[PR]")
@@ -423,10 +504,17 @@ def _card(a) -> str:
         summary = '<div class="a-meta nosum">%s</div>' % H.escape(txt)
     pr_tag = '<span class="tag pr">보도자료</span>' if is_pr else ""
     pub = (a["pub_date"] or "")[:16].replace("T", " ")
-    cls = " is-ai" if is_ai else ""
     company = a["company"] or a["subgroup"] or ""
+    cls = (" is-ai" if is_ai else "") + (" has-sum" if a["summary"] else "")
+    copy_btn = ""
+    if a["summary"]:
+        share = _share_text(a, company)
+        copy_btn = ('<button type="button" class="copy-sum" title="공유용 요약 보기·복사" '
+                    'aria-label="요약 복사" data-copy="%s"></button>'
+                    % H.escape(share, quote=True).replace("\n", "&#10;"))
     return f"""
 <div class="article{cls}" data-co="{a['fin_group']}" data-sector="{H.escape(a['sector'] or '기타')}" data-type="{a['dig_ai']}">
+ {copy_btn}
  <div class="tags"><span class="tag path">{H.escape(company)} · {H.escape(a['sector'] or '')}</span>
  <span class="tag {'ai' if is_ai else 'digital'}">{a['dig_ai']}</span>{pr_tag}{status}</div>
  <h3><a href="{H.escape(url)}" target="_blank" rel="noopener">{H.escape(a['title'])}</a></h3>
@@ -800,6 +888,17 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     </div>
   </div>
 </div>
+<div class="modal" id="shareModal">
+  <div class="modal-box share-box">
+    <h3>공유용 요약</h3>
+    <textarea id="shareText" rows="9" spellcheck="false"></textarea>
+    <div class="share-note" id="shareNote">내용을 고친 뒤 복사할 수 있습니다</div>
+    <div class="modal-btns">
+      <button id="shareClose">닫기</button>
+      <button class="primary" id="shareCopy">복사</button>
+    </div>
+  </div>
+</div>
 {runlog}
 <div class="sticky">
   <nav class="company-menu" id="menu">{menu}</nav>
@@ -816,6 +915,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
 <footer>금융 디지털·AI 뉴스 수집 시스템 v2.5 — 수집은 넓게, 판단은 본문 확보 후 로컬에서</footer>
 <script>window.__SUBS__ = {subs_json}; window.__GH__ = {gh_json};</script>
 <script>{RUN_JS}</script>
+<script>{COPY_JS}</script>
 <script>{JS}</script></body></html>"""
 
     tmp = out_path + ".tmp"

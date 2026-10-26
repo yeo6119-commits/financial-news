@@ -123,6 +123,9 @@ need .github/workflows/run.yml "rebase --abort" "rebase 충돌 시 원상 복구
 
 need html_generator.py "seen-more"           "기열람 대표1건+더보기 접힘"
 need html_generator.py "rep-dup"             "본문무관 반복사건 묶음"
+need html_generator.py "copy-sum"            "카드별 공유용 요약 복사 버튼"
+need html_generator.py "_share_text"          "공유 문구 [날짜] 회사 + 요약 + 원문링크"
+need html_generator.py "shareModal"           "요약 버튼 → 공유 팝업(확인·수정 후 복사)"
 
 need config.yaml   "min_line_chars: 14"   "본문 줄 기준 완화"
 need summarizer.py "LAST_GROUND_RATIO"    "환각 판정 비율 진단"
