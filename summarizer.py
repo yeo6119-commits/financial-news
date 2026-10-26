@@ -112,21 +112,31 @@ _ENDING_FIXES = [
 ]
 # 보정 후 남으면 안 되는 잔여 조사 (어미를 떼면서 '를/을/이/가'로 끝나는 경우)
 _DANGLING = re.compile(r"[을를이가은는와과에의로]$")
+# 명사 자체가 조사 글자로 끝나는 말 — 잘라내면 단어가 깨진다
+_NOUN_KEEP = ("증가", "추가", "협의", "논의", "합의", "회의", "심의", "건의", "제의", "의의",
+              "이의", "항의", "성과", "결과", "효과", "부과", "평가", "허가", "차이", "사이",
+              "경로", "도로", "진로", "수로", "유통로", "경과", "공과", "교과")
 
 
 def fix_ending(line: str) -> str:
     """한 줄의 서술형 어미를 명사(구)로 바로잡는다."""
     s = line.strip().rstrip(".")
+    changed = False
     for _ in range(3):                      # "…할 계획이라고 밝혔다" 처럼 겹친 꼬리 처리
         before = s
         for rx, rep in _ENDING_FIXES:
             s2 = rx.sub(rep, s)
             if s2 != s:
                 s = s2.strip()
+                changed = True
                 break
         if s == before:
             break
-    s = _DANGLING.sub("", s).strip()
+    # 어미를 실제로 뗀 줄에서만 잔여 조사를 정리한다. 예전엔 무조건 지워서
+    #   명사로 끝난 멀쩡한 줄이 잘렸다 ("22.3% 증가"→"22.3% 증", "대응 논의"→"대응 논").
+    #   저장된 요약 2,313건 중 60여 줄이 이렇게 깨져 있었다 (2026-10-07 확인).
+    if changed and not s.endswith(_NOUN_KEEP):
+        s = _DANGLING.sub("", s).strip()
     s = re.sub(r"\s{2,}", " ", s)
     return s
 
