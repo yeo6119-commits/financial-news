@@ -346,6 +346,8 @@ summarizer:
     enabled: true
     max_per_run: 20             # 한 회차에 보충할 최대 건수 (신규 기사가 쓸 쿼터를 남기려는 상한)
     max_age_days: 14
+    extract_retry_per_run: 15   # 본문 '접속 실패' 기사를 다음 실행에서 다시 가져와 요약 (회차당 상한, 0이면 끔)
+    extract_max_tries: 3        # 같은 기사를 이 횟수까지만 재시도 (계속 막히는 매체 반복 방지)
   claude_fallback:              # Groq 두 모델이 모두 쿼터 소진일 때만 호출 (기사 1건 = 1회)
     enabled: true               # 키·토큰이 모두 없으면 조용히 건너뜀
     transport: auto             # auto: ANTHROPIC_API_KEY→API(과금), 없으면 CLAUDE_CODE_OAUTH_TOKEN→CLI(구독 한도)

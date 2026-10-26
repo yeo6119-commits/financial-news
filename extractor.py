@@ -32,12 +32,15 @@ GENERIC_BODY_SELECTORS = [
 ]
 
 
-def _get(url: str, timeout: int = 4) -> str | None:
-    """단발성 접속 실패는 대부분 일시적 WAF/봇차단 챌린지다.
+def _get(url: str, timeout: int = 10) -> str | None:
+    """단발성 접속 실패는 대부분 일시적 WAF/봇차단·해외 접속 지연이다.
     실측(dealsitetv.com): 같은 도메인에서 6건 중 5건이 '원문 접속 실패'였는데
-    1건은 성공했다 — 완전 차단이 아니라 간헐적이라는 뜻. 재시도 없이 단발로
-    끝내던 걸 짧은 지연 후 1회만 다시 시도하도록 바꾼다(과금·시간 부담 최소화)."""
-    for attempt in range(2):
+    1건은 성공했다 — 완전 차단이 아니라 간헐적이라는 뜻.
+    2026-10: 로컬에서는 1초 안에 열리는 매체(더밸류뉴스·쿠키뉴스·딜사이트 등)가 Actions에서만
+    4초 제한을 넘겨 실패해 요약이 비는 건이 최근 21일 반영 986건 중 25건이었다.
+    그래서 제한을 10초로 늘리고 3회까지 시도한다(실패한 건만 지연되므로 전체 시간 영향은 작다).
+    404·410은 삭제된 기사라 다시 해도 같으므로 바로 포기한다."""
+    for attempt in range(3):
         try:
             r = requests.get(url, headers=HEADERS, timeout=timeout)
             if r.status_code == 200:
@@ -46,10 +49,12 @@ def _get(url: str, timeout: int = 4) -> str | None:
                 if "charset=" not in r.headers.get("content-type", "").lower():
                     r.encoding = r.apparent_encoding or r.encoding
                 return r.text
+            if r.status_code in (404, 410):
+                return None
         except requests.RequestException:
             pass
-        if attempt == 0:
-            time.sleep(1.2)
+        if attempt < 2:
+            time.sleep(1.2 * (attempt + 1))
     return None
 
 

@@ -17,6 +17,7 @@ import deduplicator as ddp
 import classifier as cls
 import summarizer as smr
 import backfill
+import retry_extract
 import reviewer as rvw
 import html_generator as htm
 
@@ -220,6 +221,8 @@ def main():
         # 신규 요약이 끝난 뒤, 남은 쿼터로 이전 회차의 '한도 실패' 요약을 채운다.
         #   건별로 즉시 커밋하므로 아래 HTML 생성 직전의 rollback과 무관하다.
         bf_ok, _ = backfill.run(conn, cfg)
+        #   본문 접속 실패로 요약이 비었던 기사도 다시 가져와 채운다 (일시적 실패가 대부분)
+        rx_ok, _ = retry_extract.run(conn, cfg)
 
         live = final_live  # 이후 통계·HTML 코드는 최종 생존 리스트를 그대로 사용 (기존과 동일)
 

@@ -103,7 +103,9 @@ deny filter.py     '"결제", "QR"'          "BODY_CORE에 '결제' 단독 없�
 need deduplicator.py "회사 충돌 검사를 맨 앞에" "매칭함수 순서(회사충돌 최우선)"
 need deduplicator.py "if acomp and pcomp and not" "회차간 판정 회사충돌 가드"
 need config.yaml   "summary_dup_threshold: 0.40" "요약중복 임계 실측조정(0.5→0.40)"
-need extractor.py  "attempt in range(2)" "접속실패 1회 재시도(간헐적 봇차단)"
+need extractor.py  "attempt in range(3)" "접속실패 최대 3회 시도·10초(Actions 간헐 지연 흡수)"
+need retry_extract.py "접속 실패"         "본문 접속 실패 기사 다음 실행에서 재추출(유료·구조 문제는 제외)"
+need main.py       "retry_extract.run"    "본문 재추출 파이프라인 연결"
 
 need deduplicator.py "rep.get(\"_comp\") and a.get(\"_comp\")" "클러스터 합류시 대표와 회사공유 필수"
 need deduplicator.py "body_ok"              "빈 본문 동일판정 차단"
