@@ -14,6 +14,8 @@ import subprocess
 import sys
 import tempfile
 
+import outlets
+
 ARCHIVE_DIR = "archive"
 COLUMNS = ["pub_date", "company", "fin_group", "title", "summary", "press", "url", "run_id"]
 HEADER = ["날짜", "회사", "그룹", "제목", "요약", "매체", "링크", "회차"]
@@ -54,6 +56,7 @@ def merge(rows) -> int:
         if clean[6]:
             by_month.setdefault(_month_path(clean[0]), []).append(clean)
     os.makedirs(ARCHIVE_DIR, exist_ok=True)
+    omap = outlets.load()
     added = 0
     for path, new in by_month.items():
         cur = _load(path)
@@ -63,12 +66,56 @@ def merge(rows) -> int:
                 cur[row[6]] = row
             elif not cur[row[6]][4] and row[4]:      # 빈 요약만 채운다
                 cur[row[6]] = row
-        with open(path, "w", encoding="utf-8-sig", newline="") as fh:
-            w = csv.writer(fh)
-            w.writerow(HEADER)
-            for row in sorted(cur.values(), key=lambda x: x[0], reverse=True):
-                w.writerow(row)
+        for row in cur.values():                      # 빈 매체 칸은 링크의 매체 이름으로 채운다
+            _fill_press(row, omap)
+        _write(path, cur)
     return added
+
+
+def _write(path, cur):
+    with open(path, "w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(HEADER)
+        for row in sorted(cur.values(), key=lambda x: x[0], reverse=True):
+            w.writerow(row)
+
+
+def _fill_press(row, omap) -> bool:
+    """매체 칸(5번)이 비어 있으면 링크(6번)의 네이버 oid·도메인으로 이름을 채운다."""
+    if row[5]:
+        return False
+    name = outlets.name_for(row[6], None, omap)
+    if name:
+        row[5] = name
+        return True
+    return False
+
+
+def backfill_press(limit: int = 40) -> int:
+    """이미 쌓인 모든 일별 CSV의 빈 매체 칸을 채운다(과거 파일 포함). 채운 행 수를 돌려준다.
+    아직 이름을 모르는 매체는 한 번에 limit개까지만 조회한다(실행마다 조금씩 채워진다)."""
+    if not os.path.isdir(ARCHIVE_DIR):
+        return 0
+    files = {}
+    for f in sorted(os.listdir(ARCHIVE_DIR)):
+        if f.endswith(".csv"):
+            p = os.path.join(ARCHIVE_DIR, f)
+            files[p] = _load(p)
+    need = {}
+    for cur in files.values():
+        for row in cur.values():
+            if not row[5]:
+                k = outlets.key_of(row[6])
+                if k:
+                    need.setdefault(k, row[6])
+    omap = outlets.learn(need, limit) if need else outlets.load()
+    filled = 0
+    for p, cur in files.items():
+        n = sum(1 for row in cur.values() if _fill_press(row, omap))
+        if n:
+            _write(p, cur)
+            filled += n
+    return filled
 
 
 def from_db(path) -> list:
@@ -105,6 +152,7 @@ def main() -> int:
         print(f"git 이력 복구: +{from_git()}건")
     if os.path.exists("news.db"):
         print(f"현재 DB 병합: +{merge(from_db('news.db'))}건")
+    print(f"매체 칸 채움: +{backfill_press()}건")
     n = sum(len(_load(os.path.join(ARCHIVE_DIR, f))) for f in os.listdir(ARCHIVE_DIR)) \
         if os.path.isdir(ARCHIVE_DIR) else 0
     print(f"아카이브 총 {n}건 ({ARCHIVE_DIR}/)")

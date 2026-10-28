@@ -17,7 +17,9 @@ import deduplicator as ddp
 import classifier as cls
 import summarizer as smr
 import backfill
+import outlets
 import retry_extract
+import similar
 import reviewer as rvw
 import html_generator as htm
 
@@ -289,8 +291,19 @@ def main():
             for it in survivors
         ]
         history = dbm.get_run_history(conn, cfg["db"]["retention_days"])
+        try:
+            # 언론사 이름: 새로 나온 매체만 회차당 몇 건 조회해 outlets.json에 더한다 (LLM 토큰 없음)
+            omap = outlets.refresh(conn, rows, limit=cfg["html"].get("outlet_lookups_per_run", 40))
+        except Exception as e:
+            print(f"  ⚠ 언론사 이름 조회 실패 — 건너뜀: {e}")
+            omap = outlets.load()
+        try:
+            sim_map = similar.build(conn, rows, omap)   # 카드별 '비슷한 기사' (실패해도 렌더링은 계속)
+        except Exception as e:
+            print(f"  ⚠ 비슷한 기사 목록 생성 실패 — 건너뜀: {e}")
+            sim_map = {}
         out = htm.render(rows, stats, excluded_rows, cfg["html"]["output_file"], history,
-                         cfg.get("github"), screened_rows)
+                         cfg.get("github"), screened_rows, similar=sim_map, omap=omap)
         print(f"HTML 생성: {out}")
 
         # 10) delivered 트랜잭션 (HTML rename 성공 후에만)

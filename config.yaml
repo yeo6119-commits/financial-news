@@ -533,6 +533,7 @@ reviewer:
 
 html:
   output_file: output/financial_news_archive.html
+  outlet_lookups_per_run: 40    # 언론사 이름을 모르는 새 매체를 회차당 이 개수까지 조회 (outlets.json에 누적)
   view: archive                 # DB 60일치 전체를 매 실행 재생성
   menu_order: [all, hana, shinhan, kb, woori, nh, internet, overseas, etc]
   group_articles_by: run_datetime      # 회차(요청 일시)별 타임라인

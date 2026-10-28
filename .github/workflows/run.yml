@@ -70,6 +70,7 @@ jobs:
           git config user.email "actions@github.com"
           git add -f news.db output/financial_news_archive.html output/article_list.html
           git add archive
+          [ -f outlets.json ] && git add outlets.json || true
           git diff --staged --quiet || git commit -m "run"
           # 실행 도중 다른 push가 들어오면 원격이 앞서가 push가 거부된다.
           #   rebase로 원격 변경을 먼저 얹고, 실패하면 재시도.

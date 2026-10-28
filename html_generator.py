@@ -11,6 +11,8 @@ import re
 from collections import OrderedDict
 from datetime import datetime
 
+import outlets
+
 MENU_LABELS = OrderedDict([
     ("all", "전체"),
     ("hana", "하나"), ("shinhan", "신한"), ("kb", "KB"),
@@ -175,6 +177,23 @@ padding:4px 12px;cursor:pointer;line-height:1.3}
 .article.is-ai .copy-sum{color:var(--ai);background:var(--ai-soft)}
 .article.is-ai .copy-sum:hover{background:var(--ai);color:#fff}
 .article.has-sum .tags{padding-right:84px}
+/* 원문 보기 옆 '비슷한 기사' 단추 — 라벨은 ::before로 그려 검색(textContent)에 잡히지 않게 한다 */
+.card-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.card-actions .src-link{margin-top:0}
+.sim-btn{font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted);background:var(--card);
+border:1px solid var(--line);border-radius:6px;padding:4px 12px;cursor:pointer;line-height:1.3}
+.sim-btn::before{content:"비슷한 기사 " attr(data-n)}
+.sim-btn:hover{color:var(--teal);border-color:var(--teal)}
+.article.is-ai .sim-btn:hover{color:var(--ai);border-color:var(--ai)}
+/* 비슷한 기사 팝업 */
+.sim-box{max-width:600px}
+.sim-note{font-size:11.5px;color:var(--muted);margin-bottom:10px;line-height:1.5}
+.sim-list{list-style:none;max-height:56vh;overflow-y:auto;margin-bottom:12px;border-top:1px solid var(--line)}
+.sim-list li{padding:9px 2px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.sim-press{font-size:11px;font-weight:800;color:var(--teal)}
+.sim-list a{font-size:13.5px;font-weight:600;color:var(--ink);text-decoration:none;line-height:1.45}
+.sim-list a:hover{color:var(--teal);text-decoration:underline}
+.sim-date{font-size:11px;color:var(--muted)}
 /* 공유용 요약 팝업 */
 .share-box{max-width:520px}
 .share-box textarea{width:100%;font-family:inherit;font-size:13px;line-height:1.6;color:var(--ink);
@@ -351,6 +370,37 @@ document.addEventListener('keydown', function(e){
 })();
 """
 
+SIM_JS = """
+(function(){
+var modal=document.getElementById('simModal'); if(!modal) return;
+var list=document.getElementById('simList'), title=document.getElementById('simTitle');
+var SIM=window.__SIM__||{};
+function close(){ modal.classList.remove('show'); }
+function open(id){
+  var items=SIM[id]||[]; list.innerHTML='';
+  title.textContent='비슷한 기사 '+items.length+'건';
+  items.forEach(function(it){
+    var li=document.createElement('li');
+    var pr=document.createElement('span'); pr.className='sim-press'; pr.textContent=it[0];
+    var a=document.createElement('a'); a.textContent=it[1];
+    if(it[2]){ a.href=it[2]; a.target='_blank'; a.rel='noopener'; }
+    li.appendChild(pr); li.appendChild(a);
+    if(it[3]){ var d=document.createElement('span'); d.className='sim-date'; d.textContent=it[3]; li.appendChild(d); }
+    list.appendChild(li);
+  });
+  list.scrollTop=0; modal.classList.add('show');
+}
+document.addEventListener('click', function(e){
+  var b=e.target.closest ? e.target.closest('.sim-btn') : null;
+  if(!b) return; e.preventDefault(); open(b.getAttribute('data-sim'));
+});
+document.getElementById('simClose').addEventListener('click', close);
+modal.addEventListener('click', function(e){ if(e.target===modal) close(); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape' && modal.classList.contains('show')) close(); });
+})();
+"""
+
+
 JS = """
 (function(){
 var coMenu=document.getElementById('menu'), subMenu=document.getElementById('submenu');
@@ -471,7 +521,7 @@ def _share_text(a, company: str) -> str:
     return "\n".join([head] + lines + ([link] if link else []))
 
 
-def _card(a) -> str:
+def _card(a, sim=None, omap=None) -> str:
     is_ai = a["dig_ai"] == "AI"
     is_pr = (a["search_keyword"] or "").startswith("[PR]")
     url = a["naver_url"] or a["original_url"] or "#"
@@ -512,16 +562,22 @@ def _card(a) -> str:
         copy_btn = ('<button type="button" class="copy-sum" title="공유용 요약 보기·복사" '
                     'aria-label="요약 복사" data-copy="%s"></button>'
                     % H.escape(share, quote=True).replace("\n", "&#10;"))
+    # DB의 press가 비어 있으면 링크의 매체(네이버 oid·도메인)로 outlets.json에서 이름을 채운다
+    press_name = a["press"] or outlets.name_for(a["naver_url"] if outlets.key_of(a["naver_url"]) else a["original_url"],
+                                                None, omap or {})
+    n_sim = len((sim or {}).get(a["id"], ()))
+    sim_btn = ('<button type="button" class="sim-btn" data-sim="%d" data-n="%d" '
+               'title="같은 사건을 다룬 다른 언론사 기사"></button>' % (a["id"], n_sim)) if n_sim else ""
     return f"""
 <div class="article{cls}" data-co="{a['fin_group']}" data-sector="{H.escape(a['sector'] or '기타')}" data-type="{a['dig_ai']}">
  {copy_btn}
  <div class="tags"><span class="tag path">{H.escape(company)} · {H.escape(a['sector'] or '')}</span>
  <span class="tag {'ai' if is_ai else 'digital'}">{a['dig_ai']}</span>{pr_tag}{status}</div>
  <h3><a href="{H.escape(url)}" target="_blank" rel="noopener">{H.escape(a['title'])}</a></h3>
- <div class="a-meta">{H.escape(a['press'] or '')} · {pub}</div>
+ <div class="a-meta">{H.escape(press_name)} · {pub}</div>
  {summary}
  <div class="kw">매칭 키워드: <b>{H.escape(a['matched_keywords'] or '-')}</b></div>
- <a class="src-link" href="{H.escape(url)}" target="_blank" rel="noopener">원문 보기 →</a>
+ <div class="card-actions"><a class="src-link" href="{H.escape(url)}" target="_blank" rel="noopener">원문 보기 →</a>{sim_btn}</div>
 </div>"""
 
 
@@ -756,7 +812,7 @@ GH_CONF = {}
 
 
 def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh=None,
-           screened_rows=None):
+           screened_rows=None, similar=None, omap=None):
     global GH_CONF
     GH_CONF = gh or {}
     runs = OrderedDict()
@@ -795,6 +851,9 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     runlog = _runlog(history or [])
     audit = _audit(screened_rows or [])
     gh_json = json.dumps(GH_CONF, ensure_ascii=False)
+    # 비슷한 기사 목록은 카드마다 넣지 않고 한 번만 싣는다. </script> 조기 종료를 막기 위해 '</'를 이스케이프.
+    sim_json = json.dumps({str(k): [list(x) for x in v] for k, v in (similar or {}).items()},
+                          ensure_ascii=False).replace("</", "<\\/")
 
     run_html = ""
     for i, (rid, r) in enumerate(runs.items()):
@@ -803,7 +862,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
         rng = "검색 %s ~ %s" % ((m["run_start"] or "")[5:16].replace("T", " "),
                                (m["run_end"] or "")[5:16].replace("T", " "))
         # 발행일 최신순 정렬 (pub_date 내림차순)
-        blocks = "".join(_card(a) for a in sorted(
+        blocks = "".join(_card(a, similar, omap) for a in sorted(
             r["arts"], key=lambda x: (x["pub_date"] or ""), reverse=True))
         # 최신 회차만 펼침, 과거 요청분은 접어둠
         is_latest = (i == 0)
@@ -899,6 +958,14 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     </div>
   </div>
 </div>
+<div class="modal" id="simModal">
+  <div class="modal-box sim-box">
+    <h3 id="simTitle">비슷한 기사</h3>
+    <div class="sim-note">같은 사건을 다룬 다른 언론사 기사입니다. 중복으로 판단돼 카드로는 나타나지 않은 기사이며, 제목을 누르면 원문이 열립니다.</div>
+    <ul class="sim-list" id="simList"></ul>
+    <div class="modal-btns"><button id="simClose">닫기</button></div>
+  </div>
+</div>
 {runlog}
 <div class="sticky">
   <nav class="company-menu" id="menu">{menu}</nav>
@@ -913,9 +980,10 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
 {run_html}
 {ex_html}
 <footer>금융 디지털·AI 뉴스 수집 시스템 v2.5 — 수집은 넓게, 판단은 본문 확보 후 로컬에서</footer>
-<script>window.__SUBS__ = {subs_json}; window.__GH__ = {gh_json};</script>
+<script>window.__SUBS__ = {subs_json}; window.__GH__ = {gh_json}; window.__SIM__ = {sim_json};</script>
 <script>{RUN_JS}</script>
 <script>{COPY_JS}</script>
+<script>{SIM_JS}</script>
 <script>{JS}</script></body></html>"""
 
     tmp = out_path + ".tmp"
