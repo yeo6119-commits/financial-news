@@ -70,3 +70,48 @@ def run(conn, cfg) -> tuple[int, int]:
         print(f"  보충 FAIL({reason[:14]}): {r['title'][:36]}")
     print(f"  요약 보충 결과: {ok}/{tried}건 채움")
     return ok, tried
+
+
+_EN_TAG = "(영문 재시도)"
+
+
+def retry_english(conn, cfg, limit: int = 5) -> tuple[int, int]:
+    """영문 기사가 예전 근거 검사에 '환각'으로 폐기된 건을 새 검사(영문 전용)로 한 번만 다시 요약한다.
+
+    한글 기사의 환각 폐기는 건드리지 않는다(같은 프롬프트로 다시 해도 같은 결과).
+    사유에 '(영문 재시도)'를 남겨 기사당 1회만 시도한다.
+    """
+    if not (cfg.get("summarizer") or {}).get("backfill", {}).get("enabled", False):
+        return 0, 0
+    if smr.all_quota_out(cfg):
+        return 0, 0
+    cutoff = (dbm.now_kst() - timedelta(days=(cfg["summarizer"]["backfill"]).get("max_age_days", 14))).isoformat()
+    rows = conn.execute(
+        """SELECT id, title, company, naver_url, original_url, summary_fail_reason FROM articles
+           WHERE delivered=1 AND summary_ok=0 AND extract_ok=1 AND pub_date >= ?
+             AND summary_fail_reason LIKE '환각%' AND summary_fail_reason NOT LIKE ?
+             AND title NOT GLOB '*[가-힣]*'
+           ORDER BY pub_date DESC LIMIT ?""", (cutoff, "%" + _EN_TAG + "%", limit)).fetchall()
+    if not rows:
+        return 0, 0
+    print(f"영문 기사 재요약: {len(rows)}건 다시 시도")
+    ok = 0
+    for r in rows:
+        art = {"title": r["title"], "company": r["company"],
+               "naver_url": r["naver_url"] or "", "original_url": r["original_url"] or ""}
+        ext.extract(art, delay=0.2)
+        if art.get("body"):
+            smr.summarize(art, cfg)
+        if art.get("summary_ok"):
+            conn.execute("UPDATE articles SET summary=?, summary_ok=1, summary_fail_reason=NULL WHERE id=?",
+                         (art["summary"], r["id"]))
+            ok += 1
+            print(f"  영문 재요약 OK: {r['title'][:50]}")
+        else:
+            why = art.get("summary_fail_reason") or r["summary_fail_reason"]
+            if why.startswith(LIMIT_REASONS):      # 쿼터 문제면 시도 기록을 남기지 않고 중단
+                break
+            conn.execute("UPDATE articles SET summary_fail_reason=? WHERE id=?", (why + " " + _EN_TAG, r["id"]))
+            print(f"  영문 재요약 실패({why[:12]}): {r['title'][:40]}")
+        conn.commit()
+    return ok, len(rows)

@@ -223,6 +223,10 @@ def main():
         # 신규 요약이 끝난 뒤, 남은 쿼터로 이전 회차의 '한도 실패' 요약을 채운다.
         #   건별로 즉시 커밋하므로 아래 HTML 생성 직전의 rollback과 무관하다.
         bf_ok, _ = backfill.run(conn, cfg)
+        try:
+            backfill.retry_english(conn, cfg)       # 영문 기사 '환각' 폐기분을 새 검사로 1회 재시도
+        except Exception as e:
+            print(f"  ⚠ 영문 재요약 건너뜀: {e}")
         #   본문 접속 실패로 요약이 비었던 기사도 다시 가져와 채운다 (일시적 실패가 대부분)
         rx_ok, _ = retry_extract.run(conn, cfg)
 

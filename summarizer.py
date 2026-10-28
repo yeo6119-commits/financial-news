@@ -141,17 +141,81 @@ def fix_ending(line: str) -> str:
     return s
 
 
+# ---- 영문 기사 (번역 + 요약) ---------------------------------------------------
+def is_english(text) -> bool:
+    """본문이 영어 위주인가 (글자 중 한글 비율 20% 미만이고 글자 수가 충분)."""
+    t = text or ""
+    ko = len(re.findall(r"[가-힣]", t))
+    en = len(re.findall(r"[A-Za-z]", t))
+    return en >= 80 and ko / max(ko + en, 1) < 0.2
+
+
+# 영문 본문일 때 프롬프트 앞에 붙인다. 한글 병기는 근거 검사(_grounded_en)가 영문 고유명사를 대조하는 데 쓰인다.
+EN_NOTE = ("[영문 기사] 아래 본문은 영어다. 한국어로 번역해 이 형식·밀도 그대로 요약한다.\n"
+           "회사·제품·인명은 한국에서 통용되는 한글 표기로 쓰고, 통용 표기가 없으면 영문 그대로 쓴다.\n"
+           "숫자·단위는 한국식으로 옮긴다 (예: $6.5 billion → 65억 달러). 본문에 없는 내용은 쓰지 않는다.\n\n")
+
+# 프롬프트 예시에만 있는 말 — 본문에 없는데 요약에 나오면 예시 복창이다
+_EXAMPLE_ONLY = ("HEALLO", "KB AI Lab", "쿠도커뮤니케이션", "AI 아카데미", "웰니스 솔루션")
+
+
+def _aliases_for(article: dict, cfg: dict) -> list:
+    """기사의 회사(article['company'])와 설정(overseas.subgroups)의 한글·영문 별칭들."""
+    comp = (article.get("company") or "").strip()
+    if not comp:
+        return []
+    al = {comp}
+    for grp in ((cfg.get("overseas") or {}).get("subgroups") or {}).values():
+        if any(comp.lower() == str(x).lower() for x in grp):
+            al.update(str(x) for x in grp)
+    return [a for a in al if len(a) >= 2]
+
+
+def _grounded_en(summary: str, title: str, body: str, aliases=None) -> bool:
+    """영문 원문의 한글 요약 근거 검사.
+
+    한글 단어를 영어 본문과 직접 비교할 수 없어(2026-10: 영문 기사가 근거 10~17%로 전부 '환각' 폐기)
+    이름 번역과 무관한 세 가지로 확인한다.
+      1) 프롬프트 예시 복창 차단 — 근거를 못 찾은 모델이 하는 대표적 실패
+      2) 요약에 남은 영문 고유명사가 2개 이상이면 절반 이상이 원문에 있어야 함
+      3) 추적 중인 회사(별칭)가 원문에 영문으로 나오면, 요약에도 그 회사(한글·영문 별칭)가 있어야 함
+    한글 기사보다 검증력이 약한 대신 정상 번역을 버리지 않도록 설계했다.
+    """
+    global LAST_GROUND_RATIO
+    src = (title + " " + body).lower()
+    low = summary.lower()
+    LAST_GROUND_RATIO = 1.0
+    for w in _EXAMPLE_ONLY:
+        if w.lower() in low and w.lower() not in src:
+            LAST_GROUND_RATIO = 0.0
+            return False
+    toks = re.findall(r"[A-Za-z][A-Za-z0-9&.'-]{2,}", summary)
+    if len(toks) >= 2:
+        hits = sum(1 for t in toks if t.lower() in src)
+        LAST_GROUND_RATIO = hits / len(toks)
+        if LAST_GROUND_RATIO < 0.5:
+            return False
+    en_alias = [a for a in (aliases or []) if re.search(r"[A-Za-z]", a)]
+    if en_alias and any(a.lower() in src for a in en_alias):
+        if not any(a.lower() in low for a in (aliases or [])):
+            LAST_GROUND_RATIO = 0.0
+            return False
+    return True
+
+
 # 마지막 환각 판정 비율 — 기준이 과한지 사후 판단하려면 수치가 남아야 한다
 LAST_GROUND_RATIO = 0.0
 
 
-def _grounded(summary: str, title: str, body: str) -> bool:
+def _grounded(summary: str, title: str, body: str, aliases=None) -> bool:
     """요약이 원문에 근거하는지 검증.
 
     모델이 요약할 내용을 못 찾으면 프롬프트의 예시를 그대로 복창하거나
     없는 내용을 지어낸다. 요약의 명사 토큰이 원문에 얼마나 등장하는지로 걸러낸다.
     (한국 기사 요약은 대부분 추출적이라 정상 요약은 겹침이 높다)
     """
+    if is_english(body):
+        return _grounded_en(summary, title, body, aliases)
     src = (title + " " + body).lower()
     toks = re.findall(r"[가-힣]{2,}|[A-Za-z]{2,}", summary)
     toks = [t for t in toks if len(t) >= 2]
@@ -383,7 +447,7 @@ def _summarize_claude(article: dict, prompt: str, body: str, cfg: dict) -> bool:
         CLAUDE_USAGE["in"] += tin
         CLAUDE_USAGE["out"] += tout
         valid = _validate(raw, cfg)
-        if valid and not _grounded(valid, article["title"], body):
+        if valid and not _grounded(valid, article["title"], body, _aliases_for(article, cfg)):
             CLAUDE_LAST_ERR = "환각(원문 근거 %.0f%%, 기준 55%%)" % (LAST_GROUND_RATIO * 100)
             return False
         if valid:
@@ -419,7 +483,9 @@ def summarize(article: dict, cfg: dict) -> dict:
     s = cfg["summarizer"]
     assert s["batch"] is False, "배치 요약은 금지됨 (v2.3 스펙)"
 
-    body = compact_body(article["body"], s.get("body_chars", 1100))
+    english = is_english(article["body"])
+    # 영문은 같은 글자 수에 담기는 내용이 많고 토큰은 적어, 더 길게 싣는다
+    body = compact_body(article["body"], s.get("body_chars_en", 2000) if english else s.get("body_chars", 1100))
     # 본문이 지나치게 짧으면 요약해도 환각이 나온다 (예시 복창의 원인).
     # 호출 자체를 생략해 토큰을 아끼고, 실패 사유를 남긴다.
     if len(body) < s.get("min_body_chars", 200):
@@ -428,7 +494,7 @@ def summarize(article: dict, cfg: dict) -> dict:
         return article
     headers = {"Authorization": f"Bearer {os.environ['GROQ_API_KEY']}",
                "Content-Type": "application/json"}
-    prompt = PROMPT.format(title=article["title"], body=body)
+    prompt = (EN_NOTE if english else "") + PROMPT.format(title=article["title"], body=body)
 
     # 모델 폴백 체인: 주 모델(70b) → 대체 모델(8b)
     # 두 모델은 일일 토큰 쿼터가 별개이므로, 70b 한도 소진 시 8b가 이어받는다.
@@ -492,7 +558,7 @@ def summarize(article: dict, cfg: dict) -> dict:
                 raw = data["choices"][0]["message"]["content"]
                 v = cfg["summarizer"]["validation"]
                 valid = _validate(raw, cfg)
-                if valid and not _grounded(valid, article["title"], body):
+                if valid and not _grounded(valid, article["title"], body, _aliases_for(article, cfg)):
                     # 예시 복창·환각 — 재시도해도 같은 결과이므로 즉시 실패 처리
                     last_err = "환각(원문 근거 %.0f%%, 기준 55%%)" % (LAST_GROUND_RATIO*100)
                     valid = None
