@@ -170,14 +170,14 @@ def main():
         cached = 0
 
         for start in range(0, total_live, CHUNK):
-            chunk = live[start:start + CHUNK]
-
-            rvw.review_many(chunk, cfg)
-            before = len(chunk)
-            chunk = [it for it in chunk if not it.get("excluded")]
-            excluded_by_review += before - len(chunk)
-
-            for it in chunk:
+            chunk = []
+            # 검토(20b)를 뒤에서 앞서 진행하고, 통과한 기사부터 바로 요약(120b)한다.
+            #   두 모델은 분당 토큰 한도가 따로라 검토 시간이 요약 시간에 가려진다.
+            for it in rvw.review_ahead(live[start:start + CHUNK], cfg):
+                if it.get("excluded"):
+                    excluded_by_review += 1
+                    continue
+                chunk.append(it)
                 processed += 1
                 hit = dbm.get_cached_summary(conn, it["url_hash"])
                 if hit and hit["summary"]:

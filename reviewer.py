@@ -9,6 +9,8 @@
 요약(Groq 호출)을 어차피 하므로, 그 앞에서 거르면 무관 기사의 요약 비용도 아낀다.
 """
 import os
+import queue
+import threading
 import time
 import requests
 
@@ -116,3 +118,59 @@ def review_many(articles: list, cfg: dict, progress_every: int = 20) -> None:
             print(f"  검토 {i}/{len(targets)} (무관 {reviewed_no}건 제외)")
     if targets:
         print(f"  검토 완료: {len(targets)}건 중 {reviewed_no}건 무관 제외")
+
+
+_DONE = object()
+
+
+def review_ahead(articles: list, cfg: dict, progress_every: int = 20):
+    """검토를 백그라운드 스레드에서 앞서 진행하며, 검토를 마친 기사를 입력 순서대로 넘기는 제너레이터.
+
+    요약(Groq gpt-oss-120b)과 검토(Groq gpt-oss-20b)는 모델이 달라 분당 토큰 한도(8,000)가 따로 적용된다.
+    예전엔 청크 전체를 검토한 뒤에야 요약을 시작해 두 시간이 더해졌다. 이렇게 하면 검토가 요약 뒤에서
+    동시에 진행돼 검토 시간이 요약 시간에 가려진다. 결과(제외 판정·순서)는 review_many와 같다.
+    무관 판정(excluded=1)된 기사도 그대로 넘기므로 호출하는 쪽에서 걸러야 한다.
+    """
+    rc = cfg.get("reviewer", {})
+    if not rc.get("enabled", False):
+        yield from articles
+        return
+
+    q: queue.Queue = queue.Queue()
+    stop = threading.Event()
+    err: list = []
+
+    def work():
+        n_no = 0
+        targets = [a for a in articles if not a.get("excluded")]
+        try:
+            for i, a in enumerate(articles, 1):
+                if stop.is_set():
+                    break
+                if not a.get("excluded"):
+                    review(a, cfg)
+                    if a.get("reviewed") == "NO":
+                        n_no += 1
+                    if progress_every and i % progress_every == 0:
+                        print(f"  검토 {i}/{len(articles)} (무관 {n_no}건 제외)")
+                q.put(a)
+            if targets and not stop.is_set():
+                print(f"  검토 완료: {len(targets)}건 중 {n_no}건 무관 제외")
+        except BaseException as e:      # 스레드 안의 오류를 소비자 쪽에서 다시 던진다
+            err.append(e)
+        finally:
+            q.put(_DONE)
+
+    t = threading.Thread(target=work, name="review-ahead", daemon=True)
+    t.start()
+    try:
+        while True:
+            a = q.get()
+            if a is _DONE:
+                break
+            yield a
+    finally:
+        stop.set()          # 소비자가 중간에 끝나도 검토 스레드가 계속 호출하지 않게 한다
+        t.join(timeout=30)
+    if err:
+        raise err[0]
