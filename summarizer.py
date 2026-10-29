@@ -168,7 +168,18 @@ def _aliases_for(article: dict, cfg: dict) -> list:
     for grp in ((cfg.get("overseas") or {}).get("subgroups") or {}).values():
         if any(comp.lower() == str(x).lower() for x in grp):
             al.update(str(x) for x in grp)
+    for co in ((cfg.get("foreign") or {}).get("companies") or []):
+        names = [str(x) for x in (co.get("aliases") or [])] + [str(co.get("name", ""))]
+        if any(comp.lower() == n.lower() for n in names):
+            al.update(n for n in names if n)
     return [a for a in al if len(a) >= 2]
+
+
+def _has_term(term: str, text: str) -> bool:
+    """별칭이 텍스트에 있는가. 영문 별칭은 단어 경계로 본다('BoA'가 'board'에 걸리지 않게)."""
+    if re.search(r"[A-Za-z]", term):
+        return re.search(r"(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])", text, re.I) is not None
+    return term.lower() in text.lower()
 
 
 def _grounded_en(summary: str, title: str, body: str, aliases=None) -> bool:
@@ -196,8 +207,8 @@ def _grounded_en(summary: str, title: str, body: str, aliases=None) -> bool:
         if LAST_GROUND_RATIO < 0.5:
             return False
     en_alias = [a for a in (aliases or []) if re.search(r"[A-Za-z]", a)]
-    if en_alias and any(a.lower() in src for a in en_alias):
-        if not any(a.lower() in low for a in (aliases or [])):
+    if en_alias and any(_has_term(a, src) for a in en_alias):
+        if not any(_has_term(a, low) for a in (aliases or [])):
             LAST_GROUND_RATIO = 0.0
             return False
     return True
@@ -387,7 +398,7 @@ def _claude_call_cli(prompt: str, c: dict):
            "--tools", "", "--disable-slash-commands", "--no-session-persistence",
            "--setting-sources", "", "--strict-mcp-config",
            "--mcp-config", '{"mcpServers":{}}',
-           "--system-prompt", "당신은 기사 요약기입니다. 지시한 형식의 요약만 출력합니다.",
+           "--system-prompt", c.get("cli_system") or "당신은 기사 요약기입니다. 지시한 형식의 요약만 출력합니다.",
            "--output-format", "json"]
     p = subprocess.run(cmd, input=prompt, capture_output=True, text=True,
                        timeout=c.get("cli_timeout", 120), env=env, cwd=_CLI_CWD)

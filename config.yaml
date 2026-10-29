@@ -551,3 +551,52 @@ db:
   retention_days: 60              # 반영 기사 보관 (제외 기사는 저장하지 않음)
   store_full_body: false
   delivered_after_html_success: true   # HTML rename 성공 후 트랜잭션으로만 처리
+
+
+# -------------------------------------------------------------
+# 해외(영문) 뉴스 — 국내 파이프라인과 분리된 별도 트랙 (foreign.py / foreign.yml)
+#   수집: Google News RSS · 요약: 구독 Claude(claude -p)만 사용 — Groq 한도와 무관
+#   유료 매체: 본문을 실제로 읽을 수 있으면 처리, 못 읽으면(200자 미만) 건너뜀
+# -------------------------------------------------------------
+foreign:
+  enabled: true
+  sources: [bing, google]      # bing: 실제 기사 주소를 바로 줌(막힘 없음) · google: 중계 링크를 풀어야 하고 클라우드 IP에서 차단될 수 있어 보조
+  lookback: 1d                 # 검색 기간 (Google when: / Bing freshness=Day)
+  bing_topics: ["AI", "agentic AI", "stablecoin OR tokenization OR blockchain", "fintech OR payments OR cybersecurity"]
+  google_decode_limit: 15      # 한 번 실행에서 구글 링크를 풀 최대 횟수 (연속 3회 실패하면 중단)
+  event_overlap: 0.5           # 본문 핵심어 겹침이 이 값 이상이면 같은 사건으로 보고 하나만 반영
+  event_summary_overlap: 0.35  # 요약 핵심어 겹침 기준(같은 회사 관련 기사끼리) — 같은 사건 쌍 0.23~0.48, 다른 사건 최대 0.31(실측)이라 낮추면 오병합
+  max_per_day: 20              # 하루 최대 반영 건수 (KST 날짜 기준)
+  max_per_run: 10              # 한 번 실행에서 최대 (하루 여러 번 도니 몰아서 채우지 않게)
+  max_per_company_per_day: 3   # 한 회사가 쏠리지 않게
+  extract_limit: 40            # 본문을 실제로 가져와 볼 후보 상한 (회사별 균등)
+  extract_per_company: 6
+  min_body_chars: 400          # 이보다 짧으면 유료벽·티저로 보고 건너뜀
+  companies:                   # name = 국내 해외탭 회사명, queries = 검색어, aliases = 요약 근거 검사용 한글·영문 별칭
+    - {name: JP모건, queries: ["JPMorgan"], aliases: [JP모건, 제이피모건, JPMorgan, "JP Morgan", "J.P. Morgan", "JPMorgan Chase"]}
+    - {name: 골드만삭스, queries: ["Goldman Sachs"], aliases: [골드만삭스, 골드만, "Goldman Sachs", Goldman]}
+    - {name: 모건스탠리, queries: ["Morgan Stanley"], aliases: [모건스탠리, "Morgan Stanley"]}
+    - {name: BoA, queries: ["Bank of America"], aliases: [BoA, BofA, 뱅크오브아메리카, 뱅오아, "Bank of America"]}
+    - {name: 씨티그룹, queries: ["Citigroup"], aliases: [씨티그룹, 씨티은행, 씨티, 시티그룹, Citigroup, Citi]}
+    - {name: HSBC, queries: ["HSBC"], aliases: [HSBC]}
+    - {name: DBS, queries: ["DBS Bank"], aliases: [DBS, DBS은행, DBS뱅크, "DBS Bank"]}
+    - {name: 레볼루트, queries: ["Revolut"], aliases: [레볼루트, Revolut]}
+    - {name: 몬조, queries: ["Monzo"], aliases: [몬조, Monzo]}
+    - {name: 스탠다드차타드, queries: ["Standard Chartered"], aliases: [스탠다드차타드, SC제일은행, "Standard Chartered", StanChart]}
+    - {name: 웰스파고, queries: ["Wells Fargo"], aliases: [웰스파고, "Wells Fargo"]}
+    - {name: 누뱅크, queries: ["Nubank"], aliases: [누뱅크, Nubank]}
+  topic_query: '(AI OR "artificial intelligence" OR agentic OR stablecoin OR tokenization OR blockchain OR "digital assets" OR fintech OR payments OR cybersecurity)'
+  # 제목에 이 중 하나는 있어야 관련 기사 (대소문자 무시, 단어 경계)
+  topic_terms: ["AI", "A.I.", "artificial intelligence", "agentic", "agent", "agents", "generative", "LLM", "machine learning",
+                "stablecoin", "tokeniz", "tokenis", "blockchain", "crypto", "digital asset", "digital bank", "fintech",
+                "payment", "payments", "open banking", "cyber", "fraud", "quantum", "automation", "chatbot", "cloud", "API", "app", "platform"]
+  strong_terms: ["AI", "A.I.", "artificial intelligence", "agentic", "generative", "LLM", "stablecoin", "tokeniz", "tokenis", "blockchain", "digital asset"]
+  action_terms: ["launch", "launches", "unveil", "unveils", "rolls out", "roll out", "deploy", "deploys", "partner", "partners", "acquire", "acquires",
+                 "invest", "invests", "introduces", "debut", "pilot", "expands", "builds", "adopts"]
+  # 제목이 시황·종목 분석성이면 제외 (국내의 '주식·리포트' 필터에 해당)
+  noise_title: ["price target", "stock", "shares", "share price", "rating", "upgrade", "downgrade", "overweight", "underweight",
+                "outperform", "dividend", "13F", "holdings", "position in", "stake in", "earnings", "technical analysis", "short interest",
+                "ETF", "NYSE:", "NASDAQ:", "premarket", "pre-market", "options", "S&P 500", "dow jones", "analyst"]
+  blocked_sources: ["tradingview.com", "finance.yahoo.com", "uk.finance.yahoo.com", "ad-hoc-news.de", "investing.com", "tipranks.com",
+                    "finance.biggo.com", "simplywall.st", "marketbeat.com", "gurufocus.com", "247wallst.com", "stocktwits.com",
+                    "zacks.com", "fool.com", "benzinga.com", "seekingalpha.com", "investorplace.com", "marketscreener.com"]

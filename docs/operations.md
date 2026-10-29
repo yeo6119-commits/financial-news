@@ -85,7 +85,7 @@ git show origin/main:summarizer.py | grep -c "compact_body"    # 1 이상이면 
 | `NAVER_CLIENT_SECRET` | 네이버 개발자센터 |
 | `GROQ_API_KEY` | console.groq.com |
 | `ANTHROPIC_API_KEY` | console.anthropic.com (선택) — Groq 두 모델이 일일한도를 소진했을 때만 Claude Haiku가 요약을 대신한다. 없으면 건너뛴다. Claude 구독과는 별개로 API 크레딧이 필요하다 |
-| `CLAUDE_CODE_OAUTH_TOKEN` | 로컬에서 `claude setup-token` 실행 (선택) — API 키 대신 Claude 구독 한도로 같은 대체 요약을 한다. 둘 다 있으면 API 키가 우선. 토큰은 만든 사람의 구독에 묶인다 |
+| `CLAUDE_CODE_OAUTH_TOKEN` | 로컬에서 `claude setup-token` 실행 — 국내는 선택(API 키 대신 구독 한도로 대체 요약, 둘 다 있으면 API 키 우선), **해외 영문 트랙은 필수**. 토큰은 만든 사람의 구독에 묶인다 |
 
 ---
 
@@ -97,6 +97,29 @@ git show origin/main:summarizer.py | grep -c "compact_body"    # 1 이상이면 
 | `run.yml`의 `git add -f news.db` | Actions는 gitignore를 무시하고 DB를 강제 커밋 |
 
 맥북은 DB를 안 올리고, Actions만 올린다. 그래서 충돌이 구조적으로 발생하지 않는다.
+
+---
+
+## 해외(영문) 트랙 — 국내와 별도 운영
+
+국내 뉴스(`run.yml`)와 **파일·워크플로·한도가 모두 따로**다. 국내 실행에는 영향이 없다.
+
+| 항목 | 국내 | 해외 |
+|---|---|---|
+| 워크플로 | `run.yml` (KST 06:47·08:13) | `foreign.yml` (KST 12:23·18:17·23:41) + 수동 실행 |
+| 수집 | 네이버 API | Bing 뉴스 RSS(주) + 구글 뉴스 RSS(보조, 링크 해독 15회·연속 3회 실패 시 중단) |
+| 요약 | Groq(소진 시 Claude 대체) | **구독 Claude만** (`CLAUDE_CODE_OAUTH_TOKEN` 필수 — 없으면 수집 자체를 생략하고 워크플로가 빨간불) |
+| 저장 | `news.db` | `foreign/data/YYYY-MM-DD.json` (날짜별, 영구 보관) |
+| 페이지 | `output/financial_news_archive.html` | `output/foreign.html` (국내 메뉴 끝에 "해외 영문 ↗" 링크) |
+| 커밋 대상 | news.db·국내 HTML·archive | foreign/data·output/foreign.html (겹치지 않아 rebase 충돌 없음) |
+
+- 대상: `config.yaml`의 `foreign.companies` 12곳. 하루 최대 20건, 회사당 3건, 한 실행 10건.
+- 주가·시황 기사(차단 출처, 분석성 제목)는 제외한다. 유료 매체는 **본문이 실제로 읽힐 때만** 반영하고, 못 읽으면
+  페이지의 "반영하지 않은 후보"에 사유와 함께 남는다(조용히 사라지는 기사 없음).
+- 처음 한 번: 로컬에서 `claude /login` → `claude setup-token` → 저장소 Secrets에 `CLAUDE_CODE_OAUTH_TOKEN` 등록
+  (웹/채팅에 토큰을 붙여넣지 말 것) → Actions → **해외 영문 뉴스** → Run workflow.
+- 반영 0건이면: 페이지 맨 아래 제외 사유부터 본다. `본문 접근 불가`가 많으면 매체 차단, `구독 Claude 오류`면 토큰·한도.
+- 로컬에서 `foreign.py`를 돌리면 `foreign/data`에 쓰고 원격과 충돌한다 — 시험은 임시 폴더(`foreign.run(cfg, root=...)`)로.
 
 ---
 

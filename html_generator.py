@@ -113,6 +113,10 @@ nav.company-menu button{flex:0 0 auto;font-family:inherit;font-size:13px;font-we
 background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 13px;cursor:pointer}
 nav.company-menu button.active{background:var(--teal);border-color:var(--teal);color:#fff}
 nav.company-menu button .n{font-size:11px;opacity:.75;margin-left:3px}
+/* 해외(영문) 트랙은 별도 페이지 — 필터가 아니라 링크 */
+nav.company-menu a.f-link{flex:0 0 auto;font-size:13px;font-weight:700;color:var(--teal);text-decoration:none;
+background:var(--card);border:1px dashed var(--teal);border-radius:20px;padding:6px 13px}
+nav.company-menu a.f-link:hover{background:var(--teal);color:#fff}
 nav.sub-menu{display:flex;gap:5px;overflow-x:auto;padding:0 0 8px}
 nav.sub-menu button{flex:0 0 auto;font-family:inherit;font-size:12px;font-weight:600;color:var(--muted);
 background:transparent;border:1px solid var(--line);border-radius:6px;padding:4px 11px;cursor:pointer;white-space:nowrap}
@@ -846,6 +850,10 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
            v, counts.get(k, 0))
         for k, v in MENU_LABELS.items())
 
+    # 해외 영문 페이지(foreign.html)는 해외 트랙 워크플로가 만든다. 파일이 있을 때만 링크를 건다.
+    f_link = ('<a class="f-link" href="foreign.html" title="해외 금융사 영문 기사 요약 (별도 페이지)">해외 영문 ↗</a>'
+              if os.path.exists(os.path.join(os.path.dirname(out_path) or ".", "foreign.html")) else "")
+
     import json
     subs_json = json.dumps(sub_js, ensure_ascii=False)
     runlog = _runlog(history or [])
@@ -968,7 +976,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
 </div>
 {runlog}
 <div class="sticky">
-  <nav class="company-menu" id="menu">{menu}</nav>
+  <nav class="company-menu" id="menu">{menu}{f_link}</nav>
   <nav class="sub-menu hidden" id="submenu"></nav>
   <div class="search-wrap">
     <svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>

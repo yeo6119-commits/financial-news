@@ -138,6 +138,20 @@ need similar.py    "excluded_log"         "비슷한 기사 = 제외 로그의 �
 need main.py       "similar.build"        "비슷한 기사 목록 생성 연결(실패해도 렌더링 계속)"
 need outlets.py    "og:site_name"         "언론사 이름 = 사이트가 밝힌 이름(추측 금지)"
 need main.py       "outlets.refresh"      "새 매체 이름 조회 연결(실패해도 렌더링 계속)"
+
+# 해외(영문) 트랙 — 국내와 분리·영향 차단
+need .github/workflows/foreign.yml "foreign-news-pipeline" "해외 워크플로는 별도 concurrency 그룹(국내 실행 취소 방지)"
+need .github/workflows/foreign.yml "ref: main"            "해외 워크플로도 최신 main 체크아웃"
+need .github/workflows/foreign.yml "rebase --abort"       "해외 워크플로 rebase 충돌 원상 복구"
+need foreign.py    "claude_ready"                         "구독 Claude 없으면 수집 생략(요약 불가한 헛수고 방지)"
+need foreign.py    "max_per_company_per_day"              "회사당 하루 상한"
+need foreign.py    "시황·종목 분석성 제목"                "주가·시황 기사 제외(사유 기록)"
+need foreign.py    "본문 접근 불가"                       "유료벽 기사는 본문이 읽힐 때만(못 읽으면 사유와 함께 기록)"
+need foreign.py    "같은 사건(요약 유사)"                 "요약 겹침 2차 중복"
+need summarizer.py "_has_term"                            "영문 별칭은 단어 경계로 매칭(HSBC 등)"
+need foreign.py    "valid_title_ko"                       "제목 번역 검증(원제목에 없던 영문 고유명사·거절문 차단)"
+need html_generator.py "f-link"                           "국내 페이지는 해외 페이지로 링크만(파일 분리)"
+deny html_generator.py "import foreign"                   "국내 렌더링이 해외 모듈에 의존하지 않음"
 need .github/workflows/run.yml "outlets.json" "언론사 이름 파일 커밋 대상"
 need archive.py    "backfill_press"       "영구 보관 CSV의 빈 매체 칸을 언론사 이름으로 채움"
 
