@@ -43,6 +43,10 @@ border:none;border-radius:8px;padding:9px 20px;cursor:pointer;display:flex;align
 border-radius:50%;animation:sp .7s linear infinite;display:none}
 .btn-run.busy .spin{display:block}
 @keyframes sp{to{transform:rotate(360deg)}}
+.btn-run-f{background:var(--ai)} .btn-run-f:hover{background:#333f85}
+.run-stats{display:flex;flex-direction:column;gap:2px;margin:6px 0 0}
+.run-stats .run-status:empty{display:none}
+.run-link{color:var(--teal);font-weight:800;text-decoration:none} .run-link:hover{text-decoration:underline}
 .run-status{font-size:12px;color:var(--muted);font-weight:600}
 .run-status.ok{color:var(--teal)} .run-status.err{color:#b3403a}
 .btn-key{font-family:inherit;font-size:11.5px;color:var(--muted);background:transparent;
@@ -240,26 +244,22 @@ RUN_JS = """
 (function(){
 var GH = window.__GH__ || {};
 var KEY = 'fnews_gh_token';
-var btn = document.getElementById('btnRun'), btnTxt = document.getElementById('btnRunTxt');
-var stat = document.getElementById('runStatus'), keyBtn = document.getElementById('btnKey');
 var modal = document.getElementById('tokenModal'), input = document.getElementById('tokenInput');
-if(!btn) return;
+var keyBtn = document.getElementById('btnKey'), btnD = document.getElementById('btnRun');
+if(!btnD) return;
+var active = 0, needReload = false;     // 실행 중인 버튼 수 / 국내 실행이 끝나 새로고침이 필요한가
 
 function token(){ try { return localStorage.getItem(KEY); } catch(e){ return null; } }
 function setToken(v){ try { localStorage.setItem(KEY, v); } catch(e){} }
-function say(msg, cls){ stat.textContent = msg || ''; stat.className = 'run-status' + (cls ? ' '+cls : ''); }
-function busy(on, label){
-  btn.classList.toggle('busy', on); btn.disabled = on;
-  btnTxt.textContent = label || (on ? '실행 중' : '실행');
-}
 function openModal(){ modal.classList.add('show'); input.value = token() || ''; input.focus(); }
 function closeModal(){ modal.classList.remove('show'); }
+function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
 
 document.getElementById('tokenCancel').onclick = closeModal;
 document.getElementById('tokenSave').onclick = function(){
   var v = input.value.trim();
   if(!v){ return; }
-  setToken(v); closeModal(); say('토큰이 저장되었습니다', 'ok');
+  setToken(v); closeModal(); sayD('토큰이 저장되었습니다', 'ok');
 };
 keyBtn.onclick = openModal;
 input.addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('tokenSave').click(); });
@@ -268,63 +268,94 @@ function headers(t){
   return { 'Authorization': 'Bearer ' + t, 'Accept': 'application/vnd.github+json',
            'X-GitHub-Api-Version': '2022-11-28', 'Content-Type': 'application/json' };
 }
+function api(path){ return 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/actions/workflows/'+path; }
 
-async function poll(t, startedAt){
-  var url = 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/actions/runs?per_page=5';
-  for(var i=0; i<120; i++){
-    await new Promise(function(r){ setTimeout(r, 6000); });
-    try {
-      var res = await fetch(url, { headers: headers(t) });
-      if(!res.ok) continue;
-      var data = await res.json();
-      var run = (data.workflow_runs || []).find(function(r){
-        return new Date(r.created_at).getTime() >= startedAt - 60000;
-      });
-      if(!run){ say('실행 대기 중…'); continue; }
-      var mins = Math.floor((Date.now()-startedAt)/60000), secs = Math.floor(((Date.now()-startedAt)%60000)/1000);
-      var el = mins + '분 ' + secs + '초';
-      if(run.status === 'completed'){
-        if(run.conclusion === 'success'){
-          busy(false); say('완료 (' + el + ') · 새로고침합니다', 'ok');
-          setTimeout(function(){ location.reload(true); }, 2000);
-        } else {
-          busy(false); say('실패: ' + (run.conclusion||'error') + ' — GitHub Actions에서 로그 확인', 'err');
-        }
-        return;
-      }
-      say((run.status === 'queued' ? '대기 중' : '수집 중') + '… ' + el);
-    } catch(e){ /* 네트워크 일시 오류는 무시하고 계속 */ }
+// 실행 버튼 하나를 독립적으로 다루는 러너. 국내·해외가 각자 상태와 진행 확인을 가져서 동시에 눌러도 서로 간섭하지 않는다.
+// 진행 확인은 '그 워크플로의' 실행 목록만 본다(전체 목록을 보면 다른 워크플로의 실행을 내 것으로 착각한다).
+function makeRunner(btn, statEl, workflow, label, prefix, onSuccess){
+  var txt = btn.querySelector('.btn-txt'), running = false;
+  function say(msg, cls, link){
+    statEl.textContent = msg ? prefix + msg : ''; statEl.className = 'run-status' + (cls ? ' '+cls : '');
+    if(msg && link){
+      var a = document.createElement('a'); a.href = link.href; a.textContent = link.text; a.className = 'run-link';
+      statEl.appendChild(document.createTextNode(' · ')); statEl.appendChild(a);
+    }
   }
-  busy(false); say('시간 초과 — GitHub Actions에서 상태를 확인하세요', 'err');
+  function busy(on, lab){ btn.classList.toggle('busy', on); btn.disabled = on; txt.textContent = lab || (on ? label + ' 중' : label); }
+  function end(){ running = false; active--; busy(false); }
+
+  async function poll(t, startedAt){
+    var url = api(workflow + '/runs') + '?event=workflow_dispatch&per_page=5';
+    for(var i=0; i<120; i++){
+      await sleep(6000);
+      try {
+        var res = await fetch(url, { headers: headers(t) });
+        if(!res.ok) continue;
+        var data = await res.json();
+        var run = (data.workflow_runs || []).find(function(r){
+          return new Date(r.created_at).getTime() >= startedAt - 60000;
+        });
+        if(!run){ say('실행 대기 중…'); continue; }
+        var mins = Math.floor((Date.now()-startedAt)/60000), secs = Math.floor(((Date.now()-startedAt)%60000)/1000);
+        var el = mins + '분 ' + secs + '초';
+        if(run.status === 'completed'){
+          end();
+          if(run.conclusion === 'success'){ onSuccess(say, el); }
+          else { say('실패: ' + (run.conclusion||'error') + ' — GitHub Actions에서 로그 확인', 'err'); }
+          return;
+        }
+        say((run.status === 'queued' ? '대기 중' : '수집 중') + '… ' + el);
+      } catch(e){ /* 네트워크 일시 오류는 무시하고 계속 */ }
+    }
+    end(); say('시간 초과 — GitHub Actions에서 상태를 확인하세요', 'err');
+  }
+
+  btn.onclick = async function(){
+    if(running) return;
+    var t = token();
+    if(!t){ openModal(); return; }
+    running = true; active++; busy(true, '요청 중'); say('워크플로 실행 요청…');
+    try {
+      var res = await fetch(api(workflow + '/dispatches'), { method:'POST', headers: headers(t),
+                                                            body: JSON.stringify({ ref: GH.branch || 'main' }) });
+      if(res.status === 204){
+        var startedAt = Date.now();
+        busy(true); say('실행 시작됨…');
+        poll(t, startedAt);
+      } else if(res.status === 401 || res.status === 403){
+        end(); say('토큰이 유효하지 않습니다. 토큰 변경을 눌러 다시 입력하세요', 'err'); openModal();
+      } else if(res.status === 404){
+        end(); say('워크플로를 찾을 수 없습니다 (' + workflow + ')', 'err');
+      } else {
+        var msg = '';
+        try { msg = (await res.json()).message || ''; } catch(e){}
+        end(); say('요청 실패 (' + res.status + ') ' + msg, 'err');
+      }
+    } catch(e){
+      end(); say('네트워크 오류: ' + e.message, 'err');
+    }
+  };
+  return say;
 }
 
-btn.onclick = async function(){
-  var t = token();
-  if(!t){ openModal(); return; }
-  busy(true, '요청 중'); say('워크플로 실행 요청…');
-  var url = 'https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/actions/workflows/'+GH.workflow+'/dispatches';
-  try {
-    var res = await fetch(url, { method:'POST', headers: headers(t),
-                                 body: JSON.stringify({ ref: GH.branch || 'main' }) });
-    if(res.status === 204){
-      var startedAt = Date.now();
-      busy(true, '실행 중'); say('실행 시작됨…');
-      poll(t, startedAt);
-    } else if(res.status === 401 || res.status === 403){
-      busy(false); say('토큰이 유효하지 않습니다. 토큰 변경을 눌러 다시 입력하세요', 'err'); openModal();
-    } else if(res.status === 404){
-      busy(false); say('워크플로를 찾을 수 없습니다 (' + GH.workflow + ')', 'err');
-    } else {
-      var msg = '';
-      try { msg = (await res.json()).message || ''; } catch(e){}
-      busy(false); say('요청 실패 (' + res.status + ') ' + msg, 'err');
-    }
-  } catch(e){
-    busy(false); say('네트워크 오류: ' + e.message, 'err');
-  }
-};
+function reloadWhenIdle(){
+  // 국내 실행이 끝났어도 해외가 아직 돌고 있으면 기다린다 — 새로고침하면 해외 쪽 진행 표시가 사라진다
+  if(needReload && active === 0){ setTimeout(function(){ location.reload(true); }, 2000); }
+}
+var sayD = makeRunner(btnD, document.getElementById('runStatus'), GH.workflow, '실행', '', function(say, el){
+  needReload = true;
+  say(active ? '완료 (' + el + ') · 해외 실행이 끝나면 새로고침합니다' : '완료 (' + el + ') · 새로고침합니다', 'ok');
+  reloadWhenIdle();
+});
+var btnF = document.getElementById('btnRunF');
+if(btnF){
+  makeRunner(btnF, document.getElementById('runStatusF'), GH.workflow_foreign || 'foreign.yml', '해외 실행', '해외 · ', function(say, el){
+    say('완료 (' + el + ')', 'ok', { href: 'foreign.html', text: '해외 영문 보기 →' });
+    reloadWhenIdle();
+  });
+}
 
-if(!token()){ say('처음이면 실행을 눌러 토큰을 입력하세요'); }
+if(!token()){ sayD('처음이면 실행을 눌러 토큰을 입력하세요'); }
 })();
 """
 
@@ -936,10 +967,11 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
 <h1>금융권 디지털 AI 동향</h1>
 <div class="gen-meta">최종 갱신 {s.get("generated_at","")} · 보관 60일 · 뉴스(네이버 API) + 보도자료(9개 그룹)</div></header>
 <div class="run-bar">
-  <button class="btn-run" id="btnRun"><span class="spin"></span><span id="btnRunTxt">실행</span></button>
-  <span class="run-status" id="runStatus"></span>
+  <button class="btn-run" id="btnRun" title="국내 뉴스 수집"><span class="spin"></span><span class="btn-txt">실행</span></button>
+  <button class="btn-run btn-run-f" id="btnRunF" title="해외(영문) 뉴스 수집 — 국내와 별도로 동시에 돌릴 수 있음"><span class="spin"></span><span class="btn-txt">해외 실행</span></button>
   <button class="btn-key" id="btnKey">토큰 변경</button>
 </div>
+<div class="run-stats"><span class="run-status" id="runStatus"></span><span class="run-status" id="runStatusF"></span></div>
 <div class="ledger-line">{ledger}</div>
 {audit}
 

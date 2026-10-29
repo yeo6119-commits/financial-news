@@ -78,6 +78,10 @@ jobs:
   deploy:
     needs: collect
     if: always()
+    # 국내·해외가 거의 동시에 끝나면 Pages 배포가 겹쳐 둘째가 실패한다 — 배포 작업만 한 줄로 세운다(수집 작업은 서로 무관하게 병렬)
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     environment:
       name: github-pages

@@ -113,6 +113,10 @@ git show origin/main:summarizer.py | grep -c "compact_body"    # 1 이상이면 
 | 페이지 | `output/financial_news_archive.html` | `output/foreign.html` (국내 메뉴 끝에 "해외 영문 ↗" 링크) |
 | 커밋 대상 | news.db·국내 HTML·archive | foreign/data·output/foreign.html (겹치지 않아 rebase 충돌 없음) |
 
+- **실행 버튼**: 국내 페이지의 [실행]은 국내(`run.yml`), [해외 실행]은 해외(`foreign.yml`)만 시작한다. 둘을 동시에 눌러도 병렬로 돈다
+  (수집 작업은 concurrency 그룹이 달라 서로 기다리지 않는다). 버튼마다 상태·진행 확인이 따로이고, 국내가 끝나도 해외가 도는 중이면
+  새로고침을 미룬다. 다만 **Pages 배포 단계만은 한 줄로 세운다**(`pages-deploy` 그룹) — 둘이 거의 동시에 끝나면 배포가 겹쳐 둘째가 실패한다.
+  같은 토큰(repo·workflow 권한)을 쓴다.
 - 대상: `config.yaml`의 `foreign.companies` 12곳. 하루 최대 20건, 회사당 3건, 한 실행 10건.
 - 주가·시황 기사(차단 출처, 분석성 제목)는 제외한다. 유료 매체는 **본문이 실제로 읽힐 때만** 반영하고, 못 읽으면
   페이지의 "반영하지 않은 후보"에 사유와 함께 남는다(조용히 사라지는 기사 없음).

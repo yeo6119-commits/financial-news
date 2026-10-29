@@ -388,7 +388,8 @@ summarizer:
 github:
   owner: yeo6119-commits          # GitHub 사용자명
   repo: financial-news            # 저장소명
-  workflow: run.yml               # 워크플로 파일명
+  workflow: run.yml               # 워크플로 파일명 ([실행] 버튼)
+  workflow_foreign: foreign.yml   # 해외(영문) 트랙 워크플로 ([해외 실행] 버튼) — 국내와 별도 concurrency라 동시에 돌 수 있다
   branch: main
 
 # -------------------------------------------------------------
