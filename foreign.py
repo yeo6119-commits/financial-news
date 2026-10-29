@@ -38,7 +38,7 @@ import summarizer as smr
 KST = timezone(timedelta(hours=9))
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
                     "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"}
-DROPPED_CAP = 400
+DROPPED_PER_REASON = 40        # 사유별로 목록에 남기는 최대 건수 (건수 집계는 전부 센다 — 하루 수백 건이라 목록은 사유별로 자른다)
 
 
 # ---------------------------------------------------------------- 수집
@@ -133,6 +133,8 @@ def _rx(terms) -> re.Pattern:
 
 class Rules:
     def __init__(self, fc: dict):
+        # 은행이 '투자자·주선자'로 등장하는 자금조달·투자유치 기사(은행의 디지털·AI 이야기가 아님). 정규식 그대로 쓴다.
+        self.deal = re.compile("|".join(fc.get("deal_title", [])), re.I) if fc.get("deal_title") else None
         self.topic = _rx(fc["topic_terms"])
         self.strong = _rx(fc["strong_terms"])
         self.action = _rx(fc["action_terms"])
@@ -189,6 +191,16 @@ def summary_tokens(summary: str, cfg: dict) -> set:
     return ddp.title_tokens(ddp.normalize_title((summary or "").replace("\n", " "), cfg))
 
 
+def age_problem(c: dict, now, max_age_days: float) -> str:
+    """게재일이 없거나 너무 오래됐으면 사유, 괜찮으면 ''. RSS의 기간 옵션(freshness·when:)은 지켜지지 않아 직접 거른다
+    (첫 실행에서 2025-10, 2026-08 기사가 들어왔다)."""
+    try:
+        age = (now - datetime.fromisoformat(c.get("pub_date") or "")).total_seconds() / 86400
+    except (TypeError, ValueError):
+        return "게재일 불명"
+    return "오래된 기사(%d일 전)" % age if age > max_age_days else ""
+
+
 def prefilter(cands: list, rules: Rules, seen_titles: list, drop) -> list:
     """제목·출처만으로 거를 수 있는 것을 거르고, 비슷한 제목은 하나로 합친다."""
     kept = []
@@ -197,6 +209,8 @@ def prefilter(cands: list, rules: Rules, seen_titles: list, drop) -> list:
             drop(c, "차단 출처(주가·시황 사이트)"); continue
         if rules.noise.search(c["title"]):
             drop(c, "시황·종목 분석성 제목"); continue
+        if rules.deal and rules.deal.search(c["title"]):
+            drop(c, "투자·자금조달 기사(은행의 디지털·AI 소식 아님)"); continue
         if not rules.topic.search(c["title"]):
             drop(c, "관련 주제어 없음"); continue
         c["tok"] = title_tokens(c["title"])
@@ -312,6 +326,8 @@ def summarize_with_claude(art: dict, cfg: dict) -> bool:
 TITLE_PROMPT = """다음 영문 기사 제목을 자연스러운 한국어 제목 한 줄로 번역하세요.
 - 회사명·제품명·고유명사는 한국에서 쓰는 표기(JP모건, 골드만삭스 등)로 쓰고, 확실하지 않으면 영문 그대로 둡니다.
 - 수치·날짜·따옴표 안 말은 그대로 옮기고, 의미를 더하거나 빼지 않습니다. 해석·전망을 붙이지 않습니다.
+- 간결하게 씁니다(가능하면 60자 안팎). 제목 뒤에 덧붙은 부제(— 이후)는 빼고 핵심만 옮깁니다.
+- 관용구는 직역하지 말고 뜻으로 옮깁니다(예: Reining in X → X를 제한·단속, bank run → 뱅크런, thorn in the side → 골칫거리).
 - 번역문 한 줄만 출력합니다(설명·따옴표·'번역:' 없음).
 
 제목: {title}
@@ -341,6 +357,7 @@ def translate_title(title: str, ccfg: dict) -> str:
     """영문 제목 → 한국어 제목(구독 Claude, 호출 1회). 실패하면 ''(화면에는 영문 제목을 쓴다)."""
     c = dict(ccfg["summarizer"]["claude_fallback"])
     c["cli_system"] = "당신은 영한 번역기입니다. 번역한 제목 한 줄만 출력합니다."
+    c["cli_model"] = ccfg.get("foreign", {}).get("title_model") or c.get("cli_model", "haiku")   # 제목은 짧아 한도 부담이 작다 — 관용구 번역은 더 큰 모델이 낫다
     if smr._CLAUDE_DEAD:
         return ""
     for attempt in range(2):
@@ -389,11 +406,17 @@ def run(cfg: dict, root: str = store.DATA_DIR, now=None, rss_fn=None, body_fn=No
 
     dropped = data["dropped"]
 
+    dkeys = data.setdefault("drop_keys", {})        # 후보 해시 → 사유 종류: 그날 제외된 '서로 다른' 후보 수를 사유별로 세기 위한 것
+
+    def rkind(why):
+        return why.split("(")[0].split(":")[0]
+
     def drop(c, why):
         # 하루 3번 돌면 같은 후보가 매번 제외된다 — 같은 주소·제목은 마지막 사유 하나만 남긴다
         key = c.get("url") or c.get("link", "") or c["title"]
+        dkeys[hashlib.sha1(key.encode()).hexdigest()[:12]] = rkind(why)
         dropped[:] = [d for d in dropped if (d.get("url") or d["title"]) != key]
-        if len(dropped) < DROPPED_CAP:
+        if sum(1 for d in dropped if rkind(d["reason"]) == rkind(why)) < DROPPED_PER_REASON:
             dropped.append({"title": c["title"], "company": c["company"], "press": c.get("source", ""),
                             "url": c.get("url") or c.get("link", ""), "reason": why, "at": now.isoformat(timespec="seconds")})
 
@@ -407,6 +430,14 @@ def run(cfg: dict, root: str = store.DATA_DIR, now=None, rss_fn=None, body_fn=No
     with ThreadPoolExecutor(max_workers=3) as ex:
         raw = [it for lst in ex.map(lambda co: rss_fn(co, fc), companies) for it in lst]
     print(f"  수집: {len(raw)}건 ({len(companies)}개 회사, 수집원 {','.join(fc.get('sources', []))})")
+    fresh_raw = []
+    for c in raw:
+        why = age_problem(c, now, fc.get("max_age_days", 3))
+        drop(c, why) if why else fresh_raw.append(c)
+    if len(fresh_raw) != len(raw):
+        print(f"  게재일 {fc.get('max_age_days', 3)}일 초과·불명으로 제외: {len(raw) - len(fresh_raw)}건")
+    # 이미 카드로 반영된 주소는 조용히 건너뛴다 — 제외가 아니라 이미 화면에 있는 기사라서 제외 목록·집계에 넣지 않는다
+    raw = [c for c in fresh_raw if not c.get("url") or c["url"] not in seen_urls]
 
     quota_left = {co["name"]: fc["max_per_company_per_day"] - sum(1 for a in data["articles"] if a["company"] == co["name"])
                   for co in companies}
@@ -487,6 +518,7 @@ def run(cfg: dict, root: str = store.DATA_DIR, now=None, rss_fn=None, body_fn=No
                "fp": fp, "collected_at": now.isoformat(timespec="seconds")}
         data["articles"].append(rec); added.append(rec)
         dropped[:] = [d for d in dropped if d.get("url") != c["url"]]      # 앞 실행에서 제외됐다가 이번에 들어온 기사
+        dkeys.pop(hashlib.sha1(c["url"].encode()).hexdigest()[:12], None)
         quota_left[company] -= 1
         print(f"  + [{company}] {c['title'][:60]}")
     # 앞 실행에서 제목 번역이 실패한 오늘 기사는 다시 시도한다(기사당 최대 2번, 한 실행 10건까지)

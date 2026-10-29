@@ -561,7 +561,9 @@ db:
 foreign:
   enabled: true
   sources: [bing, google]      # bing: 실제 기사 주소를 바로 줌(막힘 없음) · google: 중계 링크를 풀어야 하고 클라우드 IP에서 차단될 수 있어 보조
-  lookback: 1d                 # 검색 기간 (Google when: / Bing freshness=Day)
+  lookback: 1d                 # 검색 기간 (Google when: / Bing freshness=Day) — RSS가 지키지 않아 max_age_days로 다시 거른다
+  max_age_days: 3              # 게재일이 이보다 오래됐거나 없으면 제외(사유 기록)
+  title_model: sonnet          # 제목 번역 모델(요약은 summarizer.claude_fallback.cli_model). 호출이 짧아 구독 한도 부담이 작다
   bing_topics: ["AI", "agentic AI", "stablecoin OR tokenization OR blockchain", "fintech OR payments OR cybersecurity"]
   google_decode_limit: 15      # 한 번 실행에서 구글 링크를 풀 최대 횟수 (연속 3회 실패하면 중단)
   event_overlap: 0.5           # 본문 핵심어 겹침이 이 값 이상이면 같은 사건으로 보고 하나만 반영
@@ -594,6 +596,11 @@ foreign:
   action_terms: ["launch", "launches", "unveil", "unveils", "rolls out", "roll out", "deploy", "deploys", "partner", "partners", "acquire", "acquires",
                  "invest", "invests", "introduces", "debut", "pilot", "expands", "builds", "adopts"]
   # 제목이 시황·종목 분석성이면 제외 (국내의 '주식·리포트' 필터에 해당)
+  deal_title:                  # 은행이 투자자·주선자로만 나오는 자금조달·투자유치 기사 (정규식)
+    - '\b(secures?|raises?|closes?|lands?)\b[^.]{0,50}\b(funding|series [a-f]|seed round|financing round)\b'
+    - '\binvestment (from|by|led by)\b'
+    - '\barranges?\b[^.]{0,40}\bfinancing\b'
+    - '\bseries [a-f]\b'
   noise_title: ["price target", "stock", "shares", "share price", "rating", "upgrade", "downgrade", "overweight", "underweight",
                 "outperform", "dividend", "13F", "holdings", "position in", "stake in", "earnings", "technical analysis", "short interest",
                 "ETF", "NYSE:", "NASDAQ:", "premarket", "pre-market", "options", "S&P 500", "dow jones", "analyst"]

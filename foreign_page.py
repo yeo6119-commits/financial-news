@@ -75,17 +75,37 @@ def _card(a: dict, sim: dict) -> str:
 </div>"""
 
 
-def _dropped(items: list) -> str:
+def _kind(reason: str) -> str:
+    return (reason or "").split("(")[0].split(":")[0]
+
+
+def drop_counts(d: dict) -> dict:
+    """사유별 제외 건수(서로 다른 후보 기준). 목록은 사유별로 잘려 있어 집계는 drop_keys에서 가져온다."""
+    c: dict = {}
+    for k in (d.get("drop_keys") or {}).values():
+        c[k] = c.get(k, 0) + 1
+    for k in {_kind(x["reason"]) for x in d["dropped"]}:          # 옛 데이터(drop_keys 없음)는 목록으로 보충
+        c[k] = max(c.get(k, 0), sum(1 for x in d["dropped"] if _kind(x["reason"]) == k))
+    return c
+
+
+def _dropped(d: dict) -> str:
+    items = d["dropped"]
     if not items:
         return ""
+    counts = drop_counts(d)
+    total = sum(counts.values())
+    by = " · ".join("%s %d" % (k, n) for k, n in sorted(counts.items(), key=lambda kv: -kv[1]))
     rows = "".join(
         '<div class="ex-item"><span class="ex-reason">%s</span><a href="%s" target="_blank" rel="noopener">%s</a>'
         ' <span class="ex-meta">%s · %s</span></div>'
         % (H.escape((d.get("reason") or "")[:34]), H.escape(d.get("url") or "#"), H.escape(d.get("title") or ""),
            H.escape(d.get("company") or ""), H.escape(d.get("press") or ""))
         for d in items)
-    return ('<details class="excluded"><summary>반영하지 않은 후보 %d건 (사유 포함 — 조용히 사라진 기사 없음)</summary>'
-            '<div class="drop-list">%s</div></details>' % (len(items), rows))
+    shown = ("사유별로 최대 40건씩 표시합니다. " if total > len(items) else "")
+    return ('<details class="excluded"><summary>반영하지 않은 후보 %d건 — %s</summary>'
+            '<div class="drop-list"><div class="f-note">%s제외 사유는 모든 후보에 기록됩니다.</div>%s</div></details>'
+            % (total, H.escape(by), shown, rows))
 
 
 FJS = """
@@ -136,7 +156,7 @@ def render(days: list, companies: list, out_path: str = OUT_FILE, generated_at: 
     limits = limits or {}
     sim: dict = {}
     total = sum(len(d["articles"]) for d in days)
-    ndrop = sum(len(d["dropped"]) for d in days)
+    ndrop = sum(sum(drop_counts(d).values()) for d in days)
     counts: dict = {}
     for d in days:
         for a in d["articles"]:
@@ -157,15 +177,15 @@ def render(days: list, companies: list, out_path: str = OUT_FILE, generated_at: 
 <details class="run-block" data-latest="{1 if i == 0 else 0}"{" open" if i == 0 else ""}>
  <summary><div class="run-head"><span class="dot"></span><h2>{_day_label(d['date'])}</h2>
   <span class="cnt" data-total="{len(d['articles'])}">{len(d['articles'])}건</span>
-  <span class="range">제외·미반영 {len(d['dropped'])}건</span><span class="caret">▾</span></div></summary>
- <div class="run-body">{cards}{_dropped(d['dropped'])}</div>
+  <span class="range">제외·미반영 {sum(drop_counts(d).values())}건</span><span class="caret">▾</span></div></summary>
+ <div class="run-body">{cards}{_dropped(d)}</div>
 </details>"""
     if not blocks:
         blocks = ('<div class="f-empty">아직 수집된 해외 기사가 없습니다.<br>'
                   'GitHub → Actions → <b>해외 영문 뉴스</b> → Run workflow 로 한 번 실행하세요.</div>')
 
-    note = ("영문 매체의 JP모건·골드만삭스 등 해외 금융사 AI·디지털 기사를 구독 Claude가 한국어 3줄로 요약합니다. "
-            "하루 최대 %d건(회사당 %d건). 주가·시황 기사는 제외하고, 유료 매체는 본문이 실제로 읽힐 때만 반영합니다 "
+    note = ("영문 매체의 JP모건·골드만삭스 등 해외 금융사 AI·디지털 기사를 구독 Claude가 한국어로 요약하고 제목도 번역합니다. "
+            "하루 최대 %d건(회사당 %d건). 최근 3일 안의 기사만 받고, 주가·시황·투자유치 기사는 제외하며, 유료 매체는 본문이 실제로 읽힐 때만 반영합니다 "
             "(읽히지 않으면 아래 ‘반영하지 않은 후보’에 사유와 함께 남습니다). 국내 뉴스와 별도로 하루 3번 갱신됩니다."
             % (limits.get("max_per_day", 20), limits.get("max_per_company_per_day", 3)))
     sim_json = json.dumps(sim, ensure_ascii=False).replace("</", "<\\/")
