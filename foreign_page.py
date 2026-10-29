@@ -205,9 +205,9 @@ def render(days: list, companies: list, out_path: str = OUT_FILE, generated_at: 
 <title>해외 금융사 AI 동향</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css">
 <style>{hg.CSS}{EXTRA_CSS}</style></head><body>
-<header><div class="eyebrow">Overseas Financial · AI News (English sources)</div>
+<header class="hd"><div class="hd-text"><div class="eyebrow">Overseas Financial · AI News (English sources)</div>
 <h1>해외 금융사 AI 동향</h1>
-<div class="gen-meta">최종 갱신 {H.escape(generated_at)} · 누적 {total}건 · 구독 Claude 요약 · 별도 수집(국내 뉴스와 무관)</div></header>
+<div class="gen-meta">최종 갱신 {H.escape(generated_at)} · 누적 {total}건 · 구독 Claude 요약 · 별도 수집(국내 뉴스와 무관)</div></div>{hg.MASCOT_HTML}</header>
 <a class="back" href="{DOMESTIC_PAGE}">← 국내 뉴스</a>
 <div class="ledger-line">{H.escape(note)}</div>
 <div class="modal" id="shareModal">

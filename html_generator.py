@@ -30,6 +30,12 @@ CSS = """
 body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
 background:var(--paper);color:var(--ink);line-height:1.6;padding:16px 14px 60px;max-width:880px;margin:0 auto}
 header{padding-bottom:8px}
+/* 머리글 오른쪽 위: 캐릭터가 Oliver_YKD 깃발을 든 그림. 좁은 화면에서는 글 아래로 내려간다 */
+header.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+.hd-text{flex:1 1 360px;min-width:0}
+.mascot{flex:0 0 auto}
+.mascot svg{display:block;width:280px;height:auto;max-width:100%}
+@media(max-width:620px){.mascot{width:100%}.mascot svg{width:300px;margin-left:auto}}
 .eyebrow{font-size:11px;letter-spacing:.14em;color:var(--teal);font-weight:700;text-transform:uppercase}
 h1{font-size:21px;font-weight:800;margin-top:2px}
 .gen-meta{font-size:12px;color:var(--muted);margin-top:4px}
@@ -848,6 +854,18 @@ def _runlog(history) -> str:
 
 GH_CONF = {}
 
+# 머리글 오른쪽 위 그림: 하나금융그룹 캐릭터(이미지는 사용자가 제공) 위에 깃발을 겹쳐 그려 오른쪽 끝 캐릭터가 Oliver_YKD 깃발을 든 모양으로 만든다.
+#   좌표는 760x416으로 줄인 이미지 기준이고, 위쪽 60을 비워 깃발이 다른 캐릭터를 가리지 않게 했다.
+#   원본이 불투명한 흰 배경이라 multiply로 페이지 색에 녹인다. 깃발 글자는 벡터라 확대해도 선명하다.
+MASCOT_HTML = (
+    '<div class="mascot"><svg viewBox="0 -62 760 478" role="img" aria-label="하나금융그룹 캐릭터가 Oliver_YKD 깃발을 들고 있다">'
+    '<image href="hana_characters.png" x="0" y="0" width="760" height="416" style="mix-blend-mode:multiply"/>'
+    '<rect x="722.5" y="-56" width="5" height="326" rx="2.5" fill="#E8C27A" stroke="#222" stroke-width="2"/>'
+    '<circle cx="725" cy="-58" r="5.5" fill="#F2C94C" stroke="#222" stroke-width="2"/>'
+    '<path d="M722 -52 L506 -52 L524 -27 L506 -2 L722 -2 Z" fill="#2E7D50" stroke="#222" stroke-width="2.4" stroke-linejoin="round"/>'
+    '<text x="620" y="-17" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" '
+    'font-size="30" font-weight="700" fill="#fff">Oliver_YKD</text></svg></div>')
+
 
 def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh=None,
            screened_rows=None, similar=None, omap=None):
@@ -966,9 +984,9 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
 <title>금융권 디지털 AI 동향</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css">
 <style>{CSS}</style></head><body>
-<header><div class="eyebrow">Financial Digital · AI News Archive</div>
+<header class="hd"><div class="hd-text"><div class="eyebrow">Financial Digital · AI News Archive</div>
 <h1>금융권 디지털 AI 동향</h1>
-<div class="gen-meta">최종 갱신 {s.get("generated_at","")} · 보관 60일 · 뉴스(네이버 API) + 보도자료(9개 그룹)</div></header>
+<div class="gen-meta">최종 갱신 {s.get("generated_at","")} · 보관 60일 · 뉴스(네이버 API) + 보도자료(9개 그룹)</div></div>{MASCOT_HTML}</header>
 <div class="run-bar">
   <button class="btn-run" id="btnRun" title="국내 뉴스 수집"><span class="spin"></span><span class="btn-txt">실행</span></button>
   <button class="btn-run btn-run-f" id="btnRunF" title="해외(영문) 뉴스 수집 — 국내와 별도로 동시에 돌릴 수 있음"><span class="spin"></span><span class="btn-txt">해외 실행</span></button>
