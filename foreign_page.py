@@ -15,7 +15,6 @@ import foreign_store as store
 import html_generator as hg
 
 OUT_FILE = os.path.join("output", "foreign.html")
-FEED_FILE = os.path.join("output", "foreign_feed.json")    # 국내 페이지가 열릴 때 읽어 국내 기사와 같은 목록에 끼워 넣는 데이터
 DOMESTIC_PAGE = "financial_news_archive.html"
 WEEK = "월화수목금토일"
 
@@ -89,6 +88,7 @@ def drop_counts(d: dict) -> dict:
 
 
 def _dropped(d: dict) -> str:
+    """그날의 미반영 후보. 날짜 단위로 누적·갱신되는 기록이라(같은 후보는 마지막 사유 하나만 남음) 회차가 아니라 날짜로 보여 준다."""
     items = d["dropped"]
     if not items:
         return ""
@@ -102,9 +102,9 @@ def _dropped(d: dict) -> str:
            H.escape(d.get("company") or ""), H.escape(d.get("press") or ""))
         for d in items)
     shown = ("사유별로 최대 40건씩 표시합니다. " if total > len(items) else "")
-    return ('<details class="excluded"><summary>반영하지 않은 후보 %d건 — %s</summary>'
+    return ('<details class="excluded f-drop"><summary>%s · 반영하지 않은 후보 %d건 — %s</summary>'
             '<div class="drop-list"><div class="f-note">%s제외 사유는 모든 후보에 기록됩니다.</div>%s</div></details>'
-            % (total, H.escape(by), shown, rows))
+            % (_day_label(d["date"]), total, H.escape(by), shown, rows))
 
 
 FJS = """
@@ -137,6 +137,7 @@ function apply(){
     var cnt=r.querySelector('.cnt');
     if(cnt){ cnt.textContent = (filtering ? vis : (cnt.dataset.total||vis)) + '건'; cnt.classList.toggle('zero', filtering && vis===0); }
   });
+  document.querySelectorAll('.f-drop, .f-drop-head').forEach(function(x){ x.classList.toggle('hidden', filtering); });   // 미반영 후보는 필터·검색 대상이 아니다
   if(q){ hits.textContent='"'+q+'" 검색 결과 '+shown+'건'; hits.classList.add('show'); } else { hits.classList.remove('show'); }
   clr.classList.toggle('show', !!q);
 }
@@ -167,18 +168,28 @@ def render(days: list, companies: list, out_path: str = OUT_FILE, generated_at: 
     menu += "".join('<button data-co="%s">%s <span class="n">%d</span></button>'
                     % (H.escape(c), H.escape(c), counts[c]) for c in names)
 
+    # 회차(요청 시각)별 블록 — 국내 페이지의 `2026-10-29 11:24 요청분 15건`과 같은 모양.
+    #   한 실행에서 반영된 기사는 collected_at(실행 시작 시각)이 같으므로 분 단위로 묶는다.
+    runs: dict = {}
+    for d in days:
+        for a in d["articles"]:
+            runs.setdefault((a.get("collected_at") or d["date"])[:16], []).append(a)
     blocks = ""
-    for i, d in enumerate(days):
-        if not d["articles"] and not d["dropped"]:
-            continue
-        cards = "".join(_card(a, sim) for a in d["articles"]) or '<div class="f-note">이 날은 반영된 기사가 없습니다.</div>'
+    for i, key in enumerate(sorted(runs, reverse=True)):
+        arts = sorted(runs[key], key=lambda a: a.get("pub_date") or "", reverse=True)      # 발행일 최신순(국내와 같음)
+        pubs = [(a.get("pub_date") or "")[5:16].replace("T", " ") for a in arts if a.get("pub_date")]
+        rng = "게재 %s ~ %s" % (min(pubs), max(pubs)) if pubs else ""
+        label = "%s 요청분%s" % (key.replace("T", " "), "" if i == 0 else " (과거)")
         blocks += f"""
 <details class="run-block" data-latest="{1 if i == 0 else 0}"{" open" if i == 0 else ""}>
- <summary><div class="run-head"><span class="dot"></span><h2>{_day_label(d['date'])}</h2>
-  <span class="cnt" data-total="{len(d['articles'])}">{len(d['articles'])}건</span>
-  <span class="range">제외·미반영 {sum(drop_counts(d).values())}건</span><span class="caret">▾</span></div></summary>
- <div class="run-body">{cards}{_dropped(d)}</div>
+ <summary><div class="run-head"><span class="dot"></span><h2>{H.escape(label)}</h2>
+  <span class="cnt" data-total="{len(arts)}">{len(arts)}건</span>
+  <span class="range">{H.escape(rng)}</span><span class="caret">▾</span></div></summary>
+ <div class="run-body">{"".join(_card(a, sim) for a in arts)}</div>
 </details>"""
+    drops = "".join(_dropped(d) for d in days)
+    if drops:
+        blocks += '<div class="f-drop-head f-note" style="margin-top:22px">날짜별 미반영 후보 — 걸러진 기사도 사유와 함께 남깁니다</div>' + drops
     if not blocks:
         blocks = ('<div class="f-empty">아직 수집된 해외 기사가 없습니다.<br>'
                   'GitHub → Actions → <b>해외 영문 뉴스</b> → Run workflow 로 한 번 실행하세요.</div>')
@@ -238,30 +249,10 @@ def render(days: list, companies: list, out_path: str = OUT_FILE, generated_at: 
     return out_path
 
 
-def write_feed(days: list, path: str = FEED_FILE) -> str:
-    """국내 페이지에 끼워 넣을 기사 목록(JSON). 제외 후보·본문 지문 같은 내부 값은 싣지 않는다.
-    국내 HTML은 국내 실행만 만든다 — 해외 실행이 같은 파일을 쓰면 충돌하므로, 해외 쪽은 이 데이터 파일만 올리고
-    국내 페이지가 열릴 때 읽는다(해외 실행이 끝나는 즉시 반영)."""
-    arts = []
-    for d in days:
-        for a in d["articles"]:
-            arts.append({k: a.get(k) for k in ("id", "company", "also", "title", "title_ko", "press", "url", "pub_date",
-                                               "summary", "dups", "collected_at")})
-    arts.sort(key=lambda a: (a.get("collected_at") or "", a.get("pub_date") or ""), reverse=True)
-    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as fh:
-        json.dump({"generated_at": datetime.now(store.KST).isoformat(timespec="seconds"), "articles": arts},
-                  fh, ensure_ascii=False, separators=(",", ":"))
-    os.replace(tmp, path)
-    return path
-
-
-def build(cfg: dict, root: str = store.DATA_DIR, out_path: str = OUT_FILE, feed_path: str = FEED_FILE) -> str:
+def build(cfg: dict, root: str = store.DATA_DIR, out_path: str = OUT_FILE) -> str:
     fc = cfg.get("foreign", {})
     days = store.load_days(60, root)
     now = datetime.now(store.KST)
-    write_feed(days, feed_path)
     return render(days, [c["name"] for c in fc.get("companies", [])], out_path,
                   generated_at=now.strftime("%Y-%m-%d %H:%M"), limits=fc)
 

@@ -536,76 +536,9 @@ qBox.addEventListener('input',function(){
   t=setTimeout(function(){ q=qBox.value.trim().toLowerCase(); apply(); }, 180);
 });
 clr.addEventListener('click',function(){ qBox.value=''; q=''; apply(); qBox.focus(); });
-/*FEED_JS*/
-renderSub(); apply(); loadForeign();
+renderSub(); apply();
 })();
 """
-
-# 해외(영문) 기사를 국내 회차 블록과 같은 모양으로 끼워 넣는다. 해외 워크플로가 올린 foreign_feed.json을 열 때마다 읽는다.
-#   - 국내 HTML 파일은 바뀌지 않는다(해외 실행과 파일 충돌 없음). 파일이 없거나 실패하면 조용히 건너뛴다.
-#   - 외부 기사 문구라 innerHTML을 쓰지 않고 textContent로만 넣는다. 링크는 http(s)만 허용한다.
-#   - 카드는 data-co="overseas"라 '전체'와 '해외' 탭에 보이고 다른 탭에서는 숨는다.
-FEED_JS = r'''
-function fEl(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
-function fSafe(u){ return /^https?:\/\//i.test(u||'') ? u : '#'; }
-function fCard(a){
-  var card = fEl('div','article has-sum'); card.dataset.co='overseas'; card.dataset.sector='해외'; card.dataset.type='AI'; card.dataset.foreign='1';
-  var day = (a.pub_date||'').slice(0,10).replace(/-/g,'/');
-  var lines = (a.summary||'').split('\n').map(function(l){ return l.replace(/^[*\-\u2022\s]+/,'').trim(); }).filter(Boolean);
-  var share = [(day ? '['+day+'] ' : '') + a.company].concat(lines.map(function(l){ return '- '+l; }), a.url ? [a.url] : []).join('\n');
-  var cp = fEl('button','copy-sum'); cp.type='button'; cp.title='공유용 요약 보기·복사'; cp.setAttribute('aria-label','요약 복사'); cp.setAttribute('data-copy', share); card.appendChild(cp);
-  var tags = fEl('div','tags'); tags.appendChild(fEl('span','tag path', a.company+' · 해외')); tags.appendChild(fEl('span','tag ai','영문 번역')); card.appendChild(tags);
-  var h = fEl('h3'); var link = fEl('a','', a.title_ko || a.title); link.href=fSafe(a.url); link.target='_blank'; link.rel='noopener'; h.appendChild(link); card.appendChild(h);
-  if(a.title_ko) card.appendChild(fEl('div','a-orig', a.title));
-  card.appendChild(fEl('div','a-meta', (a.press||'')+' \u00b7 '+(a.pub_date||'').slice(0,16).replace('T',' ')));
-  var ul = fEl('ul','summary'); lines.forEach(function(l){ ul.appendChild(fEl('li','',l)); }); card.appendChild(ul);
-  if(a.also && a.also.length) card.appendChild(fEl('div','also','함께 다룬 회사: '+a.also.join(', ')));
-  var act = fEl('div','card-actions'); var src = fEl('a','src-link','원문 보기 →'); src.href=fSafe(a.url); src.target='_blank'; src.rel='noopener'; act.appendChild(src);
-  if(a.dups && a.dups.length){
-    var key='f'+a.id; (window.__SIM__ = window.__SIM__ || {})[key] = a.dups.map(function(d){ return [d.press||'', d.title||'', fSafe(d.url) === '#' ? '' : d.url, '']; });
-    var sb = fEl('button','sim-btn'); sb.type='button'; sb.setAttribute('data-sim',key); sb.setAttribute('data-n',a.dups.length); sb.title='같은 사건을 다룬 다른 매체 기사'; act.appendChild(sb);
-  }
-  card.appendChild(act); return card;
-}
-function fBlock(key, list, latest){
-  var d = fEl('details','run-block foreign-run'); d.dataset.latest = latest ? '1' : '0'; d.dataset.ts = key; if(latest) d.open = true;
-  var sum = fEl('summary'), head = fEl('div','run-head');
-  head.appendChild(fEl('span','dot')); head.appendChild(fEl('h2','', key.replace('T',' ')+' 요청분')); head.appendChild(fEl('span','tag ai','해외 영문'));
-  var cnt = fEl('span','cnt', list.length+'건'); cnt.dataset.total = list.length; head.appendChild(cnt);
-  head.appendChild(fEl('span','range','영문 매체 · 번역 요약')); head.appendChild(fEl('span','caret','▾'));
-  sum.appendChild(head); d.appendChild(sum);
-  var body = fEl('div','run-body'); list.forEach(function(a){ body.appendChild(fCard(a)); }); d.appendChild(body); return d;
-}
-function fBump(c, n){
-  var b = coMenu.querySelector('button[data-co="'+c+'"]'); if(!b) return;
-  var s = b.querySelector('.n'); if(s) s.textContent = (parseInt(s.textContent,10) || 0) + n;
-  if(b.disabled){ b.disabled = false; b.style.opacity = ''; b.style.cursor = ''; }
-}
-function loadForeign(){
-  var box = document.getElementById('runs'); if(!box || !window.fetch) return;
-  fetch('foreign_feed.json', {cache:'no-cache'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(feed){
-    var list = (feed && feed.articles) || []; if(!list.length) return;
-    var groups = {}, keys = [];
-    list.forEach(function(a){ var k=(a.collected_at||'').slice(0,16); if(!k) return; if(!groups[k]){ groups[k]=[]; keys.push(k); } groups[k].push(a); });
-    keys.sort().reverse();
-    keys.forEach(function(k, i){
-      var before = null;
-      for(var j=0; j<box.children.length; j++){            // 요청 시각 최신순을 유지하도록 국내 회차 블록 사이에 넣는다
-        var c = box.children[j]; if(c.classList.contains('run-block') && (c.dataset.ts||'') < k){ before = c; break; }
-      }
-      box.insertBefore(fBlock(k, groups[k], i===0), before);
-    });
-    var n = list.length; fBump('all', n); fBump('overseas', n);
-    var arr = (SUBS.overseas = SUBS.overseas || []), f = arr.filter(function(x){ return x[0]==='해외'; })[0];
-    if(f) f[1] += n; else arr.push(['해외', n]);
-    arts = Array.prototype.slice.call(document.querySelectorAll('.article'));
-    arts.forEach(function(a){ a.__txt = a.textContent.toLowerCase(); });
-    if(co==='overseas') renderSub();
-    apply();
-  }).catch(function(){ /* 해외 데이터가 없으면 국내 목록만 보인다 */ });
-}
-'''
-JS = JS.replace("/*FEED_JS*/", FEED_JS)
 
 
 def _share_text(a, company: str) -> str:
@@ -978,7 +911,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
         opened = " open" if is_latest else ""
         label = f"{req} 요청분" + ("" if is_latest else " (과거)")
         run_html += f"""
-<details class="run-block" data-latest="{1 if is_latest else 0}" data-ts="{(m['run_requested'] or '')[:16]}"{opened}>
+<details class="run-block" data-latest="{1 if is_latest else 0}"{opened}>
  <summary>
   <div class="run-head"><span class="dot"></span><h2>{label}</h2>
    <span class="cnt" data-total="{len(r['arts'])}">{len(r['arts'])}건</span>
@@ -1087,7 +1020,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
   </div>
   <div class="search-hits" id="hits"></div>
 </div>
-<div id="runs">{run_html}</div>
+{run_html}
 {ex_html}
 <footer>금융 디지털·AI 뉴스 수집 시스템 v2.5 — 수집은 넓게, 판단은 본문 확보 후 로컬에서</footer>
 <script>window.__SUBS__ = {subs_json}; window.__GH__ = {gh_json}; window.__SIM__ = {sim_json};</script>
