@@ -31,11 +31,15 @@ body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",
 background:var(--paper);color:var(--ink);line-height:1.6;padding:16px 14px 60px;max-width:880px;margin:0 auto}
 header{padding-bottom:8px}
 /* 머리글 오른쪽 위: 캐릭터가 Oliver_YKD 깃발을 든 그림. 좁은 화면에서는 글 아래로 내려간다 */
-header.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
-.hd-text{flex:1 1 360px;min-width:0}
+header.hd{display:flex;align-items:stretch;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+/* 왼쪽 글은 오른쪽 그림과 같은 높이로 늘린다: 소제목은 그림 맨 위(깃발), 갱신 정보는 맨 아래(캐릭터 발)에 맞추고 제목은 크게 */
+.hd-text{flex:1 1 360px;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:4px 0 6px}
+.hd-text .eyebrow{font-size:clamp(11px,1.5vw,14px)}
+.hd-text h1{font-size:clamp(26px,4.8vw,44px);line-height:1.12;margin-top:0}
+.hd-text .gen-meta{font-size:clamp(12px,1.5vw,14px);margin-top:0}
 .mascot{flex:0 0 auto}
 .mascot svg{display:block;width:280px;height:auto;max-width:100%}
-@media(max-width:620px){.mascot{width:100%}.mascot svg{width:300px;margin-left:auto}}
+@media(max-width:620px){header.hd{align-items:flex-end}.hd-text{flex-basis:100%;gap:6px}.mascot{width:100%}.mascot svg{width:300px;margin-left:auto}}
 .eyebrow{font-size:11px;letter-spacing:.14em;color:var(--teal);font-weight:700;text-transform:uppercase}
 h1{font-size:21px;font-weight:800;margin-top:2px}
 .gen-meta{font-size:12px;color:var(--muted);margin-top:4px}
