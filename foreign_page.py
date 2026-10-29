@@ -15,6 +15,7 @@ import foreign_store as store
 import html_generator as hg
 
 OUT_FILE = os.path.join("output", "foreign.html")
+FEED_FILE = os.path.join("output", "foreign_feed.json")    # 국내 페이지가 열릴 때 읽어 국내 기사와 같은 목록에 끼워 넣는 데이터
 DOMESTIC_PAGE = "financial_news_archive.html"
 WEEK = "월화수목금토일"
 
@@ -22,8 +23,6 @@ EXTRA_CSS = """
 .back{display:inline-block;font-size:12.5px;font-weight:700;color:var(--teal);text-decoration:none;
 background:var(--teal-soft);border-radius:6px;padding:4px 12px;margin:4px 0 2px}
 .back:hover{background:var(--teal);color:#fff}
-.also{font-size:11px;color:var(--muted);margin-top:5px}
-.a-orig{font-size:11.5px;color:var(--muted);margin:1px 0 0;line-height:1.4}
 .f-note{font-size:12px;color:var(--muted);margin:2px 0 10px;line-height:1.55}
 .f-empty{font-size:13px;color:var(--muted);padding:26px 4px;line-height:1.7}
 .drop-list{padding:0 14px 12px;max-height:360px;overflow-y:auto}
@@ -239,10 +238,30 @@ def render(days: list, companies: list, out_path: str = OUT_FILE, generated_at: 
     return out_path
 
 
-def build(cfg: dict, root: str = store.DATA_DIR, out_path: str = OUT_FILE) -> str:
+def write_feed(days: list, path: str = FEED_FILE) -> str:
+    """국내 페이지에 끼워 넣을 기사 목록(JSON). 제외 후보·본문 지문 같은 내부 값은 싣지 않는다.
+    국내 HTML은 국내 실행만 만든다 — 해외 실행이 같은 파일을 쓰면 충돌하므로, 해외 쪽은 이 데이터 파일만 올리고
+    국내 페이지가 열릴 때 읽는다(해외 실행이 끝나는 즉시 반영)."""
+    arts = []
+    for d in days:
+        for a in d["articles"]:
+            arts.append({k: a.get(k) for k in ("id", "company", "also", "title", "title_ko", "press", "url", "pub_date",
+                                               "summary", "dups", "collected_at")})
+    arts.sort(key=lambda a: (a.get("collected_at") or "", a.get("pub_date") or ""), reverse=True)
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump({"generated_at": datetime.now(store.KST).isoformat(timespec="seconds"), "articles": arts},
+                  fh, ensure_ascii=False, separators=(",", ":"))
+    os.replace(tmp, path)
+    return path
+
+
+def build(cfg: dict, root: str = store.DATA_DIR, out_path: str = OUT_FILE, feed_path: str = FEED_FILE) -> str:
     fc = cfg.get("foreign", {})
     days = store.load_days(60, root)
     now = datetime.now(store.KST)
+    write_feed(days, feed_path)
     return render(days, [c["name"] for c in fc.get("companies", [])], out_path,
                   generated_at=now.strftime("%Y-%m-%d %H:%M"), limits=fc)
 

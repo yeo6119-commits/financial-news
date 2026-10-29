@@ -3,6 +3,7 @@
 # 순서가 곧 안전장치: HTML 성공 후에만 delivered
 # =============================================================
 import os
+import time
 from datetime import datetime, timedelta
 
 import yaml
@@ -24,6 +25,48 @@ import reviewer as rvw
 import html_generator as htm
 
 load_dotenv()
+
+
+def _fmt(sec: float) -> str:
+    sec = int(round(sec))
+    return f"{sec // 60}분 {sec % 60:02d}초" if sec >= 60 else f"{sec}초"
+
+
+class StageTimer:
+    """단계별 소요 시간 기록. 단계가 끝날 때마다 한 줄 출력하고(중간에 끊겨도 로그가 남는다) 끝에서 표로 요약한다.
+    동작에는 영향이 없다 — 느린 실행의 원인을 로그만으로 찾으려고 넣었다(2026-10-29: 평소 9분이 24분 걸렸는데
+    총 소요 시간만 남아 어느 단계인지 알 수 없었다)."""
+    def __init__(self):
+        self._t = time.monotonic()
+        self.rows = []                      # [(이름, 초, 부가설명)]
+
+    def lap(self, name: str, note: str = "", sec: float = None):
+        now = time.monotonic()
+        sec = (now - self._t) if sec is None else sec
+        self._t = now
+        self.rows.append((name, sec, note))
+        print(f"  ⏱ {name}: {_fmt(sec)}" + (f"  ({note})" if note else ""))
+
+    def report(self):
+        total = sum(r[1] for r in self.rows) or 1
+        print(" 단계별 소요")
+        for name, sec, note in self.rows:
+            if sec >= 1 or note:
+                print(f"   {name:<20}{_fmt(sec):>9}  {sec / total:>4.0%}" + (f"   {note}" if note else ""))
+
+
+def _timed(gen, acc: dict):
+    """제너레이터에서 다음 항목을 기다린 시간을 acc['wait']에 더한다(검토 에이전트를 기다린 시간)."""
+    it = iter(gen)
+    while True:
+        t = time.monotonic()
+        try:
+            x = next(it)
+        except StopIteration:
+            acc["wait"] += time.monotonic() - t
+            return
+        acc["wait"] += time.monotonic() - t
+        yield x
 
 
 def calc_window(conn, cfg):
@@ -76,10 +119,12 @@ def calc_window(conn, cfg):
 
 
 def main():
+    timer = StageTimer()
     with open("config.yaml", encoding="utf-8") as fh:
         cfg = yaml.safe_load(fh)
     conn = dbm.connect(cfg["db"]["path"])
     dbm.cleanup(conn, cfg["db"]["retention_days"], cfg["db"].get("excluded_retention_days", 14))
+    timer.lap("DB 정리")
 
     # 1) 검색 기간
     t0 = dbm.now_kst()
@@ -99,7 +144,9 @@ def main():
         keywords = col.build_keywords(cfg)
         collector = col.Collector(cfg)
         news_items = collector.collect_all(keywords, start, end)
+        timer.lap("수집(네이버)", f"API {collector.api_calls}콜")
         press_items, press_health = prc.collect_press(start)
+        timer.lap("수집(보도자료)")
         print(f"뉴스 {len(news_items)}건 / 보도자료 {len(press_items)}건 / "
               f"API {collector.api_calls}콜 / 키워드 {len(keywords)}개")
         for k, v in press_health.items():
@@ -126,6 +173,7 @@ def main():
             flt.prescreen(it, cfg, companies, relevance)
         survivors = [it for it in items if not it.get("excluded")]
         print(f"1차 스크리닝: {len(items)}건 → {len(survivors)}건 통과")
+        timer.lap("1차 스크리닝")
         if not survivors:
             print("  ⚠ 통과 0건 — 필터가 과하게 걸러냈을 수 있음")
 
@@ -141,6 +189,7 @@ def main():
         for it in items:
             it.setdefault("extract_ok", 0)
             it.setdefault("extract_fail_reason", None)
+        timer.lap("본문 추출", f"{len(need_extract)}건 시도, 실패 {sum(1 for it in need_extract if not it['extract_ok'])}건")
 
         # 5) 2차 필터 → 중복 → 분류
         for it in survivors:
@@ -153,6 +202,7 @@ def main():
         cls_idx = cls.build_index(cfg)
         for it in live:
             cls.classify(it, cfg, cls_idx)
+        timer.lap("2차 필터·중복·분류")
         # 검토·요약·중복제거·저장을 청크 단위로 묶어 처리한다.
         #   예전엔 review_many/summarize/dedup_by_summary/insert가 전부
         #   live 전체(수백 건)에 대해 한 번에 실행됐다. 타임아웃으로 중간에
@@ -168,12 +218,14 @@ def main():
         processed = 0
         excluded_by_review = 0
         cached = 0
+        acc = {"wait": 0.0, "summ": 0.0, "n": 0}     # 검토 대기 / 요약 호출 시간·건수 (두 단계가 겹쳐 돌아 따로 잰다)
+        SLOW_SUM = 60                                # 요약 한 건이 이 초를 넘으면 별도 표시
 
         for start in range(0, total_live, CHUNK):
             chunk = []
             # 검토(20b)를 뒤에서 앞서 진행하고, 통과한 기사부터 바로 요약(120b)한다.
             #   두 모델은 분당 토큰 한도가 따로라 검토 시간이 요약 시간에 가려진다.
-            for it in rvw.review_ahead(live[start:start + CHUNK], cfg):
+            for it in _timed(rvw.review_ahead(live[start:start + CHUNK], cfg), acc):
                 if it.get("excluded"):
                     excluded_by_review += 1
                     continue
@@ -187,9 +239,14 @@ def main():
                     cached += 1
                     print(f"  요약 {processed}/{total_live} CACHE: {it['title'][:40]}")
                     continue
+                ts = time.monotonic()
                 smr.summarize(it, cfg)
+                dt = time.monotonic() - ts
+                acc["summ"] += dt
+                acc["n"] += 1
                 mark = "OK" if it["summary_ok"] else "FAIL"
-                print(f"  요약 {processed}/{total_live} {mark}: {it['title'][:40]}")
+                print(f"  요약 {processed}/{total_live} {mark}: {it['title'][:40]}"
+                      + (f"  ⏱ 느림 {_fmt(dt)}" if dt >= SLOW_SUM else ""))
 
             before_sum_dedup = len(chunk)
             ddp.dedup_by_summary(chunk, cfg, conn)
@@ -219,16 +276,22 @@ def main():
         tok = smr.usage_report()
         if tok:
             print(f"  → 토큰 사용 {tok}")
+        avg = f", 건당 평균 {_fmt(acc['summ'] / acc['n'])}" if acc["n"] else ""
+        timer.lap("검토·요약·저장",
+                  f"검토 기다림 {_fmt(acc['wait'])} · 요약 호출 {_fmt(acc['summ'])}({acc['n']}건{avg}) · 나머지 저장·중복")
 
         # 신규 요약이 끝난 뒤, 남은 쿼터로 이전 회차의 '한도 실패' 요약을 채운다.
         #   건별로 즉시 커밋하므로 아래 HTML 생성 직전의 rollback과 무관하다.
         bf_ok, _ = backfill.run(conn, cfg)
+        timer.lap("요약 보충(한도 실패분)", f"{bf_ok}건 채움")
         try:
             backfill.retry_english(conn, cfg)       # 영문 기사 '환각' 폐기분을 새 검사로 1회 재시도
         except Exception as e:
             print(f"  ⚠ 영문 재요약 건너뜀: {e}")
+        timer.lap("영문 재요약")
         #   본문 접속 실패로 요약이 비었던 기사도 다시 가져와 채운다 (일시적 실패가 대부분)
         rx_ok, _ = retry_extract.run(conn, cfg)
+        timer.lap("본문 재추출", f"{rx_ok}건 성공")
 
         live = final_live  # 이후 통계·HTML 코드는 최종 생존 리스트를 그대로 사용 (기존과 동일)
 
@@ -301,14 +364,17 @@ def main():
         except Exception as e:
             print(f"  ⚠ 언론사 이름 조회 실패 — 건너뜀: {e}")
             omap = outlets.load()
+        timer.lap("언론사 이름 조회")
         try:
             sim_map = similar.build(conn, rows, omap)   # 카드별 '비슷한 기사' (실패해도 렌더링은 계속)
         except Exception as e:
             print(f"  ⚠ 비슷한 기사 목록 생성 실패 — 건너뜀: {e}")
             sim_map = {}
+        timer.lap("비슷한 기사 목록")
         out = htm.render(rows, stats, excluded_rows, cfg["html"]["output_file"], history,
                          cfg.get("github"), screened_rows, similar=sim_map, omap=omap)
         print(f"HTML 생성: {out}")
+        timer.lap("HTML 생성")
 
         # 10) delivered 트랜잭션 (HTML rename 성공 후에만)
         dbm.commit_delivered(conn, run_id, ids)
@@ -316,6 +382,8 @@ def main():
         el = int((t1 - t0).total_seconds())
         ok = sum(1 for it in live if it.get("summary_ok"))
         print("=" * 52)
+        timer.report()
+        print("-" * 52)
         print(f" 완료 시각   {t1:%Y-%m-%d %H:%M:%S}   (소요 {el//60}분 {el%60}초)")
         print(f" 반영 {len(ids)}건 / 제외 {len(items) - len(ids)}건"
               f"  ·  요약 성공 {ok}/{len(live)}"
