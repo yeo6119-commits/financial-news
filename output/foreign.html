@@ -10,6 +10,12 @@
 body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
 background:var(--paper);color:var(--ink);line-height:1.6;padding:16px 14px 60px;max-width:880px;margin:0 auto}
 header{padding-bottom:8px}
+/* 머리글 오른쪽 위: 캐릭터가 Oliver_YKD 깃발을 든 그림. 좁은 화면에서는 글 아래로 내려간다 */
+header.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+.hd-text{flex:1 1 360px;min-width:0}
+.mascot{flex:0 0 auto}
+.mascot svg{display:block;width:280px;height:auto;max-width:100%}
+@media(max-width:620px){.mascot{width:100%}.mascot svg{width:300px;margin-left:auto}}
 .eyebrow{font-size:11px;letter-spacing:.14em;color:var(--teal);font-weight:700;text-transform:uppercase}
 h1{font-size:21px;font-weight:800;margin-top:2px}
 .gen-meta{font-size:12px;color:var(--muted);margin-top:4px}
@@ -231,9 +237,9 @@ background:var(--teal-soft);border-radius:6px;padding:4px 12px;margin:4px 0 2px}
 .ex-item a{color:inherit;text-decoration:none} .ex-item a:hover{text-decoration:underline}
 details.excluded{margin-top:8px}
 </style></head><body>
-<header><div class="eyebrow">Overseas Financial · AI News (English sources)</div>
+<header class="hd"><div class="hd-text"><div class="eyebrow">Overseas Financial · AI News (English sources)</div>
 <h1>해외 금융사 AI 동향</h1>
-<div class="gen-meta">최종 갱신 2026-10-29 13:54 · 누적 20건 · 구독 Claude 요약 · 별도 수집(국내 뉴스와 무관)</div></header>
+<div class="gen-meta">최종 갱신 2026-10-29 19:07 · 누적 20건 · 구독 Claude 요약 · 별도 수집(국내 뉴스와 무관)</div></div><div class="mascot"><svg viewBox="0 -62 760 478" role="img" aria-label="하나금융그룹 캐릭터가 Oliver_YKD 깃발을 들고 있다"><image href="hana_characters.png" x="0" y="0" width="760" height="416" style="mix-blend-mode:multiply"/><rect x="722.5" y="-56" width="5" height="326" rx="2.5" fill="#E8C27A" stroke="#222" stroke-width="2"/><circle cx="725" cy="-58" r="5.5" fill="#F2C94C" stroke="#222" stroke-width="2"/><path d="M722 -52 L506 -52 L524 -27 L506 -2 L722 -2 Z" fill="#2E7D50" stroke="#222" stroke-width="2.4" stroke-linejoin="round"/><text x="620" y="-17" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="30" font-weight="700" fill="#fff">Oliver_YKD</text></svg></div></header>
 <a class="back" href="financial_news_archive.html">← 국내 뉴스</a>
 <div class="ledger-line">영문 매체의 JP모건·골드만삭스 등 해외 금융사 AI·디지털 기사를 구독 Claude가 한국어로 요약하고 제목도 번역합니다. 하루 최대 20건(회사당 3건). 최근 3일 안의 기사만 받고, 주가·시황·투자유치 기사는 제외하며, 유료 매체는 본문이 실제로 읽힐 때만 반영합니다 (읽히지 않으면 아래 ‘반영하지 않은 후보’에 사유와 함께 남습니다). 국내 뉴스와 별도로 하루 3번 갱신됩니다.</div>
 <div class="modal" id="shareModal">
