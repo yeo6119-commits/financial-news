@@ -195,6 +195,12 @@ def main():
         for it in survivors:
             flt.apply_filters(it, cfg)
         ddp.dedup(conn, items, cfg)
+        timer.lap("2차 필터·제목 중복")
+        # 요약 전에 같은 사건을 미리 걸러 요약(LLM) 호출을 줄인다 — 요약 후에야 버려지던 기사가 하루 30건 안팎이었다
+        pre = ddp.dedup_before_summary(items, cfg, conn)
+        if pre["past"] or pre["batch"]:
+            print(f"요약 전 중복 판정: 과거와 같은 사건 {pre['past']}건 + 묶음 내 중복 {pre['batch']}건 → 요약 생략")
+        timer.lap("요약 전 중복 판정", f"요약 생략 {pre['past'] + pre['batch']}건")
         live = [it for it in items if not it.get("excluded")]
         print(f"2차 필터·중복제거: {len(survivors)}건 → {len(live)}건 반영")
         if survivors and not live:
@@ -202,7 +208,7 @@ def main():
         cls_idx = cls.build_index(cfg)
         for it in live:
             cls.classify(it, cfg, cls_idx)
-        timer.lap("2차 필터·중복·분류")
+        timer.lap("분류")
         # 검토·요약·중복제거·저장을 청크 단위로 묶어 처리한다.
         #   예전엔 review_many/summarize/dedup_by_summary/insert가 전부
         #   live 전체(수백 건)에 대해 한 번에 실행됐다. 타임아웃으로 중간에

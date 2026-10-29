@@ -326,6 +326,13 @@ dedup:
   #   실제 중복 30건을 추가로 잡는다.
   summary_dup_threshold: 0.40
   title_similarity_threshold: 0.62     # 정규화 제목 자카드/시퀀스 유사도
+  # 요약 전 중복 판정(dedup_before_summary) — 같은 사건은 요약(LLM 호출)하기 전에 거른다. 실측 근거는 함수 주석 참조.
+  presummary: true
+  presummary_past_threshold: 0.65      # 과거 반영 요약의 핵심어가 이 기사 본문에 들어 있는 비율(같은 회사끼리)
+  presummary_batch_threshold: 0.50     # 같은 날·같은 회사 기사끼리 본문 핵심어 겹침(짧은 쪽 기준)
+  presummary_min_common: 6             # 공통 핵심어가 이보다 적으면 근거 부족으로 판정하지 않는다
+  presummary_min_body: 300             # 본문이 이보다 짧으면 판정하지 않는다
+  presummary_body_chars: 1500          # 본문 앞쪽 몇 자로 비교할지
   body_fingerprint: simhash            # 해밍거리 3 이하 중복 판정
   delivered_exclude: [url_hash_exact, norm_title_hash_exact]   # 과거분은 완전 일치만
 

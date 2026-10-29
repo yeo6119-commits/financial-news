@@ -351,6 +351,117 @@ def dedup_by_summary(articles: list[dict], cfg: dict, conn=None) -> None:
                 break
 
 
+def dedup_before_summary(articles: list[dict], cfg: dict, conn=None) -> dict:
+    """요약 전 중복 판정 — 같은 사건인 기사는 요약(LLM 호출)하기 전에 걸러 시간·토큰을 아낀다.
+
+    왜: 요약 후에야 중복으로 버려지는 기사가 14일간 434건(하루 31건)이었다. 오늘 한 실행은 첫 40건 묶음에서
+    26건을 요약한 뒤 12건(46%)을 중복으로 버렸다. 요약은 분당 4~5건이 한계라 이 헛수고가 실행 시간을 좌우한다.
+
+    어떻게(요약 없이 본문만으로):
+      1) 과거와 같은 사건 — 최근 반영된 같은 회사 기사의 요약 핵심어가 이 기사 본문(앞 1,500자)에 얼마나 들어 있나.
+         cov = |과거 요약 토큰 ∩ 본문 토큰| / |과거 요약 토큰| >= presummary_past_threshold(0.65) 이고 공통 6개 이상.
+      2) 묶음 안 중복 — 같은 날·같은 회사 기사끼리 본문 핵심어 겹침(짧은 쪽 기준) >= presummary_batch_threshold(0.50).
+         점수가 높은 기사 하나(대표)만 남기고 나머지는 요약하지 않는다.
+    실측(2026-10-29, 요약 후 중복으로 버려졌던 기사와 정상 반영 기사 각 120건 안팎): 과거 0.65에서 포착 57%, 묶음 0.50에서 54%.
+    오탐 후보로 잡힌 쌍을 눈으로 보니 대부분 실제 같은 사건이었다(현대해상 AX 페스티벌, 삼성화재 AI 어드바이저 등).
+    나머지는 기존 요약 기반 판정(dedup_by_summary)이 그대로 잡는다 — 이 함수는 안전망을 대체하지 않고 앞당길 뿐이다.
+
+    걸러진 기사는 사라지지 않는다: excluded/exclude_reason/_dup_ref*가 기존 중복과 같은 형식으로 남고
+    제외 로그·검수 목록·'비슷한 기사' 팝업에 그대로 나온다(원칙 4).
+    반환: {"past": 과거와 같은 사건 건수, "batch": 묶음 내 중복 건수}
+    """
+    dc = cfg["dedup"]
+    res = {"past": 0, "batch": 0}
+    if not dc.get("presummary", True):
+        return res
+    t_past = dc.get("presummary_past_threshold", 0.65)
+    t_batch = dc.get("presummary_batch_threshold", 0.50)
+    min_common = dc.get("presummary_min_common", 6)
+    min_body = dc.get("presummary_min_body", 300)
+    lead = dc.get("presummary_body_chars", 1500)
+    try:
+        import filter as _flt
+        comp_kw = _flt.company_keywords(cfg)
+    except Exception:
+        comp_kw = []
+
+    cands = [a for a in articles if not a.get("excluded") and len(a.get("body") or "") >= min_body]
+    for a in cands:
+        a["_btok"] = title_tokens(normalize_title(a["body"][:lead], cfg))
+        a["_pcomp"] = _company_stems(a.get("title"), comp_kw)
+    if not cands:
+        return res
+
+    # 1) 과거 반영 기사와 같은 사건
+    past_info = []
+    if conn is not None:
+        try:
+            past = dbm.find_delivered_summaries(conn, days=dc.get("cross_run_days", 3))
+        except Exception:
+            past = []
+        for p in past:
+            flat = (p["summary"] or "").replace("\n", " ")
+            ptok = title_tokens(normalize_title(flat, cfg))
+            if len(ptok) >= 4:
+                past_info.append((ptok, _company_stems(p["title"], comp_kw), p["title"], p["company"], p["pub_date"], p["url"]))
+    for a in cands:
+        best = None
+        for ptok, pcomp, ptitle, pcompany, pdate, purl in past_info:
+            if not (a["_pcomp"] & pcomp):
+                continue
+            inter = len(ptok & a["_btok"])
+            if inter < min_common:
+                continue
+            cov = inter / len(ptok)
+            if cov >= t_past and (best is None or cov > best[0]):
+                best = (cov, ptitle, pcompany, pdate, purl)
+        if best:
+            cov, ptitle, pcompany, pdate, purl = best
+            a["excluded"] = 1
+            a["exclude_reason"] = "기열람(동일 사건 %.2f: %s)" % (cov, ptitle[:24])       # similar.py가 읽는 형식
+            a["_dup_ref"], a["_dup_ref_company"], a["_dup_ref_date"], a["_dup_ref_url"] = ptitle, pcompany, pdate, purl
+            a["_dup_score"] = cov
+            for _m in a.pop("_dup_members", []):          # 제목 기준 묶음의 대표였다면 멤버도 같은 과거 기사를 가리키게
+                for sib in articles:
+                    if sib is not a and sib.get("_dup_ref") == a["title"]:
+                        sib["_dup_ref"], sib["_dup_ref_company"], sib["_dup_ref_date"], sib["_dup_ref_url"] = ptitle, pcompany, pdate, purl
+            a["_dup_members"] = []
+            res["past"] += 1
+
+    # 2) 같은 묶음 안의 같은 사건 — 대표 1건만 요약
+    rest = sorted((a for a in cands if not a.get("excluded")), key=_score, reverse=True)
+    clusters: list[list[dict]] = []
+    for a in rest:
+        for cl in clusters:
+            rep = cl[0]
+            if not same_day(a, rep) or not (a["_pcomp"] & rep["_pcomp"]):
+                continue
+            inter = len(a["_btok"] & rep["_btok"])
+            if inter >= min_common and inter / max(1, min(len(a["_btok"]), len(rep["_btok"]))) >= t_batch:
+                cl.append(a)
+                break
+        else:
+            clusters.append([a])
+    for cl in clusters:
+        if len(cl) < 2:
+            continue
+        rep = cl[0]
+        rep.setdefault("_dup_members", [])
+        for dup in cl[1:]:
+            ov = len(dup["_btok"] & rep["_btok"]) / max(1, min(len(dup["_btok"]), len(rep["_btok"])))
+            dup["excluded"] = 1
+            dup["exclude_reason"] = "중복(본문유사 %.2f | 대표: %s)" % (ov, rep["title"][:26])   # similar.py가 읽는 형식
+            dup["_dup_ref"] = rep["title"]
+            dup["_dup_score"] = ov
+            rep["_dup_members"].append((dup["title"], dup.get("press") or "", f"본문겹침 {ov:.2f}",
+                                        dup.get("naver_url") or dup.get("original_url") or ""))
+            for m in dup.pop("_dup_members", []):          # dup이 앞 단계 묶음의 대표였다면 멤버를 새 대표로 옮긴다
+                rep["_dup_members"].append(m)
+            dup["_dup_members"] = []
+            res["batch"] += 1
+    return res
+
+
 def dedup(conn, articles: list[dict], cfg: dict) -> list[dict]:
     """excluded 안 된 기사들에 대해:
     1) 과거 delivered 완전 일치 → 기열람 제외
