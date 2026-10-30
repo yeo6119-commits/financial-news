@@ -858,6 +858,12 @@ def _runlog(history) -> str:
 
 GH_CONF = {}
 
+# 브라우저 탭·북마크 아이콘(하나금융그룹 CI 심볼마크, 사용자가 제공한 원본에서 흰 배경을 투명으로 바꾸고 정사각형으로 맞춘 PNG).
+#   파일은 output/ 에 있고 두 페이지가 같은 폴더라 상대 주소로 건다. 원본이 Display P3 프로필이라 sRGB로 변환한 색으로 만들었다.
+FAVICON_LINKS = ('<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">'
+                 '<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">'
+                 '<link rel="apple-touch-icon" href="apple-touch-icon.png">')
+
 # 머리글 오른쪽 위 그림: 하나금융그룹 캐릭터(이미지는 사용자가 제공) 위에 깃발을 겹쳐 그려 오른쪽 끝 캐릭터가 Oliver_YKD 깃발을 든 모양으로 만든다.
 #   좌표는 760x416으로 줄인 이미지 기준이고, 위쪽 60을 비워 깃발이 다른 캐릭터를 가리지 않게 했다.
 #   원본이 불투명한 흰 배경이라 multiply로 페이지 색에 녹인다. 깃발 글자는 벡터라 확대해도 선명하다.
@@ -986,6 +992,7 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>금융권 디지털 AI 동향</title>
+{FAVICON_LINKS}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css">
 <style>{CSS}</style></head><body>
 <header class="hd"><div class="hd-text"><div class="eyebrow">Financial Digital · AI News Archive</div>

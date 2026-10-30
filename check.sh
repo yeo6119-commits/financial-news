@@ -157,6 +157,7 @@ need foreign.py    "DROPPED_PER_REASON"                   "제외 목록은 사�
 need html_generator.py "makeRunner"                       "[실행]·[해외 실행] 버튼은 각자 상태·폴링(동시 클릭 병렬)"
 need html_generator.py "workflow_foreign"                 "해외 실행 버튼은 foreign.yml 호출"
 need foreign_page.py "요청분"                                  "해외 페이지는 국내처럼 회차(요청 시각)별 블록"
+need html_generator.py "FAVICON_LINKS"                       "탭 아이콘(하나금융그룹 CI 심볼) — 국내·해외 공통"
 need html_generator.py "MASCOT_HTML"                         "머리글 오른쪽 위 캐릭터가 Oliver_YKD 깃발을 든 그림"
 need main.py       "StageTimer"                           "단계별 소요 시간 로그(느린 실행 원인 추적)"
 need deduplicator.py "dedup_before_summary"                "요약 전 중복 판정(같은 사건은 요약 호출 전에 거름 — 헛수고 요약 하루 30건)"

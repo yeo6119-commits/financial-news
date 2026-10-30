@@ -203,6 +203,7 @@ def render(days: list, companies: list, out_path: str = OUT_FILE, generated_at: 
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>해외 금융사 AI 동향</title>
+{hg.FAVICON_LINKS}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.9/static/pretendard.min.css">
 <style>{hg.CSS}{EXTRA_CSS}</style></head><body>
 <header class="hd"><div class="hd-text"><div class="eyebrow">Overseas Financial · AI News (English sources)</div>
