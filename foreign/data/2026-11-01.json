@@ -113,6 +113,21 @@
      "press": "TOKENPOST",
      "title": "Uber Uses HSBC Tokenized Deposits to Add 1.5 Days of Yield",
      "url": "https://www.tokenpost.com/news/technology/44920"
+    },
+    {
+     "press": "Crypto News",
+     "title": "Uber earns 1.5 extra days of yield in Canton blockchain pilot",
+     "url": "https://crypto.news/uber-hsbc-franklin-templeton-canton-weekend-yield/"
+    },
+    {
+     "press": "IDNFinancials",
+     "title": "Uber tests tokenized fund, adds 1.5 days of yield",
+     "url": "https://www.idnfinancials.com/digital-asset/71111/uber-tests-tokenized-fund-adds-1-5-days-of-yield"
+    },
+    {
+     "press": "Altcoin Buzz",
+     "title": "Uber Tests Canton Network to Earn Weekend Yield from Tokenized Money Market Funds",
+     "url": "https://www.altcoinbuzz.io/uber-canton-network-weekend-yield-tokenized-funds"
     }
    ]
   },
@@ -169,25 +184,171 @@
     "wells"
    ],
    "collected_at": "2026-11-01T00:20:15+09:00"
+  },
+  {
+   "id": "1d25c95b0250200c",
+   "company": "JP모건",
+   "title": "The 5 Major US Banks Have Started Blocking AI Agent Logins: JPMorgan and Others Draw the Line at Not Sharing Passwords",
+   "title_ko": "미국 5대 은행, AI 에이전트 로그인 차단 시작…JP모건 등 \"비밀번호 공유는 안 돼",
+   "press": "note",
+   "url": "https://note.com/unikoukokun/n/nb12dd490b157?hl=en",
+   "pub_date": "2026-10-31T13:26:00+09:00",
+   "summary": "- JP모건 체이스·뱅크오브아메리카·웰스파고·모건스탠리·씨티, 제3자 AI 에이전트의 고객 계정 로그인 차단 시작\n- AI(인공지능) 에이전트가 사람의 ID·비밀번호를 받아 대신 로그인하고 버튼을 클릭하는 방식\n- 대상 시스템이 사람과 AI를 구분하지 못해 사람의 권한이 그대로 AI에 넘어가는 위험\n- 비밀번호는 AI에 주지 않고 읽기 전용(read-only) 접근부터 시작하는 것을 기업의 출발점으로 제시",
+   "also": [],
+   "fp": [
+    "access.",
+    "accounts.",
+    "agent",
+    "agents",
+    "banks",
+    "behalf",
+    "being",
+    "blocking",
+    "cannot",
+    "claudecode",
+    "company",
+    "customer",
+    "draw",
+    "every",
+    "five",
+    "giving",
+    "hello",
+    "here",
+    "human",
+    "jpmorgan",
+    "line",
+    "logging",
+    "logins",
+    "major",
+    "makes",
+    "others",
+    "password.",
+    "passwords",
+    "person",
+    "read-only",
+    "screens",
+    "sharing",
+    "start",
+    "started",
+    "story",
+    "there",
+    "think",
+    "third-party",
+    "uniko",
+    "work"
+   ],
+   "collected_at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "id": "092d47e7d8611e8d",
+   "company": "골드만삭스",
+   "title": "FINRA CIO strives for effectiveness over efficiency in AI usage",
+   "title_ko": "FINRA CIO, AI 활용에서 효율보다 실효성 추구",
+   "press": "InformationWeek",
+   "url": "https://www.informationweek.com/it-leadership/finra-cio-wants-to-see-more-effectiveness-over-efficiency-in-ai-usage",
+   "pub_date": "2026-10-29T16:55:00+09:00",
+   "summary": "- FINRA(금융산업규제기구), 인력 감축을 넘어 업무 효과 향상을 AI(인공지능) 활용 목표로 제시\n- 퍼블릭 클라우드 전환 시점에 AI 도입, 약 10년간 머신러닝·딥러닝에 오픈소스 소프트웨어 활용\n- 시장 감시 분야 AI 활용, 대규모 데이터 처리에 맞는 효율적·지능형 감시 시스템 요구\n- 골드만삭스 트레이딩 플로어에서 현업 전문가가 직접 도구를 만드는 상향식 혁신 확산",
+   "also": [],
+   "fp": [
+    "across",
+    "already",
+    "authority",
+    "bloomberg",
+    "bolster",
+    "compared",
+    "data",
+    "effectiveness",
+    "efficiency",
+    "finance",
+    "financial",
+    "finra",
+    "firms",
+    "floor",
+    "goldman",
+    "including",
+    "learning",
+    "manpower",
+    "market.",
+    "markets",
+    "need",
+    "organization",
+    "police",
+    "randich",
+    "reduce",
+    "regulator",
+    "sachs",
+    "said.",
+    "speaking",
+    "steve",
+    "strives",
+    "summit",
+    "surveillance",
+    "technology",
+    "trading",
+    "usage",
+    "used",
+    "wanted",
+    "work",
+    "years"
+   ],
+   "collected_at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "id": "6a07d567adfbb873",
+   "company": "골드만삭스",
+   "title": "Can AI be blamed for inflation? Partly, yes.",
+   "title_ko": "AI가 인플레이션의 원인일까? 부분적으로는 그렇다",
+   "press": "CFO Brew",
+   "url": "https://www.cfobrew.com/stories/can-ai-be-blamed-inflation-partly-yes",
+   "pub_date": "2026-10-31T05:04:32+09:00",
+   "summary": "- 골드만삭스, AI(인공지능) 수요의 인플레이션 기여 '의미 있으나 중간 수준' 분석\n- 전 세계 기업 올해 AI 투자 1조 달러 전망, 미국 5810억 달러 포함 (8월 보고서)\n- 연준 일부 인사, AI 투자의 물가 상승 기여 지적 (쿡 이사: 전기·수도 요금 1년간 약 5% 상승)\n- AI의 핵심물가 영향 일부는 물가 측정 오류(mismeasurement) 요인",
+   "also": [],
+   "fp": [
+    "argues.",
+    "around",
+    "august",
+    "basis",
+    "beltran",
+    "blame",
+    "blamed",
+    "boom",
+    "buildout",
+    "contributing",
+    "contribution",
+    "cook",
+    "core",
+    "demand",
+    "earlier",
+    "economist",
+    "economy",
+    "energy",
+    "federal",
+    "global",
+    "goldman",
+    "high",
+    "impact",
+    "including",
+    "inflation",
+    "luisa",
+    "market",
+    "meaningful",
+    "moderate",
+    "october",
+    "partly",
+    "points",
+    "prices",
+    "read",
+    "reserve",
+    "sachs",
+    "spending",
+    "strategy",
+    "topics",
+    "yes."
+   ],
+   "collected_at": "2026-11-01T03:43:33+09:00"
   }
  ],
  "dropped": [
-  {
-   "title": "An AI label alone no longer wins lenders, JPMorgan says",
-   "company": "JP모건",
-   "press": "CoinDesk",
-   "url": "https://www.coindesk.com/markets/2026/10/27/an-ai-label-alone-no-longer-wins-lenders-jpmorgan-says",
-   "reason": "오래된 기사(4일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "JPMorgan warns the AI trade lacks fuel for a July-style rebound",
-   "company": "JP모건",
-   "press": "Crypto Briefing",
-   "url": "https://cryptobriefing.com/jpmorgan-warns-ai-trade-rebound/",
-   "reason": "오래된 기사(16일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
   {
    "title": "JPMorgan Strategist: The AI Rally Is Expanding Far Beyond the Magnificent Seven",
    "company": "JP모건",
@@ -213,46 +374,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "JPMorgan’s Jamie Dimon Warns Of Rogue AI Agents, Urges Customers To Understand Risks",
-   "company": "JP모건",
-   "press": "Forbes on MSN",
-   "url": "https://www.msn.com/en-us/news/other/jpmorgan-s-jamie-dimon-warns-of-rogue-ai-agents-urges-customers-to-understand-risks/ar-AA2e9CBO",
-   "reason": "오래된 기사(18일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "How JPMorgan Chase Is Building The AI-Powered Bank Of The Future",
-   "company": "JP모건",
-   "press": "Forbes",
-   "url": "https://www.forbes.com/sites/bernardmarr/2026/07/01/how-jpmorgan-chase-is-building-the-ai-powered-bank-of-the-future/",
-   "reason": "오래된 기사(122일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "JPMorgan Chase blocks outside AI agents like Muse, Instinct from directly accessing accounts",
-   "company": "JP모건",
-   "press": "CNBC on MSN",
-   "url": "https://www.msn.com/en-us/money/markets/jpmorgan-chase-blocks-outside-ai-agents-like-muse-instinct-from-directly-accessing-accounts/ar-AA2ea296",
-   "reason": "오래된 기사(18일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "JPMorgan Chase (JPM) Is Putting Agentic AI To Work In Banking",
-   "company": "JP모건",
-   "press": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/technology/ai/articles/jpmorgan-chase-jpm-putting-agentic-120710580.html",
-   "reason": "오래된 기사(131일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "JPMorgan Blocks Outside AI Agents From Customer Accounts",
-   "company": "JP모건",
-   "press": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/technology/ai/articles/jpmorgan-blocks-outside-ai-agents-214548634.html",
-   "reason": "오래된 기사(15일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "JPMorgan's AI restrictions explained: What users of third-party apps need to know",
    "company": "JP모건",
    "press": "NDTV Profit on MSN",
@@ -269,99 +390,11 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Goldman Sachs sees significant shift in AI labour market",
-   "company": "골드만삭스",
-   "press": "TheStreet on MSN",
-   "url": "https://www.msn.com/en-us/news/money/goldman-sachs-sees-significant-shift-in-ai-labour-market/ar-AA2ggZsM",
-   "reason": "오래된 기사(3일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Goldman Sachs sees AI-fueled layoffs displacing nearly 10% of workers",
    "company": "골드만삭스",
    "press": "Markets Insider on MSN",
    "url": "https://www.msn.com/en-us/news/other/goldman-sachs-sees-ai-fueled-layoffs-displacing-nearly-10-of-workers/ar-AA2fVSDY",
    "reason": "오래된 기사(8일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs CEO David Solomon is optimistic about AI. Most of America disagrees.",
-   "company": "골드만삭스",
-   "press": "NBC News",
-   "url": "https://www.nbcnews.com/business/ceo-interviews/goldman-sachs-ceo-ai-optimism-rcna604322",
-   "reason": "오래된 기사(7일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs Says a $7.6 Trillion AI Spending Boom Is Coming. Skip the GPUs, Follow the Money Here",
-   "company": "골드만삭스",
-   "press": "24/7 Wall St",
-   "url": "https://247wallst.com/investing/2026/09/26/goldman-sachs-says-a-7-6-trillion-ai-spending-boom-is-coming-skip-the-gpus-follow-the-money-here/",
-   "reason": "오래된 기사(35일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "The AI trade is splitting into two worlds, Goldman Sachs says",
-   "company": "골드만삭스",
-   "press": "Insider on MSN",
-   "url": "https://www.msn.com/en-us/news/other/the-ai-trade-is-splitting-into-two-worlds-goldman-sachs-says/ar-AA2e71pU",
-   "reason": "오래된 기사(18일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "The AI trade is driving global markets more than oil, Goldman Sachs says",
-   "company": "골드만삭스",
-   "press": "Insider on MSN",
-   "url": "https://www.msn.com/en-us/news/other/the-ai-trade-is-driving-global-markets-more-than-oil-goldman-sachs-says/ar-AA2g8zdO",
-   "reason": "오래된 기사(4일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "On Main Street, Goldman Sachs makes a bet on AI",
-   "company": "골드만삭스",
-   "press": "NBC News on MSN",
-   "url": "https://www.msn.com/en-us/news/other/on-main-street-goldman-sachs-makes-a-bet-on-ai/ar-AA2fMS8q",
-   "reason": "오래된 기사(9일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "How Goldman Sachs Is Using Agentic AI For Software Engineering At Scale",
-   "company": "골드만삭스",
-   "press": "Forbes",
-   "url": "https://www.forbes.com/sites/bernardmarr/2026/08/06/how-goldman-sachs-is-using-agentic-ai-for-software-engineering-at-scale/",
-   "reason": "오래된 기사(86일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs’ new hires will manage AI agents from day one",
-   "company": "골드만삭스",
-   "press": "Crypto Briefing",
-   "url": "https://cryptobriefing.com/goldman-sachs-new-hires-manage-ai-agents/",
-   "reason": "오래된 기사(23일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs CEO David Solomon on AI’s economic impact: 'There’s very little that we do where we need frontier models'",
-   "company": "골드만삭스",
-   "press": "Fortune on MSN",
-   "url": "https://www.msn.com/en-us/money/general/goldman-sachs-ceo-david-solomon-on-ai-s-economic-impact-there-s-very-little-that-we-do-where-we-need-frontier-models/ar-AA2fV1ae",
-   "reason": "오래된 기사(8일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs puts $500M into small-business AI with four AI labs",
-   "company": "골드만삭스",
-   "press": "The Next Web",
-   "url": "https://thenextweb.com/news/goldman-sachs-frontier-models-small-business-ai-institute-500m",
-   "reason": "오래된 기사(5일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs says these telecom stocks are defensive buys despite AI risk",
-   "company": "골드만삭스",
-   "press": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/markets/stocks/articles/goldman-sachs-says-telecom-stocks-112049567.html",
-   "reason": "오래된 기사(31일 전)",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -373,43 +406,11 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Goldman Sachs CEO: Businesses Need Not Rush to Adopt Advanced AI",
-   "company": "골드만삭스",
-   "press": "idnfinancials",
-   "url": "https://www.idnfinancials.com/news/70809/goldman-sachs-ceo-businesses-need-not-rush-to-adopt-advanced-ai",
-   "reason": "오래된 기사(5일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs Predicts AI Infrastructure Spending Could Hit More Than $1 Trillion in 2027. 3 AI Stocks to Buy.",
-   "company": "골드만삭스",
-   "press": "The Motley Fool",
-   "url": "https://www.fool.com/investing/2026/06/14/goldman-sachs-predicts-ai-infrastructure-spending/",
-   "reason": "오래된 기사(139일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Cyera Announces $400 Million Investment from Goldman Sachs to Build the Trust Layer for the Agentic Enterprise",
    "company": "골드만삭스",
    "press": "markets.financialcontent",
    "url": "https://markets.financialcontent.com/streetinsider/article/bizwire-2026-9-22-cyera-announces-400-million-investment-from-goldman-sachs-to-build-the-trust-layer-for-the-agentic-enterprise",
    "reason": "오래된 기사(39일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Conversations from Goldman Sachs' Communacopia: AI blowback, broadband and Disney's free tier",
-   "company": "골드만삭스",
-   "press": "CNBC",
-   "url": "https://www.cnbc.com/2026/09/09/goldman-sachs-communcacopia-technology-conference-ai.html",
-   "reason": "오래된 기사(52일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Morgan Stanley reiterates Overweight on five AI data center stocks, with 441% TeraWulf upside",
-   "company": "모건스탠리",
-   "press": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/technology/ai/articles/morgan-stanley-reiterates-overweight-five-143803627.html",
-   "reason": "오래된 기사(3일 전)",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -421,75 +422,11 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Morgan Stanley's Mike Wilson on the correction in AI stocks",
-   "company": "모건스탠리",
-   "press": "CNBC",
-   "url": "https://www.cnbc.com/video/2026/10/27/morgan-stanleys-mike-wilson-on-the-correction-in-ai-stocks.html",
-   "reason": "오래된 기사(4일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Higher borrowing costs to split AI buildout by credit quality, Morgan Stanley says",
    "company": "모건스탠리",
    "press": "Seeking Alpha on MSN",
    "url": "https://www.msn.com/en-us/money/credit-cards/higher-borrowing-costs-to-split-ai-buildout-by-credit-quality-morgan-stanley-says/ar-AA2g60pb",
    "reason": "오래된 기사(5일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "A look inside the AI playbook at Morgan Stanley’s wealth division",
-   "company": "모건스탠리",
-   "press": "CIO Dive",
-   "url": "https://www.ciodive.com/news/ai-playbook-morgan-stanley-wealth-division/833824/",
-   "reason": "오래된 기사(5일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Morgan Stanley sees Booking leading the OTA race over Expedia as AI transforms travel",
-   "company": "모건스탠리",
-   "press": "Seeking Alpha",
-   "url": "https://seekingalpha.com/news/4643337-morgan-stanley-sees-booking-leading-ota-race-over-expedia-as-ai-transforms-travel",
-   "reason": "오래된 기사(45일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Morgan Stanley, BofA and JPMorgan Flag Unauthorized AI Agents Inside Customer Accounts",
-   "company": "모건스탠리",
-   "press": "FinanceFeeds",
-   "url": "https://financefeeds.com/morgan-stanley-bofa-and-jpmorgan-flag-unauthorized-ai-agents-inside-customer-accounts/",
-   "reason": "오래된 기사(9일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "AI Agents Are Logging Into Bank Accounts And Banks Can’t Tell",
-   "company": "웰스파고",
-   "press": "Forbes",
-   "url": "https://www.forbes.com/sites/sandycarter/2026/10/23/ai-agents-are-logging-into-bank-accounts-and-banks-cant-tell/",
-   "reason": "오래된 기사(8일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Window of vulnerability: Banks move to restrict AI agent access",
-   "company": "웰스파고",
-   "press": "USA TODAY on MSN",
-   "url": "https://www.msn.com/en-us/money/other/window-of-vulnerability-banks-move-to-restrict-ai-agent-access/ar-AA2fWFBe",
-   "reason": "오래된 기사(8일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Banks are blocking external AI agents. Is this sustainable?",
-   "company": "웰스파고",
-   "press": "American Banker",
-   "url": "https://www.americanbanker.com/news/banks-are-blocking-external-ai-agents-is-this-sustainable",
-   "reason": "오래된 기사(4일 전)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Why Big Banks Are Slamming the Door on AI Agent Access – And What They Want Instead",
-   "company": "웰스파고",
-   "press": "The Financial Brand",
-   "url": "https://thefinancialbrand.com/news/banking-technology/why-big-banks-are-slamming-the-door-on-ai-agent-access-and-what-they-want-instead-200363",
-   "reason": "오래된 기사(3일 전)",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -509,51 +446,11 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "META Stock Price Forecast: JPMorgan Raises Price Target to $940, Sees Over 50% Upside",
-   "company": "JP모건",
-   "press": "TradingKey",
-   "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOX3N0YmhNSG95MzcyZDJJS1J3QzREb3JLakVEbmlGWFppWEo5UFFKcVV6d3FrdS1KNUpmakozRVpoN2ZzQklyS19TZnoyMm1DSUEwRXdJQmRoUi1TOVBXOVdWRkhPQjRXU1ZseG1XT0l1MTBTakFmSXZTODhwM0FlWUMyOUZQd0FER05QaU83YlEtYlFiRHpfczItdTZ0VkNnS3lmMGI4VTV1bXBDQVdhU1M5RGNmYkRqVWxQVVd1eGE2Slp4RHk5MF8zWWc?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Guarantor: JPMorgan Chase & Co.",
-   "company": "JP모건",
-   "press": "StreetInsider",
-   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPRklfMXl2OEFYenF5dGdnb01ST3pjVnNZWHlRTDRaendtTVhyb3ZRdEJhMDYyWmNaOE0xV3YtZ01fXzF4eDdDc0ZYMEZpdFdtenQ4dTNNaDhORWVJT3A4NENOOU41UTdwcGZKdTNOU1lFMEZidTBjM2JRUWF3RmFhZlRYN3hldWRNckluZ0tJMWRKbGNRT0hTWHJ3?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Bank of America vs. JPMorgan Chase: Diverging Quarterly Revenue Trends for These Financial Giants",
    "company": "JP모건",
    "press": "The Globe and Mail",
    "url": "https://news.google.com/rss/articles/CBMiiwJBVV95cUxQanFVVFV1MlJjZ0RGZ3NkbVc1LUtzdUVwSnhKTHdLLU1NN0VWcFA5SllNeUdiZ0ZBVXRQMkk4b1hXbWdsOUVxVExoT1pMWjByM1l5aGxXY1F6bGJhSVl1Z2VKc2NzenV0LU44enltVEQta2tqa3doUTZTdXNOZkUzbS1EY1ZidjA0Y01DZExnUi1NekItM3pDem9WVktXOXJsaHEzVnJoSmNJUHloOGtOVEVOUzVHN0ZHMWRyTzJDZ2FmeC0xTnVRVmxPaUtOMERlVDFtbmFBcHB2RWRhSy1GN3ZWYXRCSXd2ZFdmcU40WGNfTzRMU3hyV3J6WHBEVTlhc0FsZC1XMExScWs?oc=5",
    "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "QIAGEN N.V. (QIA) Receives AFM Voting Rights Notice on JPMorgan",
-   "company": "JP모건",
-   "press": "TradingView",
-   "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOLTZwOUxtalhnVXpZLWR5MHVsZGgzMXFiZ2Z3Mlo0QzVoSVhFMWpqalNkUy1vQ2V2Wmh5Q1RwSHNHNFBJQ3hfZllEWnM5czZiZGtJYWFiUEl6QWU5T3NVNzl1WHFtV3VNZWk5V3YtMF9hTXJpSmx2LVFMaTdkLU1lR2JxU0tWZHQyR0xMN19UNF9Helg1MlBhM083OEl6UlJsOVFFR195VTB6ZEhNQ1B1WUcxU19sYVhvTGVMclc2VQ?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Guarantor: JPMorgan Chase & Co.",
-   "company": "JP모건",
-   "press": "StreetInsider",
-   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQaE40T1ZXZHB1TnpKN0FUbHRITVg1WERYRF9fdEl4OHlyTF9FMEtTVXJ5RzU2VjdReDd0bHN0WU1IcUx1QzVxZDF6MUo2aUFyWjJSY0d2RS04cmFZUXBZOE12WW5BdkZoQmZiRHpqeUJzczhLMnBXcjVkMElvZWVyX2lLd2g1dW4xb2VGYmsxOVhPNjliNU8tb09R?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "BNY Mellon stock: Ripple custody expands as JPMorgan lifts target",
-   "company": "JP모건",
-   "press": "ad-hoc-news.de",
-   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOM3FITm1QdEtWazFhSmRTUl92MXY3Yzdobi1JS1JtYlA0ZHJmOThQbW9LX2dRTHVXQ3lHMmRGN2w4eVZJY3FUQlpTZmxPTEZpNVYyMnEwOUp4U3lTZ3FhWWpRZnRUWEF6Q0NlV3JiSENZMm1QTUlKZ29iZUQzYWttYlJFWHdiTFlDSUhNMjdtMjZLamh0SjU3VUZleUh5TV91SEYycWV3a2ZINk4xTWR0elcta1BKTlgyWkxpX1gzaGtaUGVzNnc?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -578,14 +475,6 @@
    "press": "ad-hoc-news.de",
    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQczNmN21uUGxYWS1CYUxTQ0xRSF9IQWE3bHBYMnd6c2ZwbGdkcElFRlpiVE1PdGN5dHJId0RsUkF1YXFLbHlpMS1iNFlDak9PZjBXdU1aOGd2bXp2cmpqcEEzZWZDVnduMnJRd2poWGR5QmNfVzR5OWU2YVNoRjd6QU9VLUZzUnpOMWQ0bWVJQVF5dWFnNlRoR1B1Y21SWUluR3Z6WUVXQ1YtQmRGVzJ5enlUQk5sQl9UZ0J5cw?oc=5",
    "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "JPMorgan Chase (JPM) Q1 2026 Earnings Call Transcript",
-   "company": "JP모건",
-   "press": "Fortune",
-   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9XTUpobXp3b2QyTkxiY0w2TzBpbWhTbDBkejB1Um8wVC1wS2FuT1dWSWVSbHVobnJtVDRjcG1LMjN5SFNINVI0dGRpOVJ0YjctWnNLTk1uQ2o5VWQ4ZjZGUmVZR0JaRF9XRlQ3dw?oc=5",
-   "reason": "시황·종목 분석성 제목",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -629,14 +518,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Evotec stock: JPMorgan position rises to 6.54% before results",
-   "company": "JP모건",
-   "press": "ad-hoc-news.de",
-   "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNVW9Od085TENoYXZBN2Rnblo0dVZCMnVwTkJhdVNLYmtJbmJHU3liNm9WdllNa2NpOWl2QmxHdWxkNWtvRUtQdlFqTGY2YUtpbEFuSm1GYVp5dklaODkxLVQydC1TNHNubXlibU9TRXZuNmVVclNHbXJTM2JmelVGNnFlQmFoeFlxYWxyRVNkNGlzZVJCOENEbF9jYUpJSzVpVWFGaE1OQmVxaVN5VjA4X0p0Y1N6S3IwNkdrMTdPQQ?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "JPMorgan Discloses 3.2% Voting Stake in Qiagen via AFM Filing",
    "company": "JP모건",
    "press": "TipRanks",
@@ -645,74 +526,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Why Goldman Sachs Still Calls Alphabet a Top AI Pick Despite the Earnings Miss",
-   "company": "골드만삭스",
-   "press": "24/7 Wall St.",
-   "url": "https://247wallst.com/investing/2026/10/30/why-goldman-sachs-still-calls-alphabet-a-top-ai-pick-despite-the-earnings-miss/",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs CEO David Solomon says the best advice he ever got came from his grandmother",
-   "company": "골드만삭스",
-   "press": "Fortune",
-   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQR2tCellYUm42WEJDVjktMVJaVFdmMnlVZnpiQmlLZUhyWnVtWnJ2ZzB2U2tpS041YWNSQ3R5V044ZEFjcXd1dXZSamVPc1NiblJ4TEYzdDhlSDdLQWZvQnlGYjdDcHpFc1hxSEhYeHRCem5mODdCZFBncWRKTGo2elNhYWtUS2R6RHRmMDZRSW5ZUTVRX2RhZTl3?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Wall Street's Earnings Boom Is Losing Speed: The Great AI Catch-Down Has Begun",
-   "company": "골드만삭스",
-   "press": "The Dark Side Of The Boom",
-   "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNT3JtYWdwZ3FJWmFRRWtaNURnTjlsUHd0MXVhNTRMUGEyQ1h4RV9sa3JpU3ZfbFVrcEp4VHBubzV4d09IbF9HOGMxZXVEZTA3UHpFUmRlWkhRWnh4MzBVdWxBT29LUXVrcUxlSTM0SXlGdTlTaFd5UlJGS21YdHJSMU9CMm1EN28?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bullish Options Trades Slow amid AI Uncertainty",
-   "company": "골드만삭스",
-   "press": "Goldman Sachs",
-   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOaFJrTkFnd2ZHNXhpM3FGOHRKNXZhWURFZjRPaG84LTRRTzdhLVQ0d08yY1BnWDVjc09RbUpYNHF2eVNkSzQxMldOZkUzYnlEdzhpWHctaVpfOUJZRDdnZGxVcFFqRGRObDA3bU1TN1JnWU4yR1VPLVpiVjREd0duRWx3S2dYNXBWS2FyS1pBUUQxQ1hiM1pTcWlSWko1N1lMdGNJRkVLNA?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "The Goldman Sachs Group, Inc. (GS) stock price, news, quote and history",
    "company": "골드만삭스",
    "press": "Yahoo Finance UK",
    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBBeXlINVZqQlVXOUJmQllHc3I4U0drMjVXUWZJemNlVVF6SU05Z3QyX3VienZyUVpxMUsxczE5WFAxTHB6b280QlFidmI1MDdDXzVIZE9zMEt5Z3RCYWpZ?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Toast to present at Goldman Sachs Communacopia conference",
-   "company": "골드만삭스",
-   "press": "scanx.trade",
-   "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOTy1ramJZUkNMWnA2ODNIVXMwU2RlS05jVDJDc092OGFveDF6UXZkZzktR0lfUHJDR041eU1TbkhBRk80UmVKd3dTX2JSSHBHOC1ad0lfUUFkUGR6Rml6eW0tREFvd0oxY3Q5YnhJbkN2bkx6MThwMzA1YVUxeVlSYXp2VlIzSkVuT1NpNTRZV09MZEFoM3dpUmV1V3RHeUxveUlSQVdQZldYaGRw?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs stock faces a more cautious AI options backdrop",
-   "company": "골드만삭스",
-   "press": "ad-hoc-news.de",
-   "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPX3BZS0szSVdETl9tbnl0VnJDZVlMZ1hTU1JjaVZhemdOcFVOc3U3SnpnVnBWckw5blEwejV0N0c5WjcyYXJwNnhFckpfX3V5QWRiVk1JOUpmT0dCMzBFZjZVR3pKVEp0NlYwTnZKM2tpamJBakVydUtKcGN6UnJuaVAwUkFxY3AyUV95TmN1M1F3eW9fZDZEYno0ejZBR2dqLWdBOV9mVkRscFV3bHdXd1VsMWVFZnVkYzg0X0xSZUZqZw?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman Sachs Lifts Infineon Stake as Chipmaker Broadens AI and Robotics Reach",
-   "company": "골드만삭스",
-   "press": "ad-hoc-news.de",
-   "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQSW93WTlqa0paRVVTTEtRMkVGNWRad2o4MkkxY1F3NG54RlRnYkJjdUloUVJuVHd5S3A3dUJIQlBMVG53cTlMTFhBV3gyZ0pYcHRBQ0dwSi12dmdZLXVzOHBCczFJUWx3MGhDTEtuWUpUZnM3Nk4zTFl5dmF6TzlINXpaeEdndWNpTGwyZlY1R2NtV1poTE03ekRDU210dFJFLXNhOE52M0t2SnlRTTdaWmx5ZmhDbVUwY1RBdUdkTHVsM1I5UGFyMDdWWnZCeHRSV1BnRTl6U3ZwbWFsbUgzN0d1aEE?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "GS flags interest rates and AI disruption as risks to long-term equity demand",
-   "company": "골드만삭스",
-   "press": "Yahoo Finance",
-   "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNRExleWhCR2I5V0JOMzIzb3llUlBRUHJGQTBTVklhRFZDUEJZSGlfM3NIbms1RW5QU2pzemhuR3dtOWd1QXRKX3V2d1NZcnRlSF9vcW5UTlFaeUQyR0ZSdXBheENkYjdRUWR0LXl2RWtlQ2JWTnNRRkNNUWdRS1p5djA3cGdsYkhmWmVUbktIMkJ4aVFwSEE?oc=5",
    "reason": "차단 출처(주가·시황 사이트)",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -741,50 +558,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Kling AI's 19.8 Billion Yuan Capital Increase Closes; Middle Eastern Capital Exits at the Last Minute as Kingdee and MetaX Step In",
-   "company": "골드만삭스",
-   "press": "BigGo Finance",
-   "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5qVkFzOGIxV0dkQ3hLbzBtMnoya0ozRzMzdWp6NmY1QmdLQl9ZdXgzYnRVZF9VWVcxYnFNTmswVGRMbHBIVE01Qmo0TlEtUXJjektMYlJYcFNET2VfLTN0Qi1VTTdxUFRxcmphTWxDbkdCVnI2dkE?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "K+S stock: Goldman position and Q3 date shape the week",
-   "company": "골드만삭스",
-   "press": "ad-hoc-news.de",
-   "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPLW1hVGR4c2ZPRmlVRjRkdzVOY1ROQktlcHVHV2V0NWxJcGRpdUhsQXkxdGFpYVVWSFAweVBkWnZXRnFHRE52cVBwOU1KaWo4Z1hJbC1HUUlPNUJOR1ZGOURqcXpIUUlkancyamRSUTFnWEliTVlCQXJqelg0SzBpZzFVcjhRMkZUMWM5aUlyVUlyQWF0YVc4QXdVM3dtSGlCd3lwcU56U3FXVXBrc2sxZDVpc2kxWGs?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "SAP's Cheaper AI Bet and the €2 Billion Question Hanging Over Its Cloud Order Book",
    "company": "골드만삭스",
    "press": "ad-hoc-news.de",
    "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNbncycnNDcXo1d3hpQWZ0LTIwOGpoRWxiQmN3ZjdUaXBBMkgza2J5YWs0VWFIejFJc25mWWJDX0tHSEFWRGJyYUQ1Smh6d2RVNGVXVnJESTFoYmc0OVlHUEFpRDFEMlNMeV9jV1kzUkVVeF9CSHhTMWZNVjFEVjgxNnY2YkEwVW5VUEtSb1o3Zl9NOUJMNlZfWEFOdkpXWC1XRGZaSFFtek03SElydTJvQU5mOEVJRHE0dkxqZ0dBWmczTzJzWW9tNXRPOEJ3YWVYV1c1bS13a3dkV2xnb0l0dkt2SDdYR09Q?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Morgan Stanley revisits Oracle stock price target after investor day",
-   "company": "모건스탠리",
-   "press": "TheStreet on MSN",
-   "url": "https://www.msn.com/en-us/news/money/morgan-stanley-revisits-oracle-stock-price-target-after-investor-day/ar-AA2gtjYM",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "BofA Hires Senior Power Banker Manheimer From Morgan Stanley",
-   "company": "모건스탠리",
-   "press": "Mint",
-   "url": "https://www.livemint.com/companies/bofa-hires-senior-power-banker-manheimer-from-morgan-stanley-11793385102995.html",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Should Earnings Upgrades Require Action From Morgan Stanley Stock Investors?",
-   "company": "모건스탠리",
-   "press": "Simply Wall St",
-   "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNN2taUDJ0eWM0QzJfd1pkanJlaW91d28zSUtMdFVXRnNQMThGT3VoZElET3VTUE1vR3FHSVgxSEc1VUpSeHg4ZlhyblZUdVVzRDJFZG5RTkdvTDF2ZlRBUmRmU05lVnRJR1NpeGFPZTctZ0MyS2taVjAzYWppYklscXNyVVYwcndVOXF6M09aSG5TU0VZSVk2SWE4V1dGczMtcF9LT3VjZm1kOHoxNElSNnhDbzdtMXNXUVN2WmtnMkVlcW15aVF1OVZzeE1IdHBqOGF0dFVJdDVEZ9IB3wFBVV95cUxQeTE2OEtrMG5zY3IwQ2Jqb3BfYnB6eEdlX05HaHJzNk9oa2FTZ2lzRTJoRmNoX2tHWVlHWG1MMGFIc3FBRVVsak5BXzBmbXNhM05lQmhtS2pCNlFYOGJjLWJiai1nZ19rS1NraVdPYVpoQlZkclJMWU84RXBwdW1uclNPTDdaZ05WUWxIaFd0RHd5Z3ZZQ0J4TmxFd3ZSSTk2c2ZjdkdtNFdMWlhiMFFxUDdjck85alNEWi1pcldXWGJGQkpSbmQ1N05PU3R4eHBoOWlGQnBmZkU4dmd6WHRB?oc=5",
    "reason": "차단 출처(주가·시황 사이트)",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -802,38 +579,6 @@
    "press": "BigGo Finance",
    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBnek5feGVOSFJNbWN3U1N4NDNTZEJOWmJybXZTd1ZoUkRvOE1rckRITlFYNmo1enJBQVJJNjVKbnk0cUlsQVJlXzdBUEhnRWpkTUNTMzZTNGc0ckNlQklxcFRNVjZHbDFoMVdVdldkM2Vpc2R3Y0E?oc=5",
    "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Morgan Stanley Adds 1,302 Bitcoin (BTC) to MSBT for Over $100 Million",
-   "company": "모건스탠리",
-   "press": "TOKENPOST",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9ELWJyc3lyTWpmc1dvOTRGWFktQ0c5eFJCcl9FcXdjSkVkRmcxdW93WUxjTWdiWHgwdXpaSlp3d29NTFZyN0JSVHBkWE5DR3p3NTVIeVlpVHl6dw?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Morgan Stanley Launches MSAMP5 Auto-Callable Jump Notes Maturing December 4, 2031",
-   "company": "모건스탠리",
-   "press": "Kalkine Media",
-   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNM1AyMjRXOVRyWmV5ZldGdGJSLWJMZ0R4MkdBVjJaeGltRHBZWUg2MWtHVzBiWm42cEtIbUdVbkY0RjhfSXduMDFrTWhvclZ4djJlTXhRUDhlSXd2RlFwaHVYVV9tNnpHbllqWnd4OHRrXzJWT3ptNVVCUDVkcEpZT3U2cTRJX29zeE5MZEw3dXZfWlh1cDFJSEpDaU1hZHFWQW9pZHg5cVQ3Y3BaN0FEbGFfRk4yTXM4U1V4Nm9sWTFvUnIyOEE?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "McKesson stock: Morgan Stanley raises target to USD 1,207",
-   "company": "모건스탠리",
-   "press": "ad-hoc-news.de",
-   "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNam9CLVJVbWRES0lpQS1MOGk3bVRadTJreUlpejJjOTJSNWpEVjdjbVdLaUs4SDlRY3JDM3FlZkJKdEZqTGNSZzJ1c1hlMkwwYmxWQjRBRzFnYTNrcGRfRWpFMVlEei11U080cXdEb2NCNF9aZUxLdnEzX0NPTWlHcTZ0Q2VhRE45YVh3WFAzNjJ6ZUI1Y1NFUUJ0d0NJcURISU9BYkRlUFU5VXc5TFdMaFB1bm1ENl9SMHlj?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Morgan Stanley buys 1,302 BTC worth $100M, rais...",
-   "company": "모건스탠리",
-   "press": "Pluang",
-   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPVXFBVkluSXp1TzViMWVYWGtyN2xGc2t3UzVSZUhnZnlfcWtUcVVjZXZubEc3OWNyUWthX2JMdkpLVzEtSlRhZ0g4c2NLNXFwblBGOXZYU21vdDBvcmVuX1RkR0ZVdjI1VjZWdjJQOHpESDBfcHc3X0V2NUNUUFVOeVJNVDEwSUtJT0tZaV93NHkyeWQ5WUdLTnFMTjZOUQ?oc=5",
-   "reason": "관련 주제어 없음",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -877,14 +622,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Alphabet's Buyback Freeze Exposes the Bill Behind Its Cloud Boom",
-   "company": "모건스탠리",
-   "press": "ad-hoc-news.de",
-   "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxONDBHNnRSVG1nbXlNNHl3SGtmVTNlYnlWZTJZNGlSTWI5by1pQ2p3TG15MktzdHh6a09yU1p3SUVpQlZCLVF6WDNHS0dONWkxSjYyVjdtSjJVaWdaTjU4RmRlQ3ExRnZrUVlHNFRkcmNQeWFfMko1YUU1MDNTXzJLQndld0dURDRpS2p5VVNsdDB3dGMwajBIY3hIckZvOVNCRWJZLV8yS09nNDVrdG5LN3VWYUJwYWhYWWFfS2hPNVZwNUR6Y3NSZjNnazBranJsaGc?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "PVA TePla stock: Morgan Stanley position falls to 9.75 percent",
    "company": "모건스탠리",
    "press": "ad-hoc-news.de",
@@ -906,14 +643,6 @@
    "press": "Yahoo Finance",
    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQUFBzWTA5SS1iOGpQemc0MHY4OEJEU0x5RkJaSW12b1EtNWM0cWx5WjA1SThvNXlEZXlRQkpJUXZiMUVKYVJyc2VXYVhEa280NmhNSDJqUUpmUFZLNTZrbTlpXzd2VHZpalEyWEtsTDQwSldpaWZMZTF2eXB0UjEtVmdxaEh1Ny1VcFppdDJiM0VvLTlCdnVVNjl6dkdrMVNq?oc=5",
    "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "US Stock Market today: S&P 500, Nasdaq and Dow Jones forecast after AI selloff",
-   "company": "모건스탠리",
-   "press": "Beinsure",
-   "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQeXA0ZWpQd2xLWUc2THhjN3RJWVF1NnZZV0gwYmJKbFNsTWZHVm5BUWZNTmRRZVF1RjJWbk0zSXpwTDhmbldmdWhXRXRfTjVOVmhiYkk0czN1VjFzdDlUZkVLaFRGR1NFRWdiMmIycmRFY2FRRDJuQ3ZtdlNsZnpBZmZleTFjUGQwZ0RZVWxqX2t4UQ?oc=5",
-   "reason": "시황·종목 분석성 제목",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -949,58 +678,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Nasdaq Slides to Its Worst Day Since June as Chip Stocks Lose 7.2% in One Session",
-   "company": "모건스탠리",
-   "press": "NiftyTrader",
-   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNc3ZVZWk3Rkc2ZG5Scm1WT0syb0UtQl9WZnFCWGF3UTZPam44VU1QSDNXQ01QZVlreG1xaENHRGZuMUdFUURyeVA1MV9hbzZrNFpEVDRkS3FSZE5KNVZiNzIxOWsxZXBwN3kzWGQ3Wi1Cbk1BWFVfTkRQTFQxTDVId2trcw?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "BofA Hires Senior Power Banker Manheimer From Morgan Stanley",
    "company": "모건스탠리",
    "press": "Livemint",
    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNOHVhejhEMEI0OC1UUms2dnlPZ0VIaWpEVDFpUk9FcDhiRnZBRlQwUXBQMVFJVnlLV092SUo4ZTluNmhUTzMzcWg2MnhKWFE3U0ZJd2tNQjR1XzRDbjhCQ0dBUXBtdlhBSGNKcl9kYk9kVE9QYXVxVUg2TnNpVEtOQm91ZXVOcmJVS0FON0ZZb011TXlsVnhHSUNPQmFiNzkwaHB1bGlfQzcyWFVzNnZUZjVXN0c5QdIBuwFBVV95cUxNUDF6aTBHLU4tS3ptMjNVMU5sdnV3MDQ5Y3dnUnBsdnUtLWJHRGYyZkdVck9sa2tEeWhmUVlFU2VBcndZSXdwXzR0RWEtQ1NyY2xxc1MwLVlHWk1NVGZmdWV5NDktNVhnRWVFcmYxM0YydU1xUDMwb3lsMDZYN2NqeEU1MUZSQW1BZGxiSVVsTjBudzRMNFZMYmpueF9aTnplcVdXU1pmU0c4ajZEdXVvLWJXTXl5bDZwMWRN?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Stop sharing your passwords with AI agents, Bank of America warns customers",
-   "company": "BoA",
-   "press": "ZDNET on MSN",
-   "url": "https://www.msn.com/en-us/news/other/stop-sharing-your-passwords-with-ai-agents-bank-of-america-warns-customers/ar-AA2go3Kt",
-   "reason": "이미 반영된 기사와 같은 사건(제목)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank of America Warns Against Sharing Logins With AI Agents",
-   "company": "BoA",
-   "press": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/technology/ai/articles/bank-america-warns-against-sharing-200300299.html",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank of America (BAC) Enters New States As It Joins $30 Trillion Tokenization Push",
-   "company": "BoA",
-   "press": "Yahoo Finance",
-   "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOR1N2SlZOMXo3N2gxOWFlMXdHRldhZmI0YkI1NG12VjNzTW1sdGhWWlZLUmpBTGdsd3gtLWpSeEg1NGFKOWJBTDgtWHh3My1iWC1Ed0pyMHFHcktTOU1yX2VKdXhCV1ZsLWRWT29Kc2JrVzZ0TTAzREtFaW1JNmRGYjBhc2tMSENyOTd5T25hSWZ6Y0RUdXdLTlJ1cw?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Wall Street wipes $1 trillion from the stock market as tech’s $828 billion AI spending spree sparks market fears",
-   "company": "BoA",
-   "press": "Fortune",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1WaEdkUjE4cFJlX1hGUk9qODZTalAyR0hmci1pdXpQaWQzeU1xbmdqSFZBUXdpWXY4VGVMV3BQaFNEcFFOQWpsUk5YenhBLTJDVGl1dUNHOHZIM3F4UTlKVmEyV0dmZm9rcjM4WHhvdDN1dFlU?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank of America Research Sees Memory Markets Tightening in 2027",
-   "company": "BoA",
-   "press": "www.tokenpost.com",
-   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBhNjRBc0lxUWhqejJ2MmFkNGhYamNDYV8xTHhHX19Wd2tLM1UtaTBGNTAyZVYwdjRHTWRFLU1pTXBhR0tPcTdYdFRZRWllejhjQ0JPMk5Qb1pXQQ?oc=5",
    "reason": "관련 주제어 없음",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1013,70 +694,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "ServiceNow CFO says AI disruption to enterprise software narrative is false",
-   "company": "BoA",
-   "press": "TradingView",
-   "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPZXc4Mnpmd1VzNlp0aXVlQmJ0c0Jqc3JDaHpTaVYzSmp0alVrQjNtTXpSbUhHZTJOQWNERWt2aEpLWWp5MEpsZ1kzaDVPckIydDZiRURHYWMwWFBvX0JvbzNWU3F1MW5NelZkX1FWOXQ0TVFTOUZGOTVfMnJBVXU5Zncyc3F6bzdtaXhBXzZIV3F4S3FraE45ZTctWjNOYy1aR08xR1BJYU5DQlFUTGdxbTJoVGRDWmdpTXFhdFJMZGdHZWFvdE1vOFcybFc0OWFHcGZQNA?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "This Week's Top Five Stories in the Data Centre Industry",
-   "company": "BoA",
-   "press": "Data Centre Magazine",
-   "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPWUxTRXhEZVd5NFlxQktPZUJ6dVo0TjgwN3JfQ2pLNDQyUngxMFpCSzVzQmo2WUZqRk1aRE05SW91Z1RnWDdJVmR1Sl80ZkljQm1jV2lvWE9fcmZVSEtwZ1htUmVuMEtNVGdtdHpQd2pVZ1FuSlhnNzlwV210bkJubGN1SHNkaGJsekJyLVJVVzBRMkItcUNndV8zT194WENkc0Q1NXg4VDB6RGs?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Tech Bonds Are 'Diamonds in the Rough': Bank of America's Hartnett Says",
-   "company": "BoA",
-   "press": "Yahoo Finance",
-   "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPSHBPS21kMG5wSDZoWm9NY2R2SUZBU1FObUJrRXpTMm1XZlBoX0xyM01QR3BucnZ2UHE2QUVwaW8yWGZzNTFsTGVYd09QNGhWTmhCYkQ2a21XdXFMNWZEVzlGZFJKcU5LRG1ORkYyT1RFTHpJQzl6cnBORzM5dVhHQlZqNFN2cUduVXdKaGJMbWtZZnd6M043Slk5VWU?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank Of America (BAC) Joins $30 Trillion Asset Tokenization Initiative",
-   "company": "BoA",
-   "press": "Simply Wall St",
-   "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOZHlQUmxPWGRqbVBRVmJDbURxTVRQLUUyVlFYSjRjY3RrQ2pPSEFIQWRQeF9aS29YdVBtZ0xDM0hscTBnRmdMTGV4UEYwQVlmck9RUWJJUFVORmtiME1yTlFqU0FOaHZzZXhKZ013eEYwcFFsYTVranI3YXN5dkM3anVSbUJBSGZPS2t2VWFuaHZVZy1WUlVMNExlaFZ1cWMxX3VFSFlaRDNrbDF6Ui1BUlQ0VlRaRzRVLUpXRHhUQ1B5bHRQMlpV0gHMAUFVX3lxTE5yek9UanFvQk56emNDWkdqWXd5NjFLY2JYSmxoZzRNMzhZemxPYldsXzZrR0tFZTBMMEo0WDZMYlpTNDlPTWhLVjdvZkp3NjBURHdLOXlBZDVwa1JxSFlUZkMyUjZjM0FLZ0loQUxHRHo5WEMtODF6QWxaSjJFOEFSNTVpMnlkZFFkM1FyS0R1ZG80TU9OY2VZdC1KcHBTSk5FSTJpdmRSZEdaTlRiV0JNZkZPMTN2ZHJpZ3FCRFNJWHpJZ2YyQUR6NG9JbA?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "AI Buildout Hits a Funding Wall: OpenAI's Fundraising Target Halved, Anthropic May Face Junk-Grade Rating",
-   "company": "BoA",
-   "press": "BigGo Finance",
-   "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBleGFGZmV6b1EwUFNkRkhXc3dVNkdrbk5jMVBCTFlFV19udXBOWWVBbWVqYUgtaWVNMjhVMTdmTTkxMlJ6SU52cTByV19xQ1FHNmwtQkRtazdINHlrNFlaZ1lFWU9LYmt4eUo0LWl3Zjhja3RBb3c?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank of America (BAC) Q1 2026 Earnings Call Transcript",
-   "company": "BoA",
-   "press": "Fortune",
-   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBfSzdoYkFIR3BleDlDVWxETEdtLWtiWmZkWWpWMGVsejhFelFJWGR3SGhPeXZsOHhYenR6UUVOekREN1NoQzE5bFVkb3k4MndYODRmekU2YnFGUy1VOFd6d09GMC1CVzgzRENUSXI0ME1MMWk0?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Tech Bonds Face Selloff, Offering a Good Allocation Opportunity",
-   "company": "BoA",
-   "press": "NAI500",
-   "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPaVRJS2o2eWw2OE1tc3lZSFVpcS1ZOF9RM0NLaDdObDRZSUxROGd5cDdjTGhDLVY0Y2FPUjkzUFZfVDd5R21VZDNyX1pGMmlCOGlwN1ZJUnlOaVJVMmQ2Y3lCclRCaHVJQ1kxcXQtdmlWbTZoQVE4Z2lEckhkX19rTFBVcUN3NWhtR25nNDQ5VzRGZFhNXzR2V0dGZw?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank of America Agrees to $2 Million Settlement Over Debit and ATM Disputes",
-   "company": "BoA",
-   "press": "TOKENPOST",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE54a3VTdzBocDY1RTBxR1BLMGJ4TmtYSTFLNjJWRXlBZUVzdWNSMmZMOFpXYkZ1bkFJai15UGRvYUF6SkFHRkh0dFU2NmhMTG03WGFoeW5VdHZPcXM?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "BofA Spots Rare Opportunity Hidden in Stock Market Selloff",
    "company": "BoA",
    "press": "TradingView",
@@ -1085,66 +702,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Bank of New York (BNY) (BNY) Q1 2026 Earnings Call Transcript",
-   "company": "BoA",
-   "press": "Fortune",
-   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9SeEFxZ1ROcUh2a282V2s3VFZmUkpYeU1VaFRTOXZtMFFWeXF0VS1QOE1YMm5hbEJYQlYzTU55SWg4dHBPbGlZamJnNF8xanJMSHhrZ0NwMk9lU08tT1pFTjVGZ20wbU8xNUY5VTBjRzFxQ3RjNW5jUWpJQVpYMzQ?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Fired Adviser Sues Bank of America Over Arbitration Policy",
-   "company": "BoA",
-   "press": "TOKENPOST",
-   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBWTGY5Z1ptSmtFMmJ2Qi1uUDlDaXpIcTBuNEROZjBGNkpqUE1oeUhsZ0l3TGxkeWVRUU5tRVQteDZvTW51UjVFcVp5dUZoR1ZrMHF0cWVoVmhsdjQ?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Hartnett Sees Opportunity in Beaten-Down Technology Bonds",
    "company": "BoA",
    "press": "TOKENPOST",
    "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFAyOUJNRGRkeDllRHo4UDlFSmVqazdVQzBQc2ZtOFEzWDROOFRQVlc0ZHM5c0lMeDM3X1JabVVTMWhWLVFtNi1VV2JyRjVVMFVIbzcxS3VXRHM?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Micron Technology stock: Bank of America sees supply visibility beyond 2030",
-   "company": "BoA",
-   "press": "ad-hoc-news.de",
-   "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOcGJrbWJDbjlTUXVhRVZTZTNHcTJ6cVFkdjBqUU1HeHFVVHJGTVVWemEtOUFVUjY1SFRPU1FsRUlyZFlHdWFfMU5MMjRjbFNSMDFscUdCYjl5dWNCY1RPQkJFeG1pNGs3bzhvck4tUnRVTlZnR2VCX3pyME93U3BLQzNtV2pVeEZXYS1uS0RtRmhKVld5SkRGM3hUSzlzZEtHbkN0UHFvX1ZVd2Q5M0RWQW5UUVJyQWZGelNreEFkWG5aRTFtV2Y5VDFjejRJUU1nRm1n?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "CrowdStrike stock faces AI security test after law-firm threat report",
-   "company": "BoA",
-   "press": "ad-hoc-news.de",
-   "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQcE9KbWtBYUc0VHVjMjlCaFJxX09RSzZTOTktZGktdEN2akQ1SVduVV9POC16Wmg5SFpEcjRRbVFuV3d5RlBMdUZTc3daWkQwanowRFRpWnNkcWU0UW1SUWVqX1FVS0tTVFBLSkNENFdJejRWZWw5bXYwU1JrelJtRjI4NmF2LXFFU1pkUVNNR2owdEVtN2o5RmFFdHN3bDJKTC1MdlVCM044WWNjVDJHR0Z1eDhUeTNBcjBVR3l2WFNiZEh6NnZ1S0xIYjk?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank of America says buy these stocks ahead of earnings before it's too late",
-   "company": "BoA",
-   "press": "CNBC",
-   "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPT2t3VWFnYmJwN3ZtbVlRXzFLLXQ0TEhMUEhZaGVEUUwydzg5TkU3S2pWM05PWkhKcXUzUFZTOS1LMGpFMndMSTYxM1VaU243V2lLQVF0WnBTMzFRWDVUNTNoTmZBSnpfYkJUTzRWcGlneWpHeVBXQlZxXzZCQkYyS2RlZ3ZPN1E?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Tech Stocks See Worst Day Since June, Pressuring Broader Market",
-   "company": "BoA",
-   "press": "The New York Times",
-   "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1lZFpybG4tcVZURUg4djdncV81ck9kdS12V2Q5bW1VN0RyOEV2VkhQUVluLWd4ZkFiSmh6RzJuWFNZT2VOYm5CZ0pNRHZrQUhNNzlMdHBhZE9qUlY1bmJRVGxMOWRoLTRpaGpTelJwYzI1Q1E5Z3c3eUxhUzk?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Taxation With Representation: Kirkland, Gibson Dunn, Cravath",
-   "company": "BoA",
-   "press": "Law360",
-   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOcDVPZFNaUVNSWmZZR2dEOWJVT3ZTT2hmc3BBWjgyaENvYmRLN3hDSC1Id3lKQ1g3ZTRaTXNaRUk5MDZkaVJNemluWWdCNzFxckEyV1JXaWU4M3VNMlNIMDExNEFiTVRsZV9YYVZXRjZEUk51RGkzUC1kbGlfWTlHWW1iX1BaQjBlOENfWkhzVktNVWtNbmRuN2VPY3FURUJadm9XQmZQMNIBVkFVX3lxTE5LSGQyUmVIUWQ3UGJfa25LUkthWHh6Q2tlVDZYbzhSbEx0RjhYMnI2OU1ybmItcTdQRmFOaVFCNEhYRmd6VkdLVHNvMnNuSzliTVZNakxn?oc=5",
    "reason": "관련 주제어 없음",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1157,34 +718,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Danaher (DHR) Q1 2026 Earnings Call Transcript",
-   "company": "BoA",
-   "press": "Fortune",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE01ZG5rRHNkNms4aUJ0Slc0LWxpMEVnMVRFR19tNVJEbVBkb21MZ29nYndwaWlmN0k5b0hzT25TYU5oaThULXhZcTdJX3BFWEZQMkxmVG1MYnlYa1lKQnd2dFNkRQ?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "S&P 500, Nasdaq End Third Straight Week Lower As Investors Move Away From Tech, AI — AMZN, INTC, LLY, RBLX In Focus",
-   "company": "BoA",
-   "press": "TradingView",
-   "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxQSVpGMjlLV0Z4aTBzZ25OaEJvV2NJNW1RcUNDWkxOTTFubzBTX2NHLWgzc2xUWFZfS01DWHB5MkstaThLM2dFUmpITzViSERocjEwOGhvNnd0Um95RUh1dG9pRUxCUVcyNW5rRFgxcTVwLUtZX2VvRUhUVFk5RGZlQkE2Sk5lNldoYzFLWjhEQXZQSEVCOGhyOG93RmpOUVotbUJTZ185eFdBVVhPZmV2RUpaU1piWnRwZDNaWDVKZWVVMTE5MjZFNTRkZloxczN4c3FkUm0wR0JiNkJ6emtQYXNDZTBYbzI2MEVqVjNxUFRGTkRHU2QzMUJzakNzUQ?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Amex Holders Can Convert Cash Back to High-Yield Savings Deposits",
    "company": "BoA",
    "press": "PaymentsJournal",
    "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPLWoweG9JbXRaU2FGMEltLXVPWHBUSjlsVnBXN0l0OE5VcWVFUmtOeE5td2N5MnBOd202eHJoODR6TEh3OUFzMmdTN01iRURJdVdPYnJCaGhlM09tdTEyV2lEMVppOUZoMzFydXVVZTJvNlVRaU1lOTA4ZkRDcHlFM0dDQXE5WnAwSEhhR1hyNVlFbDlSZndCRzdtdEpXeXdmUjdGVdIBpAFBVV95cUxPLWoweG9JbXRaU2FGMEltLXVPWHBUSjlsVnBXN0l0OE5VcWVFUmtOeE5td2N5MnBOd202eHJoODR6TEh3OUFzMmdTN01iRURJdVdPYnJCaGhlM09tdTEyV2lEMVppOUZoMzFydXVVZTJvNlVRaU1lOTA4ZkRDcHlFM0dDQXE5WnAwSEhhR1hyNVlFbDlSZndCRzdtdEpXeXdmUjdGVQ?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank of America sued over mandatory arbitration for employee disputes",
-   "company": "BoA",
-   "press": "ETHRWorld.com",
-   "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNOGxZWVVMU00zQ3lQc1BmUEVkWllZWUlITTBwblhyUEhLRDY4M0pJelJMS094bmpmU1kzX0tvVy1aeEhDSE5QcHF5TGFZd3NEb3VPaDBOTEcxWF81LXBsLTk2SmE5RGlQbkpuR0tKX1d4NzczekJ4a0dGdmJkY0IySldxeE9xZGNDZVVNR184TlVVbl9LaEN5ZW1ZUkNkMVN6a2xRM09sNWYzOHFLb1NsT3ZtbFdzcjFSaGI5UG5DWE5hb3JxdW1TOFJfa0l5RGdFZUc2ZGdoWU5aQdIB2gFBVV95cUxNOGxZWVVMU00zQ3lQc1BmUEVkWllZWUlITTBwblhyUEhLRDY4M0pJelJMS094bmpmU1kzX0tvVy1aeEhDSE5QcHF5TGFZd3NEb3VPaDBOTEcxWF81LXBsLTk2SmE5RGlQbkpuR0tKX1d4NzczekJ4a0dGdmJkY0IySldxeE9xZGNDZVVNR184TlVVbl9LaEN5ZW1ZUkNkMVN6a2xRM09sNWYzOHFLb1NsT3ZtbFdzcjFSaGI5UG5DWE5hb3JxdW1TOFJfa0l5RGdFZUc2ZGdoWU5aQQ?oc=5",
    "reason": "관련 주제어 없음",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1205,26 +742,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Global Payments Stock Jumps As Analysts Hike Targets",
-   "company": "BoA",
-   "press": "StocksToTrade",
-   "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBuNHlfR3RMaGEzU0N0RVdnUjRDNFZ2N2JaZjBKaXlubEZncS1TMG5RbWplaVBTMmtnaWVfU2NfTVNSeHFlOE9EZ0o2cGR4c01kdlBMZWhhcWdPZ2I0Tk5sS3Bqc09CRlBBYUtEbi00eFIwQ2NPVDdYbVVZaks1QQ?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "GPN Stock Jumps As Wall Street Ups Price Targets",
    "company": "BoA",
    "press": "StocksToTrade",
    "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5qeGlUZTAyQjNTWjI1aDhMLS1PanUzQktudkJGRFNzaTYxOVJ1NjZ5TGxRMkYwa3pqVlRxWGJnUHV4QkpRMXVfMGZ5MmUxVkZIVWc4Z1gzcGRmM2ZoT1h2c29NcU9ZWmNkdTlvQ0ZxSHVReGQzejVqb19uWQ?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Global Payments Stock Climbs As Analysts Bet On Worldpay Upside",
-   "company": "BoA",
-   "press": "StocksToTrade",
-   "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE95WDY2VW1YOEpHaUNKZDFiNTQ0cHVtcVh0RXc4Sm1YQkxIMEVBVkdoRE5Nc25hMWxyN2RpZ211M0xWQnpSdjlWeHk1XzNjS3VsUHFnUUZkbDZoSUJKREJ4emVxbGI3VGhNSkUySUtRVW5XbktTSzRXVnVvNmk3dw?oc=5",
    "reason": "시황·종목 분석성 제목",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1237,42 +758,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Bank of America Handing $2,000,000 to Customers Whose Unauthorized Debit Card and ATM Disputes Were Denied",
-   "company": "BoA",
-   "press": "The Daily Hodl",
-   "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOSkozSWZ6cmlqd1NTMm1aem5EYW5jX0ZmcUpmeUx4SjFULV9Va2J6OHQ1LXhSV2trN3hfT1NBa0VXM0FEYlk1bzVZOG1SOU8wZVkxRjZYbUtITnAxSF9wTDFnWFc3U0dnZjBPSFlGaTdadDFyT1Q4UzZHakdRakVrdjB5QUhsTmxVZmFxU01TSkVyWE9feTV1cU5UQjlRNUIyRmtCWU1PM01QeTdEcm9hNEpWR1JoMjN5bmNiZ1BMUUtnbHhraXNWMmFPeU5wNHYzZElfd1QtLVPSAdgBQVVfeXFMTkpKM0lmenJpandTUzJtWnpuRGFuY19GZnFKZnlMeEoxVC1fVWtiejh0NS14Uldrazd4X09TQWtFVzNBRGJZNW81WThtUjlPMGVZMUY2WG1LSE5wMUhfcEwxZ1hXN1NHZ2YwT0hZRmk3WnQxck9UOFM2R2pHUWpFa3YweUFIbE5sVWZhcVNNU0pFclhPX3k1dXFOVEI5UTVCMkZrQllNTzNNUHk3RHJvYTRKVkdSaDIzeW5jYmdQTFFLZ2x4a2lzVjJhT3lOcDR2M2RJX3dULS1T?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "AAPL Price Prediction: Momentum Flatlines at Pivot as Open Interest Surges 11.6% and BofA Holds $370 Target",
-   "company": "BoA",
-   "press": "Blockchain News",
-   "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNM3JhWlU0dXk5TFA2ZUdjZmZZTkxpc2Ryek8tUzk0SkdkUXB6VEpjRHpRMzVlc0FHS0ZuM1NuZnZXSDFVb3R5QnpuWGg3b1BvR0g3M3VWTlVGWkY4RGdhdXdxclJURE9vLXRHSmJUS0QwQ3JxUWQzdUFqS29Xbl84ZlhMNXkxWUNhT3lOWW1GQl9QU0t5bGNsOEZnYlZJbVVOZ2lLaA?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Big tech names remain attractive - not their stocks though",
    "company": "BoA",
    "press": "Invezz",
    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNS0tGZjJOemlJWWdMR25yVjRETXVJMXZCclM1STdyREVua0lha2hqS3R3cTNBZVZXREpwekdSd3BoQmlwWkRhNlAtdXlBVjQ0eGFjT1NweXk1WjFTNGY4X0dwRFFpZ19VNEJ1V190ZUh4aG1PbTJ2MTY0YzJPd1BjMUVTZEdZVmFlcGFmWEEwRUp1RmIzamVYTEpXQQ?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank of America flags undervalued stocks ahead of earnings season",
-   "company": "BoA",
-   "press": "Traders Union",
-   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQYkM4blJoa1M1YXVHbFFFREE4bGJyRlZ3cklTdHZBQUh6cUdfTENQMXhVNElvbURhb3oxSXlZSUMwaWV5MWIwR0hVSGo4bk85U1JpdzdHUThreU9Yc2lZc21ER1lRcXU3WHpKSm40RjRXYzIwUGFUa01qRktMdWJCcDM3M2hvdEhqWG9OSHd5YVM1RmFlclE5d1RR?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Appeals court skeptical of class action against Bank of America over pandemic fees",
-   "company": "BoA",
-   "press": "NewsBreak: Local News & Alerts",
-   "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPanptUElqMUw1d2hDOXVCTlItZ21CdVR1aFNnUXdUa3IyUTliNG1ZTzR6Y2tvN2NteEVXODV6b2dHNXVnN0o0MU94UnRQa2Eyc1ZrWkFsU2Q2WU1ZMWxVTW8yc21ZZ1czT3pzeEd0QXpwdmE4QUpEQ3o3eXVzOUNhM01HdXBaS3NzZEFIRWRHSGlhNmtCeDNCM0JfZjA2X0pua1dMX2FVNzI4VWRMdmw1bHlBbU94cjJiYW9uc0xhRVh4WW1FcVZQMFpMMTZnZzRqeW1JbEsxR1pnMlNCSVNpMDh4SQ?oc=5",
    "reason": "관련 주제어 없음",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1285,26 +774,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "What the Big Banks' Third-Quarter Reports Say About Credit Card Borrowers",
-   "company": "씨티그룹",
-   "press": "The Globe and Mail",
-   "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQaTRBVWMxYm9NVlR2TkF0Y2Fqd2ZxdkpCMWk4WnZ2ck5IaDhYU2RkTnlFUG9PaWVQMFhZXzFfaVNVd1BuR1JCNlJwWC1OUXBCRUF0T0FEeVpmenNCVHVGT25tQThpNVN4aVhZTklhMDBQUzlicm1FazVyQkdYcDVoWHpWV1pIaENybU94V1JXeHA0TFhSMm11bkp3NTFzSktSdEhubHZmMkpBMWtHMi1NVEcwYUJRZWVubGVEY0o3cFc1ZVRVY1RmWnNDYzAxSms5R00zMFJGeERERWtvQmxVUVpISlRlN1l3MXc?oc=5",
-   "reason": "관련 주제어 없음",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Citigroup Prices 10-Year Autocallable Notes Linked to S&P 500 Futures Index on October 30, 2026",
    "company": "씨티그룹",
    "press": "Kalkine Media",
    "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQQ1ZOV09oc1pqS2wyNDFxUkdoYXdEYTYxMVcxV0xCbGxYQTdHbnNsOHpUVXRGRG5LSmd5N0tzckFHRGFhclM5VlhNWE9PdEktQWloVy1ZRXdOUmFUNDJHYjIwQ3dTNXJfWDktemh4ZzJxaURFSmpfUjFsYXpLX1QzVzdUV2tuS1Q5NWJsanNhbXVqNmdkc0NzMW94OXNaMFY1R3VLc1RkeDhyRDJTeE5fQm1tTTktT2tmTU1XUXRNQVZKTWZHQWxzazRVZnYxRWtvWlhuNWpGVQ?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Opay Shares Fail to Trade After Raising $304 Million in US IPO",
-   "company": "씨티그룹",
-   "press": "Bloomberg.com",
-   "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOckpvUHNoSGV0ZF9kZjVGR0FjSlk3QnVvdURnX0ZoeVF6ZlpqeUFwV2pranJMSHpJR1prODhnWXdMR3FaNEwtT1VWNWs4SExacGl6SS1IX1d0b0UyTmc2ZjhvbHpmVUNVSjVhSnE4YUU3UlREUDdBLWpEU1FmV2JqOHNkNVhKMFk2dXFaTXB0UzRkaTNDaVpqRUVzWkhycldMclZ5UHBnM0RVV0JjLU1vcnh3?oc=5",
    "reason": "시황·종목 분석성 제목",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1325,30 +798,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Citigroup Announces 2.75-Year Dow Jones-Linked Securities Maturing August 2029",
-   "company": "씨티그룹",
-   "press": "Kalkine Media",
-   "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPQUF5ejNrSEdEcFZLRXJhSjBoemtWMzVaeUpaQmE3aHpKaU1ER0hBNkdHWWJzZUFWWmkwbXVUWG8xVDdDb0dvbFJRLVg2NlR6cTZMTlV5VHcyd2JIczNpZ196elNzU2MyMHhJbENTd1Q2dzJ6VDNFcjIzZjdHMjFnRG9USnFVMUJxWnNGNW9wZjlOMlhBSDBZc0Zab0NPUkszS1l0RnI4dEZLS3EyeUhuMW5yMkY4SDhhZEd2alRTMnYtUQ?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Uber Completes Blockchain Treasury Pilot With HSBC, Franklin Templeton",
-   "company": "HSBC",
-   "press": "TOKENPOST",
-   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFA3T2o5Mmg0ci1YaEFSaG1RQkFMUGJEX2ZMZWp0NHpCaS0wX2YwWFgwbWxDSDV0N2lDYUpNdlU4NktSalRQZTJzcldiZjl0VHBzZjczV1EwT1A?oc=5",
-   "reason": "이미 반영된 기사와 같은 사건(제목)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "DBS named world's best digital bank by Global Finance, first Asia-based winner",
-   "company": "DBS",
-   "press": "AsiaOne",
-   "url": "https://www.asiaone.com/money/dbs-world-best-digital-bank-global-finance",
-   "reason": "이미 반영된 기사와 같은 사건(제목)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Citi UK chief executive to step down in 2027",
    "company": "몬조",
    "press": "FStech",
@@ -1365,51 +814,11 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Stocktwits Fintech Pulse: US Fintech Weekly Briefing & Market Drivers",
-   "company": "웰스파고",
-   "press": "TradingView",
-   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNRDRUREtwMUhvQlMyZVI5bkxIWnJ4Wjd3OVpFUTdKby1VSEctbUthMnppME9HVG9LNDRGSWFYZUJXdVljWEpEaG1BbjVmR0duamU2Yk9FRGZnaW4zLVp6Nk54RS1wT1ZTTVc1NjhyTFZFSndxVnZuODZ2MVpCVE80VkVFLWY1QmdxcUk0TkVhU2VTZjNnTjVUZVg0dzhhQU5lR1VZVkQ3ZTlUR05jeFI3VDhmREJ5TGx1b3ljOEd1Ny1HNkx1Rmc?oc=5",
-   "reason": "차단 출처(주가·시황 사이트)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Datadog Stock Fell Nearly 12% as AI Spending Fears Hit Cloud Stocks. Its Earnings Estimates Didn’t Move",
-   "company": "웰스파고",
-   "press": "TIKR.com",
-   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQWGNzLVVZVzBPNmgwTUY5c2R4ekc3RENPN245TjJMTDdyLWFCamhFT3ZLbWJpVEx1TmZaN2hrZXowX2F6bzY3NmQ3WVZrN0stcVgwemphS0RYdEtTdjY2SW1KTDdHMDZBSEtWRlVPMG1Rb2JUOUlsbkVVZHNPQjJNdjFOUHhOOXphcnBrc3NSenhKYlJyTVR2ZXJBVHFwb2N6d2RQTGJUUDBsNV9Oczh3Z1ZScVZrbVRwZjY2V0dmUlRKZ3VNUWc?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "5 must-read analyst questions from Everforth’s Q3 earnings call",
-   "company": "웰스파고",
-   "press": "StockStory",
-   "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNQlQwX185MTh3dFFaTFdLaUhWS1VtRHA5NGNKTEI0d0dIUlY2dXZ4a1lJcU53X1A1YXFNdEd3WGl5c1c2Z0RobUVKbFZsV1VRQ0t0UjRGRFF2b05RNnZNaldHQ3p3dnVhSmhMUDR0a3M4Nk94VUdFMHFDbEJnRGExd3YwQmN3UjBqWGpyLUt3eWY4VVJsX1lEM1JYb1JSSXQtc1pEZ2NGOXh3Q3E3OHpQdzlBQXpqcjFMV3R1T3FXbjdKQQ?oc=5",
-   "reason": "시황·종목 분석성 제목",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Uber earns 1.5 extra days of yield in Canton blockchain pilot",
-   "company": "스탠다드차타드",
-   "press": "Crypto News",
-   "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE80aG9KN3ZyazJva1dkZHpLNkU5RG83bTM5LXZSQl9HdkRIOUpRcm8xanc0Y29ncW1nOVBRZnRHMkl5TERBN3BtYnUxTUJsUnZOYW5uVjMzTjJiWk9SYzIyU3NPUkpxZEt2UTNrZnp6LUsySzJCZ3RJYXNR?oc=5",
-   "reason": "비슷한 제목(대표: Uber earns 1.5 extra days of yield in Ca)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "15 Million Jobs At Risk From AI? Goldman Sachs Has A Timeline Involving The Recession",
    "company": "골드만삭스",
    "press": "NDTV Profit",
    "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNbEltdGg2OUdPd3pjellUOWMwRkFUQ3dYYU56ZXJqOTd2LUhLN2VrdkNOeUJpWUF0bi1qUmlpSWJLZ3E0aDdmODhtMlppSjdsWUNqRlc2Z0MyV1ZWZTdtazhvVVI4UzFIOHppNC1kOHpsX19OLVVzeEM0SzdGS0V1a1JZU3hqTFkzNEJjU3VaSTltRTJXZjhiazdGbUVUUTJWblcxck5haG15VWFOSXY1RVZfazZrQ2tVVXdTeHdwci1DUHhn0gHMAUFVX3lxTE5wX21SSFFKbWFsTUNGdHdzSkFOV2FUbXE0emhYa0padE51ZVJMV1IwcnNCM29JLVhtdlkxSXdWeS03R2JxNnhyanFhaVlrYlpIUzNpWGdGUmc2SDVSS0tUTGFzaXJYMTN6MGdINVEzMmNPS1hNZFRzcnlxM0piZnJqRFhMU0pNRTlKcjRndmxQZW00X094UEFZWDVrNkZiZElCaW5UcmVCMDVvTTItekJ3eDJDdlJNMWlYY0lWTVMteDIwMmFjaDlXdEx0Zw?oc=5",
    "reason": "비슷한 제목(대표: 15 million jobs at risk from AI? Goldman)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Nigerian-Born Engineer Akinbile Raises $3.8m For AI Startup",
-   "company": "모건스탠리",
-   "press": "TVC News",
-   "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPaEdRTGhnaVl6T2hLeUowMDB2QlRjUzdORTA1bTUzckRQdUwxbHpEdUVOUTlnTWtORWRDLThxWnpuRFVhdW84aDNtSHlNRy1Wb2wzeGswazNjaHF0OGRGOFNTdWhRM0R2M1VWRFItX2VJUmZ3anZGbFlBRTV5aXY0LWFROWlyTmQ1OXc?oc=5",
-   "reason": "비슷한 제목(대표: Nigerian-born Engineer Akinbile raises $)",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -1421,35 +830,11 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Mirae Asset Securities joins DTCC tokenization service in US",
-   "company": "BoA",
-   "press": "The Korea News Plus",
-   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5EU2pIQ2JOVmppdHZMdWVjRUFYWUV4Mm9LLWNkQ3VmV1JzUmFXSWpKc3ZMdzUxUzloOEhQdFVLamJKZ2w3cWo5X3VrQWVZdEpzMHpHc21BQlF5d1ZtNWpYWU9hRHVWTW54X0ZQY2M0SmcwbEhSLWlr?oc=5",
-   "reason": "비슷한 제목(대표: Mirae Asset Securities joins DTCC tokeni)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Why big banks are blocking AI agents from accounts",
    "company": "씨티그룹",
    "press": "MoneyWise.com",
    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPWUNEdXlMNlRBMlJZeDFzM2xMUHJQQV92cGFBV1F5bExNTFFacXVLS2l5QmZJVXotQ081Nm15NFd1SENNYVhNSkdFUU4yZE9rT2lmY3M1UmhMMnhPUHZPa1BndkxOS3JSai0tUE9FOUdqcWtDdGJsV05nLUhWN2x2TFFrd0hDMWJ3QXpYbzRmNGY1VWJyTTdadg?oc=5",
    "reason": "비슷한 제목(대표: Why big banks are blocking AI agents fro)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Solana To Host Hong Kong Dollar Stablecoin HKDAP",
-   "company": "스탠다드차타드",
-   "press": "TronWeekly",
-   "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE81Tk94QjlNV2JJU0lmbDAxcHpYbG5QSHZBeUwzaWxxc2hfclAxNzRIQkFrX3RaTkRQYTVKZHQ0Ym9rMW1STHdRc2ZCQUQyU3o5ZkI3b1FqSDhZNVM2eU8tMWgtMEdJQ0ZPbHhsTk9qVU54ZFdsdkhxWXB3?oc=5",
-   "reason": "비슷한 제목(대표: Anchorpoint Plans to Bring Hong Kong Dol)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "US Banks Lending Commitments Signal Confidence in AI Capex Cycle Sustainability, KBW Says",
-   "company": "BoA",
-   "press": "EnergyNow.com",
-   "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOcGI5RDlxdjhmNUxIRGJlQWRwb0dCcWhiMVcwQ1Q3MG8ydkpEYmh1V05Xc2l1ZWFGaDBwbzhDOWF6bmlwZFA5RFRiNTZRWFVjYmJDT0UzeXp2QjRRT3ozUHRhaHVyNkNKOWU2WEZPZzZHdVBlaElfUFY5Sklxa0pyVjd0UHJ6Z1phV0c2T1pTeXlqYkVtSUplZndleU8zand6QWxHQlY3V1pLSWFwYXQtQ1NGXzBOM2o5OTE4?oc=5",
-   "reason": "후보 상한(회사별 6건)",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -1465,14 +850,6 @@
    "company": "BoA",
    "press": "TradingKey",
    "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQVWpjMG5vUWI4RU9RVThSUVBBT3V5elY5QWpzOEJmMGFSaWR4Njl5UWV3UGcwaW00Q0pvODIyUmhmeDBXWFJnVndoRElrUEc4NUYySnV2Ym9rdnpoZWpGRzJiZzRyRUFyRHFKb28zSjE2OVo3RjluR2NpT2N2TndfZmtha3FaSTk3amlqREZxeVY5ZDZJRVhib3hyTVZ1eXItd05XbTRMR2lpbzNzV3BaTERDY2hJOW9KOUlnaTVwTThKQ28?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Empty Accounts, New Money: Is the AI Banking Panic a Setup?",
-   "company": "BoA",
-   "press": "The New American",
-   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1ZS1lCODlpTlNTdUhFVXNIZ0x3S0wwR01FRHRWTnc3SlhFZ0lUWTVCaDhmd1NCNWNianZPM0d3eGtSZVd3d1QzcDRqbmVpVXBfT3pxRW0xOW11VVNmazZFcWJhNkZ6cGFFMW9tLVVmVENzbUJjOUpJ?oc=5",
    "reason": "후보 상한(회사별 6건)",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1501,14 +878,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "GPN Rises As Global Payments Scores Wave Of Upgrades",
-   "company": "BoA",
-   "press": "StocksToTrade",
-   "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE40OV9wdnBSWkNsRDFMTDFiYTdaa29NQ3drSS1BN3R2OEdLU2FyR3l1N1F6eVZfUm9zR0t3NDM1VHlHZHNCaHZsV2dWN3dmWHhyQ2tZUUlVcmM5QjByZFI3OWpiQmxMWXZlZ3R5bVpoRmN1Y29OcUljcA?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Britney Spears' Ex Kevin Facing Huge Credit Card Debt, Was Sued After Child Support Payments Stopped",
    "company": "BoA",
    "press": "BollywoodShaadis",
@@ -1533,34 +902,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Uber Joins Financial Giants HSBC and Franklin Templeton in Blockchain Investment Push",
-   "company": "HSBC",
-   "press": "Crypto Economy",
-   "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQcUdYS1hhRG1lZlVwUk9zbUQ3WGJlc3k3cG91QUpVMENsSF9JRVZMUmNlN0RIYjBFTU4xUXB1Sm03cnhWOWNjRlNLbHllakhTNktLVVQxbUxseFBQZ25paWptQ0dYX1R6ZXJGTFEwTm1KMjVWaDVoY0JsYmVEWGhMTzNYMHIzWm5oYXpab0xrTEduMGZVU1VlOV8wZG1fZFZ1dDFKUmNITGZ0dV9Ha0tDOHNxRQ?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Goldman Sachs Asks the $ Trillion Question: Is AI Eating the Cash Flow That's Paying for the Boom?",
    "company": "골드만삭스",
    "press": "The Dark Side Of The Boom",
    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNQVYwLTljQU42VHdFV25RMVZxaVNqU1RzRjhKc0h5X09BVExoSnRtMkFrbl9QMnJlVV9UZzg4S2U4eEFMNXFSZElWbHo5QjRsUnIxWndicDFmZllORTRrdWhnMFZhSEdMRVlieHRKY2lDT0hackZVUFRlX2hjN2stcWJTQm9ZMjd4cXBNaA?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Dong Baozhen Says Ai Bubble Burst as STAR 50 Loses $480 Billion",
-   "company": "골드만삭스",
-   "press": "شبكة تواصل الإخبارية",
-   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9kM0txUjg3Nlg1Q1M5QnUySkFhelJTNEVHVzFvMFQtRjh3RmRPTkJ5dkNpd3hlckRObkJaQWtjWm1venpoQUxDR1NNM2huM1gyOTE4?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "All That Glitters Is Not Gold: Goldman Sachs Finds Dark Side Of AI Boom",
-   "company": "골드만삭스",
-   "press": "The Daily Caller",
-   "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNY1dYS2trWFhMUFVXUTNxMXRvb1Bqa1JpRThFZ0lwaWJJcVdJZjBuT2tsUmh5andqcGJMZmJvLXRNM1d2NVRzRENNdUwxSjFONVJGRnFCWVVLR3pYQVRFMzdKTnNBWDJsUGMyclRVQ3o2WmtCNnlsM2FLbWdOcDBsbThVRjBhNUc2akhsbVc4MHJoMm95LTB4NlY3OTlubFVtS0s4bmVnc2htRUVlS2NZem1RdDM4Y2pWY2c?oc=5",
    "reason": "후보 상한(회사별 6건)",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1581,70 +926,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "BRICS+ payments system feasible, common currency faces hurdles, report says",
-   "company": "골드만삭스",
-   "press": "Reuters",
-   "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNQTIzMFliU29saHlKNTlPWlozYXFoRlNkWHdmckJ6cXhQcDNZSGp2WkxyTjVzTVdWd0FJOUpiY0hSalk4QS13X0kydWVTOUxfbExoNEUtVVlvOEhvbm83dHU0ZkY3SVlfSmhRYU1EVVd5WUxzb01scjR2U0pJWGFoOW80b196Smp2NnhqVFVSNGF1c1VJeDZjUzRFdXFPeGtBNTZyeWR5dVZRZVd2V1RWeUJSUDRUTjZKM01UV1ZR?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "JP Morgan and Goldman Sachs Back Crypto as Midterms Approach",
-   "company": "골드만삭스",
-   "press": "Coinfomania",
-   "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPMEF1Rl8wSVVjakVGM1dhdEZyRjZNLVhDMHh4Ny04RmNjbWZxVC1MMndqUjJCcGs5bldKRi1SRWxGX2Vnd1pfUEtFMnVhSTRwdy1QZDJCMEpJaEdYR3cxVVVJaFFQNFowZFpIVldCemJNLWNfNW1RVFUxcHZZNkVaUUR2U2N5Wlg3My11NnhB?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "U.S. Tech Stocks Plunge Amid AI Profit Concerns and Inflation Pressures",
-   "company": "모건스탠리",
-   "press": "KuCoin",
-   "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQbEdYQWZHWTVyaFZ4ZmppVVQzcTRfa2M5RjltX3h6N042SFpKaFF1Xzh5Nml5b0FvOUZPY2V3cEhOaUl2Mlk2dnRmSnFVOUFrb3g5M0RZaUhZWlI1N1k1QnZ0VlN1UnZWOXFyODZyWERTSy1QOEdpX2ZmLS14OEZiLUZMOVVZR0ZFYUotUUpuYnZIeGVsMDFoRW9xMTAxUVd6bkJ4X29R?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Power shortages leave AI chips idle in data centres",
-   "company": "모건스탠리",
-   "press": "ET Datacenters",
-   "url": "https://news.google.com/rss/articles/CBMijgJBVV95cUxOdVRFaDFYTFBTWGlPS3VaZFBuQ2lzTkhjb2NUTjZ3NTNfZHRYb3BhUnNuZEx0WkVCT0ZEZnpIdGlxcUdCblhLVXNmOHc1NDhxY00tMVoxcW9Ya3VKbzVzVkdvSXJIdGQ3TV96LUMzaHV0NDBGNE5pVW9TNFZ4YnJ4QWhFVTNUcVZ3cHNiRzdCMFppWTRSX2lPbDVmT3RLVkdRTDhnWW92ZWt1S21mVjJIeVlLbGdRbkVQdTRWOU8wZDVSbmM2V0FhQlJmeE15UjhKczZXcWJEUmdPNlpYR2pmZVVlSTlYeFZvZFZYd2dmR2dDSDlQZk51SWNielJVRzVnckNBeF8zdl9sZHYxcUHSAdwBQVVfeXFMUEhZeko2TVp4MmczTFZxWE1qRnVMaVlEVm1tQVctSkRxNThIODlFbkppa0xoanVUdmRPeGNYRThrYUNxdVpFMWFlQTFLeTlCeV84b3kxS2UtRUFJMzIyZDZPOUpGWWtLaW10WEpGOEszbDBtWWVDMmdhUGlLX2Z4dHIzRmtEMjlzSEpPeXM3MnVlMXZFSzNuYkVoVFJzVjhYblJ0eHZiZ0htdllhdkVWSE1ZdUZCRjJnenNoTW9kcVRUa2QyNERrYXJILWlyVzJiTGtPYnZTWGl3Yzg3Wg?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Big Tech AI Spending Triggers Fresh Sell-Off Fears on Wall Street",
-   "company": "모건스탠리",
-   "press": "Analytics Insight",
-   "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQTkJpR1JHZXdWX2dFbG9qeFE4SEJodmxIYktLQzBUeWRWZEprZWZKNHg5V3cwdFBXU3VDNVFCTWxMT3g1MjUxMklYTW5XS3JGY1I5UDJvdUpKWE9LRU1ERmVfYVdrMGNPLWZYcDVRMnBFU01uQWNVNFY0SHo0NjUtdkhpcHJpWE0zQ3BVUW5EZkhWakQ1Z1FiTjdsWDk3THNXbmw4MTRybWl4SGJWUS12bTVMTdIBswFBVV95cUxQTkJpR1JHZXdWX2dFbG9qeFE4SEJodmxIYktLQzBUeWRWZEprZWZKNHg5V3cwdFBXU3VDNVFCTWxMT3g1MjUxMklYTW5XS3JGY1I5UDJvdUpKWE9LRU1ERmVfYVdrMGNPLWZYcDVRMnBFU01uQWNVNFY0SHo0NjUtdkhpcHJpWE0zQ3BVUW5EZkhWakQ1Z1FiTjdsWDk3THNXbmw4MTRybWl4SGJWUS12bTVMTQ?oc=5",
-   "reason": "후보 상한(회사별 6건)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "ADP Expands AI Agents and MCP Integrations Across Enterprise Workflows",
-   "company": "BoA",
-   "press": "The National CIO Review",
-   "url": "https://nationalcioreview.com/articles-insights/cio-field-notes/adp-expands-ai-agents-and-mcp-integrations-across-enterprise-workflows/",
-   "reason": "대상 회사가 주제가 아님",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Uber earns 1.5 extra days of yield in Canton blockchain pilot",
-   "company": "HSBC",
-   "press": "Crypto News",
-   "url": "https://crypto.news/uber-hsbc-franklin-templeton-canton-weekend-yield/",
-   "reason": "같은 사건(최근 7일 반영분과 요약 유사)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "HSBC launches first stablecoin for 3.3 million PayMe users in Hong Kong",
-   "company": "HSBC",
-   "press": "Crypto Reporter",
-   "url": "https://www.crypto-reporter.com/news/hsbc-launches-first-stablecoin-for-3-3-million-payme-users-in-hong-kong-132885/",
-   "reason": "같은 사건(본문 유사)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Solana partners with Hong Kong banks to launch $14B HKD stablecoin market gateway.",
    "company": "스탠다드차타드",
    "press": "Pluang",
@@ -1657,14 +938,6 @@
    "company": "BoA",
    "press": "al.com",
    "url": "https://www.al.com/news/2026/10/bank-asks-people-to-please-not-share-passwords-with-ai-agents.html",
-   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Bank of America told customers they are responsible for activity if they hand an AI their password",
-   "company": "BoA",
-   "press": "Morning Overview on MSN",
-   "url": "https://www.msn.com/en-us/money/general/bank-of-america-told-customers-they-are-responsible-for-activity-if-they-hand-an-ai-their-password/ar-AA2glGAt",
    "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1693,14 +966,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Uber tests how tokenization can put idle cash to work with HSBC, Franklin Templeton",
-   "company": "HSBC",
-   "press": "CoinDesk",
-   "url": "https://www.coindesk.com/business/2026/10/31/uber-tests-how-tokenization-can-put-idle-cash-to-work-with-hsbc-franklin-templeton",
-   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Uber Uses HSBC Tokenized Deposits to Add 1.5 Days of Yield",
    "company": "HSBC",
    "press": "TOKENPOST",
@@ -1725,43 +990,11 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "JPMorgan is bullish on Palantir, predicts over 30% rally on strong AI demand",
-   "company": "JP모건",
-   "press": "Stocktwits on MSN",
-   "url": "https://www.msn.com/en-us/money/top-stocks/jpmorgan-is-bullish-on-palantir-predicts-over-30-rally-on-strong-ai-demand/ar-AA2gn1xN",
-   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Artian CEO says bank AI bans follow the algo trading playbook",
-   "company": "JP모건",
-   "press": "Crypto on The Street on MSN",
-   "url": "https://www.msn.com/en-us/news/other/artian-ceo-says-bank-ai-bans-follow-the-algo-trading-playbook/ar-AA2gmDQr",
-   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Mirae Asset Securities joins DTCC tokenization service in US",
    "company": "JP모건",
    "press": "The Korea News Plus",
    "url": "https://www.newsarticleinsiders.com/news/articleView.html?idxno=4728",
    "reason": "같은 사건(최근 7일 반영분과 요약 유사)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "15 million jobs at risk from AI? Goldman Sachs has a timeline involving the recession",
-   "company": "골드만삭스",
-   "press": "NDTV Profit on MSN",
-   "url": "https://www.msn.com/en-in/news/other/15-million-jobs-at-risk-from-ai-goldman-sachs-has-a-timeline-involving-the-recession/ar-AA2gr0m5",
-   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Brookfield’s Connor Teskey on the Real Bottleneck in the AI Buildout",
-   "company": "골드만삭스",
-   "press": "Goldman Sachs",
-   "url": "https://www.goldmansachs.com/insights/goldman-sachs-exchanges/brookfields-connor-teskey-on-the-real-bottleneck-in-the-ai-buildout",
-   "reason": "요약 실패(환각(원문 근거 0%, 기준 55%))",
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
@@ -1781,30 +1014,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "The Great AI Rotation: Goldman Sachs Shows Wall Street's Old Economy Is Finding New Life",
-   "company": "골드만삭스",
-   "press": "The Dark Side Of The Boom",
-   "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNYk5fdWl4MzczWlVUbnlmS3JOdExOb2EzUFI2WnRmdW5ZWUx3Zm5aSGI5a2g3NDFSLWlWc21GQVFUdlZYTnp3YVVpNkF5cF93alBxNGw1NmRka0l3Y2R0dGl0elQzVGktcGNXTHd2VGZIVC1hQXhKRXczLVJqZGFlUnZ4Qlpydw?oc=5",
-   "reason": "구글 링크 해독 제한(차단 방지)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Goldman’s $210bn day of deals driven by AI financing fever",
-   "company": "골드만삭스",
-   "press": "Moneyweb",
-   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQTXIweGMxVG9qYlJEZW01Z2NpNWR6Nmg5R2NKWjNhcWRRckk5NWhibGU4WW5vUWlKZGhuSGFWR3BFbHB0OEVPaW9BU3pTX1BrVjhTNU1pSXp3LVpueWhsTzVaTzVlY3pLNXN4Y1g5R3BiSWRzVFhlWU1yWEhIbG5BT0ZFT0FpbnlWNktLZDEzcmdhaHVWLVA3SjRn?oc=5",
-   "reason": "구글 링크 해독 제한(차단 방지)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Eastern Europe Is Top AI Diversifier for Morgan Stanley’s Psaila",
-   "company": "모건스탠리",
-   "press": "Bloomberg",
-   "url": "https://www.bloomberg.com/news/articles/2026-10-30/eastern-europe-is-top-ai-diversifier-for-morgan-stanley-s-psaila",
-   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Morgan Stanley’s Amy Oldenburg Discusses Tokenization With Felix Stratmann",
    "company": "모건스탠리",
    "press": "TOKENPOST",
@@ -1813,42 +1022,10 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Northland data project struggles to raise funds as credit markets sour on AI debt",
-   "company": "모건스탠리",
-   "press": "The Business Journals",
-   "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPYXd3SElyVV9PZmtUcWJGMHluTkRIbUg2ai1EWVFSek5JaVRRWGx1VzZSa21MTzMtd2dHZ0w1V3o1YkpwbVEwcmVjZ2hLRW1OR0t0bVlwLUN3RVZxWG5fNGJsSmI1U0JkcV9adW1qUVFmSXY2MWJOOXBnZ3RrVUlCSHRUYmVtTGtONkZWMFNxVGlYWWNMTjVCWEFTRktUZVVHQzJaRGdRTE1BNHZrZUE?oc=5",
-   "reason": "구글 링크 해독 제한(차단 방지)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Anthropic IPO Nears as Investors Sell AI Stocks to Buy More AI?",
-   "company": "모건스탠리",
-   "press": "bloomingbit",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBDSUg3NzQ4SXlDTmJuUlZGcEV0Zm1IS1g0WW1OdDB0MXUzWHQ3WERnX05BbjN2YzdmbXZXaUo5YmdGTHBIcGo3T3drUzRlV2NsSWlwdA?oc=5",
-   "reason": "구글 링크 해독 제한(차단 방지)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Nasdaq faces $2 trillion wipeout in October as AI spending fears deepen",
    "company": "모건스탠리",
    "press": "The Korea Times",
    "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOeklheFFKeEF3UnFuTWw4YTBwa29mTkxXdG4zSlFWV0ZxV3l0WlNMRkNUZkRRdlh2NThCVGxpRlB6ZWRfZy1zWjdUaHc5NzVnZ2RfYUdqbkJJcDBzSjd2RlVUR2dDMFpSWWdsVXNGWG01dEd0UVRKMmlkeDRXblJoa0t6dzBhTmMxdHVWRXo5RU1mdEhjWWdrQkEyRk1NVzVlRUV0SVRtOEhrMEd6UnhBRE41RGM0TUpGaVHSAboBQVVfeXFMTnpJYXhRSnhBd1Jxbk1sOGEwcGtvZk5MV3RuM0pRVldGcVd5dFpTTEZDVGZEUXZYdjU4QlRsaUZQemVkX2ctc1o3VGh3OTc1Z2dkX2FHam5CSXAwc0o3dkZVVEdnQzBaUllnbFVzRlhtNXRHdFFUSjJpZHg0V25SaGtLencwYU5jMXR1VkV6OUVNZnRIY1lna0JBMkZNTVc1ZUVFdElUbThIazBHelJ4QURONURjNE1KRmlR?oc=5",
-   "reason": "구글 링크 해독 제한(차단 방지)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "Nigerian-born Engineer Akinbile raises $3.8m for AI startup",
-   "company": "모건스탠리",
-   "press": "The Nation Newspaper",
-   "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNSDJiZFdQcTY4dmJaUmhXUHVRTzhCaUhnYy12YmVRVldNVnFPME9TRFVBRGFRbWd2YnNxYTA4UDB4Umtma0d5WkhUWW1nRWZWUnZoekZqRzVBbVdzM1o2eWMzT3ExU0doR09ucTFvVFNwbE13UjNCdGEwZFVKQUNTeUtwR20xN0p3TDJoZXdrbkdjb0dpYUlrYdIBmAFBVV95cUxNSDJiZFdQcTY4dmJaUmhXUHVRTzhCaUhnYy12YmVRVldNVnFPME9TRFVBRGFRbWd2YnNxYTA4UDB4Umtma0d5WkhUWW1nRWZWUnZoekZqRzVBbVdzM1o2eWMzT3ExU0doR09ucTFvVFNwbE13UjNCdGEwZFVKQUNTeUtwR20xN0p3TDJoZXdrbkdjb0dpYUlrYQ?oc=5",
-   "reason": "구글 링크 해독 제한(차단 방지)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
-   "title": "“From Ripple to Wall Street’s Biggest Banks”: U.S. Accelerates Stablecoin Integration into Mainstream Finance as Regulatory Reforms and Market Participation Expand",
-   "company": "씨티그룹",
-   "press": "https://economy.ac/",
-   "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFA4Wk5DNmZWLTc2QmhMSUlERzJWdWhhT3lPOVVyeGNpeU1hdXFlaEkydWo5cFhOMzduampod3IyV05qTG5TT0xiOHhhZ205c0h1Nk1KbWpYOA?oc=5",
    "reason": "구글 링크 해독 제한(차단 방지)",
    "at": "2026-11-01T00:20:15+09:00"
   },
@@ -1869,14 +1046,6 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
-   "title": "Standard Chartered Says Binance Hack Could Accelerate Shift to DEXs as Crypto Prices Slide",
-   "company": "스탠다드차타드",
-   "press": "CoinCodex",
-   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQOFdJeXQxb2Y1QndnSDlGbTV4RkJUdUhhQ2w3R1JZZnhYTHJvSFpQS1ZOOXYtTEFpczQ4QjlYeVIwUk5ZSnhXSUhkbDh6aHdqQmU4QWpkb1ZZVUJyOE5od21xTzVMUzlRZ25WcTNWMTV4SjRxei1EOFZIVzFQcTRIeVduYmlRV0xaQVBGNUtyWURwdXBpZXBGZ3RDRTRlN3R6a2tDNEd3MnczZVVIX2ZlTWN0UkxZZTRYblpZVFYxSE1BYTNMV2c?oc=5",
-   "reason": "구글 링크 해독 제한(차단 방지)",
-   "at": "2026-11-01T00:20:15+09:00"
-  },
-  {
    "title": "Binance hit by world’s largest crypto hack with $6.3 billion stolen",
    "company": "JP모건",
    "press": "FStech",
@@ -1885,12 +1054,1388 @@
    "at": "2026-11-01T00:20:15+09:00"
   },
   {
+   "title": "An AI label alone no longer wins lenders, JPMorgan says",
+   "company": "JP모건",
+   "press": "CoinDesk",
+   "url": "https://www.coindesk.com/markets/2026/10/27/an-ai-label-alone-no-longer-wins-lenders-jpmorgan-says",
+   "reason": "오래된 기사(4일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "JPMorgan warns the AI trade lacks fuel for a July-style rebound",
+   "company": "JP모건",
+   "press": "Crypto Briefing",
+   "url": "https://cryptobriefing.com/jpmorgan-warns-ai-trade-rebound/",
+   "reason": "오래된 기사(16일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "JPMorgan’s Jamie Dimon Warns Of Rogue AI Agents, Urges Customers To Understand Risks",
+   "company": "JP모건",
+   "press": "Forbes on MSN",
+   "url": "https://www.msn.com/en-us/news/other/jpmorgan-s-jamie-dimon-warns-of-rogue-ai-agents-urges-customers-to-understand-risks/ar-AA2e9CBO",
+   "reason": "오래된 기사(18일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "How JPMorgan Chase Is Building The AI-Powered Bank Of The Future",
+   "company": "JP모건",
+   "press": "Forbes",
+   "url": "https://www.forbes.com/sites/bernardmarr/2026/07/01/how-jpmorgan-chase-is-building-the-ai-powered-bank-of-the-future/",
+   "reason": "오래된 기사(122일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "JPMorgan Chase (JPM) Is Putting Agentic AI To Work In Banking",
+   "company": "JP모건",
+   "press": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/technology/ai/articles/jpmorgan-chase-jpm-putting-agentic-120710580.html",
+   "reason": "오래된 기사(131일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "JPMorgan Blocks Outside AI Agents From Customer Accounts",
+   "company": "JP모건",
+   "press": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/technology/ai/articles/jpmorgan-blocks-outside-ai-agents-214548634.html",
+   "reason": "오래된 기사(15일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "JPMorgan Chase blocks outside AI agents like Muse, Instinct from directly accessing accounts",
+   "company": "JP모건",
+   "press": "CNBC on MSN",
+   "url": "https://www.msn.com/en-us/money/markets/jpmorgan-chase-blocks-outside-ai-agents-like-muse-instinct-from-directly-accessing-accounts/ar-AA2ea296",
+   "reason": "오래된 기사(18일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs sees significant shift in AI labour market",
+   "company": "골드만삭스",
+   "press": "TheStreet on MSN",
+   "url": "https://www.msn.com/en-us/news/money/goldman-sachs-sees-significant-shift-in-ai-labour-market/ar-AA2ggZsM",
+   "reason": "오래된 기사(3일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs CEO David Solomon is optimistic about AI. Most of America disagrees.",
+   "company": "골드만삭스",
+   "press": "NBC News",
+   "url": "https://www.nbcnews.com/business/ceo-interviews/goldman-sachs-ceo-ai-optimism-rcna604322",
+   "reason": "오래된 기사(8일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "The AI trade is splitting into two worlds, Goldman Sachs says",
+   "company": "골드만삭스",
+   "press": "Insider on MSN",
+   "url": "https://www.msn.com/en-us/news/other/the-ai-trade-is-splitting-into-two-worlds-goldman-sachs-says/ar-AA2e71pU",
+   "reason": "오래된 기사(18일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "On Main Street, Goldman Sachs makes a bet on AI",
+   "company": "골드만삭스",
+   "press": "NBC News on MSN",
+   "url": "https://www.msn.com/en-us/news/other/on-main-street-goldman-sachs-makes-a-bet-on-ai/ar-AA2fMS8q",
+   "reason": "오래된 기사(9일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs Says a $7.6 Trillion AI Spending Boom Is Coming. Skip the GPUs, Follow the Money Here",
+   "company": "골드만삭스",
+   "press": "24/7 Wall St",
+   "url": "https://247wallst.com/investing/2026/09/26/goldman-sachs-says-a-7-6-trillion-ai-spending-boom-is-coming-skip-the-gpus-follow-the-money-here/",
+   "reason": "오래된 기사(35일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "The AI trade is driving global markets more than oil, Goldman Sachs says",
+   "company": "골드만삭스",
+   "press": "Markets Insider on MSN",
+   "url": "https://www.msn.com/en-us/news/other/the-ai-trade-is-driving-global-markets-more-than-oil-goldman-sachs-says/ar-AA2g8zdO",
+   "reason": "오래된 기사(4일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "How Goldman Sachs Is Using Agentic AI For Software Engineering At Scale",
+   "company": "골드만삭스",
+   "press": "Forbes",
+   "url": "https://www.forbes.com/sites/bernardmarr/2026/08/06/how-goldman-sachs-is-using-agentic-ai-for-software-engineering-at-scale/",
+   "reason": "오래된 기사(86일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs’ new hires will manage AI agents from day one",
+   "company": "골드만삭스",
+   "press": "Crypto Briefing",
+   "url": "https://cryptobriefing.com/goldman-sachs-new-hires-manage-ai-agents/",
+   "reason": "오래된 기사(23일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs CEO David Solomon on AI’s economic impact: 'There’s very little that we do where we need frontier models'",
+   "company": "골드만삭스",
+   "press": "Fortune on MSN",
+   "url": "https://www.msn.com/en-us/money/general/goldman-sachs-ceo-david-solomon-on-ai-s-economic-impact-there-s-very-little-that-we-do-where-we-need-frontier-models/ar-AA2fV1ae",
+   "reason": "오래된 기사(8일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs puts $500M into small-business AI with four AI labs",
+   "company": "골드만삭스",
+   "press": "The Next Web",
+   "url": "https://thenextweb.com/news/goldman-sachs-frontier-models-small-business-ai-institute-500m",
+   "reason": "오래된 기사(5일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs CEO: Businesses Need Not Rush to Adopt Advanced AI",
+   "company": "골드만삭스",
+   "press": "idnfinancials",
+   "url": "https://www.idnfinancials.com/news/70809/goldman-sachs-ceo-businesses-need-not-rush-to-adopt-advanced-ai",
+   "reason": "오래된 기사(5일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs says these telecom stocks are defensive buys despite AI risk",
+   "company": "골드만삭스",
+   "press": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/markets/stocks/articles/goldman-sachs-says-telecom-stocks-112049567.html",
+   "reason": "오래된 기사(31일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs Predicts AI Infrastructure Spending Could Hit More Than $1 Trillion in 2027. 3 AI Stocks to Buy.",
+   "company": "골드만삭스",
+   "press": "The Motley Fool",
+   "url": "https://www.fool.com/investing/2026/06/14/goldman-sachs-predicts-ai-infrastructure-spending/",
+   "reason": "오래된 기사(139일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Conversations from Goldman Sachs' Communacopia: AI blowback, broadband and Disney's free tier",
+   "company": "골드만삭스",
+   "press": "CNBC",
+   "url": "https://www.cnbc.com/2026/09/09/goldman-sachs-communcacopia-technology-conference-ai.html",
+   "reason": "오래된 기사(52일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Morgan Stanley reiterates Overweight on five AI data center stocks, with 441% TeraWulf upside",
+   "company": "모건스탠리",
+   "press": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/technology/ai/articles/morgan-stanley-reiterates-overweight-five-143803627.html",
+   "reason": "오래된 기사(3일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Morgan Stanley's Mike Wilson on the correction in AI stocks",
+   "company": "모건스탠리",
+   "press": "CNBC",
+   "url": "https://www.cnbc.com/video/2026/10/27/morgan-stanleys-mike-wilson-on-the-correction-in-ai-stocks.html",
+   "reason": "오래된 기사(4일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "A look inside the AI playbook at Morgan Stanley’s wealth division",
+   "company": "모건스탠리",
+   "press": "CIO Dive",
+   "url": "https://www.ciodive.com/news/ai-playbook-morgan-stanley-wealth-division/833824/",
+   "reason": "오래된 기사(5일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Morgan Stanley sees Booking leading the OTA race over Expedia as AI transforms travel",
+   "company": "모건스탠리",
+   "press": "Seeking Alpha",
+   "url": "https://seekingalpha.com/news/4643337-morgan-stanley-sees-booking-leading-ota-race-over-expedia-as-ai-transforms-travel",
+   "reason": "오래된 기사(45일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Morgan Stanley, BofA and JPMorgan Flag Unauthorized AI Agents Inside Customer Accounts",
+   "company": "모건스탠리",
+   "press": "FinanceFeeds",
+   "url": "https://financefeeds.com/morgan-stanley-bofa-and-jpmorgan-flag-unauthorized-ai-agents-inside-customer-accounts/",
+   "reason": "오래된 기사(9일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "AI Agents Are Logging Into Bank Accounts And Banks Can’t Tell",
+   "company": "웰스파고",
+   "press": "Forbes",
+   "url": "https://www.forbes.com/sites/sandycarter/2026/10/23/ai-agents-are-logging-into-bank-accounts-and-banks-cant-tell/",
+   "reason": "오래된 기사(8일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Window of vulnerability: Banks move to restrict AI agent access",
+   "company": "웰스파고",
+   "press": "USA TODAY on MSN",
+   "url": "https://www.msn.com/en-us/money/other/window-of-vulnerability-banks-move-to-restrict-ai-agent-access/ar-AA2fWFBe",
+   "reason": "오래된 기사(8일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Banks are blocking external AI agents. Is this sustainable?",
+   "company": "웰스파고",
+   "press": "American Banker",
+   "url": "https://www.americanbanker.com/news/banks-are-blocking-external-ai-agents-is-this-sustainable",
+   "reason": "오래된 기사(4일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Why Big Banks Are Slamming the Door on AI Agent Access – And What They Want Instead",
+   "company": "웰스파고",
+   "press": "The Financial Brand",
+   "url": "https://thefinancialbrand.com/news/banking-technology/why-big-banks-are-slamming-the-door-on-ai-agent-access-and-what-they-want-instead-200363",
+   "reason": "오래된 기사(3일 전)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Intel stock could fall another 13%, JPMorgan warns as AI boom fails to fix its problems",
+   "company": "JP모건",
+   "press": "Benzinga on MSN",
+   "url": "https://www.msn.com/en-us/money/general/intel-stock-could-fall-another-13-jpmorgan-warns-as-ai-boom-fails-to-fix-its-problems/ar-AA2gpW2X",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "JPMorgan Chase (JPM) Q1 2026 Earnings Call Transcript",
+   "company": "JP모건",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9XTUpobXp3b2QyTkxiY0w2TzBpbWhTbDBkejB1Um8wVC1wS2FuT1dWSWVSbHVobnJtVDRjcG1LMjN5SFNINVI0dGRpOVJ0YjctWnNLTk1uQ2o5VWQ4ZjZGUmVZR0JaRF9XRlQ3dw?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Guarantor: JPMorgan Chase & Co.",
+   "company": "JP모건",
+   "press": "StreetInsider",
+   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPRklfMXl2OEFYenF5dGdnb01ST3pjVnNZWHlRTDRaendtTVhyb3ZRdEJhMDYyWmNaOE0xV3YtZ01fXzF4eDdDc0ZYMEZpdFdtenQ4dTNNaDhORWVJT3A4NENOOU41UTdwcGZKdTNOU1lFMEZidTBjM2JRUWF3RmFhZlRYN3hldWRNckluZ0tJMWRKbGNRT0hTWHJ3?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "QIAGEN N.V. (QIA) Receives AFM Voting Rights Notice on JPMorgan",
+   "company": "JP모건",
+   "press": "TradingView",
+   "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOLTZwOUxtalhnVXpZLWR5MHVsZGgzMXFiZ2Z3Mlo0QzVoSVhFMWpqalNkUy1vQ2V2Wmh5Q1RwSHNHNFBJQ3hfZllEWnM5czZiZGtJYWFiUEl6QWU5T3NVNzl1WHFtV3VNZWk5V3YtMF9hTXJpSmx2LVFMaTdkLU1lR2JxU0tWZHQyR0xMN19UNF9Helg1MlBhM083OEl6UlJsOVFFR195VTB6ZEhNQ1B1WUcxU19sYVhvTGVMclc2VQ?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "META Stock Price Forecast: JPMorgan Raises Price Target to $940, Sees Over 50% Upside",
+   "company": "JP모건",
+   "press": "TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOX3N0YmhNSG95MzcyZDJJS1J3QzREb3JLakVEbmlGWFppWEo5UFFKcVV6d3FrdS1KNUpmakozRVpoN2ZzQklyS19TZnoyMm1DSUEwRXdJQmRoUi1TOVBXOVdWRkhPQjRXU1ZseG1XT0l1MTBTakFmSXZTODhwM0FlWUMyOUZQd0FER05QaU83YlEtYlFiRHpfczItdTZ0VkNnS3lmMGI4VTV1bXBDQVdhU1M5RGNmYkRqVWxQVVd1eGE2Slp4RHk5MF8zWWc?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Guarantor: JPMorgan Chase & Co.",
+   "company": "JP모건",
+   "press": "StreetInsider",
+   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQaE40T1ZXZHB1TnpKN0FUbHRITVg1WERYRF9fdEl4OHlyTF9FMEtTVXJ5RzU2VjdReDd0bHN0WU1IcUx1QzVxZDF6MUo2aUFyWjJSY0d2RS04cmFZUXBZOE12WW5BdkZoQmZiRHpqeUJzczhLMnBXcjVkMElvZWVyX2lLd2g1dW4xb2VGYmsxOVhPNjliNU8tb09R?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "BNY Mellon stock: Ripple custody expands as JPMorgan lifts target",
+   "company": "JP모건",
+   "press": "ad-hoc-news.de",
+   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOM3FITm1QdEtWazFhSmRTUl92MXY3Yzdobi1JS1JtYlA0ZHJmOThQbW9LX2dRTHVXQ3lHMmRGN2w4eVZJY3FUQlpTZmxPTEZpNVYyMnEwOUp4U3lTZ3FhWWpRZnRUWEF6Q0NlV3JiSENZMm1QTUlKZ29iZUQzYWttYlJFWHdiTFlDSUhNMjdtMjZLamh0SjU3VUZleUh5TV91SEYycWV3a2ZINk4xTWR0elcta1BKTlgyWkxpX1gzaGtaUGVzNnc?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Evotec stock: JPMorgan position rises to 6.54% before results",
+   "company": "JP모건",
+   "press": "ad-hoc-news.de",
+   "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNVW9Od085TENoYXZBN2Rnblo0dVZCMnVwTkJhdVNLYmtJbmJHU3liNm9WdllNa2NpOWl2QmxHdWxkNWtvRUtQdlFqTGY2YUtpbEFuSm1GYVp5dklaODkxLVQydC1TNHNubXlibU9TRXZuNmVVclNHbXJTM2JmelVGNnFlQmFoeFlxYWxyRVNkNGlzZVJCOENEbF9jYUpJSzVpVWFGaE1OQmVxaVN5VjA4X0p0Y1N6S3IwNkdrMTdPQQ?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Nasdaq slides as tech earnings deepen doubts over AI spending returns",
+   "company": "JP모건",
+   "press": "National Herald",
+   "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPRXpjYzBETUhzSGNpZUswN2ZkQUxuWFJwZWFFVXpMSnFqUTJ4NXVuaGRCM0diN19pV01mRkoxTVlRTE5KbnVmcTdvRG5mODAyQllGSDlXYWRreXBiZmVRcFd3SFBHQjVMc0MyQmxYZ1lHUXZSYXA5WThRSEUwazBkRkM5bVFYdHNGUXdWTnpxdTRhWEhjQVJkOFpaZmctVFBETTJZSWFSQW94VUVqUjl4NmhGVnN5TTZQcVp2TllMNXBBUdIBwgFBVV95cUxPRXpjYzBETUhzSGNpZUswN2ZkQUxuWFJwZWFFVXpMSnFqUTJ4NXVuaGRCM0diN19pV01mRkoxTVlRTE5KbnVmcTdvRG5mODAyQllGSDlXYWRreXBiZmVRcFd3SFBHQjVMc0MyQmxYZ1lHUXZSYXA5WThRSEUwazBkRkM5bVFYdHNGUXdWTnpxdTRhWEhjQVJkOFpaZmctVFBETTJZSWFSQW94VUVqUjl4NmhGVnN5TTZQcVp2TllMNXBBUQ?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Why Goldman Sachs Still Calls Alphabet a Top AI Pick Despite the Earnings Miss",
+   "company": "골드만삭스",
+   "press": "24/7 Wall St.",
+   "url": "https://247wallst.com/investing/2026/10/30/why-goldman-sachs-still-calls-alphabet-a-top-ai-pick-despite-the-earnings-miss/",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "GS flags interest rates and AI disruption as risks to long-term equity demand",
+   "company": "골드만삭스",
+   "press": "Yahoo Finance",
+   "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNRExleWhCR2I5V0JOMzIzb3llUlBRUHJGQTBTVklhRFZDUEJZSGlfM3NIbms1RW5QU2pzemhuR3dtOWd1QXRKX3V2d1NZcnRlSF9vcW5UTlFaeUQyR0ZSdXBheENkYjdRUWR0LXl2RWtlQ2JWTnNRRkNNUWdRS1p5djA3cGdsYkhmWmVUbktIMkJ4aVFwSEE?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs CEO David Solomon says the best advice he ever got came from his grandmother",
+   "company": "골드만삭스",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQR2tCellYUm42WEJDVjktMVJaVFdmMnlVZnpiQmlLZUhyWnVtWnJ2ZzB2U2tpS041YWNSQ3R5V044ZEFjcXd1dXZSamVPc1NiblJ4TEYzdDhlSDdLQWZvQnlGYjdDcHpFc1hxSEhYeHRCem5mODdCZFBncWRKTGo2elNhYWtUS2R6RHRmMDZRSW5ZUTVRX2RhZTl3?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Wall Street's Earnings Boom Is Losing Speed: The Great AI Catch-Down Has Begun",
+   "company": "골드만삭스",
+   "press": "The Dark Side Of The Boom",
+   "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNT3JtYWdwZ3FJWmFRRWtaNURnTjlsUHd0MXVhNTRMUGEyQ1h4RV9sa3JpU3ZfbFVrcEp4VHBubzV4d09IbF9HOGMxZXVEZTA3UHpFUmRlWkhRWnh4MzBVdWxBT29LUXVrcUxlSTM0SXlGdTlTaFd5UlJGS21YdHJSMU9CMm1EN28?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bullish Options Trades Slow amid AI Uncertainty",
+   "company": "골드만삭스",
+   "press": "Goldman Sachs",
+   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOaFJrTkFnd2ZHNXhpM3FGOHRKNXZhWURFZjRPaG84LTRRTzdhLVQ0d08yY1BnWDVjc09RbUpYNHF2eVNkSzQxMldOZkUzYnlEdzhpWHctaVpfOUJZRDdnZGxVcFFqRGRObDA3bU1TN1JnWU4yR1VPLVpiVjREd0duRWx3S2dYNXBWS2FyS1pBUUQxQ1hiM1pTcWlSWko1N1lMdGNJRkVLNA?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Google Drops 13% in Worst Post-Earnings Performance Ever, but History Shows 84.6% Win Rate Buying After 8% Drop",
+   "company": "골드만삭스",
+   "press": "TradingKey",
+   "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOb0NQUXhfaDlmV1RZNkFyZVoyaW9QaVVOakJ1VEt5cVcwS1lwRkI1ZzRXNDBaWWpobnhsYVZsMERLTm5LZmNGTmFXRkFZMDZqVmhlSlpkUTdTRF9hVm96MGRaeEpfUXpEdXR6TlZkN3U3dUNfQzVBVlVpWktqcThtVzRrb2NaeXhKVks0UE1iTW82eFpDbUU1czhIYzBrUUlKdUNQSlZ6Y3NqQVo3bEdtRU1XN2x5Zm9GcFNiaFdGWVJfU1o4dkdWUG9xNE5nVG8?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Toast to present at Goldman Sachs Communacopia conference",
+   "company": "골드만삭스",
+   "press": "scanx.trade",
+   "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOTy1ramJZUkNMWnA2ODNIVXMwU2RlS05jVDJDc092OGFveDF6UXZkZzktR0lfUHJDR041eU1TbkhBRk80UmVKd3dTX2JSSHBHOC1ad0lfUUFkUGR6Rml6eW0tREFvd0oxY3Q5YnhJbkN2bkx6MThwMzA1YVUxeVlSYXp2VlIzSkVuT1NpNTRZV09MZEFoM3dpUmV1V3RHeUxveUlSQVdQZldYaGRw?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs stock faces a more cautious AI options backdrop",
+   "company": "골드만삭스",
+   "press": "ad-hoc-news.de",
+   "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPX3BZS0szSVdETl9tbnl0VnJDZVlMZ1hTU1JjaVZhemdOcFVOc3U3SnpnVnBWckw5blEwejV0N0c5WjcyYXJwNnhFckpfX3V5QWRiVk1JOUpmT0dCMzBFZjZVR3pKVEp0NlYwTnZKM2tpamJBakVydUtKcGN6UnJuaVAwUkFxY3AyUV95TmN1M1F3eW9fZDZEYno0ejZBR2dqLWdBOV9mVkRscFV3bHdXd1VsMWVFZnVkYzg0X0xSZUZqZw?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman Sachs Lifts Infineon Stake as Chipmaker Broadens AI and Robotics Reach",
+   "company": "골드만삭스",
+   "press": "ad-hoc-news.de",
+   "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQSW93WTlqa0paRVVTTEtRMkVGNWRad2o4MkkxY1F3NG54RlRnYkJjdUloUVJuVHd5S3A3dUJIQlBMVG53cTlMTFhBV3gyZ0pYcHRBQ0dwSi12dmdZLXVzOHBCczFJUWx3MGhDTEtuWUpUZnM3Nk4zTFl5dmF6TzlINXpaeEdndWNpTGwyZlY1R2NtV1poTE03ekRDU210dFJFLXNhOE52M0t2SnlRTTdaWmx5ZmhDbVUwY1RBdUdkTHVsM1I5UGFyMDdWWnZCeHRSV1BnRTl6U3ZwbWFsbUgzN0d1aEE?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Kling AI's 19.8 Billion Yuan Capital Increase Closes; Middle Eastern Capital Exits at the Last Minute as Kingdee and MetaX Step In",
+   "company": "골드만삭스",
+   "press": "BigGo Finance",
+   "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5qVkFzOGIxV0dkQ3hLbzBtMnoya0ozRzMzdWp6NmY1QmdLQl9ZdXgzYnRVZF9VWVcxYnFNTmswVGRMbHBIVE01Qmo0TlEtUXJjektMYlJYcFNET2VfLTN0Qi1VTTdxUFRxcmphTWxDbkdCVnI2dkE?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "K+S stock: Goldman position and Q3 date shape the week",
+   "company": "골드만삭스",
+   "press": "ad-hoc-news.de",
+   "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPLW1hVGR4c2ZPRmlVRjRkdzVOY1ROQktlcHVHV2V0NWxJcGRpdUhsQXkxdGFpYVVWSFAweVBkWnZXRnFHRE52cVBwOU1KaWo4Z1hJbC1HUUlPNUJOR1ZGOURqcXpIUUlkancyamRSUTFnWEliTVlCQXJqelg0SzBpZzFVcjhRMkZUMWM5aUlyVUlyQWF0YVc4QXdVM3dtSGlCd3lwcU56U3FXVXBrc2sxZDVpc2kxWGs?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Intel CEO reveals a PC problem as Goldman cuts stock target",
+   "company": "골드만삭스",
+   "press": "TheStreet",
+   "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBTaEd2dXdjUUpMUlliUlNRcWxJd19PbmZqNnNwQVZoM05Pel9GOTIzUGxSc3ZHalVUVUJpTUphUk1uVGNJcTRoc2liMXBCZ0R0bldEYXVyMTVUQ2FhaXJETnN6ekRtWENsRXVRZEk1YkVJXzAyS09yNjZHRkFXUQ?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Morgan Stanley revisits Oracle stock price target after investor day",
+   "company": "모건스탠리",
+   "press": "TheStreet on MSN",
+   "url": "https://www.msn.com/en-us/news/money/morgan-stanley-revisits-oracle-stock-price-target-after-investor-day/ar-AA2gtjYM",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "BofA Hires Senior Power Banker Manheimer From Morgan Stanley",
+   "company": "모건스탠리",
+   "press": "Mint",
+   "url": "https://www.livemint.com/companies/bofa-hires-senior-power-banker-manheimer-from-morgan-stanley-11793385102995.html",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "US Stock Market today: S&P 500, Nasdaq and Dow Jones forecast after AI selloff",
+   "company": "모건스탠리",
+   "press": "Beinsure",
+   "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQeXA0ZWpQd2xLWUc2THhjN3RJWVF1NnZZV0gwYmJKbFNsTWZHVm5BUWZNTmRRZVF1RjJWbk0zSXpwTDhmbldmdWhXRXRfTjVOVmhiYkk0czN1VjFzdDlUZkVLaFRGR1NFRWdiMmIycmRFY2FRRDJuQ3ZtdlNsZnpBZmZleTFjUGQwZ0RZVWxqX2t4UQ?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Meta Platforms (META) Q1 2026 Earnings Call Transcript",
+   "company": "모건스탠리",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBfdWNPWHdMQnVxRGcwLVBnNVhkU3drbi1nZE5sOFA4aU9ENFEyNVFBNGJXM2VPVFB3NVdMZVh2UDVMX01iV3YxNEdyaGgtVUNzMVk4c29NUnJZRkVsejF1MDlJYlk?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Morgan Stanley Adds 1,302 Bitcoin (BTC) to MSBT for Over $100 Million",
+   "company": "모건스탠리",
+   "press": "TOKENPOST",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9ELWJyc3lyTWpmc1dvOTRGWFktQ0c5eFJCcl9FcXdjSkVkRmcxdW93WUxjTWdiWHgwdXpaSlp3d29NTFZyN0JSVHBkWE5DR3p3NTVIeVlpVHl6dw?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Should Earnings Upgrades Require Action From Morgan Stanley Stock Investors?",
+   "company": "모건스탠리",
+   "press": "Simply Wall St",
+   "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNN2taUDJ0eWM0QzJfd1pkanJlaW91d28zSUtMdFVXRnNQMThGT3VoZElET3VTUE1vR3FHSVgxSEc1VUpSeHg4ZlhyblZUdVVzRDJFZG5RTkdvTDF2ZlRBUmRmU05lVnRJR1NpeGFPZTctZ0MyS2taVjAzYWppYklscXNyVVYwcndVOXF6M09aSG5TU0VZSVk2SWE4V1dGczMtcF9LT3VjZm1kOHoxNElSNnhDbzdtMXNXUVN2WmtnMkVlcW15aVF1OVZzeE1IdHBqOGF0dFVJdDVEZ9IB3wFBVV95cUxQeTE2OEtrMG5zY3IwQ2Jqb3BfYnB6eEdlX05HaHJzNk9oa2FTZ2lzRTJoRmNoX2tHWVlHWG1MMGFIc3FBRVVsak5BXzBmbXNhM05lQmhtS2pCNlFYOGJjLWJiai1nZ19rS1NraVdPYVpoQlZkclJMWU84RXBwdW1uclNPTDdaZ05WUWxIaFd0RHd5Z3ZZQ0J4TmxFd3ZSSTk2c2ZjdkdtNFdMWlhiMFFxUDdjck85alNEWi1pcldXWGJGQkpSbmQ1N05PU3R4eHBoOWlGQnBmZkU4dmd6WHRB?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Morgan Stanley Launches MSAMP5 Auto-Callable Jump Notes Maturing December 4, 2031",
+   "company": "모건스탠리",
+   "press": "Kalkine Media",
+   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNM1AyMjRXOVRyWmV5ZldGdGJSLWJMZ0R4MkdBVjJaeGltRHBZWUg2MWtHVzBiWm42cEtIbUdVbkY0RjhfSXduMDFrTWhvclZ4djJlTXhRUDhlSXd2RlFwaHVYVV9tNnpHbllqWnd4OHRrXzJWT3ptNVVCUDVkcEpZT3U2cTRJX29zeE5MZEw3dXZfWlh1cDFJSEpDaU1hZHFWQW9pZHg5cVQ3Y3BaN0FEbGFfRk4yTXM4U1V4Nm9sWTFvUnIyOEE?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "McKesson stock: Morgan Stanley raises target to USD 1,207",
+   "company": "모건스탠리",
+   "press": "ad-hoc-news.de",
+   "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNam9CLVJVbWRES0lpQS1MOGk3bVRadTJreUlpejJjOTJSNWpEVjdjbVdLaUs4SDlRY3JDM3FlZkJKdEZqTGNSZzJ1c1hlMkwwYmxWQjRBRzFnYTNrcGRfRWpFMVlEei11U080cXdEb2NCNF9aZUxLdnEzX0NPTWlHcTZ0Q2VhRE45YVh3WFAzNjJ6ZUI1Y1NFUUJ0d0NJcURISU9BYkRlUFU5VXc5TFdMaFB1bm1ENl9SMHlj?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Nasdaq Slides to Its Worst Day Since June as Chip Stocks Lose 7.2% in One Session",
+   "company": "모건스탠리",
+   "press": "NiftyTrader",
+   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNc3ZVZWk3Rkc2ZG5Scm1WT0syb0UtQl9WZnFCWGF3UTZPam44VU1QSDNXQ01QZVlreG1xaENHRGZuMUdFUURyeVA1MV9hbzZrNFpEVDRkS3FSZE5KNVZiNzIxOWsxZXBwN3kzWGQ3Wi1Cbk1BWFVfTkRQTFQxTDVId2trcw?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Morgan Stanley buys 1,302 BTC worth $100M, rais...",
+   "company": "모건스탠리",
+   "press": "Pluang",
+   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPVXFBVkluSXp1TzViMWVYWGtyN2xGc2t3UzVSZUhnZnlfcWtUcVVjZXZubEc3OWNyUWthX2JMdkpLVzEtSlRhZ0g4c2NLNXFwblBGOXZYU21vdDBvcmVuX1RkR0ZVdjI1VjZWdjJQOHpESDBfcHc3X0V2NUNUUFVOeVJNVDEwSUtJT0tZaV93NHkyeWQ5WUdLTnFMTjZOUQ?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Visa (V) Q2 2026 Earnings Call Transcript",
+   "company": "모건스탠리",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1kV3l1MFFXUnNua0ZwS3VnRUhkSUVLakRZVnBzZ0RRWTJ5aWVXcnZLZV9jcmJybU4zNExaV3ZhUC03eFZ2TnZydWlzXy1kS1pGTGhVTkhhSmlXd1BCU1g0?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Alphabet's Buyback Freeze Exposes the Bill Behind Its Cloud Boom",
+   "company": "모건스탠리",
+   "press": "ad-hoc-news.de",
+   "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxONDBHNnRSVG1nbXlNNHl3SGtmVTNlYnlWZTJZNGlSTWI5by1pQ2p3TG15MktzdHh6a09yU1p3SUVpQlZCLVF6WDNHS0dONWkxSjYyVjdtSjJVaWdaTjU4RmRlQ3ExRnZrUVlHNFRkcmNQeWFfMko1YUU1MDNTXzJLQndld0dURDRpS2p5VVNsdDB3dGMwajBIY3hIckZvOVNCRWJZLV8yS09nNDVrdG5LN3VWYUJwYWhYWWFfS2hPNVZwNUR6Y3NSZjNnazBranJsaGc?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "S&P Global (SPGI) Q1 2026 Earnings Call Transcript",
+   "company": "모건스탠리",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE03UVJBajJQc1dsU2ZndkJZclE2V0htMTFEVllXME5YOWJmMmlaa1ozMm1NZERDa0t6VFhWLUdObUZHeEw3ODdsajg0WXZjb0FBR21RcGVMQXRKRGtXa0hYYWt5MHRWZw?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Cognizant Technology Solutions (CTSH) Q1 2026 Earnings Call Transcript",
+   "company": "모건스탠리",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQWHlqa2RmbGx2NzVJQ0VKVXVYX0JUd3VXZUhGR1E0dHplZWo4bktKWDhsa0h0Yi14QW1jby1SWDdYWTJhRGdBUFVKeVdwYXhLbmNlR0NPU2NMa3BWWW13ZmxaV1BuQnZwcm50bkJJQUNyWjB3Sm0tbFNyRFQ5U3dXakNn?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "PayPal Holdings (PYPL) Q1 2026 Earnings Call Transcript",
+   "company": "모건스탠리",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB6a0pzWDdmVUIySGNCQjloLXpWNWtpN2tVcWstZjhYUEFWTEFSQ09TNXdkSjVYeWd6ZlROaVp2LUNCbVdKbWMyNW5ZeGt0VWlCUEdfczNHNThIUDgyUk1uck05alZxY3NJR2ZGQkZn?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "DTCC Launches Tokenization Service on Canton Network as Canton Strategic Holdings Plans Tokenized CNTN Shares",
+   "company": "모건스탠리",
+   "press": "Cryptonews.net",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE55aHpaN0hLdFkxNFcwZzJMaGpmUWlkWldYY0Q2TXhwcFpRNzkyQUp5YUJhcjNjNjYwZUttazBQRU95OGtiZXJxbXpSMUJJVTBycUtTbnRIQWZsMXh5?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Why did US stock market crash? $2 trillion AI selloff, explained simply",
+   "company": "모건스탠리",
+   "press": "Geo News",
+   "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNZEFzQTNKN3QweGFGSHlfZG9nY3lsUmZjNVRKMjRVcnNWVHlzS0VxYUROUlR4X1czMTByZ0VrSUpPdl9GNGFGd2J2S2VQaUU3cTdocl9XNWFNeG5JcWtrVmdBR0hBc0lfNDJ6bHdPc0hmWWpXQ3B1d0pFRnhPQm9fTmlwbUlsNDlSemtPc0ZMMkVNN0U1bEhOS3JNV2xkUnQwSXJJ?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Stop sharing your passwords with AI agents, Bank of America warns customers",
+   "company": "BoA",
+   "press": "ZDNET on MSN",
+   "url": "https://www.msn.com/en-us/news/other/stop-sharing-your-passwords-with-ai-agents-bank-of-america-warns-customers/ar-AA2go3Kt",
+   "reason": "이미 반영된 기사와 같은 사건(제목)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America Warns Against Sharing Logins With AI Agents",
+   "company": "BoA",
+   "press": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/technology/ai/articles/bank-america-warns-against-sharing-200300299.html",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Tech Bonds Are 'Diamonds in the Rough': Bank of America's Hartnett Says",
+   "company": "BoA",
+   "press": "Yahoo Finance",
+   "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPSHBPS21kMG5wSDZoWm9NY2R2SUZBU1FObUJrRXpTMm1XZlBoX0xyM01QR3BucnZ2UHE2QUVwaW8yWGZzNTFsTGVYd09QNGhWTmhCYkQ2a21XdXFMNWZEVzlGZFJKcU5LRG1ORkYyT1RFTHpJQzl6cnBORzM5dVhHQlZqNFN2cUduVXdKaGJMbWtZZnd6M043Slk5VWU?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America says buy these stocks ahead of earnings before it's too late",
+   "company": "BoA",
+   "press": "CNBC",
+   "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPT2t3VWFnYmJwN3ZtbVlRXzFLLXQ0TEhMUEhZaGVEUUwydzg5TkU3S2pWM05PWkhKcXUzUFZTOS1LMGpFMndMSTYxM1VaU243V2lLQVF0WnBTMzFRWDVUNTNoTmZBSnpfYkJUTzRWcGlneWpHeVBXQlZxXzZCQkYyS2RlZ3ZPN1E?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Wall Street wipes $1 trillion from the stock market as tech’s $828 billion AI spending spree sparks market fears",
+   "company": "BoA",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1WaEdkUjE4cFJlX1hGUk9qODZTalAyR0hmci1pdXpQaWQzeU1xbmdqSFZBUXdpWXY4VGVMV3BQaFNEcFFOQWpsUk5YenhBLTJDVGl1dUNHOHZIM3F4UTlKVmEyV0dmZm9rcjM4WHhvdDN1dFlU?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America Research Sees Memory Markets Tightening in 2027",
+   "company": "BoA",
+   "press": "www.tokenpost.com",
+   "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBhNjRBc0lxUWhqejJ2MmFkNGhYamNDYV8xTHhHX19Wd2tLM1UtaTBGNTAyZVYwdjRHTWRFLU1pTXBhR0tPcTdYdFRZRWllejhjQ0JPMk5Qb1pXQQ?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "ServiceNow CFO says AI disruption to enterprise software narrative is false",
+   "company": "BoA",
+   "press": "TradingView",
+   "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPZXc4Mnpmd1VzNlp0aXVlQmJ0c0Jqc3JDaHpTaVYzSmp0alVrQjNtTXpSbUhHZTJOQWNERWt2aEpLWWp5MEpsZ1kzaDVPckIydDZiRURHYWMwWFBvX0JvbzNWU3F1MW5NelZkX1FWOXQ0TVFTOUZGOTVfMnJBVXU5Zncyc3F6bzdtaXhBXzZIV3F4S3FraE45ZTctWjNOYy1aR08xR1BJYU5DQlFUTGdxbTJoVGRDWmdpTXFhdFJMZGdHZWFvdE1vOFcybFc0OWFHcGZQNA?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "This Week's Top Five Stories in the Data Centre Industry",
+   "company": "BoA",
+   "press": "Data Centre Magazine",
+   "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPWUxTRXhEZVd5NFlxQktPZUJ6dVo0TjgwN3JfQ2pLNDQyUngxMFpCSzVzQmo2WUZqRk1aRE05SW91Z1RnWDdJVmR1Sl80ZkljQm1jV2lvWE9fcmZVSEtwZ1htUmVuMEtNVGdtdHpQd2pVZ1FuSlhnNzlwV210bkJubGN1SHNkaGJsekJyLVJVVzBRMkItcUNndV8zT194WENkc0Q1NXg4VDB6RGs?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America (BAC) Enters New States As It Joins $30 Trillion Tokenization Push",
+   "company": "BoA",
+   "press": "Yahoo Finance",
+   "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOR1N2SlZOMXo3N2gxOWFlMXdHRldhZmI0YkI1NG12VjNzTW1sdGhWWlZLUmpBTGdsd3gtLWpSeEg1NGFKOWJBTDgtWHh3My1iWC1Ed0pyMHFHcktTOU1yX2VKdXhCV1ZsLWRWT29Kc2JrVzZ0TTAzREtFaW1JNmRGYjBhc2tMSENyOTd5T25hSWZ6Y0RUdXdLTlJ1cw?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank Of America (BAC) Joins $30 Trillion Asset Tokenization Initiative",
+   "company": "BoA",
+   "press": "Simply Wall St",
+   "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOZHlQUmxPWGRqbVBRVmJDbURxTVRQLUUyVlFYSjRjY3RrQ2pPSEFIQWRQeF9aS29YdVBtZ0xDM0hscTBnRmdMTGV4UEYwQVlmck9RUWJJUFVORmtiME1yTlFqU0FOaHZzZXhKZ013eEYwcFFsYTVranI3YXN5dkM3anVSbUJBSGZPS2t2VWFuaHZVZy1WUlVMNExlaFZ1cWMxX3VFSFlaRDNrbDF6Ui1BUlQ0VlRaRzRVLUpXRHhUQ1B5bHRQMlpV0gHMAUFVX3lxTE5yek9UanFvQk56emNDWkdqWXd5NjFLY2JYSmxoZzRNMzhZemxPYldsXzZrR0tFZTBMMEo0WDZMYlpTNDlPTWhLVjdvZkp3NjBURHdLOXlBZDVwa1JxSFlUZkMyUjZjM0FLZ0loQUxHRHo5WEMtODF6QWxaSjJFOEFSNTVpMnlkZFFkM1FyS0R1ZG80TU9OY2VZdC1KcHBTSk5FSTJpdmRSZEdaTlRiV0JNZkZPMTN2ZHJpZ3FCRFNJWHpJZ2YyQUR6NG9JbA?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "AI Buildout Hits a Funding Wall: OpenAI's Fundraising Target Halved, Anthropic May Face Junk-Grade Rating",
+   "company": "BoA",
+   "press": "BigGo Finance",
+   "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBleGFGZmV6b1EwUFNkRkhXc3dVNkdrbk5jMVBCTFlFV19udXBOWWVBbWVqYUgtaWVNMjhVMTdmTTkxMlJ6SU52cTByV19xQ1FHNmwtQkRtazdINHlrNFlaZ1lFWU9LYmt4eUo0LWl3Zjhja3RBb3c?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of New York (BNY) (BNY) Q1 2026 Earnings Call Transcript",
+   "company": "BoA",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9SeEFxZ1ROcUh2a282V2s3VFZmUkpYeU1VaFRTOXZtMFFWeXF0VS1QOE1YMm5hbEJYQlYzTU55SWg4dHBPbGlZamJnNF8xanJMSHhrZ0NwMk9lU08tT1pFTjVGZ20wbU8xNUY5VTBjRzFxQ3RjNW5jUWpJQVpYMzQ?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Tech Bonds Face Selloff, Offering a Good Allocation Opportunity",
+   "company": "BoA",
+   "press": "NAI500",
+   "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPaVRJS2o2eWw2OE1tc3lZSFVpcS1ZOF9RM0NLaDdObDRZSUxROGd5cDdjTGhDLVY0Y2FPUjkzUFZfVDd5R21VZDNyX1pGMmlCOGlwN1ZJUnlOaVJVMmQ2Y3lCclRCaHVJQ1kxcXQtdmlWbTZoQVE4Z2lEckhkX19rTFBVcUN3NWhtR25nNDQ5VzRGZFhNXzR2V0dGZw?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America Agrees to $2 Million Settlement Over Debit and ATM Disputes",
+   "company": "BoA",
+   "press": "TOKENPOST",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE54a3VTdzBocDY1RTBxR1BLMGJ4TmtYSTFLNjJWRXlBZUVzdWNSMmZMOFpXYkZ1bkFJai15UGRvYUF6SkFHRkh0dFU2NmhMTG03WGFoeW5VdHZPcXM?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America (BAC) Q1 2026 Earnings Call Transcript",
+   "company": "BoA",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBfSzdoYkFIR3BleDlDVWxETEdtLWtiWmZkWWpWMGVsejhFelFJWGR3SGhPeXZsOHhYenR6UUVOekREN1NoQzE5bFVkb3k4MndYODRmekU2YnFGUy1VOFd6d09GMC1CVzgzRENUSXI0ME1MMWk0?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Fired Adviser Sues Bank of America Over Arbitration Policy",
+   "company": "BoA",
+   "press": "TOKENPOST",
+   "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBWTGY5Z1ptSmtFMmJ2Qi1uUDlDaXpIcTBuNEROZjBGNkpqUE1oeUhsZ0l3TGxkeWVRUU5tRVQteDZvTW51UjVFcVp5dUZoR1ZrMHF0cWVoVmhsdjQ?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Danaher (DHR) Q1 2026 Earnings Call Transcript",
+   "company": "BoA",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE01ZG5rRHNkNms4aUJ0Slc0LWxpMEVnMVRFR19tNVJEbVBkb21MZ29nYndwaWlmN0k5b0hzT25TYU5oaThULXhZcTdJX3BFWEZQMkxmVG1MYnlYa1lKQnd2dFNkRQ?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America sued over mandatory arbitration for employee disputes",
+   "company": "BoA",
+   "press": "ETHRWorld.com",
+   "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNOGxZWVVMU00zQ3lQc1BmUEVkWllZWUlITTBwblhyUEhLRDY4M0pJelJMS094bmpmU1kzX0tvVy1aeEhDSE5QcHF5TGFZd3NEb3VPaDBOTEcxWF81LXBsLTk2SmE5RGlQbkpuR0tKX1d4NzczekJ4a0dGdmJkY0IySldxeE9xZGNDZVVNR184TlVVbl9LaEN5ZW1ZUkNkMVN6a2xRM09sNWYzOHFLb1NsT3ZtbFdzcjFSaGI5UG5DWE5hb3JxdW1TOFJfa0l5RGdFZUc2ZGdoWU5aQdIB2gFBVV95cUxNOGxZWVVMU00zQ3lQc1BmUEVkWllZWUlITTBwblhyUEhLRDY4M0pJelJMS094bmpmU1kzX0tvVy1aeEhDSE5QcHF5TGFZd3NEb3VPaDBOTEcxWF81LXBsLTk2SmE5RGlQbkpuR0tKX1d4NzczekJ4a0dGdmJkY0IySldxeE9xZGNDZVVNR184TlVVbl9LaEN5ZW1ZUkNkMVN6a2xRM09sNWYzOHFLb1NsT3ZtbFdzcjFSaGI5UG5DWE5hb3JxdW1TOFJfa0l5RGdFZUc2ZGdoWU5aQQ?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Taxation With Representation: Kirkland, Gibson Dunn, Cravath",
+   "company": "BoA",
+   "press": "Law360",
+   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOcDVPZFNaUVNSWmZZR2dEOWJVT3ZTT2hmc3BBWjgyaENvYmRLN3hDSC1Id3lKQ1g3ZTRaTXNaRUk5MDZkaVJNemluWWdCNzFxckEyV1JXaWU4M3VNMlNIMDExNEFiTVRsZV9YYVZXRjZEUk51RGkzUC1kbGlfWTlHWW1iX1BaQjBlOENfWkhzVktNVWtNbmRuN2VPY3FURUJadm9XQmZQMNIBVkFVX3lxTE5LSGQyUmVIUWQ3UGJfa25LUkthWHh6Q2tlVDZYbzhSbEx0RjhYMnI2OU1ybmItcTdQRmFOaVFCNEhYRmd6VkdLVHNvMnNuSzliTVZNakxn?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Micron Technology stock: Bank of America sees supply visibility beyond 2030",
+   "company": "BoA",
+   "press": "ad-hoc-news.de",
+   "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOcGJrbWJDbjlTUXVhRVZTZTNHcTJ6cVFkdjBqUU1HeHFVVHJGTVVWemEtOUFVUjY1SFRPU1FsRUlyZFlHdWFfMU5MMjRjbFNSMDFscUdCYjl5dWNCY1RPQkJFeG1pNGs3bzhvck4tUnRVTlZnR2VCX3pyME93U3BLQzNtV2pVeEZXYS1uS0RtRmhKVld5SkRGM3hUSzlzZEtHbkN0UHFvX1ZVd2Q5M0RWQW5UUVJyQWZGelNreEFkWG5aRTFtV2Y5VDFjejRJUU1nRm1n?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "CrowdStrike stock faces AI security test after law-firm threat report",
+   "company": "BoA",
+   "press": "ad-hoc-news.de",
+   "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQcE9KbWtBYUc0VHVjMjlCaFJxX09RSzZTOTktZGktdEN2akQ1SVduVV9POC16Wmg5SFpEcjRRbVFuV3d5RlBMdUZTc3daWkQwanowRFRpWnNkcWU0UW1SUWVqX1FVS0tTVFBLSkNENFdJejRWZWw5bXYwU1JrelJtRjI4NmF2LXFFU1pkUVNNR2owdEVtN2o5RmFFdHN3bDJKTC1MdlVCM044WWNjVDJHR0Z1eDhUeTNBcjBVR3l2WFNiZEh6NnZ1S0xIYjk?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Global Payments Stock Jumps As Analysts Hike Targets",
+   "company": "BoA",
+   "press": "StocksToTrade",
+   "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBuNHlfR3RMaGEzU0N0RVdnUjRDNFZ2N2JaZjBKaXlubEZncS1TMG5RbWplaVBTMmtnaWVfU2NfTVNSeHFlOE9EZ0o2cGR4c01kdlBMZWhhcWdPZ2I0Tk5sS3Bqc09CRlBBYUtEbi00eFIwQ2NPVDdYbVVZaks1QQ?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Tech Stocks See Worst Day Since June, Pressuring Broader Market",
+   "company": "BoA",
+   "press": "The New York Times",
+   "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1lZFpybG4tcVZURUg4djdncV81ck9kdS12V2Q5bW1VN0RyOEV2VkhQUVluLWd4ZkFiSmh6RzJuWFNZT2VOYm5CZ0pNRHZrQUhNNzlMdHBhZE9qUlY1bmJRVGxMOWRoLTRpaGpTelJwYzI1Q1E5Z3c3eUxhUzk?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "S&P 500, Nasdaq End Third Straight Week Lower As Investors Move Away From Tech, AI — AMZN, INTC, LLY, RBLX In Focus",
+   "company": "BoA",
+   "press": "TradingView",
+   "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxQSVpGMjlLV0Z4aTBzZ25OaEJvV2NJNW1RcUNDWkxOTTFubzBTX2NHLWgzc2xUWFZfS01DWHB5MkstaThLM2dFUmpITzViSERocjEwOGhvNnd0Um95RUh1dG9pRUxCUVcyNW5rRFgxcTVwLUtZX2VvRUhUVFk5RGZlQkE2Sk5lNldoYzFLWjhEQXZQSEVCOGhyOG93RmpOUVotbUJTZ185eFdBVVhPZmV2RUpaU1piWnRwZDNaWDVKZWVVMTE5MjZFNTRkZloxczN4c3FkUm0wR0JiNkJ6emtQYXNDZTBYbzI2MEVqVjNxUFRGTkRHU2QzMUJzakNzUQ?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Arista Networks (ANET) Q1 2026 Earnings Call Transcript",
+   "company": "BoA",
+   "press": "Fortune",
+   "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBnd0lra00wYUNPUjJiSnNuMThXcnpUTnFybDZqRHh2a2FySHU2S0tKdm81MXlRbEJaWEZPVFF0eXJ5N3Qzak5ZNF9mQ0tHd05ObEstRE85Nm4xQW13LUp1OS1zNmdCek85R0l6YXB3?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "The 5 most interesting analyst questions from Alphabet’s Q3 earnings call",
+   "company": "BoA",
+   "press": "StockStory",
+   "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNdjdLcndvd05Bd0lUVGc2OXlfVk1oNkJ6UTZZQTRMal8wSkEwN2VpRHdxQ1hFUDZtb0tES3hxYlJDM2RSMElrUnEtR0NZenoxaXJEWnNvUzZ2WmZlQWJJazFhem9YYU9BUE9WNW1NLW54WmVFU3JHZzFTWV9qUWJHd2dHTk9GWWNrckEzOEtIUS1EV0s1aGRndjF5NzNQdmJGRDZfREYxZEFUU05zY042ck55eHgzQ3dYQlBpRjlzRjg3TjU3a21tVDBDajNCSWNoNWpV?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Global Payments Stock Climbs As Analysts Bet On Worldpay Upside",
+   "company": "BoA",
+   "press": "StocksToTrade",
+   "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE95WDY2VW1YOEpHaUNKZDFiNTQ0cHVtcVh0RXc4Sm1YQkxIMEVBVkdoRE5Nc25hMWxyN2RpZ211M0xWQnpSdjlWeHk1XzNjS3VsUHFnUUZkbDZoSUJKREJ4emVxbGI3VGhNSkUySUtRVW5XbktTSzRXVnVvNmk3dw?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "AAPL Price Prediction: Momentum Flatlines at Pivot as Open Interest Surges 11.6% and BofA Holds $370 Target",
+   "company": "BoA",
+   "press": "Blockchain News",
+   "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNM3JhWlU0dXk5TFA2ZUdjZmZZTkxpc2Ryek8tUzk0SkdkUXB6VEpjRHpRMzVlc0FHS0ZuM1NuZnZXSDFVb3R5QnpuWGg3b1BvR0g3M3VWTlVGWkY4RGdhdXdxclJURE9vLXRHSmJUS0QwQ3JxUWQzdUFqS29Xbl84ZlhMNXkxWUNhT3lOWW1GQl9QU0t5bGNsOEZnYlZJbVVOZ2lLaA?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America flags undervalued stocks ahead of earnings season",
+   "company": "BoA",
+   "press": "Traders Union",
+   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQYkM4blJoa1M1YXVHbFFFREE4bGJyRlZ3cklTdHZBQUh6cUdfTENQMXhVNElvbURhb3oxSXlZSUMwaWV5MWIwR0hVSGo4bk85U1JpdzdHUThreU9Yc2lZc21ER1lRcXU3WHpKSm40RjRXYzIwUGFUa01qRktMdWJCcDM3M2hvdEhqWG9OSHd5YVM1RmFlclE5d1RR?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America Handing $2,000,000 to Customers Whose Unauthorized Debit Card and ATM Disputes Were Denied",
+   "company": "BoA",
+   "press": "The Daily Hodl",
+   "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOSkozSWZ6cmlqd1NTMm1aem5EYW5jX0ZmcUpmeUx4SjFULV9Va2J6OHQ1LXhSV2trN3hfT1NBa0VXM0FEYlk1bzVZOG1SOU8wZVkxRjZYbUtITnAxSF9wTDFnWFc3U0dnZjBPSFlGaTdadDFyT1Q4UzZHakdRakVrdjB5QUhsTmxVZmFxU01TSkVyWE9feTV1cU5UQjlRNUIyRmtCWU1PM01QeTdEcm9hNEpWR1JoMjN5bmNiZ1BMUUtnbHhraXNWMmFPeU5wNHYzZElfd1QtLVPSAdgBQVVfeXFMTkpKM0lmenJpandTUzJtWnpuRGFuY19GZnFKZnlMeEoxVC1fVWtiejh0NS14Uldrazd4X09TQWtFVzNBRGJZNW81WThtUjlPMGVZMUY2WG1LSE5wMUhfcEwxZ1hXN1NHZ2YwT0hZRmk3WnQxck9UOFM2R2pHUWpFa3YweUFIbE5sVWZhcVNNU0pFclhPX3k1dXFOVEI5UTVCMkZrQllNTzNNUHk3RHJvYTRKVkdSaDIzeW5jYmdQTFFLZ2x4a2lzVjJhT3lOcDR2M2RJX3dULS1T?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Appeals court skeptical of class action against Bank of America over pandemic fees",
+   "company": "BoA",
+   "press": "NewsBreak: Local News & Alerts",
+   "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPanptUElqMUw1d2hDOXVCTlItZ21CdVR1aFNnUXdUa3IyUTliNG1ZTzR6Y2tvN2NteEVXODV6b2dHNXVnN0o0MU94UnRQa2Eyc1ZrWkFsU2Q2WU1ZMWxVTW8yc21ZZ1czT3pzeEd0QXpwdmE4QUpEQ3o3eXVzOUNhM01HdXBaS3NzZEFIRWRHSGlhNmtCeDNCM0JfZjA2X0pua1dMX2FVNzI4VWRMdmw1bHlBbU94cjJiYW9uc0xhRVh4WW1FcVZQMFpMMTZnZzRqeW1JbEsxR1pnMlNCSVNpMDh4SQ?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "What the Big Banks' Third-Quarter Reports Say About Credit Card Borrowers",
+   "company": "씨티그룹",
+   "press": "The Globe and Mail",
+   "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQaTRBVWMxYm9NVlR2TkF0Y2Fqd2ZxdkpCMWk4WnZ2ck5IaDhYU2RkTnlFUG9PaWVQMFhZXzFfaVNVd1BuR1JCNlJwWC1OUXBCRUF0T0FEeVpmenNCVHVGT25tQThpNVN4aVhZTklhMDBQUzlicm1FazVyQkdYcDVoWHpWV1pIaENybU94V1JXeHA0TFhSMm11bkp3NTFzSktSdEhubHZmMkpBMWtHMi1NVEcwYUJRZWVubGVEY0o3cFc1ZVRVY1RmWnNDYzAxSms5R00zMFJGeERERWtvQmxVUVpISlRlN1l3MXc?oc=5",
+   "reason": "관련 주제어 없음",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Opay Shares Fail to Trade After Raising $304 Million in US IPO",
+   "company": "씨티그룹",
+   "press": "Bloomberg.com",
+   "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOckpvUHNoSGV0ZF9kZjVGR0FjSlk3QnVvdURnX0ZoeVF6ZlpqeUFwV2pranJMSHpJR1prODhnWXdMR3FaNEwtT1VWNWs4SExacGl6SS1IX1d0b0UyTmc2ZjhvbHpmVUNVSjVhSnE4YUU3UlREUDdBLWpEU1FmV2JqOHNkNVhKMFk2dXFaTXB0UzRkaTNDaVpqRUVzWkhycldMclZ5UHBnM0RVV0JjLU1vcnh3?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Citigroup Announces 2.75-Year Dow Jones-Linked Securities Maturing August 2029",
+   "company": "씨티그룹",
+   "press": "Kalkine Media",
+   "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPQUF5ejNrSEdEcFZLRXJhSjBoemtWMzVaeUpaQmE3aHpKaU1ER0hBNkdHWWJzZUFWWmkwbXVUWG8xVDdDb0dvbFJRLVg2NlR6cTZMTlV5VHcyd2JIczNpZ196elNzU2MyMHhJbENTd1Q2dzJ6VDNFcjIzZjdHMjFnRG9USnFVMUJxWnNGNW9wZjlOMlhBSDBZc0Zab0NPUkszS1l0RnI4dEZLS3EyeUhuMW5yMkY4SDhhZEd2alRTMnYtUQ?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Uber Completes Blockchain Treasury Pilot With HSBC, Franklin Templeton",
+   "company": "HSBC",
+   "press": "TOKENPOST",
+   "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFA3T2o5Mmg0ci1YaEFSaG1RQkFMUGJEX2ZMZWp0NHpCaS0wX2YwWFgwbWxDSDV0N2lDYUpNdlU4NktSalRQZTJzcldiZjl0VHBzZjczV1EwT1A?oc=5",
+   "reason": "이미 반영된 기사와 같은 사건(제목)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Uber joins HSBC, Franklin Templeton in blockchain investing test",
+   "company": "HSBC",
+   "press": "BusinessLine",
+   "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNcXF6VFluQ1pwWmdLWjZFa2stdjI2eFQyT2Fnak82ZVdZeUxFcnoxZWRsY2c3QzZWUUktZTdlTUxxdmhsc3pkbVkyTkZJSi1mSTN3UldNVGJjR09DQXFiY2ZFOXJsTzRNdGxLNG9JaUNPQXQ4YVNmX0N2bGRjREIycGdsOGJPWmVZSnBqSXl3OUVCd091TVBoZWg0SVQ3YXJVRjBQOUllRmlRandMQklMRGE2d2hLQ2VvT05HakRjRU5ramw3MTJ0WEJLZG44Z0tLekJ0ZdIB2wFBVV95cUxNZmtfQlQyYzNCN3pDdUFEYWtjTTRDWmhxRlRLaGU3WlkxUm91NUZVOXpDUFREV1pycHRFZFV0NnYyZks5cF9za0x0WVFzWmRGZlJMbWczLWNORGtKR0h1QUZnaXY3OUNVMXhadzhxTFJ1aEFvaXdxV2dCTU8wSVVHVVgwVXVfRFQ5dFd6TlJ0UFJqOXhIZGh4TVM0SnNabXlXUFV6T210eUVzamVHcENHZHNnd3ZVTThhUGlDSi10d2xxS0xCejRVSVlfWm9CdVBnT09pVTBYbkNqMHc?oc=5",
+   "reason": "이미 반영된 기사와 같은 사건(제목)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "DBS named world's best digital bank by Global Finance, first Asia-based winner",
+   "company": "DBS",
+   "press": "AsiaOne",
+   "url": "https://www.asiaone.com/money/dbs-world-best-digital-bank-global-finance",
+   "reason": "이미 반영된 기사와 같은 사건(제목)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Stocktwits Fintech Pulse: US Fintech Weekly Briefing & Market Drivers",
+   "company": "웰스파고",
+   "press": "TradingView",
+   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNRDRUREtwMUhvQlMyZVI5bkxIWnJ4Wjd3OVpFUTdKby1VSEctbUthMnppME9HVG9LNDRGSWFYZUJXdVljWEpEaG1BbjVmR0duamU2Yk9FRGZnaW4zLVp6Nk54RS1wT1ZTTVc1NjhyTFZFSndxVnZuODZ2MVpCVE80VkVFLWY1QmdxcUk0TkVhU2VTZjNnTjVUZVg0dzhhQU5lR1VZVkQ3ZTlUR05jeFI3VDhmREJ5TGx1b3ljOEd1Ny1HNkx1Rmc?oc=5",
+   "reason": "차단 출처(주가·시황 사이트)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Datadog Stock Fell Nearly 12% as AI Spending Fears Hit Cloud Stocks. Its Earnings Estimates Didn’t Move",
+   "company": "웰스파고",
+   "press": "TIKR.com",
+   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQWGNzLVVZVzBPNmgwTUY5c2R4ekc3RENPN245TjJMTDdyLWFCamhFT3ZLbWJpVEx1TmZaN2hrZXowX2F6bzY3NmQ3WVZrN0stcVgwemphS0RYdEtTdjY2SW1KTDdHMDZBSEtWRlVPMG1Rb2JUOUlsbkVVZHNPQjJNdjFOUHhOOXphcnBrc3NSenhKYlJyTVR2ZXJBVHFwb2N6d2RQTGJUUDBsNV9Oczh3Z1ZScVZrbVRwZjY2V0dmUlRKZ3VNUWc?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "5 must-read analyst questions from Everforth’s Q3 earnings call",
+   "company": "웰스파고",
+   "press": "StockStory",
+   "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNQlQwX185MTh3dFFaTFdLaUhWS1VtRHA5NGNKTEI0d0dIUlY2dXZ4a1lJcU53X1A1YXFNdEd3WGl5c1c2Z0RobUVKbFZsV1VRQ0t0UjRGRFF2b05RNnZNaldHQ3p3dnVhSmhMUDR0a3M4Nk94VUdFMHFDbEJnRGExd3YwQmN3UjBqWGpyLUt3eWY4VVJsX1lEM1JYb1JSSXQtc1pEZ2NGOXh3Q3E3OHpQdzlBQXpqcjFMV3R1T3FXbjdKQQ?oc=5",
+   "reason": "시황·종목 분석성 제목",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Uber earns 1.5 extra days of yield in Canton blockchain pilot",
+   "company": "스탠다드차타드",
+   "press": "Crypto News",
+   "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE80aG9KN3ZyazJva1dkZHpLNkU5RG83bTM5LXZSQl9HdkRIOUpRcm8xanc0Y29ncW1nOVBRZnRHMkl5TERBN3BtYnUxTUJsUnZOYW5uVjMzTjJiWk9SYzIyU3NPUkpxZEt2UTNrZnp6LUsySzJCZ3RJYXNR?oc=5",
+   "reason": "비슷한 제목(대표: Uber earns 1.5 extra days of yield in Ca)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "HSBC launches first stablecoin for 3.3 million PayMe users in Hong Kong",
+   "company": "스탠다드차타드",
+   "press": "Crypto Reporter",
+   "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPd2ZrTExINTBOWkhRUmE0MTlVMWQyekhiUXJmaUsxQ0ZTRm1kOU9VZUs1eDNtMnh5ZUxxMU00MlBhN2gtWTFHczBQdl9xcndYczlObkhnbTB2dnlaM0VCNHBqQUNsTUMycmRvN0V4YXl0OWVnVDI2NS0xNlZmY2JQdWlBbFRRckxiZ0ZTcDdqRzFfbWkzbjJweEZrWTdNcUxTd1NnRU9vNUtnUTM1ZWszVENrQkJDVFU?oc=5",
+   "reason": "비슷한 제목(대표: HSBC launches first stablecoin for 3.3 m)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "The real question we should all be asking about AI",
+   "company": "골드만삭스",
+   "press": "CNN",
+   "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9qZ3JlNnk1blNjRnBVN0NIQWcxS19rMWhsSFFOenQxT0JQVzUtTldqU0RhSTdHSEVoZkpqLWtzZDdPazdtbTJxeVVpR0VGS2hIZkItbzN2cFFHMFJCUEd2M2VGMzFZa0w0M3QtRg?oc=5",
+   "reason": "비슷한 제목(대표: The real question we should all be askin)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Nigerian-born Engineer Akinbile raises $3.8m for AI startup",
+   "company": "모건스탠리",
+   "press": "The Nation Newspaper",
+   "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNSDJiZFdQcTY4dmJaUmhXUHVRTzhCaUhnYy12YmVRVldNVnFPME9TRFVBRGFRbWd2YnNxYTA4UDB4Umtma0d5WkhUWW1nRWZWUnZoekZqRzVBbVdzM1o2eWMzT3ExU0doR09ucTFvVFNwbE13UjNCdGEwZFVKQUNTeUtwR20xN0p3TDJoZXdrbkdjb0dpYUlrYdIBmAFBVV95cUxNSDJiZFdQcTY4dmJaUmhXUHVRTzhCaUhnYy12YmVRVldNVnFPME9TRFVBRGFRbWd2YnNxYTA4UDB4Umtma0d5WkhUWW1nRWZWUnZoekZqRzVBbVdzM1o2eWMzT3ExU0doR09ucTFvVFNwbE13UjNCdGEwZFVKQUNTeUtwR20xN0p3TDJoZXdrbkdjb0dpYUlrYQ?oc=5",
+   "reason": "비슷한 제목(대표: Nigerian-Born Engineer Akinbile Raises $)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Nigerian-born engineer raises $3.8m for AI startup after seven rejections",
+   "company": "모건스탠리",
+   "press": "Vanguard News",
+   "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQVHhIaE9XcW4yQ05KblBxNU9JSGphTWx5Y2RpTVJCcEhXNHNpUUZKNzNiVWNEQmRwTDluSVZHWGVydUFxU0psR0FHR2RfOEp2dzJSaElDUW9IMWRqWEt3SC1CaEIxdFVtdXdNYW9ZNnhSdHdabm8weEUtTUhKMjEwSGpPSkJoLTRFZF93dGRkSlRzQ2txbThrYlFXY2dDWHcxVHVXajFyd0U4OVE2Q0HSAbMBQVVfeXFMT1lqbzFlSWxYVmRqUU1vOEdCdFh6SndmZEJDNmdsUEk5c2h3cS1yeC1rT01MdVB4NDdDSVVUc3JPWG9WUVNDSno0M3k5eGpERjZLR0ZxZDA1bzhvNUdhakVjaVRQQ3BjRm9RcHlXZno5ZnBGT0l2N0lPaEpHelZzNU04c1FUUWtaaV94M2pLNC1NTHVoaDhaeHJSbW12UTQ2TzFWc3M2dFJkeEw1aU9iTU95LTQ?oc=5",
+   "reason": "비슷한 제목(대표: Nigerian-Born Engineer Akinbile Raises $)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "AI predicts NASCAR Martinsville race winner, top-10 with Cup Series title at stake",
+   "company": "BoA",
+   "press": "Daily Express US",
+   "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQVTVBZjFDa2FYRkdIT1c2RG5hYUdpLUt6S1pEOERUV0V1RzRhUlNubDFuT2Z5QVR2UjlnYm0ydUwxdm1FVnpNOC04ZWdxaVFlV0lScHlOU3BZbF9uSG9hMk1YZ2k2b1lPSnQyZkVMVThOS0VJVjdjNVhvVmlvaFhGY2J6UWNlRUhUaDBUZmxQczBnTHdTNDdGUDBpUUbSAZwBQVVfeXFMUFU1QWYxQ2thWEZHSE9XNkRuYWFHaS1LektaRDhEVFdFdUc0YVJTbmwxbk9meUFUdlI5Z2JtMnVMMXZtRVZ6TTgtOGVncWlRZVdJUnB5TlNwWWxfbkhvYTJNWGdpNm9ZT0p0MmZFTFU4TktFSVY3YzVYb1Zpb2hYRmNielFjZUVIVGgwVGZsUHMwZ0x3UzQ3RlAwaVFG?oc=5",
+   "reason": "비슷한 제목(대표: AI predicts NASCAR Martinsville race win)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "“From Ripple to Wall Street’s Biggest Banks”: U.S. Accelerates Stablecoin Integration into Mainstream Finance as Regulatory Reforms and Market Participation Expand",
+   "company": "씨티그룹",
+   "press": "https://economy.ac/",
+   "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFA4Wk5DNmZWLTc2QmhMSUlERzJWdWhhT3lPOVVyeGNpeU1hdXFlaEkydWo5cFhOMzduampod3IyV05qTG5TT0xiOHhhZ205c0h1Nk1KbWpYOA?oc=5",
+   "reason": "비슷한 제목(대표: “From Ripple to Wall Street’s Biggest Ba)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "No longer living off Britney Spears: Kevin Federline faces a $117,000 bank lawsuit as his child support payments come to an end",
+   "company": "BoA",
+   "press": "MARCA",
+   "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxOYm52OGczak9rTS1fUFlFTlAwLXJBd3JmTTR1X1pORXNoRmJEOEVUZnpUODhvTk9BRnVURUF0RFFTYlBRcV85UzlmZUFOd09fR2dMS2g3MEdTcnVuREJlYWh3UWkxTjYwRkJ2bjVxTWZ4V0hRcklQeEdCN01FYXFxTk1qaUZKYlBhTWd5bEhPTWZmT21lbXlONW5sZlVTQTdCek5VdDRGdmV0dVZfU0RxREVaaENNLTZ4MVlabGdvLWplSWk3cE9hQlJ6WDJkSXc3TFVWaVZhZEhjZ3RibUIwUUd4NUF4UnNtZmdGYWFCQUxFaVl6VUZIa295V3paWWt0OHJLTGZrQXB6YzhqMW96SdIBkAJBVV95cUxOdldFX21HeWU0SVYwWk9XS1RqOTQ5dGZxUVJveEtxamVNRFJmdjVHTUlmVHdLb1dGLXdUTWpOVjduWk10UWlvOEZlb3NFRUloQkxpRFhLcE5ieG5jck4xaTRrN3FRM043bWRvX3dsOUJxSXFiaW9ycG9vRS1lRlFpM25SNDNVVmctY1llcmhVb0czU1ZBQnZ4Q0Q1XzY3UHhwYjhhdlFzZEt2VmtnaXBvZW4ycm1IWWdtOEM1Vk15b1pmWmE4b29HR2ozc045RzdSZWpBaUgybjFHeGNubm1MS1hRazVhVEduVTBKX1BkVmJYb1hyMlJZS2laelh1STk0T2FNN3VFUVhpS1FuTmFRdA?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "GPN Rises As Global Payments Scores Wave Of Upgrades",
+   "company": "BoA",
+   "press": "StocksToTrade",
+   "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE40OV9wdnBSWkNsRDFMTDFiYTdaa29NQ3drSS1BN3R2OEdLU2FyR3l1N1F6eVZfUm9zR0t3NDM1VHlHZHNCaHZsV2dWN3dmWHhyQ2tZUUlVcmM5QjByZFI3OWpiQmxMWXZlZ3R5bVpoRmN1Y29OcUljcA?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Uber Joins Financial Giants HSBC and Franklin Templeton in Blockchain Investment Push",
+   "company": "HSBC",
+   "press": "Crypto Economy",
+   "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQcUdYS1hhRG1lZlVwUk9zbUQ3WGJlc3k3cG91QUpVMENsSF9JRVZMUmNlN0RIYjBFTU4xUXB1Sm03cnhWOWNjRlNLbHllakhTNktLVVQxbUxseFBQZ25paWptQ0dYX1R6ZXJGTFEwTm1KMjVWaDVoY0JsYmVEWGhMTzNYMHIzWm5oYXpab0xrTEduMGZVU1VlOV8wZG1fZFZ1dDFKUmNITGZ0dV9Ha0tDOHNxRQ?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Mirae Asset Securities joins DTCC tokenization service in US",
+   "company": "JP모건",
+   "press": "The Korea News Plus",
+   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5EU2pIQ2JOVmppdHZMdWVjRUFYWUV4Mm9LLWNkQ3VmV1JzUmFXSWpKc3ZMdzUxUzloOEhQdFVLamJKZ2w3cWo5X3VrQWVZdEpzMHpHc21BQlF5d1ZtNWpYWU9hRHVWTW54X0ZQY2M0SmcwbEhSLWlr?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "The real question we should all be asking about AI",
+   "company": "JP모건",
+   "press": "Egypt Independent",
+   "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNeldLUHI2MlRnNVg5MnYzY2wxUUstMHZ2d1VHb2lEcUpocTZmXy1GcnpHZ3FRa3BLVUhXclBRdUhWeE9QbjNrN1VaQ3pHV1dadkgtWk5pZ0FhQVlWNU95X1NHVjllV2dUanVKbEFLZFdOMVpzWjh0bGVDd2w4S2pQUVB3WFlnTTVtUE1mcw?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "What's fuelling the Nasdaq crash? AI spending fears, Intel rout and Anthropic debt concerns drive selloff",
+   "company": "JP모건",
+   "press": "Moneycontrol.com",
+   "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPaGpVa3dMaF9FY1lWVGFoUW1Cekh1Q29MNlhzSW9HWE1JQWxrVG5FZHpFcWNVdmxwWGJUbWR1eEJTQlBmOWtObk45SkNXUHJBdDVjbGdQc2kzbEJDSGVHUmVaUk1MU25QQWlMRFYySXpSTTBLTHJVVHZTSjF1UjFpZTBubjZyc0xJal81MG1xVzl0UEJzNnFSS0tROHhQTGt4QmtwTFB0clVGeXdETkJuX090a2lsa20tRHFkdnU3cEdJbF9wNzFGemZoN1RoYWFyRC1aQ2gzUVVBV1BjMzVMYXNGTk9kcXVT0gHuAUFVX3lxTE5helZHeWZLWlh4QmNoWEZpWUVwSnRpM1RQdGVfT1E5ZUhKZ0R6Y29xd24xUDBtMms3Z0ZYRVlOa0o0Q2Z5ZEFET3M5MUNPLXZpNjFlNXVMeGgzUEFpeXVBWEVUdDFyUkVwQWk5VVg5c1JScUdVTWh4UUtoeEtSWkRhS2I5WFRzNGkwRWtialFOWVdFdlZTOTN3NU9ham5IcnVWMTFwOU1ma0Y1OE9mc1hhZ1RWUm1ZSk5hWXFEV0ZEQWl3MkZ4RDN2Zk5QWjhGRnFnclAxUkhlNGowWk9wQy1iYVBjNjJtcUhoeFJfVkE?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Anthropic's $1.5T IPO valuation faces risks from massive AI spending commitments, Tessera CEO warns",
+   "company": "JP모건",
+   "press": "Crypto Briefing",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5ncUlLc1Z5Ui1IUFdJMnhZcFVBUkNONWtxWU9XMGhDSHFHZnZWbVQycVJFYXlkemptUWJlY3VHa29SMVQtUndqTlpfT2JBUDRHZEprcXVWb2Q3MHREVVFQcmhqbGxaSFU3?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "US Banks Lending Commitments Signal Confidence in AI Capex Cycle Sustainability, KBW Says",
+   "company": "골드만삭스",
+   "press": "EnergyNow.com",
+   "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOcGI5RDlxdjhmNUxIRGJlQWRwb0dCcWhiMVcwQ1Q3MG8ydkpEYmh1V05Xc2l1ZWFGaDBwbzhDOWF6bmlwZFA5RFRiNTZRWFVjYmJDT0UzeXp2QjRRT3ozUHRhaHVyNkNKOWU2WEZPZzZHdVBlaElfUFY5Sklxa0pyVjd0UHJ6Z1phV0c2T1pTeXlqYkVtSUplZndleU8zand6QWxHQlY3V1pLSWFwYXQtQ1NGXzBOM2o5OTE4?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Dong Baozhen Says Ai Bubble Burst as STAR 50 Loses $480 Billion",
+   "company": "골드만삭스",
+   "press": "شبكة تواصل الإخبارية",
+   "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9kM0txUjg3Nlg1Q1M5QnUySkFhelJTNEVHVzFvMFQtRjh3RmRPTkJ5dkNpd3hlckRObkJaQWtjWm1venpoQUxDR1NNM2huM1gyOTE4?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Goldman’s $210bn day of deals driven by AI financing fever",
+   "company": "골드만삭스",
+   "press": "Moneyweb",
+   "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQTXIweGMxVG9qYlJEZW01Z2NpNWR6Nmg5R2NKWjNhcWRRckk5NWhibGU4WW5vUWlKZGhuSGFWR3BFbHB0OEVPaW9BU3pTX1BrVjhTNU1pSXp3LVpueWhsTzVaTzVlY3pLNXN4Y1g5R3BiSWRzVFhlWU1yWEhIbG5BT0ZFT0FpbnlWNktLZDEzcmdhaHVWLVA3SjRn?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "The AI Credit Shock Is Spreading: The New Lines of Defence",
+   "company": "골드만삭스",
+   "press": "The Dark Side Of The Boom",
+   "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQejJyeHBIaldXQkJyQjI5Q2toQVZ3VDAyUEhDRWh2c1IxQzVoZUhNQlc1ZHRSak9WMnExN3F6akUtcFQyZm9rWDdxX2VOeE9CM2J0VXpsbHpNWkRuWUxlS2JBNE9ZZmtnSHN2d0lpd2FVNGVWTG9BSVAyTjNsTEI1dS1B?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "AI Robots May Need 10 Mn Hours Of Data To Reach Production Stage: Report",
+   "company": "골드만삭스",
+   "press": "BW Businessworld",
+   "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOcVBaX3JTV3JCZmJlZG91bE1sNVdBRVp3eWo3YUpueUxaU1BWTXhDUnVMMVZYSUU2c2tFOEt5azNZUG9xdkZ5Y09NQXhJRE84dHhxM2FOMnZjNDVCQkFmWW41bTA0S1B4LW1TTzFvanoyU0lFRFVPRkVETXhzMDh5empYVjN4Mllabkw5ZVZyNFBLVkptZHl6V1RTLUwycU1oUzY0SzZsallvVWxjejVFcTVZVldPdw?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Is this the first clear evidence of AI’s impact on the labour market?",
+   "company": "골드만삭스",
+   "press": "Financial Times",
+   "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNR2tua2N2em9IbjlkVHVMaHU4OG5aMmdUbktsenRyN2RNVUo1dHduaU45Z2o0ek5BRXZBUllMLVVjWTQxR1RwcWNXeWFIRG5rRGpOWGtjR09VS2dxVXJnX1U2M3FQVVk2Tm9nc0FBMFA5T3NLM0FNbzV6em1GdGdWWmo3NV8?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Businesses outside tech are seeing 'zero financial payoff' from AI, Apollo economist says",
+   "company": "골드만삭스",
+   "press": "The Cool Down",
+   "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOb0lEMlN2akJpRUZDQTAyQy12ektXdFNiV2lPQWxQWlUtSU1CYXRrNDNhRTl2blhJX1N4MFBVMC1BR1VLRkE1eEVRNTdPZDY4STdtOXRDbG1CQkFid0RYaDZkQTc3TFZjWUtJYjBBVDltLUJQMTZtYXhjSmtRNWJjdVpNRXpJdWwxUTVhbkpUdDE?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Intel, Reddit and AI-Linked Stocks Slide as Nasdaq Records Biggest Fall Since June",
+   "company": "골드만삭스",
+   "press": "CXO Digitalpulse",
+   "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQSXdodEpHdm5mMDFVZ1pLdng3LW1SZE1jMXR6Wmh1WGg3ZGl5ZEdiaXhIbjZLa1dFUVF2b3RTVFZnSDBpYk92c3BXaWk2NEVFYlJxOUp4eWowaTNsbTdfSjF5N2pOSWhHZ1JzaGdQYUUtUzBjT1JPY1JDTEhDU3N0YnpDeHRDTlpOdk5VNUlLNTU0R1prZFBONVd0aTd4NUt1SjRlbU45Wk1hMzFLNkVMcEx1aWM?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "All That Glitters Is Not Gold: Goldman Sachs Finds Dark Side Of AI Boom",
+   "company": "골드만삭스",
+   "press": "The Daily Caller",
+   "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNY1dYS2trWFhMUFVXUTNxMXRvb1Bqa1JpRThFZ0lwaWJJcVdJZjBuT2tsUmh5andqcGJMZmJvLXRNM1d2NVRzRENNdUwxSjFONVJGRnFCWVVLR3pYQVRFMzdKTnNBWDJsUGMyclRVQ3o2WmtCNnlsM2FLbWdOcDBsbThVRjBhNUc2akhsbVc4MHJoMm95LTB4NlY3OTlubFVtS0s4bmVnc2htRUVlS2NZem1RdDM4Y2pWY2c?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "As the AI model race heats up, who will come out on top?",
+   "company": "골드만삭스",
+   "press": "Invezz",
+   "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOdGpiajVnRXF1R0pocmlWWUVqaHhtWXpYR25zUlRNU2Jvb1JNSDRSNXg0VGxKQ1hjdzhGZUd0UDdrSmNQaWlVcUlFR1RHME9ZQTUzemdxLXVOR3lOQVJPODF0ZG9PQ0tRSUR4RjMyYkl3Y0s2UEVtUWlXaEtpLUxRSGo1blh1UUM2U05nRnVIV1VsZ2s5?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "BRICS+ payments system feasible, common currency faces hurdles, report says",
+   "company": "골드만삭스",
+   "press": "Reuters",
+   "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNQTIzMFliU29saHlKNTlPWlozYXFoRlNkWHdmckJ6cXhQcDNZSGp2WkxyTjVzTVdWd0FJOUpiY0hSalk4QS13X0kydWVTOUxfbExoNEUtVVlvOEhvbm83dHU0ZkY3SVlfSmhRYU1EVVd5WUxzb01scjR2U0pJWGFoOW80b196Smp2NnhqVFVSNGF1c1VJeDZjUzRFdXFPeGtBNTZyeWR5dVZRZVd2V1RWeUJSUDRUTjZKM01UV1ZR?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "JP Morgan and Goldman Sachs Back Crypto as Midterms Approach",
+   "company": "골드만삭스",
+   "press": "Coinfomania",
+   "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPMEF1Rl8wSVVjakVGM1dhdEZyRjZNLVhDMHh4Ny04RmNjbWZxVC1MMndqUjJCcGs5bldKRi1SRWxGX2Vnd1pfUEtFMnVhSTRwdy1QZDJCMEpJaEdYR3cxVVVJaFFQNFowZFpIVldCemJNLWNfNW1RVFUxcHZZNkVaUUR2U2N5Wlg3My11NnhB?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "BRICS+ Payments System Seen as Feasible, but Common Currency Faces Major Challenges",
+   "company": "골드만삭스",
+   "press": "Unique Times Magazine",
+   "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPTktmRkE5aGd6b0pqa3o3MjJhMWhHRk9CTXVvczMxZnoyZXd3X09VQ3cyZU55T0dKYzkwM3E5azN5VUdoN09yaEdSeEJlV2VHYlJhZjkwdzZ5UzExSmNKN1FMMzJoeFpENVc3WV9DQlBaWk8tb1o3Yi16cktHVDA4Rm9GSG8yYl9OaEl4dFUzbFptZkQ2TGVRalR2TkpydHBaUzdUVjdiZEVkZw?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Nasdaq faces $2tn wipeout in October as AI spending fears deepen | Gulf Times",
+   "company": "모건스탠리",
+   "press": "Gulf Times",
+   "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPREM5QVp6SnNKMDhnSVQ5Sk1SUGpxaDFjc2xGcFpxZVZuMV9LLWxIOFFEWlZ0b2s3MUx3VkFmc0hfbEpjcDdaa3M5WVdrSUQ2OGo5U2VWZzVPc3pTZXFoVXpiZk5mcFZWbHNob3hReGdwSEQ0aUJWdGtzMDBvOGpYcnA5SVVWTG9fUUktcGsxaDhTU1FYNmVZTmd3dDJOaWlJR0hDRzVLUEpmaGJCMXZWMU5CSkJNQmM1ZXfSAboBQVVfeXFMT0RDOUFaekpzSjA4Z0lUOUpNUlBqcWgxY3NsRnBacWVWbjFfSy1sSDhRRFpWdG9rNzFMd1ZBZnNIX2xKY3A3WmtzOVlXa0lENjhqOVNlVmc1T3N6U2VxaFV6YmZOZnBWVmxzaG94UXhncEhENGlCVnRrczAwbzhqWHJwOUlVVkxvX1FJLXBrMWg4U1NRWDZlWU5nd3QyTmlpSUdIQ0c1S1BKZmhiQjF2VjFOQkpCTUJjNWV3?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Nasdaq 100 cracks 5%, wipes out $2 trillion in October as AI spending fears deepen",
+   "company": "모건스탠리",
+   "press": "The Economic Times",
+   "url": "https://news.google.com/rss/articles/CBMigwJBVV95cUxQNjBjbEV3RjAxLW1BNFFzcW9CYzhYc0cyT0tKR1FEcF8zVC1Yckc0N29NOU9xa3FNUWMzQjl1cVB4YndlVXJWa1pUNHBTVWdVOWlNUlV1MmdDWHVLdGVySnViYUtXdXpQdGlaRXhJVDBHaGROSVk5VVppZDFOdEtSdDQ3bUJFTkkteXdxeXh0UHhZblJ4dE02YUswdEk5SXgwN1pFQTBLU0N5YVE4ZHkydm1BY0lRWFV4M0llNmZnWEZNOTN6WXNtb01uZFJXM3ZoaVA2Ry1RSXVPcllpeUh0N2hSSVhrLTIycm10OEN6VldiakNIcEpqWFZHendvY3I2X25V0gGIAkFVX3lxTE5naFZxN2RaTjJsRTVnYjFla0s4dzAxYXl4blFza29PNEs2Vm1KOGItNkVTYUhEdE5RY1NGdWZfNGh5Zk9acm00UzZxcVNwMDQ2N0N4UmlKbVlGb2M5Z2lydTlGQndBUXQxVlZZaGRjN3o3ZjZkQUhFUTNkTDRzR3VUV1VOeWFQU1RzLVMwa3M0V1cwNXA0V1NGWmd2TTZCREZibW1kUG9NLUNTRmZ1ZWg2bE1YdDcyd1h4bnhNNzdweDA0Rk0xNEp3azJJUEdWWlN4dmh4dkd4RHNYMXBNSXVIMnhiMzVYWFdCRHhTaEJpZmdNQTc1b3c3RzNuRWFfdDZoYVpXWmxwUA?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Big Tech AI Spending Triggers Fresh Sell-Off Fears on Wall Street",
+   "company": "모건스탠리",
+   "press": "Analytics Insight",
+   "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQTkJpR1JHZXdWX2dFbG9qeFE4SEJodmxIYktLQzBUeWRWZEprZWZKNHg5V3cwdFBXU3VDNVFCTWxMT3g1MjUxMklYTW5XS3JGY1I5UDJvdUpKWE9LRU1ERmVfYVdrMGNPLWZYcDVRMnBFU01uQWNVNFY0SHo0NjUtdkhpcHJpWE0zQ3BVUW5EZkhWakQ1Z1FiTjdsWDk3THNXbmw4MTRybWl4SGJWUS12bTVMTdIBswFBVV95cUxQTkJpR1JHZXdWX2dFbG9qeFE4SEJodmxIYktLQzBUeWRWZEprZWZKNHg5V3cwdFBXU3VDNVFCTWxMT3g1MjUxMklYTW5XS3JGY1I5UDJvdUpKWE9LRU1ERmVfYVdrMGNPLWZYcDVRMnBFU01uQWNVNFY0SHo0NjUtdkhpcHJpWE0zQ3BVUW5EZkhWakQ1Z1FiTjdsWDk3THNXbmw4MTRybWl4SGJWUS12bTVMTQ?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "U.S. data center projects face election-driven regulatory risk for AI investment",
+   "company": "모건스탠리",
+   "press": "Traders Union",
+   "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNWWlSaVRnVXJXV3BXUlhKM3ppUkZYVXVMUGhoRjg1ZE43WjVhNGlFdjNfak1uNWpTVG4zVWJUNEVVVnh2R3BrdzM2RnJZZzFPOXY1T2FRVVpXUU9QRTlaYkxpNDhsbUhjUzRfdFFnM3hBVDc3OVdaR3RjanNEVW00blBJeEtEYUFVSXc?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Why Pro-AI groups poured $29 Million into US midterms",
+   "company": "모건스탠리",
+   "press": "The Financial Express",
+   "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOVjVSYlRKcEduRVNPeWpNWkpYTzcxZFJhR3hPVFhFYVM4VlRoTU5ULXVLaHVTY3V2NE5IZ3FlOTE1SzUxQ0NVTk9LVG1tVXdtVU5OV2gzT2piNF9STXJLb0hpN1BHeVVhZXQ0Y19TaEpQTHkzY1hzaEQ0VTBNblMwcVgxSkt3YnJsUkZ1WnpVRjV6eHBPMVBqLXZBV0VSY3QxNjQtMzRVN3VieUpteTlLZUkzZld5TktBaFHSAboBQVVfeXFMTlY1UmJUSnBHbkVTT3lqTVpKWE83MWRSYUd4T1RYRWFTOFZUaE1OVC11S2h1U2N1djROSGdxZTkxNUs1MUNDVU5PS1RtbVV3bVVOTldoM09qYjRfUk1yS29IaTdQR3lVYWV0NGNfU2hKUEx5M2NYc2hENFUwTW5TMHFYMUpLd2JybFJGdVp6VUY1enhwTzFQai12QVdFUmN0MTY0LTM0VTd1YnlKbXk5S2VJM2ZXeU5LQWhR?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Nigerian-born engineer’s AI startup raises $3.8 million after seven rejections",
+   "company": "모건스탠리",
+   "press": "PM News Nigeria",
+   "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNd1hsNW5zMDJPNFh2RE9tMHVmUWwtRkEycVlKUjVtbGQycmRiTmdlX1ZnVzl5c3hCSWViVjIwMnFyNjlhME1WdTE4czVoUDAtNk15emRwcXEtYjNwcEdPNFBQVEJMalFxel9IeTAzbFNodjI4dDVaUFZhMmd4ZEdZNjVQaVFhYW10WEswdEFVUERmMXBiUjRDMDR4LUNjWnY1UXdVOHlaX2swUlFPWml6S3BZOHM?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Empty Accounts, New Money: Is the AI Banking Panic a Setup?",
+   "company": "모건스탠리",
+   "press": "The New American",
+   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1ZS1lCODlpTlNTdUhFVXNIZ0x3S0wwR01FRHRWTnc3SlhFZ0lUWTVCaDhmd1NCNWNianZPM0d3eGtSZVd3d1QzcDRqbmVpVXBfT3pxRW0xOW11VVNmazZFcWJhNkZ6cGFFMW9tLVVmVENzbUJjOUpJ?oc=5",
+   "reason": "후보 상한(회사별 6건)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "ADP Expands AI Agents and MCP Integrations Across Enterprise Workflows",
+   "company": "BoA",
+   "press": "The National CIO Review",
+   "url": "https://nationalcioreview.com/articles-insights/cio-field-notes/adp-expands-ai-agents-and-mcp-integrations-across-enterprise-workflows/",
+   "reason": "대상 회사가 주제가 아님",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Uber earns 1.5 extra days of yield in Canton blockchain pilot",
+   "company": "HSBC",
+   "press": "Crypto News",
+   "url": "https://crypto.news/uber-hsbc-franklin-templeton-canton-weekend-yield/",
+   "reason": "같은 사건(요약 유사): Uber joins HSBC, Franklin Templeton in b",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "HSBC launches first stablecoin for 3.3 million PayMe users in Hong Kong",
+   "company": "HSBC",
+   "press": "Crypto Reporter",
+   "url": "https://www.crypto-reporter.com/news/hsbc-launches-first-stablecoin-for-3-3-million-payme-users-in-hong-kong-132885/",
+   "reason": "같은 사건(본문 유사)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank of America told customers they are responsible for activity if they hand an AI their password",
+   "company": "BoA",
+   "press": "Morning Overview on MSN",
+   "url": "https://www.msn.com/en-us/money/general/bank-of-america-told-customers-they-are-responsible-for-activity-if-they-hand-an-ai-their-password/ar-AA2glGAt",
+   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Bank asks people to, please, not share passwords with AI agents",
+   "company": "BoA",
+   "press": "mlive",
+   "url": "https://www.mlive.com/news/2026/10/bank-asks-people-to-please-not-share-passwords-with-ai-agents.html",
+   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Nasdaq Drops 2.86% in Biggest Decline Since June as Investors Sell AI Stocks; Philly Semi Falls Over 7%, Intel Plunges 28%",
+   "company": "BoA",
+   "press": "TradingKey",
+   "url": "https://www.tradingkey.com/analysis/stocks/us-stocks/262262171-us-stock-market-today-nasdaq-drop-intel-amazon-chip-tradingkey",
+   "reason": "요약 실패(환각(원문 근거 0%, 기준 55%))",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "“From Ripple to Wall Street’s Biggest Banks”: U.S. Accelerates Stablecoin Integration into Mainstream Finance as Regulatory Reforms and Market Participation Expand",
+   "company": "BoA",
+   "press": "https://economy.ac/",
+   "url": "https://economy.ac/news/2026/10/202610300330",
+   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "AI predicts NASCAR Martinsville race winner, top-10 with Cup Series title at stake",
+   "company": "BoA",
+   "press": "AOL.com",
+   "url": "https://www.aol.com/articles/ai-predicts-nascar-martinsville-race-185500000.html",
+   "reason": "대상 회사가 주제가 아님",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Uber tests how tokenization can put idle cash to work with HSBC, Franklin Templeton",
+   "company": "HSBC",
+   "press": "CoinDesk",
+   "url": "https://www.coindesk.com/business/2026/10/31/uber-tests-how-tokenization-can-put-idle-cash-to-work-with-hsbc-franklin-templeton",
+   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Uber tests tokenized fund, adds 1.5 days of yield",
+   "company": "HSBC",
+   "press": "IDNFinancials",
+   "url": "https://www.idnfinancials.com/digital-asset/71111/uber-tests-tokenized-fund-adds-1-5-days-of-yield",
+   "reason": "같은 사건(요약 유사): Uber joins HSBC, Franklin Templeton in b",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Uber Tests Canton Network to Earn Weekend Yield from Tokenized Money Market Funds",
+   "company": "HSBC",
+   "press": "Altcoin Buzz",
+   "url": "https://www.altcoinbuzz.io/uber-canton-network-weekend-yield-tokenized-funds",
+   "reason": "같은 사건(요약 유사): Uber joins HSBC, Franklin Templeton in b",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Uber Tests Blockchain Treasury With HSBC, Earns Extra 1.5 Days of Yield",
+   "company": "HSBC",
+   "press": "CoinTrust",
+   "url": "https://www.cointrust.com/market-news/uber-tests-blockchain-treasury-with-hsbc-earns-extra-1-5-days-of-yield",
+   "reason": "본문 접근 불가(유료벽·차단·짧음 222자)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "JPMorgan is bullish on Palantir, predicts over 30% rally on strong AI demand",
+   "company": "JP모건",
+   "press": "Stocktwits on MSN",
+   "url": "https://www.msn.com/en-us/money/top-stocks/jpmorgan-is-bullish-on-palantir-predicts-over-30-rally-on-strong-ai-demand/ar-AA2gn1xN",
+   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Artian CEO says bank AI bans follow the algo trading playbook",
+   "company": "JP모건",
+   "press": "Crypto on The Street on MSN",
+   "url": "https://www.msn.com/en-us/news/other/artian-ceo-says-bank-ai-bans-follow-the-algo-trading-playbook/ar-AA2gmDQr",
+   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "7 Fintech Leaders Warning About AI’s Blind Spots — and Why Their Concerns Matter",
+   "company": "JP모건",
+   "press": "International Business Times",
+   "url": "https://www.ibtimes.com/7-fintech-leaders-warning-about-ai-blind-spots-why-their-concerns-matter-3809251",
+   "reason": "대상 회사가 주제가 아님",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Even the largest US banks measure AI returns differently",
+   "company": "JP모건",
+   "press": "American Banker",
+   "url": "https://www.americanbanker.com/news/even-jpmorganchase-and-bofa-measure-ai-returns-differently",
+   "reason": "대상 회사가 주제가 아님",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "DTCC Tokenization 2026: What the $30 Trillion Really Means",
+   "company": "JP모건",
+   "press": "Memeburn",
+   "url": "https://memeburn.com/dtcc-tokenization/",
+   "reason": "같은 사건(최근 7일 반영분과 요약 유사)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "15 million jobs at risk from AI? Goldman Sachs has a timeline involving the recession",
+   "company": "골드만삭스",
+   "press": "NDTV Profit on MSN",
+   "url": "https://www.msn.com/en-in/news/other/15-million-jobs-at-risk-from-ai-goldman-sachs-has-a-timeline-involving-the-recession/ar-AA2gr0m5",
+   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Brookfield’s Connor Teskey on the Real Bottleneck in the AI Buildout",
+   "company": "골드만삭스",
+   "press": "Goldman Sachs",
+   "url": "https://www.goldmansachs.com/insights/goldman-sachs-exchanges/brookfields-connor-teskey-on-the-real-bottleneck-in-the-ai-buildout",
+   "reason": "요약 실패(환각(원문 근거 0%, 기준 55%))",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "The Great AI Rotation: Goldman Sachs Shows Wall Street's Old Economy Is Finding New Life",
+   "company": "골드만삭스",
+   "press": "The Dark Side Of The Boom",
+   "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNYk5fdWl4MzczWlVUbnlmS3JOdExOb2EzUFI2WnRmdW5ZWUx3Zm5aSGI5a2g3NDFSLWlWc21GQVFUdlZYTnp3YVVpNkF5cF93alBxNGw1NmRka0l3Y2R0dGl0elQzVGktcGNXTHd2VGZIVC1hQXhKRXczLVJqZGFlUnZ4Qlpydw?oc=5",
+   "reason": "구글 링크 해독 실패",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "AlphaSense CFO Samantha Greenberg on Wall Street, A.I. Pricing and a Possible IPO",
+   "company": "골드만삭스",
+   "press": "Observer",
+   "url": "https://observer.com/2026/10/samantha-greenberg-alphasense-cfo-ai-wall-street-public-markets/",
+   "reason": "대상 회사가 주제가 아님",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Eastern Europe Is Top AI Diversifier for Morgan Stanley’s Psaila",
+   "company": "모건스탠리",
+   "press": "Bloomberg",
+   "url": "https://www.bloomberg.com/news/articles/2026-10-30/eastern-europe-is-top-ai-diversifier-for-morgan-stanley-s-psaila",
+   "reason": "본문 접근 불가(유료벽·차단·짧음 0자)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Anthropic IPO Nears as Investors Sell AI Stocks to Buy More AI?",
+   "company": "모건스탠리",
+   "press": "bloomingbit",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBDSUg3NzQ4SXlDTmJuUlZGcEV0Zm1IS1g0WW1OdDB0MXUzWHQ3WERnX05BbjN2YzdmbXZXaUo5YmdGTHBIcGo3T3drUzRlV2NsSWlwdA?oc=5",
+   "reason": "구글 링크 해독 제한(차단 방지)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Northland data project struggles to raise funds as credit markets sour on AI debt",
+   "company": "모건스탠리",
+   "press": "The Business Journals",
+   "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPYXd3SElyVV9PZmtUcWJGMHluTkRIbUg2ai1EWVFSek5JaVRRWGx1VzZSa21MTzMtd2dHZ0w1V3o1YkpwbVEwcmVjZ2hLRW1OR0t0bVlwLUN3RVZxWG5fNGJsSmI1U0JkcV9adW1qUVFmSXY2MWJOOXBnZ3RrVUlCSHRUYmVtTGtONkZWMFNxVGlYWWNMTjVCWEFTRktUZVVHQzJaRGdRTE1BNHZrZUE?oc=5",
+   "reason": "구글 링크 해독 제한(차단 방지)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "U.S. Tech Stocks Plunge Amid AI Profit Concerns and Inflation Pressures",
+   "company": "모건스탠리",
+   "press": "KuCoin",
+   "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQbEdYQWZHWTVyaFZ4ZmppVVQzcTRfa2M5RjltX3h6N042SFpKaFF1Xzh5Nml5b0FvOUZPY2V3cEhOaUl2Mlk2dnRmSnFVOUFrb3g5M0RZaUhZWlI1N1k1QnZ0VlN1UnZWOXFyODZyWERTSy1QOEdpX2ZmLS14OEZiLUZMOVVZR0ZFYUotUUpuYnZIeGVsMDFoRW9xMTAxUVd6bkJ4X29R?oc=5",
+   "reason": "구글 링크 해독 제한(차단 방지)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Nigerian-Born Engineer Akinbile Raises $3.8m For AI Startup",
+   "company": "모건스탠리",
+   "press": "TVC News",
+   "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPaEdRTGhnaVl6T2hLeUowMDB2QlRjUzdORTA1bTUzckRQdUwxbHpEdUVOUTlnTWtORWRDLThxWnpuRFVhdW84aDNtSHlNRy1Wb2wzeGswazNjaHF0OGRGOFNTdWhRM0R2M1VWRFItX2VJUmZ3anZGbFlBRTV5aXY0LWFROWlyTmQ1OXc?oc=5",
+   "reason": "구글 링크 해독 제한(차단 방지)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Power shortages leave AI chips idle in data centres",
+   "company": "모건스탠리",
+   "press": "ET Datacenters",
+   "url": "https://news.google.com/rss/articles/CBMijgJBVV95cUxOdVRFaDFYTFBTWGlPS3VaZFBuQ2lzTkhjb2NUTjZ3NTNfZHRYb3BhUnNuZEx0WkVCT0ZEZnpIdGlxcUdCblhLVXNmOHc1NDhxY00tMVoxcW9Ya3VKbzVzVkdvSXJIdGQ3TV96LUMzaHV0NDBGNE5pVW9TNFZ4YnJ4QWhFVTNUcVZ3cHNiRzdCMFppWTRSX2lPbDVmT3RLVkdRTDhnWW92ZWt1S21mVjJIeVlLbGdRbkVQdTRWOU8wZDVSbmM2V0FhQlJmeE15UjhKczZXcWJEUmdPNlpYR2pmZVVlSTlYeFZvZFZYd2dmR2dDSDlQZk51SWNielJVRzVnckNBeF8zdl9sZHYxcUHSAdwBQVVfeXFMUEhZeko2TVp4MmczTFZxWE1qRnVMaVlEVm1tQVctSkRxNThIODlFbkppa0xoanVUdmRPeGNYRThrYUNxdVpFMWFlQTFLeTlCeV84b3kxS2UtRUFJMzIyZDZPOUpGWWtLaW10WEpGOEszbDBtWWVDMmdhUGlLX2Z4dHIzRmtEMjlzSEpPeXM3MnVlMXZFSzNuYkVoVFJzVjhYblJ0eHZiZ0htdllhdkVWSE1ZdUZCRjJnenNoTW9kcVRUa2QyNERrYXJILWlyVzJiTGtPYnZTWGl3Yzg3Wg?oc=5",
+   "reason": "구글 링크 해독 제한(차단 방지)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Vyoma.AI breaks ground on 52 MW AI-ready data center in Chennai",
+   "company": "DBS",
+   "press": "ET Datacenters",
+   "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNY3VVTlNDQWhldTR1OVNqT25wb1IyS1ZpZ1NzUWtXVHl4blhiVTN4WW5VcmthbS1XemFVaWxSeTBEeHV1WjRQaXQ2LW5TeTVpTGdfa0hGNU1wX3Z1bU12dHlPeVZhOWNSVWEwdngtVHcyUWpBUmN6cUF2MVBaLWZ1dXMyd1dSQzBvQVlSbzBOeS1oeW4wWmJ1eGxwb0NtTlRfZHA4TW5fd2FGeWtVckJ6RzFwblltTGdUU0JlTDR5dG9USGdGVVMzR05URTRBdjBrN05OTVctUHZRWnBRdnfSAeIBQVVfeXFMTzZIVzJQYWpjOHJack5rX1FpeF9BNDJ1NFhvTW5qUmw5OE5QZVFmVkJCcUZKd2pWTlUzVnQtY2NaTlRhSVR2ZDlLRkpkcXI1RktGNmEwNmsyTGNxdHhaYm1zTTk3azhmSG96cm41RVlVT3EyalZrSU52eXc0dVRvbFVRTlNTS1E4dldlTUFrVFRKU1ByN2ZoYW5YRV9uLXBGbVlGMTE4dXV2bnNaWkJ6Sm1MZlgwT2taS25Jc3VPcHJobUM3a29tUkRwOVBIaXpwTXJOQ0Y5WElLb3VTUzJlWXBZdw?oc=5",
+   "reason": "구글 링크 해독 제한(차단 방지)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Solana To Host Hong Kong Dollar Stablecoin HKDAP",
+   "company": "스탠다드차타드",
+   "press": "TronWeekly",
+   "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE81Tk94QjlNV2JJU0lmbDAxcHpYbG5QSHZBeUwzaWxxc2hfclAxNzRIQkFrX3RaTkRQYTVKZHQ0Ym9rMW1STHdRc2ZCQUQyU3o5ZkI3b1FqSDhZNVM2eU8tMWgtMEdJQ0ZPbHhsTk9qVU54ZFdsdkhxWXB3?oc=5",
+   "reason": "구글 링크 해독 제한(차단 방지)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
+   "title": "Standard Chartered Says Binance Hack Could Accelerate Shift to DEXs as Crypto Prices Slide",
+   "company": "스탠다드차타드",
+   "press": "CoinCodex",
+   "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQOFdJeXQxb2Y1QndnSDlGbTV4RkJUdUhhQ2w3R1JZZnhYTHJvSFpQS1ZOOXYtTEFpczQ4QjlYeVIwUk5ZSnhXSUhkbDh6aHdqQmU4QWpkb1ZZVUJyOE5od21xTzVMUzlRZ25WcTNWMTV4SjRxei1EOFZIVzFQcTRIeVduYmlRV0xaQVBGNUtyWURwdXBpZXBGZ3RDRTRlN3R6a2tDNEd3MnczZVVIX2ZlTWN0UkxZZTRYblpZVFYxSE1BYTNMV2c?oc=5",
+   "reason": "구글 링크 해독 제한(차단 방지)",
+   "at": "2026-11-01T03:43:33+09:00"
+  },
+  {
    "title": "This Week’s Top 5 Stories in Fintech",
    "company": "레볼루트",
    "press": "FinTech Magazine",
    "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPd04zZHhZS1VkQWlXRS00eTNzTUxob09tdXIzMk1XZUtSd2JEVlFxcVFNVjAyVDlneHNIWndWc1hpNDRCNzhDS010Z3puOHVHaXF1MWd2RkNIYm9GakU4XzJOd2hkS0JvS3FSMEFXMFdZOE5MVk0xU1ZHRWlKQzVfTzU5UjJIUQ?oc=5",
    "reason": "구글 링크 해독 제한(차단 방지)",
-   "at": "2026-11-01T00:20:15+09:00"
+   "at": "2026-11-01T03:43:33+09:00"
   }
  ],
  "drop_keys": {
@@ -2240,13 +2785,13 @@
   "c765cc1d925b": "관련 주제어 없음",
   "39a9b74aa16c": "비슷한 제목",
   "64e832d5aacc": "비슷한 제목",
-  "102c2f7dc882": "비슷한 제목",
+  "102c2f7dc882": "후보 상한",
   "dcf3008c7416": "후보 상한",
-  "7729e557ecb5": "비슷한 제목",
+  "7729e557ecb5": "구글 링크 해독 제한",
   "6d364b5b0c48": "비슷한 제목",
   "0e2bbc72982e": "본문 접근 불가",
   "7ba46e90a2d2": "비슷한 제목",
-  "286543875e16": "비슷한 제목",
+  "286543875e16": "구글 링크 해독 제한",
   "9e0d7d632751": "구글 링크 해독 제한",
   "b4825ac712e4": "후보 상한",
   "fa49ca44d344": "후보 상한",
@@ -2266,8 +2811,8 @@
   "c5ee5d6f1c89": "후보 상한",
   "4b14526f97b7": "후보 상한",
   "544046eb7472": "후보 상한",
-  "9095df56b774": "후보 상한",
-  "e16fc17caa48": "후보 상한",
+  "9095df56b774": "구글 링크 해독 제한",
+  "e16fc17caa48": "구글 링크 해독 제한",
   "d16cdb374f5d": "후보 상한",
   "2cec0594df0d": "대상 회사가 주제가 아님",
   "1bf99fd2c0b3": "같은 사건",
@@ -2288,18 +2833,173 @@
   "9b8300cd9531": "요약 실패",
   "81bf37fd0bae": "구글 링크 해독 제한",
   "9270fdb000cc": "구글 링크 해독 제한",
-  "ae1f52b838f3": "구글 링크 해독 제한",
-  "10bbd21c0c55": "구글 링크 해독 제한",
+  "ae1f52b838f3": "구글 링크 해독 실패",
+  "10bbd21c0c55": "후보 상한",
   "adbdfcef83ad": "본문 접근 불가",
   "17d8d3322e03": "구글 링크 해독 제한",
   "3623415d2948": "구글 링크 해독 제한",
   "135a867bfb16": "구글 링크 해독 제한",
   "b9521935ccc0": "구글 링크 해독 제한",
-  "f73654357286": "구글 링크 해독 제한",
-  "67845f372039": "구글 링크 해독 제한",
+  "f73654357286": "비슷한 제목",
+  "67845f372039": "비슷한 제목",
   "2479ab2415b3": "구글 링크 해독 제한",
   "c8c7ec388b1c": "구글 링크 해독 제한",
   "17c1c2af3c8d": "구글 링크 해독 제한",
-  "547d7e0659d8": "구글 링크 해독 제한"
+  "547d7e0659d8": "구글 링크 해독 제한",
+  "40098fd02bbd": "오래된 기사",
+  "285a3c59b9bf": "오래된 기사",
+  "26e1839ef902": "오래된 기사",
+  "603d0b7b8468": "오래된 기사",
+  "e471a82402d7": "오래된 기사",
+  "627410bc3cf9": "오래된 기사",
+  "ab2100a6dc02": "오래된 기사",
+  "24a231f6a624": "오래된 기사",
+  "9f375891b3aa": "오래된 기사",
+  "1a6e0577d94d": "오래된 기사",
+  "fb84d6a1cb25": "오래된 기사",
+  "c31c6c00c7bd": "오래된 기사",
+  "2544b22cafbf": "오래된 기사",
+  "bbd04e69385c": "오래된 기사",
+  "ec6816a0a2e8": "오래된 기사",
+  "aa91f51f616e": "오래된 기사",
+  "7924f5b927c8": "오래된 기사",
+  "39d20443df92": "오래된 기사",
+  "96e3abf208be": "오래된 기사",
+  "b248e689d379": "오래된 기사",
+  "87f31d44190e": "오래된 기사",
+  "f315af2bf495": "오래된 기사",
+  "62996f3356c5": "오래된 기사",
+  "c5585a6d50db": "오래된 기사",
+  "321c1a231b4a": "오래된 기사",
+  "8605def05181": "오래된 기사",
+  "d683547db296": "오래된 기사",
+  "d528f1030ded": "오래된 기사",
+  "a0b96c5d311c": "오래된 기사",
+  "d89b2db16287": "오래된 기사",
+  "c49b60efe7ba": "오래된 기사",
+  "64782e8d8ae5": "오래된 기사",
+  "84971a52e848": "오래된 기사",
+  "027100ae60b7": "오래된 기사",
+  "9b321ec2496a": "오래된 기사",
+  "af12947ce7ff": "오래된 기사",
+  "ebf43c208d46": "오래된 기사",
+  "003146fa9c0e": "오래된 기사",
+  "e20cb20d9393": "시황·종목 분석성 제목",
+  "a189a9a68f5d": "관련 주제어 없음",
+  "c66707392415": "시황·종목 분석성 제목",
+  "db0f0876ccae": "차단 출처",
+  "6fce426883f8": "차단 출처",
+  "d935da6bc62f": "관련 주제어 없음",
+  "d4431a4c0e9e": "차단 출처",
+  "0a569282612d": "관련 주제어 없음",
+  "4b6a46ae8a70": "차단 출처",
+  "f8b41301836d": "차단 출처",
+  "d3baa00f8c7e": "차단 출처",
+  "d381de8420bf": "관련 주제어 없음",
+  "bcddca2e03b4": "관련 주제어 없음",
+  "f813dcd68cba": "관련 주제어 없음",
+  "5521584d8f82": "시황·종목 분석성 제목",
+  "3969b69871b3": "시황·종목 분석성 제목",
+  "1ba8a759459a": "관련 주제어 없음",
+  "dbd523a62c29": "차단 출처",
+  "4b9bc9f7e803": "관련 주제어 없음",
+  "58d30c2ade6a": "차단 출처",
+  "475615559a23": "차단 출처",
+  "b7fec8d458cb": "시황·종목 분석성 제목",
+  "4f75851e6b0c": "차단 출처",
+  "37091805d471": "차단 출처",
+  "99e4f3ecc6d0": "차단 출처",
+  "dd0fec4e5fae": "관련 주제어 없음",
+  "6c015d0fdd1a": "차단 출처",
+  "0af0801f662f": "관련 주제어 없음",
+  "22b8f2d471ce": "시황·종목 분석성 제목",
+  "b54d3056c283": "관련 주제어 없음",
+  "657221d1d92b": "차단 출처",
+  "a0120fd7dada": "차단 출처",
+  "a5cbc7071d6b": "차단 출처",
+  "b33a913dd7f2": "차단 출처",
+  "48e52be7dd6c": "차단 출처",
+  "8ae434301a7b": "시황·종목 분석성 제목",
+  "d1a31aa5241a": "관련 주제어 없음",
+  "2408155f4ea4": "시황·종목 분석성 제목",
+  "2499d316d1a3": "차단 출처",
+  "bcb67550160b": "관련 주제어 없음",
+  "2d84a58676eb": "차단 출처",
+  "c26c9e287d11": "관련 주제어 없음",
+  "a2e292b05454": "시황·종목 분석성 제목",
+  "dc678490c28e": "관련 주제어 없음",
+  "6152038c5415": "관련 주제어 없음",
+  "c088f56d763b": "시황·종목 분석성 제목",
+  "bb1a99500b4e": "차단 출처",
+  "e9345cd104a4": "시황·종목 분석성 제목",
+  "b8e6e2beb8a0": "차단 출처",
+  "bb6c0fdb192c": "차단 출처",
+  "5e6ba9cb7c2b": "관련 주제어 없음",
+  "58b39703d756": "시황·종목 분석성 제목",
+  "d5103f4e479d": "관련 주제어 없음",
+  "0a72765774e4": "관련 주제어 없음",
+  "0799cb772c3b": "관련 주제어 없음",
+  "89b61b3ac0e2": "관련 주제어 없음",
+  "bc9bd44d1cd9": "차단 출처",
+  "ffc7d195c0d7": "시황·종목 분석성 제목",
+  "74af9ec30922": "시황·종목 분석성 제목",
+  "fdbd9a4fa90e": "관련 주제어 없음",
+  "8dfc4e897fc4": "관련 주제어 없음",
+  "48d8d3a1d6e1": "관련 주제어 없음",
+  "12b762961165": "관련 주제어 없음",
+  "30e4b096cb9d": "차단 출처",
+  "7a8182de44a5": "차단 출처",
+  "b310b5fd101f": "차단 출처",
+  "f5e39601398f": "관련 주제어 없음",
+  "bb2b2fa4946e": "차단 출처",
+  "6a072146f813": "관련 주제어 없음",
+  "3a4ad6aedb71": "이미 반영된 기사와 같은 사건",
+  "6fefd3baf70e": "관련 주제어 없음",
+  "e5f4c72e35e1": "관련 주제어 없음",
+  "5df472b3eb92": "관련 주제어 없음",
+  "0fc67c9031ba": "관련 주제어 없음",
+  "eda14597cc93": "관련 주제어 없음",
+  "df34c7599de8": "차단 출처",
+  "901d93ad6053": "관련 주제어 없음",
+  "472bcbb18c3c": "차단 출처",
+  "7c1040776c70": "관련 주제어 없음",
+  "7ea1095ad12b": "관련 주제어 없음",
+  "dfd858b01326": "관련 주제어 없음",
+  "a4f7af80af17": "차단 출처",
+  "08a4694bbf72": "관련 주제어 없음",
+  "ff90f7754b8e": "차단 출처",
+  "9dec424461fb": "차단 출처",
+  "371524ac7b95": "비슷한 제목",
+  "810273b60833": "비슷한 제목",
+  "70314fd21267": "후보 상한",
+  "b860bc84bfff": "비슷한 제목",
+  "fd2ad0dba938": "비슷한 제목",
+  "39c835b0e7b8": "후보 상한",
+  "66e84278cfe0": "후보 상한",
+  "4f70f22cfeeb": "후보 상한",
+  "3b78b7220200": "후보 상한",
+  "0dadfba11f01": "후보 상한",
+  "f4a68a56bab4": "후보 상한",
+  "adde15c56cf6": "후보 상한",
+  "b0171452100b": "후보 상한",
+  "219b7523ae5e": "후보 상한",
+  "d65b5aab6598": "후보 상한",
+  "fcb477ce5f01": "후보 상한",
+  "13cc33bc3b87": "후보 상한",
+  "95a30ba2f2a0": "후보 상한",
+  "bb7358a3c232": "후보 상한",
+  "9f88891d02b8": "후보 상한",
+  "db05b8afb522": "본문 접근 불가",
+  "091ef6508a2d": "요약 실패",
+  "c90b3b335702": "본문 접근 불가",
+  "e5475426c764": "대상 회사가 주제가 아님",
+  "08179986b565": "같은 사건",
+  "5c39fde01bcf": "같은 사건",
+  "00cee4f9f359": "본문 접근 불가",
+  "2a7fe6581590": "대상 회사가 주제가 아님",
+  "43b03ac7ca1c": "대상 회사가 주제가 아님",
+  "bee85fbf3f6d": "같은 사건",
+  "bf3832fd4cd0": "대상 회사가 주제가 아님",
+  "bebff0f46a72": "구글 링크 해독 제한"
  }
 }
