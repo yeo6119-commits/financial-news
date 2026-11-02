@@ -205,3 +205,18 @@ def repair_wrong_body(conn, cfg) -> tuple[int, int]:
         print(f"  복구 FAIL({why[:14]}){' — 틀린 요약 삭제' if old else ''}: {r['title'][:34]}")
     print(f"  요약 복구 결과: {fixed}/{len(rows)}건")
     return fixed, len(rows)
+
+
+def clean_empty_partner(conn) -> int:
+    """이미 저장된 요약의 '(w/없음)'류 빈 협력사 표기를 지운다. 건수 반환.
+    LIKE로 후보만 좁혀 읽으므로 매 실행 비용이 거의 없고, 지운 뒤에는 후보가 없어 다시 돌지 않는다."""
+    rows = conn.execute("SELECT id, summary FROM articles WHERE summary LIKE '%(w/%없음%'").fetchall()
+    n = 0
+    for r in rows:
+        new = smr.strip_empty_partner(r["summary"])
+        if new != r["summary"]:
+            conn.execute("UPDATE articles SET summary=? WHERE id=?", (new, r["id"]))
+            n += 1
+    if n:
+        conn.commit()
+    return n

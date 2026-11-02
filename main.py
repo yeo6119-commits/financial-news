@@ -305,6 +305,13 @@ def main():
             rp_ok = 0
             print(f"  ⚠ 요약 복구 건너뜀: {e}")
         timer.lap("요약 복구(본문 오추출분)", f"{rp_ok}건 복구")
+        #   '(w/없음)'처럼 협력사가 없는데 붙은 표기를 이미 저장된 요약에서도 지운다(새 요약은 검증 단계에서 지운다)
+        try:
+            cp = backfill.clean_empty_partner(conn)
+            if cp:
+                print(f"  빈 협력사 표기 '(w/없음)' 정리: {cp}건")
+        except Exception as e:
+            print(f"  ⚠ 협력사 표기 정리 건너뜀: {e}")
 
         live = final_live  # 이후 통계·HTML 코드는 최종 생존 리스트를 그대로 사용 (기존과 동일)
 

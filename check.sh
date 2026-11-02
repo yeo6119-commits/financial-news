@@ -119,6 +119,9 @@ need extractor.py  "def _relates"         "본문 후보가 제목과 무관하�
 need extractor.py  "article.get(\"title\")" "원문 추출에 제목 전달"
 need backfill.py   "def repair_wrong_body" "본문 오추출로 틀린 요약 복구 단계"
 need main.py       "repair_wrong_body"    "요약 복구 파이프라인 연결"
+need summarizer.py "_EMPTY_PARTNER"       "빈 협력사 표기 (w/없음) 제거(프롬프트는 그대로 — 예시가 밀도를 좌우)"
+need summarizer.py "strip_empty_partner(l.lstrip" "요약 검증 단계에서 빈 협력사 표기 제거"
+need main.py       "clean_empty_partner"  "저장된 요약의 빈 협력사 표기 정리 연결"
 
 need deduplicator.py "rep.get(\"_comp\") and a.get(\"_comp\")" "클러스터 합류시 대표와 회사공유 필수"
 need deduplicator.py "body_ok"              "빈 본문 동일판정 차단"

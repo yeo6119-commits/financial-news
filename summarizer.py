@@ -242,6 +242,17 @@ def _grounded(summary: str, title: str, body: str, aliases=None) -> bool:
 LAST_FMT_REASON = ""
 
 
+# 협력사가 없는데 "(w/없음)" "(w/협력사 없음)"을 채워 넣는 모델 습관 — 프롬프트가 "협력사는 (w/회사명)"이라고만 해서 생긴다.
+#   프롬프트 예시는 출력 밀도를 좌우하므로(CLAUDE.md) 건드리지 않고, 의미 없는 표기만 기계적으로 지운다(추가 토큰 0).
+#   실제 협력사명이 든 (w/쿠도커뮤니케이션)은 '없음'으로 끝나지 않으므로 그대로 남는다.
+_EMPTY_PARTNER = re.compile(r"\s*\(\s*w/\s*[^()\n]*없음\s*\)")
+
+
+def strip_empty_partner(text: str) -> str:
+    """'(w/없음)'류 빈 협력사 표기를 지운다."""
+    return _EMPTY_PARTNER.sub("", text)
+
+
 def _validate(text: str, cfg: dict) -> str | None:
     global LAST_FMT_REASON
     LAST_FMT_REASON = ""
@@ -263,7 +274,7 @@ def _validate(text: str, cfg: dict) -> str | None:
         if not l.startswith(bullet):
             LAST_FMT_REASON = "불릿 없음: %s" % l[:18]
             return None
-        body = fix_ending(l.lstrip("- ").strip())   # 서술형 → 명사구 보정
+        body = fix_ending(strip_empty_partner(l.lstrip("- ").strip()))   # 빈 협력사 표기 제거 → 서술형 명사구 보정
         bad = next((e for e in BAD_ENDINGS if body.endswith(e)), None)
         if bad:
             LAST_FMT_REASON = "어미 미보정('%s'): %s" % (bad, body[-16:])
