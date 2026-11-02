@@ -298,6 +298,13 @@ def main():
         #   본문 접속 실패로 요약이 비었던 기사도 다시 가져와 채운다 (일시적 실패가 대부분)
         rx_ok, _ = retry_extract.run(conn, cfg)
         timer.lap("본문 재추출", f"{rx_ok}건 성공")
+        #   본문 오추출(날씨 위젯·다른 기사 소개문)로 틀린 요약이 저장된 기사를 새 추출기로 다시 처리한다
+        try:
+            rp_ok, _ = backfill.repair_wrong_body(conn, cfg)
+        except Exception as e:
+            rp_ok = 0
+            print(f"  ⚠ 요약 복구 건너뜀: {e}")
+        timer.lap("요약 복구(본문 오추출분)", f"{rp_ok}건 복구")
 
         live = final_live  # 이후 통계·HTML 코드는 최종 생존 리스트를 그대로 사용 (기존과 동일)
 

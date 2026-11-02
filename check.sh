@@ -112,6 +112,13 @@ need config.yaml   "summary_dup_threshold: 0.40" "요약중복 임계 실측조�
 need extractor.py  "attempt in range(3)" "접속실패 최대 3회 시도·10초(Actions 간헐 지연 흡수)"
 need retry_extract.py "접속 실패"         "본문 접속 실패 기사 다음 실행에서 재추출(유료·구조 문제는 제외)"
 need main.py       "retry_extract.run"    "본문 재추출 파이프라인 연결"
+# 날씨 위젯·'다른 기사' 소개문이 본문이 되어 제목과 다른 요약이 나간 이력 (더리포트·뉴스웨이, 2026-11)
+deny extractor.py  '"article", "#article-view-content-div"' "bare <article>을 셀렉터 맨 앞에 두지 않음(곁가지가 본문이 됨)"
+need extractor.py  "BARE_ARTICLE"         "<article> 후보는 구체적 셀렉터 뒤에서 별도 처리"
+need extractor.py  "def _relates"         "본문 후보가 제목과 무관하면 건너뜀(오추출 방어선)"
+need extractor.py  "article.get(\"title\")" "원문 추출에 제목 전달"
+need backfill.py   "def repair_wrong_body" "본문 오추출로 틀린 요약 복구 단계"
+need main.py       "repair_wrong_body"    "요약 복구 파이프라인 연결"
 
 need deduplicator.py "rep.get(\"_comp\") and a.get(\"_comp\")" "클러스터 합류시 대표와 회사공유 필수"
 need deduplicator.py "body_ok"              "빈 본문 동일판정 차단"
