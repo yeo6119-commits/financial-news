@@ -46,6 +46,32 @@ def _hit(text: str, keywords: list) -> list:
     return [k for k in keywords if k in text]
 
 
+# 본문 앞부분의 '잡음' — 'AI'라는 글자가 있어도 기사 주제를 뜻하지 않는 것들.
+#   이미지 설명 "(AI로 제작한 이미지)"가 본문 맨 앞에 붙은 사모펀드 딜 기사가 리드 400자 검사의
+#   'AI'로 통과해 AI 기사로 분류됐다(키움PE·브레인 LS전선 EB). 사이트 위젯("AI 핵심 요약 beta")과
+#   그래픽 출처("이미지=AI생성")도 같은 식으로 새는 건이 최근 286건 중 11건이었다.
+#   '생성·제작'이라는 동사가 이미지·그래픽에 걸릴 때만 지운다 — "AI가 생성한 투자 리포트"처럼
+#   주제를 말하는 문장은 건드리지 않는다.
+_IMG = r"(?:이미지|사진|그림|일러스트|그래픽|인포그래픽|영상)"
+LEAD_NOISE_RES = [
+    re.compile(r"AI\s*(?:가|로|를|기술로|기술을\s*활용해)?\s*(?:생성|제작|재구성|합성)"
+               r"(?:한|해|했다)?\s*" + _IMG),                    # (AI로 제작한 이미지) · AI 생성 이미지
+    re.compile(r"AI\s*(?:가|로|를)?\s*생성(?:한|함)?\s*(?=[.\)\]）>])"),   # …기반으로 AI가 생성]
+    re.compile(r"(?:이미지|사진|그림|일러스트|그래픽|삽화)\s*[=:]\s*(?:생성형\s*)?AI\s*(?:활용\s*)?(?:생성|제작)?"),
+    re.compile(r"[ⓒ©Ⓒ]\s*AI\b"),                                 # ⓒAI (생성 이미지 출처)
+    re.compile(r"AI\s*핵심\s*요약(?:\s*beta)?(?:\s*분석\s*중\.*)?"),   # 사이트 요약 위젯
+    re.compile(r"AI\s*(?:가|로)\s*자동\s*생성한\s*요약(?:으로\s*정확하지\s*않을\s*수\s*있어요\.?)?"),
+    re.compile(r"\S*AI(?:로\s*이\s*기사\s*(?:더\s*)?깊이\s*읽기|에게\s*(?:이어서\s*)?질문)"),   # 사이트 추천 위젯
+]
+
+
+def strip_lead_noise(text: str) -> str:
+    """판정용 본문 앞부분에서 이미지 설명·사이트 위젯 문구를 지운다(요약용 본문은 그대로 둔다)."""
+    for rx in LEAD_NOISE_RES:
+        text = rx.sub(" ", text)
+    return text
+
+
 def _dedup_companies(hits: list) -> list:
     """부분문자열 관계인 회사명을 하나로 취급.
     예: ['KB금융', 'KB국민은행'] 중 짧은 쪽이 긴 쪽에 포함되면 1개로 셈."""
@@ -633,7 +659,8 @@ def apply_filters(article: dict, cfg: dict) -> dict:
     f = cfg["filters"]
     title = article.get("title", "")
     body = article.get("body") or ""
-    head = body[:800]                  # 본문 앞부분만 — 푸터·관련기사 오염 차단
+    clean = strip_lead_noise(body[:1200])   # 이미지 설명·위젯 문구는 근거에서 뺀다
+    head = clean[:800]                 # 본문 앞부분만 — 푸터·관련기사 오염 차단
     text = "%s %s" % (title, head)
 
     # 제목에 디지털·AI 키워드가 없던 건 → 본문으로 최종 판정
@@ -645,7 +672,7 @@ def apply_filters(article: dict, cfg: dict) -> dict:
             article["excluded"] = 1
             article["exclude_reason"] = "무관(제목·본문에서 디지털·AI 근거 없음)"
             return article
-        lead = body[:400]
+        lead = clean[:400]
         # 정책 기사는 디지털 맥락(digital_context)으로 판정
         if article.get("menu_id") == cfg.get("policy_section", {}).get("menu_id"):
             if _hit(lead, cfg["policy_section"]["digital_context"]):

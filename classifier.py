@@ -8,6 +8,8 @@
 # =============================================================
 from collections import Counter
 
+from filter import strip_lead_noise
+
 # Tier2 세부 그룹을 묶는 상위 메뉴 (B안: 탭은 그룹 단위)
 TIER2_MENU = {
     "지방금융": "regional",
@@ -142,7 +144,7 @@ def _match(text: str, idx: list) -> list:
 def classify(article: dict, cfg: dict, idx: list) -> dict:
     title = article.get("title", "")
     body = article.get("body") or ""
-    head = body[:500]
+    head = strip_lead_noise(body[:900])[:500]   # 이미지 설명·위젯의 'AI'로 라벨이 붙지 않게
 
     # 업계 동향 기사도 회사가 없으므로 전용 분류 (기타 탭으로 흡수)
     _ts = cfg.get("topic_section", {})

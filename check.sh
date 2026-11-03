@@ -182,6 +182,10 @@ need archive.py    "backfill_press"       "영구 보관 CSV의 빈 매체 칸�
 
 need config.yaml   "min_line_chars: 14"   "본문 줄 기준 완화"
 need summarizer.py "LAST_GROUND_RATIO"    "환각 판정 비율 진단"
+need filter.py     "def strip_lead_noise"  "본문 리드의 이미지 설명·위젯 문구를 AI 근거에서 제외"
+need filter.py     "lead = clean"          "본문 확인은 잡음 제거 후의 리드로"
+need classifier.py "strip_lead_noise(body" "AI 라벨도 잡음 제거 후 본문으로"
+deny filter.py     "lead = body[:400]"     "리드를 원문 그대로 자르지 않음(이미지 설명 'AI'로 통과)"
 need classifier.py "ALIAS_TO_FULL"        "축약형 회사명 분류 매핑"
 deny html_generator.py "<h4>반영 %d건"     "검수목록에 반영 섹션 없음"
 

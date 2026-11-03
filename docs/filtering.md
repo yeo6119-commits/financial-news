@@ -151,11 +151,15 @@ security_override: [보이스피싱, 이상거래탐지, FDS, 이상금융거래
 
 ```python
 if article.get("_needs_body_check"):
-    lead = body[:400]                      # 리드만
+    lead = strip_lead_noise(body[:1200])[:400]   # 리드만 (이미지 설명·사이트 위젯 문구 제거 후)
     core_hits = _hit(lead, body_core_keywords(cfg))   # 핵심 키워드만
     if not core_hits:
         → 제외 "무관(본문 확인: 디지털·AI 내용 아님)"
 ```
+
+### 이미지 설명·위젯 문구는 먼저 지운다
+
+본문 맨 앞에 `(AI로 제작한 이미지)`·`이미지=AI생성`·`AI 핵심 요약 beta` 같은 문구가 붙는 매체가 있다. 이걸 지우지 않으면 사모펀드 딜 기사가 'AI' 한 글자로 통과한다. `filter.strip_lead_noise`가 처리하며 분류기(`classify`)도 같은 함수를 쓴다. 지우는 기준은 '생성·제작' 동사가 이미지·그래픽에 걸릴 때뿐이다.
 
 ### 왜 리드 400자인가
 
