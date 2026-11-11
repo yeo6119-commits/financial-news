@@ -915,6 +915,9 @@ def render(rows, run_stats: dict, excluded_rows, out_path: str, history=None, gh
     # 해외 영문 페이지(foreign.html)는 해외 트랙 워크플로가 만든다. 파일이 있을 때만 링크를 건다.
     f_link = ('<a class="f-link" href="foreign.html" title="해외 금융사 영문 기사 요약 (별도 페이지)">해외 영문 ↗</a>'
               if os.path.exists(os.path.join(os.path.dirname(out_path) or ".", "foreign.html")) else "")
+    # AI·디지털 보고서 페이지(reports.html)도 별도 트랙이 만든다 — 파일이 있을 때만 링크를 건다.
+    f_link += ('<a class="f-link" href="reports.html" title="기관 AI·디지털 보고서 (별도 페이지)">보고서 ↗</a>'
+               if os.path.exists(os.path.join(os.path.dirname(out_path) or ".", "reports.html")) else "")
 
     import json
     subs_json = json.dumps(sub_js, ensure_ascii=False)

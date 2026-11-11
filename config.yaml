@@ -632,3 +632,108 @@ foreign:
   blocked_sources: ["tradingview.com", "finance.yahoo.com", "uk.finance.yahoo.com", "ad-hoc-news.de", "investing.com", "tipranks.com",
                     "finance.biggo.com", "simplywall.st", "marketbeat.com", "gurufocus.com", "247wallst.com", "stocktwits.com",
                     "zacks.com", "fool.com", "benzinga.com", "seekingalpha.com", "investorplace.com", "marketscreener.com"]
+
+# ---------------------------------------------------------------------------
+# 보고서·정책 발표 트랙 (reports.py) — AI·디지털 관련 기관 발간물. 국내 뉴스·해외 영문과 파일이 겹치지 않는 별도 실행.
+#   수집원은 목록이 공개된 곳(RSS·사이트맵·게시판·JSON)만 쓴다. 봇 차단(403)은 우회하지 않고 실패로 표시한다.
+#   type: fsec|fsc|fss|sitemap|rss|kcmi|kisa|ey|bing   kind: 보고서|정책발표|보도|press(제목으로 자동 구분)
+#   finance: true면 그 기관 항목은 모두 '금융 관련', 아니면 제목·설명에 금융 단어가 있을 때만
+# ---------------------------------------------------------------------------
+reports:
+  enabled: true
+  lookback_days: 180           # 게재일이 이 안(6개월)인 것만. 모든 수집원에 같이 적용한다(수집원마다 lookback_days를 적으면 그쪽이 우선)
+  translate:                    # 해외(영문) 항목의 제목·설명을 한국어로 번역(구독 Claude만, 항목당 호출 1회)
+    enabled: true
+    model: sonnet               # 보고서 제목은 관용구가 많아 제목 번역과 같은 모델
+    max_per_run: 80             # 한 실행에서 번역할 최대 건수(남은 건 다음 실행에서, 그동안은 영문 표시)
+    max_seconds: 720            # 번역 단계 시간 상한(워크플로 제한 30분 안에서 수집이 먼저 끝나도록)
+  exclude_kinds: [정책발표]     # 이 구분은 싣지 않는다(제외 기록에 사유와 함께 남는다). 정책 발표도 보려면 비운다: exclude_kinds: []
+  workers: 6
+  sources:
+    - {id: fsc,   org: 금융위원회,   type: fsc,  kind: press, finance: true}
+    - {id: fss,   org: 금융감독원,   type: fss,  kind: press, finance: true}
+    - {id: bok,   org: 한국은행,     type: rss,  kind: 보고서, finance: true,
+       urls: {"https://www.bok.or.kr/portal/bbs/P0002353/news.rss?menuNo=200433": BOK 이슈노트,
+              "https://www.bok.or.kr/portal/bbs/P0000593/news.rss?menuNo=200769": 금융안정보고서,
+              "https://www.bok.or.kr/portal/bbs/P0000600/news.rss?menuNo=200722": 지급결제보고서,
+              "https://www.bok.or.kr/portal/bbs/B0000232/news.rss?menuNo=200725": 지급결제 조사연구자료,
+              "https://www.bok.or.kr/portal/bbs/B0000257/news.rss?menuNo=200327": 금융안정 조사연구자료,
+              "https://www.bok.or.kr/portal/bbs/P0000556/news.rss?menuNo=200440": 경제분석,
+              "https://www.bok.or.kr/portal/bbs/P0000528/news.rss?menuNo=200434": 국제경제리뷰,
+              "https://www.bok.or.kr/portal/bbs/P0000545/news.rss?menuNo=200437": 해외경제포커스,
+              "https://www.bok.or.kr/portal/bbs/P0002767/news.rss?menuNo=200343": 글로벌 금융규제 뉴스레터,
+              "https://www.bok.or.kr/portal/bbs/P0000109/news.rss?menuNo=200724": 지급결제 뉴스레터,
+              "https://www.bok.or.kr/portal/bbs/P0000274/news.rss?menuNo=200730": 금융정보화 자료,
+              "https://www.bok.or.kr/portal/bbs/B0000240/news.rss?menuNo=200736": 시범사업 자료}}
+    - {id: bok_press, org: 한국은행, type: rss, kind: press, finance: true,
+       urls: {"https://www.bok.or.kr/portal/bbs/P0000559/news.rss?menuNo=200690": 보도자료(통화정책),
+              "https://www.bok.or.kr/portal/bbs/B0000502/news.rss?menuNo=201265": 보도자료(기타)}}
+    - {id: fsec,  org: 금융보안원,   type: fsec, kind: 보고서, finance: true,
+       boards: {241: 조사·연구, 244: 인텔리전스 보고서, 1011: RED IRIS 리포트, 1042: 금융보안 정책·기술 연구}}
+    - {id: kcmi,  org: 자본시장연구원, type: kcmi, kind: 보고서, finance: true,
+       types: {"002002002001": 연구보고서, "002002002002": 조사보고서, "002002002013": 이슈보고서}}
+    - {id: kisa,  org: 한국인터넷진흥원, type: kisa, kind: 보고서, finance: false, boards: {"201": 연구보고서}}
+    - {id: kpmg,  org: 삼정KPMG,     type: sitemap, kind: 보고서, finance: false,
+       url: "https://kpmg.com/kr/ko/sitemap.xml", match: "/kr/ko/insights/[a-z]+/.+\\.html$"}
+    - {id: ey,    org: EY한영,       type: ey,   kind: 보고서, finance: false, url: "https://www.ey.com/ko_kr/market-insights"}
+    # PwC는 사이트가 자동 접속을 막는다(403) — 우회하지 않고 보고서 발간 '보도'만 검색으로 잡는다. 결과는 기관 보고서가 아니라 기사다.
+    - {id: pwc,   org: 삼일PwC,      type: bing, kind: 보도, finance: false, must: [pwc, 삼일],
+       need: "보고서|리포트|발간|설문|조사|백서|인사이트|전망|분석",
+       queries: ["삼일PwC 보고서 AI", "삼일PwC 보고서 디지털", "삼일PwC 보고서 금융", "삼일PwC 설문조사 발간"]}
+    - {id: bis_fsi, org: BIS,        type: rss,  kind: 보고서, region: 해외, finance: true, sub: FSI 간행물, url: "https://www.bis.org/doclist/bis_fsi_publs.rss"}
+    - {id: bis_wp,  org: BIS,        type: rss,  kind: 보고서, region: 해외, finance: true, sub: Working Paper, url: "https://www.bis.org/doclist/wppubls.rss"}
+    - {id: fsb,   org: FSB,          type: rss,  kind: press, region: 해외, finance: true, url: "https://www.fsb.org/feed/"}
+    - {id: boe,   org: 영국중앙은행,  type: rss,  kind: 보고서, region: 해외, finance: true, url: "https://www.bankofengland.co.uk/rss/publications"}
+    # ── 국내 정책·연구기관 ──
+    - {id: pipc,  org: 개인정보보호위원회, type: table, kind: press, finance: false, sub: 보도자료, pages: 3, page_param: pageIndex,
+       url: "https://pipc.go.kr/np/cop/bbs/selectBoardList.do", params: {bbsId: BS074, mCode: C020010000}}
+    - {id: kbri,  org: KB경영연구소,  type: table, kind: 보고서, finance: true, sub: KB 보고서, pages: 3, page_param: pageIndex,
+       url: "https://www.kbfg.com/kbresearch/report/reportList.do"}
+    - {id: nia,   org: 한국지능정보사회진흥원, type: nia, kind: 보고서, finance: false,
+       boards: {"82618": 지능사회 이슈분석, "25932": IT&Future Strategy}}
+    # ── 해외 중앙은행·감독기구 ──
+    - {id: ecb,   org: ECB,          type: rss,  kind: 보고서, region: 해외, finance: true,
+       urls: {"https://www.ecb.europa.eu/rss/pub.html": 간행물, "https://www.ecb.europa.eu/rss/wppub.html": Working Paper}}
+    - {id: esma,  org: ESMA,         type: rss,  kind: press, region: 해외, finance: true, url: "https://www.esma.europa.eu/rss.xml"}
+    - {id: eba,   org: EBA,          type: rss,  kind: press, region: 해외, finance: true, url: "https://www.eba.europa.eu/rss.xml"}
+    - {id: fed,   org: 미국 연준,     type: rss,  kind: 보고서, region: 해외, finance: true,
+       urls: {"https://www.federalreserve.gov/feeds/feds_notes.xml": FEDS Notes, "https://www.federalreserve.gov/feeds/working_papers.xml": Working Paper}}
+    - {id: nyfed, org: 뉴욕 연준,     type: rss,  kind: 보고서, region: 해외, finance: true, sub: Liberty Street, url: "https://libertystreeteconomics.newyorkfed.org/feed/"}
+    # ── 국내 연구기관·정책기관 직접 수집(서버가 그려 주는 목록 — 접속 제한을 우회하지 않는다) ──
+    - {id: msit,  org: 과학기술정보통신부, type: msit, kind: press, finance: false}
+    - {id: spri,  org: 소프트웨어정책연구소, type: spri, kind: 보고서, finance: false, pages: 6}
+    - {id: kisdi, org: 정보통신정책연구원, type: kisdi, kind: 보고서, finance: false,
+       boards: {m2101113024153: ["3934560", 기본연구], m2101113024770: ["3934580", 정책연구], m2101113024973: ["3934581", 정책자료],
+                m2104225467881: ["3934586", 현안연구], m2101113025536: ["3934550", KISDI Premium Report],
+                m2102058837181: ["4334696", KISDI Perspectives], m2101113025377: ["4333447", KISDI AI Outlook],
+                m2309145696871: ["5850223", 디지털경제사회연구]}}
+    - {id: kiri,  org: 보험연구원,   type: kiri, kind: 보고서, finance: true,
+       boards: {"28": 포커스, "30": 글로벌 이슈, "7": CEO Report, "8": CEO Brief, "55": 보험산업전망}}
+    - {id: wfri,  org: 우리금융경영연구소, type: wfri, kind: 보고서, finance: true, pages: 4}
+    - {id: hanaif, org: 하나금융연구소, type: hana, kind: 보고서, finance: true, pages: 8,
+       boards: {"MN1000/N": 연구보고서, "MN2000/MN2200": 하나전망, "MN2000/MN2400": HIF 월간 산업 이슈}}
+    # ── 직접 읽을 수 없는 곳(목록이 스크립트로 그려지거나 자동 접속을 막음): 보고서 발간 '보도'를 검색(Bing News)으로 잡는다 ──
+    - {id: kif,   org: 한국금융연구원, type: bing, kind: 보도, finance: true, must: [금융연구원], need: "보고서|리포트|발간|설문|조사|전망|분석|브리프|연구",
+       queries: ["\"한국금융연구원\" 보고서 AI", "\"한국금융연구원\" 보고서 디지털", "\"한국금융연구원\" 보고서 스테이블코인"]}
+    - {id: nhfri, org: NH금융연구소, type: bing, kind: 보도, finance: true, must: [NH금융연구소, NH농협금융연구소], need: "보고서|리포트|발간|설문|조사|전망|분석|브리프|연구",
+       queries: ["\"NH금융연구소\" 보고서 AI", "\"NH금융연구소\" 보고서 디지털"]}
+    - {id: crefia, org: 여신금융연구소, type: bing, kind: 보도, finance: true, must: [여신금융연구소, 여신금융협회], need: "보고서|리포트|발간|설문|조사|전망|분석|브리프|연구",
+       queries: ["\"여신금융연구소\" 보고서 AI", "\"여신금융협회\" 보고서 디지털"]}
+    - {id: imf,   org: IMF,          type: bing, kind: 보도, region: 해외, finance: true, mkt: en-US, must: [imf], need: "(?i)report|paper|study|survey|outlook|index|analysis|note|review",
+       queries: ["IMF report artificial intelligence", "IMF report stablecoins digital money", "IMF global financial stability report AI"]}
+    - {id: wef,   org: 세계경제포럼,  type: bing, kind: 보도, region: 해외, finance: false, mkt: en-US, must: [world economic forum, wef], need: "(?i)report|paper|study|survey|outlook|index|white paper",
+       queries: ["World Economic Forum report artificial intelligence", "World Economic Forum report digital financial"]}
+    - {id: oecd,  org: OECD,         type: bing, kind: 보도, region: 해외, finance: false, mkt: en-US, must: [oecd], need: "(?i)report|paper|study|survey|outlook|index|review",
+       queries: ["OECD report artificial intelligence", "OECD report digital finance AI financial sector"]}
+    - {id: mck,   org: 맥킨지,        type: bing, kind: 보도, region: 해외, finance: false, mkt: en-US, must: [mckinsey], need: "(?i)report|study|survey|outlook|index|research",
+       queries: ["McKinsey report AI banking", "McKinsey report generative AI financial services", "McKinsey Global Institute report AI"]}
+    - {id: bcg,   org: BCG,          type: bing, kind: 보도, region: 해외, finance: false, mkt: en-US, must: [bcg, boston consulting], need: "(?i)report|study|survey|outlook|index|research",
+       queries: ["BCG report AI banking", "Boston Consulting Group report AI financial"]}
+    - {id: bain,  org: 베인앤컴퍼니,  type: bing, kind: 보도, region: 해외, finance: false, mkt: en-US, must: [bain], need: "(?i)report|study|survey|outlook|index|research",
+       queries: ["Bain & Company report AI", "Bain & Company report AI banking financial services"]}
+    - {id: dtt,   org: 딜로이트,      type: bing, kind: 보도, region: 해외, finance: false, mkt: en-US, must: [deloitte], need: "(?i)report|study|survey|outlook|index|research|insights",
+       queries: ["Deloitte report AI banking", "Deloitte report generative AI financial services"]}
+    - {id: acn,   org: 액센츄어,      type: bing, kind: 보도, region: 해외, finance: false, mkt: en-US, must: [accenture], need: "(?i)report|study|survey|outlook|index|research",
+       queries: ["Accenture report AI banking", "Accenture study generative AI financial services"]}
+    - {id: gartner, org: 가트너,     type: bing, kind: 보도, region: 해외, finance: false, mkt: en-US, must: [gartner], need: "(?i)report|study|survey|forecast|predicts|research|hype cycle",
+       queries: ["Gartner AI banking survey", "Gartner predicts AI financial"]}

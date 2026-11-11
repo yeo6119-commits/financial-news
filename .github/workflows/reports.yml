@@ -1,0 +1,91 @@
+name: AI·디지털 보고서
+# 국내(run.yml)·해외(foreign.yml)와 완전히 분리된 세 번째 트랙이다.
+#   - 별도 concurrency 그룹: 같은 그룹이면 대기 중인 다른 실행이 이쪽에 밀려 취소될 수 있다.
+#   - 커밋 대상이 겹치지 않는다: reports/data/reports.json, output/reports.html
+#   - 요약은 하지 않는다 — Groq·네이버 한도를 쓰지 않는다. 기관 사이트 목록과 RSS만 읽는다.
+#   - 해외(영문) 항목의 제목·설명 번역에만 구독 Claude(CLAUDE_CODE_OAUTH_TOKEN)를 쓴다(해외 영문 뉴스와 같은 토큰). 토큰이 없으면 번역만 건너뛰고 영문으로 표시한다.
+#   - 어떤 수집원이 막혀도(403 등) 나머지는 계속 받고, 막힌 곳은 페이지 맨 아래 '수집원 상태'에 사유와 함께 남는다.
+on:
+  workflow_dispatch:
+  schedule:
+    # 매일 아침 8시(KST) 한 번. cron은 UTC라서 전날 23:00이다.
+    # 정각은 GitHub 쪽이 붐벼 몇 분~수십 분 늦게 시작할 수 있다. 국내(06:47·08:13)·해외(12:23·18:17·23:41)와는 concurrency 그룹이 달라 겹쳐도 서로 막지 않는다.
+    - cron: "0 23 * * *"   # KST 08:00
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: reports-pipeline
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # 항상 지금 main 끝을 받는다(대기하던 실행이 구버전 위에서 도는 문제 방지 — run.yml과 같은 이유)
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Claude Code CLI 설치 (해외 보고서 번역용)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        continue-on-error: true
+        run: |
+          if [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            npm install -g @anthropic-ai/claude-code && claude --version
+          else
+            echo "::warning::CLAUDE_CODE_OAUTH_TOKEN 없음 — 해외 보고서는 번역 없이 영문으로 표시합니다"
+          fi
+      - name: 보고서 수집 · 번역 · 페이지 생성
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          TZ: Asia/Seoul
+        run: python -u reports.py
+      - name: 커밋
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          [ -d reports/data ] && git add -f reports/data || true
+          [ -f output/reports.html ] && git add -f output/reports.html || true
+          git diff --staged --quiet || git commit -m "reports"
+          # 국내 실행과 같은 방식: rebase 충돌은 원상 복구, 끝내 push 못 하면 단계를 실패시킨다
+          pushed=0
+          for i in 1 2 3; do
+            if git pull --rebase --autostash origin main; then
+              git push && { pushed=1; break; }
+            else
+              echo "::warning::rebase 충돌 — 중단하고 원상 복구"
+              git rebase --abort || true
+            fi
+            echo "push 재시도 $i"
+            sleep 5
+          done
+          if [ "$pushed" != 1 ]; then
+            echo "::error::push 실패 — 이번 회차 보고서가 저장소에 반영되지 않았습니다"
+            exit 1
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        if: always()
+        with:
+          path: output
+  deploy:
+    needs: collect
+    if: always()
+    # 국내·해외가 거의 동시에 끝나면 Pages 배포가 겹쳐 둘째가 실패한다 — 배포 작업만 한 줄로 세운다(수집 작업은 서로 무관하게 병렬)
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
