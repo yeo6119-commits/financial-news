@@ -42,6 +42,15 @@ TITLE_NOISE_PATTERNS = [
 ]
 
 
+# 네이버 스포츠 섹션 주소 — 네이버가 '스포츠 기사'로 분류해 둔 것이라 제목에 스포츠 단어가 없어도 스포츠다.
+#   "이민규 토스 속공 연결하는 신영석"·"오드리박 토스로 2세트 세트포인트 따낸 IBK기업은행"이
+#   회사명 '토스'로 통과했다(배구 용어 '토스'). 제목에 종목 단어가 없고 본문 추출까지 실패하면
+#   sports_exclude(제목 1개·본문 2개)로는 걸러낼 수단이 없었다.
+#   예) https://m.sports.naver.com/volleyball/article/109/0005639939
+#   'general'(일반) 섹션은 뺀다 — 하나금융 오티즘 레이스·IBK 'AI 장착, 스포츠엔 뒷심' 같은 금융사 기사가 실린다.
+NAVER_SPORTS_RE = re.compile(r"sports\.(?:news\.)?naver\.com/(?!general/)([a-z_]+)/article")
+
+
 def _hit(text: str, keywords: list) -> list:
     return [k for k in keywords if k in text]
 
@@ -558,7 +567,15 @@ def prescreen(article: dict, cfg: dict, companies: list, relevance: list) -> dic
             article["exclude_reason"] = "무관(퀴즈·이벤트성 제목)"
             return article
 
-    # (3) 스포츠 — 제목에 1개만 있어도 제외
+    # (3) 스포츠 — 네이버 스포츠 섹션 기사는 제목과 무관하게 제외(회사명 오매칭: '토스'=배구 용어)
+    m = NAVER_SPORTS_RE.search(article.get("naver_url") or "") or \
+        NAVER_SPORTS_RE.search(article.get("original_url") or "")
+    if m:
+        article["excluded"] = 1
+        article["exclude_reason"] = "스포츠(네이버 스포츠: %s)" % m.group(1)
+        return article
+
+    # (3-b) 스포츠 — 제목에 1개만 있어도 제외
     sports = _hit(title, f["sports_exclude"])
     if sports:
         article["excluded"] = 1
