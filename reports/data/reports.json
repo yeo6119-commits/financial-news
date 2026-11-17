@@ -1,6 +1,66 @@
 {
  "items": [
   {
+   "id": "24e32efe0cd82e0b",
+   "org": "한국은행",
+   "src": "bok",
+   "region": "국내",
+   "kind": "보고서",
+   "title": "[제2026-29호] AI 확산과 생산성 효과: 더 널리, 더 효율적으로, 그러나 아직 얕게",
+   "url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=11066699&menuNo=200433",
+   "date": "2026-11-17",
+   "date_est": false,
+   "desc": "<p style=\"text-align: justify; margin: 0px 4px 0px 0px; line-height: normal;\"><span style=\"font-size: 14pt;\">지난해에 이어 근로자 대표 표본을 구성하고 생성형 AI 활용 조사를 실시하였다. 주요 결과는 다음과 같다. 첫째, 생성형 AI 활용이&nbsp;</span><span style=\"font-size: 14pt;\">빠르게 확산되고 있으나 핵심업무에서의 활용은 여전히 제한적이다. 업무용 활용률은 지난해 51.8%에서 올해 66.5%로 상승하였</",
+   "sub": "BOK 이슈노트",
+   "finance": true,
+   "tags": [
+    "AI"
+   ],
+   "first_seen": "2026-11-17"
+  },
+  {
+   "id": "be132fb3ea86741c",
+   "org": "ECB",
+   "src": "ecb",
+   "region": "해외",
+   "kind": "보고서",
+   "title": "Decoding the cyber-AI nexus",
+   "url": "https://www.ecb.europa.eu//press/financial-stability-publications/fsr/special/html/ecb.fsrart202611_02~8cca80a3c3.en.html",
+   "date": "2026-11-16",
+   "date_est": false,
+   "desc": "The rapid evolution of artificial intelligence (AI) is reshaping the cyber-threat landscape, with significant implications for financial stability in the euro area. This special feature explores the complex interplay between AI and cybersecurity, highlighting how advanced AI models are enabling atta",
+   "sub": "간행물",
+   "finance": true,
+   "tags": [
+    "AI"
+   ],
+   "first_seen": "2026-11-17",
+   "tr_tries": 1,
+   "title_ko": "사이버와 AI의 연결고리 해독하기",
+   "desc_ko": "인공지능의 급속한 발전이 사이버 위협 환경을 재편하고 있으며, 이는 유로 지역의 금융 안정에 중대한 영향을 미칩니다. 이 특집은 인공지능과 사이버 보안 사이의 복잡한 상호작용을 살펴보고, 첨단 인공지능 모델이 어떻게 공격을 가능하게 하고 있는지를 조명합니다."
+  },
+  {
+   "id": "231301a0f6e000d7",
+   "org": "맥킨지",
+   "src": "mck",
+   "region": "해외",
+   "kind": "보도",
+   "title": "McKinsey Report Says Banking AI Investments Yield Triple Returns Soon",
+   "url": "https://www.msn.com/en-in/news/other/mckinsey-report-says-banking-ai-investments-yield-triple-returns-soon/ar-AA2hvqAt",
+   "date": "2026-11-16",
+   "date_est": false,
+   "desc": "McKinsey reports that AI adoption in banking could yield a 10-month payback period and triple returns over three years, though banks must integrate the technology fully into operations to realize ...",
+   "sub": "Asianet Newsable on MSN",
+   "finance": true,
+   "tags": [
+    "AI"
+   ],
+   "first_seen": "2026-11-17",
+   "tr_tries": 1,
+   "title_ko": "맥킨지 보고서 \"은행권 AI 투자, 머지않아 3배 수익 낼 것",
+   "desc_ko": "맥킨지는 은행업의 AI 도입이 10개월의 투자금 회수 기간과 3년간 3배의 수익을 가져올 수 있다고 보고했지만, 은행들이 이 기술을 업무 전반에 완전히 통합해야 이를 실현할 수 있다고 밝혔습니다. ..."
+  },
+  {
    "id": "bfb3f2fc3816e23d",
    "org": "미국 연준",
    "src": "fed",
@@ -2321,9 +2381,49 @@
  ],
  "dropped": [
   {
+   "id": "712f7940b7f4cd8d",
+   "org": "금융위원회",
+   "title": "지역이 발굴하면 금융이 뒷받침한다. 지역 핵심 중소·중견기업에 4.5조원 공급 . 금일 등록된 게시글",
+   "url": "https://www.fsc.go.kr/no010101/88160",
+   "date": "2026-11-17",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "9bc9f722542d92fb",
+   "org": "금융감독원",
+   "title": "전금업자, 온투업자 침해사고 대응 관련 간담회 개최",
+   "url": "https://www.fss.or.kr/fss/bbs/B0000188/view.do?nttId=249883&menuNo=200218",
+   "date": "2026-11-17",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "0091bcac582f3cb4",
+   "org": "금융감독원",
+   "title": "2026년 상반기 전자금융업 영업실적",
+   "url": "https://www.fss.or.kr/fss/bbs/B0000188/view.do?nttId=249882&menuNo=200218",
+   "date": "2026-11-17",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "55e9613bb61a0809",
+   "org": "EBA",
+   "title": "EBA E-mail alert 16 November, 2026",
+   "url": "https://www.eba.europa.eu/node/20197",
+   "date": "2026-11-17",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "cf31e99748682a18",
+   "org": "과학기술정보통신부",
+   "title": "과기정통부, ‘팀 코리아’로 K-블록체인 아시아 시장 진출 지원",
+   "url": "https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3187972",
+   "date": "2026-11-17",
+   "reason": "정책발표는 싣지 않음(보고서 위주 설정)"
+  },
+  {
    "id": "b13efababed55248",
    "org": "금융위원회",
-   "title": "정부는 최근 발생한 금융보안원의 침해사고와 관련하여 철저한 원인조사 및 재발방지 대책 마련을 지시하였습니다. . 금일 등록된 게시글",
+   "title": "정부는 최근 발생한 금융보안원의 침해사고와 관련하여 철저한 원인조사 및 재발방지 대책 마련을 지시하였습니다.",
    "url": "https://www.fsc.go.kr/no010101/88152",
    "date": "2026-11-16",
    "reason": "제목에 AI·디지털 핵심어 없음"
@@ -2331,7 +2431,7 @@
   {
    "id": "4c6860fe7c427998",
    "org": "금융위원회",
-   "title": "이억원 금융위원장, 글로벌 금융안정 공조 및 유럽 주요 금융당국과 협력 강화 나선다 . 금일 등록된 게시글",
+   "title": "이억원 금융위원장, 글로벌 금융안정 공조 및 유럽 주요 금융당국과 협력 강화 나선다",
    "url": "https://www.fsc.go.kr/no010101/88151",
    "date": "2026-11-16",
    "reason": "제목에 AI·디지털 핵심어 없음"
@@ -2339,7 +2439,7 @@
   {
    "id": "6c805010fb7e0935",
    "org": "금융위원회",
-   "title": "불법사금융 원스톱 지원, 이제 센터 방문 없이도 신청 가능합니다. . 금일 등록된 게시글",
+   "title": "불법사금융 원스톱 지원, 이제 센터 방문 없이도 신청 가능합니다.",
    "url": "https://www.fsc.go.kr/no010101/88150",
    "date": "2026-11-16",
    "reason": "제목에 AI·디지털 핵심어 없음"
@@ -2409,6 +2509,294 @@
    "reason": "제목에 보고서 단어 없음(보도)"
   },
   {
+   "id": "df6e389bebc3f06b",
+   "org": "금융감독원",
+   "title": "흔들리지 않는 노후 준비의 기본 원칙 퇴직연금 가이드북을 적극 활용하세요!",
+   "url": "https://www.fss.or.kr/fss/bbs/B0000188/view.do?nttId=249868&menuNo=200218",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "f208d108c7d76d56",
+   "org": "금융감독원",
+   "title": "랩 어카운트 관련 주요 분쟁사례 및 투자자 유의사항 안내",
+   "url": "https://www.fss.or.kr/fss/bbs/B0000188/view.do?nttId=249867&menuNo=200218",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "3529f232aa3b005c",
+   "org": "삼일PwC",
+   "title": "삼일PwC, 엑셀·PPT 중심 ESG 업무에 AI 도입…공시·탄소관리 통합 추진",
+   "url": "https://www.msn.com/ko-kr/money/투자/삼일pwc-엑셀-ppt-중심-esg-업무에-ai-도입-공시-탄소관리-통합-추진/ar-AA2hvCGt",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "645e51587a35d116",
+   "org": "삼일PwC",
+   "title": "삼일PwC, 엑셀·PPT 중심 ESG 업무에 AI 도입…공시·탄소관리 통합 추진",
+   "url": "https://www.msn.com/ko-kr/news/other/삼일pwc-엑셀-ppt-중심-esg-업무에-ai-도입-공시-탄소관리-통합-추진/ar-AA2hvCGt",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "0236699f942a0ee1",
+   "org": "FSB",
+   "title": "Virtual outreach event on FSB Regulatory and Supervisory Modernisation Principles",
+   "url": "https://www.fsb.org/2026/11/virtual-outreach-event-on-fsb-regulatory-and-supervisory-modernisation-principles/",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "8890a784ed03ee9e",
+   "org": "FSB",
+   "title": "G20 Roadmap for Enhancing Cross-border Payments: Consolidated progress report for 2026",
+   "url": "https://www.fsb.org/2026/11/g20-roadmap-for-enhancing-cross-border-payments-consolidated-progress-report-for-2026/",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "cb4aec5926a981e3",
+   "org": "FSB",
+   "title": "Further work by jurisdictional authorities and private sector necessary to enhance cross-border payments",
+   "url": "https://www.fsb.org/2026/11/further-work-by-jurisdictional-authorities-and-private-sector-necessary-to-enhance-cross-border-payments/",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "5bc9e1e25b392acb",
+   "org": "영국중앙은행",
+   "title": "Ensuring the resilience of CCPs: near-final policy statement",
+   "url": "https://www.bankofengland.co.uk/paper/2026/ps/ensuring-the-resilience-of-ccps-near-final-policy-statement",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "0a7a7876918947c0",
+   "org": "영국중앙은행",
+   "title": "Statement of Policy: The Bank of England's approach to using its requirements and permissions powers to facilitate mobilisation of new CCPs",
+   "url": "https://www.bankofengland.co.uk/paper/2026/sop/the-boes-approach-to-requirements-and-permissions-to-facilitate-mobilisation-of-new-ccps",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "d69128ed796f2041",
+   "org": "영국중앙은행",
+   "title": "Near-final statement of policy: The Bank of England’s approach to supervisory processes (model changes, recognition orders and variations of recognition orders) and margin permissions",
+   "url": "https://www.bankofengland.co.uk/paper/2026/sop/near-final-statement-of-policy-the-boes-approach-to-supervisory-processes-and-margin-permissions",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "2bf8ddd9d064453b",
+   "org": "영국중앙은행",
+   "title": "Near-final Statement of Policy: The Bank of England’s approach to permissions in relation to CCP rules (disclosure, outsourcing and interoperability arrangements permissions)",
+   "url": "https://www.bankofengland.co.uk/paper/2026/sop/near-final-sop-boes-approach-to-permissions-in-relation-to-ccp-rules",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "f0e96783f28204a0",
+   "org": "영국중앙은행",
+   "title": "The Bank of England’s approach to rule permissions and waivers: Policy statement",
+   "url": "https://www.bankofengland.co.uk/paper/2026/ps/the-boes-approach-to-rule-permissions-and-waivers-ps",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "19eb89d65954678d",
+   "org": "영국중앙은행",
+   "title": "Near-final statement of policy: The Bank of England’s approach to comparable compliance permissions",
+   "url": "https://www.bankofengland.co.uk/paper/2026/sop/near-final-statement-of-policy-the-boes-approach-to-comparable-compliance",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "9f3ba85f1fc26171",
+   "org": "영국중앙은행",
+   "title": "Statement of policy: The Bank of England’s approach to rule permissions and waivers",
+   "url": "https://www.bankofengland.co.uk/paper/2026/sop/statement-of-policy-the-boes-approach-to-rule-permissions-waivers",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "5ee893e292a60773",
+   "org": "영국중앙은행",
+   "title": "Near-final statement of policy: The Bank of England’s approach to tiering non-UK CCPs",
+   "url": "https://www.bankofengland.co.uk/paper/2026/sop/near-final-statement-of-policy-the-boes-approach-to-tiering-non-uk-ccps",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "cad7bd2d38cafca1",
+   "org": "영국중앙은행",
+   "title": "Near-final supervisory statement on CCP margin",
+   "url": "https://www.bankofengland.co.uk/paper/2026/ss/near-final-supervisory-statement-on-ccp-margin",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "8e73160882490283",
+   "org": "영국중앙은행",
+   "title": "The impact of default waterfall positioning on pro-rata second skin-in-the-game requirements for central counterparties",
+   "url": "https://www.bankofengland.co.uk/paper/2026/the-impact-of-default-waterfall-positioning-on-pro-rata-second-ssitg-requirements-for-ccp",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "1430f6bdb12d2256",
+   "org": "영국중앙은행",
+   "title": "The Bank of England’s approach to using its requirements and permissions powers to facilitate mobilisation of new CCPs: Policy statement",
+   "url": "https://www.bankofengland.co.uk/paper/2026/ps/the-boes-approach-to-requirements-and-permissions-to-facilitate-mobilisation-of-new-ccps-ps",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "bf9d95207b3132af",
+   "org": "개인정보보호위원회",
+   "title": "개인정보위, 글로벌 개인정보 감독기구협의체 GPA 총회 주도",
+   "url": "https://pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS074&mCode=C020010000&nttId=12657",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "7f006d06597ceb96",
+   "org": "개인정보보호위원회",
+   "title": "개인정보위, 중남미로 개인정보 보호 협력 네트워크 확대",
+   "url": "https://pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS074&mCode=C020010000&nttId=12656",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "ccd8eaa6db6e888c",
+   "org": "KB경영연구소",
+   "title": "공급망금융의 진화: 자금 지원에서 공급망 리스크 관리로",
+   "url": "https://www.kbfg.com/kbresearch/report/reportView.do?reportId=2001366",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "dff92c56a13138f0",
+   "org": "KB경영연구소",
+   "title": "KB주택시장리뷰-2026년 11월호",
+   "url": "https://www.kbfg.com/kbresearch/report/reportView.do?reportId=2001367",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "bdde0de930e60b65",
+   "org": "ECB",
+   "title": "The impact of monetary policy on productivity",
+   "url": "https://www.ecb.europa.eu//pub/pdf/scpops/ecb.op402.en.pdf",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "7f4ed08bb972009c",
+   "org": "뉴욕 연준",
+   "title": "Can Workers Predict Job Finding and Job Loss?",
+   "url": "https://libertystreeteconomics.newyorkfed.org/2026/11/can-workers-predict-job-finding-and-job-loss/",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "e3d33905d2a532b7",
+   "org": "과학기술정보통신부",
+   "title": "대한민국, 국제전기통신연합(ITU) 이사국 10선 연임 성공 및 전파규칙위원회(RRB) 24년 만에 재진출",
+   "url": "https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3187970",
+   "date": "2026-11-16",
+   "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "c49c6870d45b1570",
+   "org": "IMF",
+   "title": "Global economy is ‘standing on one leg’ as AI boom raises $1 trillion financial stability risks, IMF chief warns: 'We have to be watchful'",
+   "url": "https://www.msn.com/en-us/news/other/global-economy-is-standing-on-one-leg-as-ai-boom-raises-1-trillion-financial-stability-risks-imf-chief-warns-we-have-to-be-watchful/ar-AA2hxt4e",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "b9bdb412e6847c2c",
+   "org": "IMF",
+   "title": "AI circular financing crosses $1 trillion: IMF chief flags global economy risks",
+   "url": "https://www.msn.com/en-us/news/other/ai-circular-financing-crosses-1-trillion-imf-chief-flags-global-economy-risks/ar-AA2hxInq",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "e04c2a6ebd664dd5",
+   "org": "맥킨지",
+   "title": "AI agents could triple banking returns within three years: McKinsey",
+   "url": "https://techobserver.in/news/bfsi/ai-agents-banking-returns-mckinsey-report-330470/",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "df0c729a4b3a8a59",
+   "org": "맥킨지",
+   "title": "Banks Could See Nearly 3x Returns From AI Investments: Report",
+   "url": "https://www.businessworld.in/article/banks-could-see-nearly-3x-returns-from-ai-investments-report-633806",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "13105da8f499fe49",
+   "org": "맥킨지",
+   "title": "Data silos threaten banks’ competitive edge in AI",
+   "url": "https://finance.yahoo.com/technology/ai/articles/data-silos-threaten-banks-competitive-211304196.html",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "93ea64867d137039",
+   "org": "맥킨지",
+   "title": "AI could reshape banking economics as early adopters see nearly 3x returns",
+   "url": "https://cio.economictimes.indiatimes.com/news/artificial-intelligence/ai-could-reshape-banking-economics-as-early-adopters-see-nearly-3x-returns/135870297",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "41dfa276b3a87868",
+   "org": "맥킨지",
+   "title": "AI agents could help banks generate nearly 3x returns over three years: McKinsey",
+   "url": "https://www.msn.com/en-in/news/other/ai-agents-could-help-banks-generate-nearly-3x-returns-over-three-years-mckinsey/ar-AA2hwg8Q",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "b2079a4ffee57f1a",
+   "org": "맥킨지",
+   "title": "AI could reshape banking economics as early adopters see nearly 3x returns: McKinsey",
+   "url": "https://bfsi.economictimes.indiatimes.com/articles/ai-could-reshape-banking-economics-as-early-adopters-see-nearly-3x-returns-mckinsey/135871877",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "29981146d2d3476a",
+   "org": "베인앤컴퍼니",
+   "title": "AI could reshape where banks make money",
+   "url": "https://www.zawya.com/en/press-release/research-studies/ai-could-reshape-where-banks-make-money-2291090",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "f37e213d1c370603",
+   "org": "베인앤컴퍼니",
+   "title": "Physician satisfaction continues to decline and patient loyalty is up for grabs -- Bain & Company",
+   "url": "https://www.prnewswire.com/news-releases/physician-satisfaction-continues-to-decline-and-patient-loyalty-is-up-for-grabs--bain--company-302940037.html",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "5dbd98ab5c06ad1b",
+   "org": "가트너",
+   "title": "Gartner Warning: AI Risk Is Growing Faster Than Business Value as 71% Rush Into Agentic AI Without Governance",
+   "url": "https://cxotoday.com/ai/gartner-warning-ai-risk-is-growing-faster-than-business-value-as-71-rush-into-agentic-ai-without-governance/",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
    "id": "124e20a8af1fc85b",
    "org": "금융감독원",
    "title": "금년 세무사시험 수석합격자(한OO씨)의 CPA시험 부정행위 언급과 관련하여 안내드립니다.",
@@ -2455,6 +2843,14 @@
    "url": "https://datacentremagazine.com/news/statistics-the-ai-data-centre-boom",
    "date": "2026-11-15",
    "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "0802b84e5889d45e",
+   "org": "과학기술정보통신부",
+   "title": "2026년 10월 정보통신산업 수출입 동향",
+   "url": "https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3187968",
+   "date": "2026-11-15",
+   "reason": "제목에 AI·디지털 핵심어 없음"
   },
   {
    "id": "1f61262c33b7f3d3",
@@ -4457,6 +4853,14 @@
    "reason": "제목에 보고서 단어 없음(보도)"
   },
   {
+   "id": "632f32a521658efd",
+   "org": "액센츄어",
+   "title": "As JP Morgan and Charles Schwab say 'not allowed' to AI agents; Accenture warns: You are risking…",
+   "url": "https://timesofindia.indiatimes.com/technology/tech-news/as-jp-morgan-and-charles-schwab-say-not-allowed-to-ai-agents-accenture-warns-you-are-risking/articleshow/135488449.cms",
+   "date": "2026-11-03",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
    "id": "0103f85aa9eaa380",
    "org": "금융위원회",
    "title": "글로벌 해킹 위협에 대비한 국내 가상자산사업자의 사고대응력 제고를 위해 긴밀하고 신속하게 대응해 나가겠습니다.",
@@ -6057,6 +6461,14 @@
    "reason": "제목에 보고서 단어 없음(보도)"
   },
   {
+   "id": "5a66662e3edd9e3d",
+   "org": "액센츄어",
+   "title": "Accenture explores $1.5 billion China business sale, hires JPMorgan for strategic review: report",
+   "url": "https://www.msn.com/en-in/money/economy/accenture-explores-1-5-billion-china-business-sale-hires-jpmorgan-for-strategic-review-report/ar-AA2etXKx",
+   "date": "2026-10-18",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
    "id": "77e65067490189dc",
    "org": "EBA",
    "title": "EBA E-mail alert 16 October, 2026",
@@ -6853,6 +7265,14 @@
    "org": "IMF",
    "title": "IMF warns AI market correction could cut global GDP by 0.4% by 2028",
    "url": "https://english.ahram.org.eg/NewsContent/3/12/578800/Business/Economy/IMF-warns-AI-market-correction-could-cut-global-GD.aspx",
+   "date": "2026-10-13",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "af626e90af02f4e3",
+   "org": "IMF",
+   "title": "IMF raises its forecast for world growth this year but warns of risks from AI boom and debt",
+   "url": "https://www.koreatimes.co.kr/world/20261013/imf-raises-its-forecast-for-world-growth-this-year-but-warns-of-risks-from-ai-boom-and-debt",
    "date": "2026-10-13",
    "reason": "제목에 보고서 단어 없음(보도)"
   },
@@ -7927,6 +8347,22 @@
    "url": "https://www.kiri.or.kr/publication/list.do?catId=7&docId=873439",
    "date": "2026-10-01",
    "reason": "제목에 AI·디지털 핵심어 없음"
+  },
+  {
+   "id": "d55edadcb889f6ba",
+   "org": "맥킨지",
+   "title": "Interactive: AI could push 11 million Americans into new careers by 2035",
+   "url": "https://www.msn.com/en-us/news/other/interactive-ai-could-push-11-million-americans-into-new-careers-by-2035/ar-AA2diAm7",
+   "date": "2026-10-01",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "f4410a230e41a6e6",
+   "org": "액센츄어",
+   "title": "Accenture Soars 23% as Record Bookings Dispel AI Demand Fears; Infosys Jumps 8%, IBM Climbs 5%",
+   "url": "https://247wallst.com/investing/2026/10/01/accenture-soars-23-as-record-bookings-dispel-ai-demand-fears-infosys-jumps-8-ibm-climbs-5/",
+   "date": "2026-10-01",
+   "reason": "제목에 보고서 단어 없음(보도)"
   },
   {
    "id": "6476b0c16920c1f5",
@@ -18927,62 +19363,6 @@
    "url": "https://www.msn.com/en-us/money/careers/mckinsey-partner-says-up-to-50-of-work-hours-could-be-transformed-within-the-next-5-years/ar-AA23Kqn3",
    "date": "2026-05-21",
    "reason": "제목에 보고서 단어 없음(보도)"
-  },
-  {
-   "id": "5270889f7a401a65",
-   "org": "금융위원회",
-   "title": "5.22일 출시를 앞두고 「국민참여형 국민성장펀드」 판매를 위한 준비상황을 점검하였습니다.",
-   "url": "https://www.fsc.go.kr/no010101/86933",
-   "date": "2026-05-20",
-   "reason": "제목에 AI·디지털 핵심어 없음"
-  },
-  {
-   "id": "81f4a37437842ec3",
-   "org": "금융감독원",
-   "title": "자본시장법, 외부감사법 시행령 개정안 국무회의 의결",
-   "url": "https://www.fss.or.kr/fss/bbs/B0000188/view.do?nttId=217939&menuNo=200218",
-   "date": "2026-05-20",
-   "reason": "제목에 AI·디지털 핵심어 없음"
-  },
-  {
-   "id": "a730fc309d860354",
-   "org": "금융감독원",
-   "title": "2026년도 제61회 공인회계사 제2차시험 응시원서 접수결과",
-   "url": "https://www.fss.or.kr/fss/bbs/B0000188/view.do?nttId=217928&menuNo=200218",
-   "date": "2026-05-20",
-   "reason": "제목에 AI·디지털 핵심어 없음"
-  },
-  {
-   "id": "02fa5a33e346e935",
-   "org": "금융감독원",
-   "title": "2025년 우리나라 퇴직연금 투자 백서",
-   "url": "https://www.fss.or.kr/fss/bbs/B0000188/view.do?nttId=217923&menuNo=200218",
-   "date": "2026-05-20",
-   "reason": "제목에 AI·디지털 핵심어 없음"
-  },
-  {
-   "id": "98479c86f79db340",
-   "org": "금융감독원",
-   "title": "2026.1분기 국내은행 영업실적[잠정]",
-   "url": "https://www.fss.or.kr/fss/bbs/B0000188/view.do?nttId=217911&menuNo=200218",
-   "date": "2026-05-20",
-   "reason": "제목에 AI·디지털 핵심어 없음"
-  },
-  {
-   "id": "436cb0b0bdfc924c",
-   "org": "과학기술정보통신부",
-   "title": "인공지능으로 연결되는 K-과학기술의 모든 것 과학 소통 강연 '2026 선을 넘는 과학자들' 개최",
-   "url": "https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3187337",
-   "date": "2026-05-20",
-   "reason": "정책발표는 싣지 않음(보고서 위주 설정)"
-  },
-  {
-   "id": "136d069cb9d9b06c",
-   "org": "정보통신정책연구원",
-   "title": "아동·청소년의 소셜미디어 중독, 누구의 책임인가?: 개인의 책임을 넘어 플랫폼의 설계 책임을 묻다",
-   "url": "https://www.kisdi.re.kr/report/view.do?key=m2101113025536&masterId=3934550&arrMasterId=3934550&artId=1945616",
-   "date": "2026-05-20",
-   "reason": "제목에 AI·디지털 핵심어 없음"
   }
  ],
  "sources": {
@@ -18991,199 +19371,199 @@
    "ok": true,
    "n": 20,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "fss": {
    "org": "금융감독원",
    "ok": true,
    "n": 20,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "bok": {
    "org": "한국은행",
    "ok": true,
    "n": 760,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "bok_press": {
    "org": "한국은행",
    "ok": true,
    "n": 200,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "fsec": {
    "org": "금융보안원",
    "ok": true,
    "n": 15,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "kcmi": {
    "org": "자본시장연구원",
    "ok": true,
    "n": 12,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "kisa": {
    "org": "한국인터넷진흥원",
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "kpmg": {
    "org": "삼정KPMG",
    "ok": true,
    "n": 60,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "ey": {
    "org": "EY한영",
    "ok": true,
    "n": 35,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "pwc": {
    "org": "삼일PwC",
    "ok": true,
-   "n": 37,
+   "n": 38,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "bis_fsi": {
    "org": "BIS",
    "ok": true,
    "n": 20,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "bis_wp": {
    "org": "BIS",
    "ok": true,
    "n": 25,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "fsb": {
    "org": "FSB",
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "boe": {
    "org": "영국중앙은행",
    "ok": true,
    "n": 50,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "pipc": {
    "org": "개인정보보호위원회",
    "ok": true,
    "n": 30,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "kbri": {
    "org": "KB경영연구소",
    "ok": true,
-   "n": 18,
+   "n": 27,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "nia": {
    "org": "한국지능정보사회진흥원",
    "ok": true,
    "n": 20,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "ecb": {
    "org": "ECB",
    "ok": true,
    "n": 30,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "esma": {
    "org": "ESMA",
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "eba": {
    "org": "EBA",
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "fed": {
    "org": "미국 연준",
    "ok": true,
    "n": 30,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "nyfed": {
    "org": "뉴욕 연준",
    "ok": true,
    "n": 100,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "msit": {
    "org": "과학기술정보통신부",
    "ok": true,
    "n": 20,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "spri": {
    "org": "소프트웨어정책연구소",
    "ok": true,
    "n": 12,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "kisdi": {
    "org": "정보통신정책연구원",
-   "ok": true,
-   "n": 80,
-   "error": "",
-   "at": "2026-11-16 11:25",
+   "ok": false,
+   "n": 0,
+   "error": "ConnectTimeout",
+   "at": "2026-11-17 13:48",
    "last_ok": "2026-11-16 11:25"
   },
   "kiri": {
@@ -19191,121 +19571,121 @@
    "ok": true,
    "n": 50,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "wfri": {
    "org": "우리금융경영연구소",
    "ok": true,
    "n": 9,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "hanaif": {
    "org": "하나금융연구소",
    "ok": true,
    "n": 60,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "kif": {
    "org": "한국금융연구원",
    "ok": true,
    "n": 4,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "nhfri": {
    "org": "NH금융연구소",
    "ok": true,
    "n": 2,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "crefia": {
    "org": "여신금융연구소",
    "ok": true,
    "n": 1,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "imf": {
    "org": "IMF",
    "ok": true,
-   "n": 24,
+   "n": 23,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "wef": {
    "org": "세계경제포럼",
    "ok": true,
    "n": 4,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "oecd": {
    "org": "OECD",
    "ok": true,
-   "n": 8,
+   "n": 7,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "mck": {
    "org": "맥킨지",
    "ok": true,
-   "n": 11,
+   "n": 20,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "bcg": {
    "org": "BCG",
    "ok": true,
-   "n": 5,
+   "n": 4,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "bain": {
    "org": "베인앤컴퍼니",
    "ok": true,
-   "n": 11,
+   "n": 12,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "dtt": {
    "org": "딜로이트",
    "ok": true,
-   "n": 2,
+   "n": 3,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "acn": {
    "org": "액센츄어",
    "ok": true,
-   "n": 11,
+   "n": 13,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   },
   "gartner": {
    "org": "가트너",
    "ok": true,
-   "n": 17,
+   "n": 16,
    "error": "",
-   "at": "2026-11-16 11:25",
-   "last_ok": "2026-11-16 11:25"
+   "at": "2026-11-17 13:48",
+   "last_ok": "2026-11-17 13:48"
   }
  },
- "updated": "2026-11-16 11:25"
+ "updated": "2026-11-17 13:48"
 }
