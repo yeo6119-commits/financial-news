@@ -228,6 +228,7 @@
 "dom:kyongbuk.co.kr": "경북일보",
 "dom:lawissue.co.kr": "로이슈",
 "dom:lawtalknews.co.kr": "로톡뉴스",
+"dom:lawtv.kr": "법률방송뉴스",
 "dom:lcnews.co.kr": "라이센스뉴스",
 "dom:lecturernews.com": "한국강사신문",
 "dom:livebiz.today": "생생비즈플러스",
@@ -394,6 +395,7 @@
 "dom:todaykorea.co.kr": "투데이코리아",
 "dom:tokenpost.kr": "토큰포스트",
 "dom:topdaily.kr": "톱데일리",
+"dom:topstarnews.net": "톱스타뉴스",
 "dom:tournews21.com": "투어코리아",
 "dom:ttlnews.com": "퍼블릭뉴스통신",
 "dom:ujeil.com": "울산제일일보",
@@ -484,5 +486,6 @@
 "oid:648": "비즈워치",
 "oid:654": "강원도민일보",
 "oid:656": "대전일보",
+"oid:658": "국제신문",
 "oid:662": "농민신문"
 }
