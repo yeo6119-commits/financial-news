@@ -54,6 +54,7 @@
 "dom:cbci.co.kr": "CBC뉴스",
 "dom:cc.newdaily.co.kr": "뉴데일리 충청세종",
 "dom:ccdn.co.kr": "충청매일",
+"dom:cctimes.kr": "충청타임즈",
 "dom:ceoscoredaily.com": "CEO스코어데일리",
 "dom:chiefexe.com": "CHIEF EXECUTIVE",
 "dom:choicenews.co.kr": "초이스경제",
@@ -473,6 +474,7 @@
 "oid:366": "조선비즈",
 "oid:374": "SBS Biz",
 "oid:382": "스포츠동아",
+"oid:396": "스포츠월드",
 "oid:417": "동행미디어 시대",
 "oid:421": "뉴스1",
 "oid:422": "연합뉴스TV",
@@ -486,6 +488,7 @@
 "oid:648": "비즈워치",
 "oid:654": "강원도민일보",
 "oid:656": "대전일보",
+"oid:657": "대구MBC",
 "oid:658": "국제신문",
 "oid:662": "농민신문"
 }
