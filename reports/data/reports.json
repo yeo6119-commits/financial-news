@@ -118,7 +118,7 @@
    "first_seen": "2026-11-17",
    "tr_tries": 1,
    "title_ko": "맥킨지 보고서 \"은행권 AI 투자, 머지않아 3배 수익 낼 것",
-   "desc_ko": "맥킨지는 은행업에서 AI를 도입하면 투자금 회수 기간이 10개월이고 3년간 3배의 수익을 낼 수 있다고 보고했지만, 은행이 이 기술을 업무 전반에 완전히 통합해야 그 효과를 실현할 수 있다고 밝혔다. ..."
+   "desc_ko": "맥킨지는 은행업의 AI 도입이 10개월의 투자금 회수 기간과 3년간 3배의 수익을 낼 수 있다고 보고했지만, 은행이 이를 실현하려면 이 기술을 업무 전반에 완전히 통합해야 한다고 밝혔습니다 ..."
   },
   {
    "id": "bfb3f2fc3816e23d",
@@ -473,6 +473,27 @@
    "desc_ko": "기술의 최전선을 재편하는 인공지능(AI) 컴퓨팅의 급속한 발전부터 아동의 학업 성취도에 영향을 미치는 스크린 타임의 변화에 이르기까지, 디지털 ..."
   },
   {
+   "id": "b195ac2c576179bb",
+   "org": "IMF",
+   "src": "imf",
+   "region": "해외",
+   "kind": "보도",
+   "title": "[Insight & Opinion] IMF Outlook Warns of an AI Boom Retreat",
+   "url": "https://www.asiae.co.kr/en/article/2026110209245692977",
+   "date": "2026-11-04",
+   "date_est": false,
+   "desc": "The International Monetary Fund's (IMF) annual World Economic Outlook, released last month, appears optimistic on the surface. Despite the shock of th ...",
+   "sub": "Asia Economy",
+   "finance": true,
+   "tags": [
+    "AI"
+   ],
+   "first_seen": "2026-11-22",
+   "tr_tries": 1,
+   "title_ko": "[인사이트 & 오피니언] IMF 전망, AI 붐 후퇴를 경고하다",
+   "desc_ko": "지난달 발표된 국제통화기금(IMF)의 연례 세계경제전망은 겉으로 보기에는 낙관적으로 보인다. 충격에도 불구하고 ..."
+  },
+  {
    "id": "f34cdeec2b6e0bc6",
    "org": "액센츄어",
    "src": "acn",
@@ -761,15 +782,15 @@
     "AI"
    ],
    "first_seen": "2026-11-12",
-   "title_ko": "가트너 조사 결과, 최고정보책임자(CIO) 중 자사가 AI로 상당한 가치 또는 혁신적 가치를 실현했다고 답한 비율은 13%에 불과",
-   "tr_tries": 1,
-   "desc_ko": "위 버튼은 코인베이스로 연결됩니다. 야후 파이낸스는 중개 딜러나 투자 자문사가 아니며, 증권이나 암호화폐를 판매하거나 거래를 중개하지 않습니다. 코인베이스는 우리에게 대가를 지급합니다 ...",
    "also": [
     {
      "org": "가트너",
      "url": "https://www.morningstar.com/news/business-wire/20261019796927/gartner-survey-finds-only-13-of-cios-say-their-enterprise-has-realized-significant-or-transformational-value-from-ai"
     }
-   ]
+   ],
+   "title_ko": "가트너 조사 결과, 최고정보책임자(CIO) 중 자사가 AI로 상당한 가치 또는 혁신적 가치를 실현했다고 답한 비율은 13%에 불과",
+   "tr_tries": 1,
+   "desc_ko": "위 버튼은 코인베이스로 연결됩니다. 야후 파이낸스는 중개 딜러나 투자 자문사가 아니며, 증권이나 암호화폐를 판매하거나 거래를 중개하지 않습니다. 코인베이스는 우리에게 대가를 지급합니다 ..."
   },
   {
    "id": "cbf55abb1310e972",
@@ -2514,6 +2535,14 @@
  ],
  "dropped": [
   {
+   "id": "0dcdb89a6eac9ecb",
+   "org": "베인앤컴퍼니",
+   "title": "AI to reshape banking landscape, challenge customer loyalty",
+   "url": "https://www.msn.com/en-ph/technology/artificial-intelligence/ai-to-reshape-banking-landscape-challenge-customer-loyalty/ar-AA2hWbD4",
+   "date": "2026-11-22",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
    "id": "72e5b6a00ef21ca9",
    "org": "EBA",
    "title": "EBA E-mail alert 20 November, 2026",
@@ -2550,6 +2579,14 @@
    "org": "과학기술정보통신부",
    "title": "미래의 피지컬 AI 전문가 발굴! 「2026 청소년 로보틱스 챌린지」 결선 개최",
    "url": "https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3187986",
+   "date": "2026-11-21",
+   "reason": "정책발표는 싣지 않음(보고서 위주 설정)"
+  },
+  {
+   "id": "75c79103b0bd7b56",
+   "org": "과학기술정보통신부",
+   "title": "우리 사회의 인공지능을 생각하고 토론하는 축제의 장, ｢AI 인사이트 페스티벌 시상식｣ 개최",
+   "url": "https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3187987",
    "date": "2026-11-21",
    "reason": "정책발표는 싣지 않음(보고서 위주 설정)"
   },
@@ -3490,6 +3527,14 @@
    "reason": "제목에 보고서 단어 없음(보도)"
   },
   {
+   "id": "eb83a932a39a844d",
+   "org": "IMF",
+   "title": "‘Standing on one leg’: IMF chief warns about global economy as AI circular financing hits $1 trillion",
+   "url": "https://www.msn.com/en-us/money/markets/standing-on-one-leg-imf-chief-warns-about-global-economy-as-ai-circular-financing-hits-1-trillion/ar-AA2hwGyJ",
+   "date": "2026-11-16",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
    "id": "124e20a8af1fc85b",
    "org": "금융감독원",
    "title": "금년 세무사시험 수석합격자(한OO씨)의 CPA시험 부정행위 언급과 관련하여 안내드립니다.",
@@ -3604,7 +3649,7 @@
   {
    "id": "614f299b4744b8c9",
    "org": "삼일PwC",
-   "title": "삼일PwC, 엑셀·PPT에 갇힌 ESG 업무 'AI 통합'…공시 부담 해소 승부수",
+   "title": "삼일PwC, 엑셀·PPT에 갇힌 ESG 업무 AI 통합…공시 부담 해소 승부수",
    "url": "https://www.msn.com/ko-kr/news/other/삼일pwc-엑셀-ppt에-갇힌-esg-업무-ai-통합-공시-부담-해소-승부수/ar-AA2hk4zn",
    "date": "2026-11-13",
    "reason": "제목에 보고서 단어 없음(보도)"
@@ -7774,6 +7819,22 @@
    "org": "IMF",
    "title": "IMF Names $1.4T AI Financing Loop as Top Trigger for Global Market Shock",
    "url": "https://www.msn.com/en-us/news/other/imf-names-14t-ai-financing-loop-as-top-trigger-for-global-market-shock/ar-AA2edKwp",
+   "date": "2026-10-14",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "4a7a88b4e9b9af2e",
+   "org": "IMF",
+   "title": "IMF names $1.4T AI financing loop as top trigger for global market shock",
+   "url": "https://www.msn.com/en-us/money/investment/imf-names-1-4t-ai-financing-loop-as-top-trigger-for-global-market-shock/ar-AA2edKwp",
+   "date": "2026-10-14",
+   "reason": "제목에 보고서 단어 없음(보도)"
+  },
+  {
+   "id": "5896a8c05dc58cbf",
+   "org": "IMF",
+   "title": "IMF Names $1.4T AI Financing Loop as Top Trigger for Global Market Shock",
+   "url": "https://www.techtimes.com/articles/328970/20261014/imf-names-14t-ai-financing-loop-top-trigger-global-market-shock.htm",
    "date": "2026-10-14",
    "reason": "제목에 보고서 단어 없음(보도)"
   },
@@ -19896,14 +19957,6 @@
    "url": "https://www.msit.go.kr/bbs/view.do?sCode=user&mId=307&mPid=208&bbsSeqNo=94&nttSeqNo=3187354",
    "date": "2026-05-26",
    "reason": "제목에 AI·디지털 핵심어 없음"
-  },
-  {
-   "id": "d2434b145dd105b9",
-   "org": "금융감독원",
-   "title": "단일종목 레버리지 상품(ETF,ETN) 투자시 유의사항 안내",
-   "url": "https://www.fss.or.kr/fss/bbs/B0000188/view.do?nttId=217991&menuNo=200218",
-   "date": "2026-05-25",
-   "reason": "제목에 AI·디지털 핵심어 없음"
   }
  ],
  "sources": {
@@ -19912,321 +19965,321 @@
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "fss": {
    "org": "금융감독원",
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "bok": {
    "org": "한국은행",
    "ok": true,
    "n": 760,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "bok_press": {
    "org": "한국은행",
    "ok": true,
    "n": 200,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "fsec": {
    "org": "금융보안원",
    "ok": true,
    "n": 15,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "kcmi": {
    "org": "자본시장연구원",
    "ok": true,
    "n": 12,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "kisa": {
    "org": "한국인터넷진흥원",
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "kpmg": {
    "org": "삼정KPMG",
    "ok": true,
    "n": 62,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "ey": {
    "org": "EY한영",
    "ok": true,
    "n": 36,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "pwc": {
    "org": "삼일PwC",
    "ok": true,
    "n": 38,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "bis_fsi": {
    "org": "BIS",
    "ok": true,
    "n": 20,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "bis_wp": {
    "org": "BIS",
    "ok": true,
    "n": 25,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "fsb": {
    "org": "FSB",
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "boe": {
    "org": "영국중앙은행",
    "ok": true,
    "n": 50,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "pipc": {
    "org": "개인정보보호위원회",
    "ok": true,
    "n": 30,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "kbri": {
    "org": "KB경영연구소",
    "ok": true,
    "n": 27,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "nia": {
    "org": "한국지능정보사회진흥원",
    "ok": true,
    "n": 20,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "ecb": {
    "org": "ECB",
    "ok": true,
    "n": 30,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "esma": {
    "org": "ESMA",
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "eba": {
    "org": "EBA",
    "ok": true,
    "n": 10,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "fed": {
    "org": "미국 연준",
    "ok": true,
    "n": 30,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "nyfed": {
    "org": "뉴욕 연준",
    "ok": true,
    "n": 100,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "msit": {
    "org": "과학기술정보통신부",
    "ok": true,
    "n": 20,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "spri": {
    "org": "소프트웨어정책연구소",
    "ok": true,
    "n": 12,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "kisdi": {
    "org": "정보통신정책연구원",
    "ok": true,
    "n": 80,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "kiri": {
    "org": "보험연구원",
    "ok": true,
    "n": 50,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "wfri": {
    "org": "우리금융경영연구소",
    "ok": true,
    "n": 9,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "hanaif": {
    "org": "하나금융연구소",
-   "ok": false,
-   "n": 0,
-   "error": "ReadTimeout",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-20 12:44"
+   "ok": true,
+   "n": 60,
+   "error": "",
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "kif": {
    "org": "한국금융연구원",
    "ok": true,
-   "n": 4,
+   "n": 3,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "nhfri": {
    "org": "NH금융연구소",
    "ok": true,
-   "n": 1,
+   "n": 0,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "crefia": {
    "org": "여신금융연구소",
    "ok": true,
    "n": 1,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "imf": {
    "org": "IMF",
    "ok": true,
    "n": 24,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "wef": {
    "org": "세계경제포럼",
    "ok": true,
    "n": 3,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "oecd": {
    "org": "OECD",
    "ok": true,
    "n": 4,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "mck": {
    "org": "맥킨지",
    "ok": true,
-   "n": 17,
+   "n": 18,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "bcg": {
    "org": "BCG",
    "ok": true,
    "n": 2,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "bain": {
    "org": "베인앤컴퍼니",
    "ok": true,
-   "n": 12,
+   "n": 13,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "dtt": {
    "org": "딜로이트",
    "ok": true,
-   "n": 3,
+   "n": 4,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "acn": {
    "org": "액센츄어",
    "ok": true,
-   "n": 12,
+   "n": 11,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   },
   "gartner": {
    "org": "가트너",
    "ok": true,
    "n": 16,
    "error": "",
-   "at": "2026-11-21 12:32",
-   "last_ok": "2026-11-21 12:32"
+   "at": "2026-11-22 11:40",
+   "last_ok": "2026-11-22 11:40"
   }
  },
- "updated": "2026-11-21 12:32"
+ "updated": "2026-11-22 11:40"
 }
